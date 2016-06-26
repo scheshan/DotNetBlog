@@ -2,4 +2,31 @@
 # 此 .gitignore 文件已由 Microsoft(R) Visual Studio 自动创建。
 ################################################################################
 
+
+# User-specific files
 *.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# User-specific files (MonoDevelop/Xamarin Studio)
+*.userprefs
+
+# Build results
+[Dd]ebug/
+[Dd]ebugPublic/
+[Rr]elease/
+[Rr]eleases/
+[Xx]64/
+[Xx]86/
+[Bb]uild/
+bld/
+[Bb]in/
+[Oo]bj/
+
+/.vs
+/src/DotNetBlog.Web/app/node_modules
+/src/DotNetBlog.Web/app/**/*.js
+/src/DotNetBlog.Web/app/**/*.js.map
+/src/DotNetBlog.Web/wwwroot/dist
+!/src/DotNetBlog.Web/app/webpack.config.js
