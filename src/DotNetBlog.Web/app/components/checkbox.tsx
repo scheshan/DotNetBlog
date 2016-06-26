@@ -22,6 +22,7 @@ const Checkbox = React.createClass<ChheckboxProps, any>({
                             name={this.props.name}
                             onChange={this.changeValue}
                             value={this.getValue() }
+                            checked={this.getValue() ? "checked" : null}
                             />
                         {this.props.title}
                     </label>

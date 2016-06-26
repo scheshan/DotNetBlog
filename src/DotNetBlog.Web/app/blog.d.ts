@@ -99,7 +99,7 @@ declare module Blog {
         interface BasicConfig {
             title?: string
             description?: string
-            topicPerPage?: number
+            topicsPerPage?: number
             onlyShowSummary?: boolean
         }
     }

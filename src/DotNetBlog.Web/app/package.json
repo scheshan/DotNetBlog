@@ -27,6 +27,7 @@
     "sass-loader": "^3.2.1",
     "style-loader": "^0.13.1",
     "url-loader": "^0.5.7",
-    "webpack": "^1.13.1"
+    "webpack": "^1.13.1",
+    "whatwg-fetch": "^1.0.0"
   }
 }

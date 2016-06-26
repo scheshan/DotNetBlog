@@ -17,6 +17,7 @@
   </PropertyGroup>
   <ItemGroup>
     <DnxInvisibleContent Include="app\components\checkbox.js" />
+    <DnxInvisibleContent Include="app\components\form.js" />
     <DnxInvisibleContent Include="app\components\input.js" />
     <DnxInvisibleContent Include="app\components\mainheader.js" />
     <DnxInvisibleContent Include="app\components\myinput.js" />
