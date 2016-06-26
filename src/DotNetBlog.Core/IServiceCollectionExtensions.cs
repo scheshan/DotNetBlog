@@ -10,7 +10,7 @@ namespace DotNetBlog.Core
     {
         public static void AddBlogService(this IServiceCollection services)
         {
-
+            services.AddScoped<Service.ConfigService>();
         }
     }
 }

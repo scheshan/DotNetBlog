@@ -14,16 +14,18 @@ const Checkbox = React.createClass<ChheckboxProps, any>({
     render(): JSX.Element {
         return (
             <FormGroup>
-                <label>
-                    <input
-                        {...this.props}
-                        type="checkbox"
-                        name={this.props.name}
-                        onChange={this.changeValue}
-                        value={this.getValue() }
-                        />
-                    {this.props.title}
-                </label>
+                <div className="checkbox">
+                    <label>
+                        <input
+                            {...this.props}
+                            type="checkbox"
+                            name={this.props.name}
+                            onChange={this.changeValue}
+                            value={this.getValue() }
+                            />
+                        {this.props.title}
+                    </label>
+                </div>
             </FormGroup>
         )
     }

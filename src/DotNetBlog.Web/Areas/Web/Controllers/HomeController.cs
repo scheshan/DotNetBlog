@@ -1,4 +1,5 @@
 ﻿using DotNetBlog.Core.Data;
+using DotNetBlog.Core.Service;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -11,19 +12,17 @@ namespace DotNetBlog.Web.Areas.Web.Controllers
     [Route("")]
     public class HomeController : Controller
     {
-        private BlogContext DbContext { get; set; }
+        private ConfigService ConfigService { get; set; }
 
-        public HomeController(BlogContext dbContext)
+        public HomeController(ConfigService configService)
         {
-            this.DbContext = dbContext;
+            this.ConfigService = configService;
         }
 
         [Route("")]
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            var l = this.DbContext.Settings.ToList();
-
-            return this.Content("hello world");
+            return new ObjectResult(null);
         }
     }
 }

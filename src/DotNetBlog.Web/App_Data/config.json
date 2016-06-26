@@ -1,0 +1,4 @@
+﻿{
+  "database": "sqlite",
+  "connectionString": "DataSource=App_Data\\blog.db"
+}
