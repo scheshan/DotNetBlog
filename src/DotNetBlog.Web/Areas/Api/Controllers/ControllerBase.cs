@@ -10,7 +10,6 @@ using System.Threading.Tasks;
 
 namespace DotNetBlog.Web.Areas.Api.Controllers
 {
-    [NonController]
     public class ControllerBase : Controller
     {
         private static readonly JsonSerializerSettings _DefaultJsonSerializerSettings;

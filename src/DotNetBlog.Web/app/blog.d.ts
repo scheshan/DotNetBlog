@@ -43,8 +43,8 @@ declare module 'formsy-react' {
     import Mixin = __Formsy.Mixin
 
     export {
-        Form,
-        Mixin
+    Form,
+    Mixin
     }
 
     export default Formsy
@@ -77,6 +77,30 @@ declare module Blog {
             url?: string
             icon?: string
             children?: MenuItem[]
+        }
+    }
+
+    module Api {
+        interface ApiResponse {
+            success?: boolean
+            errorMessage?: string
+        }
+
+        interface GenericApiResponse<T> extends ApiResponse {
+            data?: T
+        }
+
+        interface GetBasicConfigCallback {
+            (data: GenericApiResponse<Entity.BasicConfig>): void
+        }
+    }
+
+    module Entity {
+        interface BasicConfig {
+            title?: string
+            description?: string
+            topicPerPage?: number
+            onlyShowSummary?: boolean
         }
     }
 }

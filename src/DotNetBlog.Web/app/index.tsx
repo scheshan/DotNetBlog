@@ -13,8 +13,7 @@ import Store from "./store"
 import {createHistory} from "history"
 import Actions from "./actions"
 import Consts from "./consts"
-
-
+    
 import Views_Dashboard from "./views/dashboard"
 import Views_BasicConfig from "./views/basicconfig"
 
