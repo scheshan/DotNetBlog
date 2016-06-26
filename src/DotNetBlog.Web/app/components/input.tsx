@@ -56,4 +56,6 @@ const Input: React.ClassicComponentClass<InputProps> = React.createClass<InputPr
     }
 });
 
+Input.defaultProps.requireMessage = "不能为空";
+
 export default Input

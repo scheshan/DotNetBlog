@@ -16,8 +16,18 @@
     <SchemaVersion>2.0</SchemaVersion>
   </PropertyGroup>
   <ItemGroup>
+    <DnxInvisibleContent Include="app\components\checkbox.js" />
+    <DnxInvisibleContent Include="app\components\input.js" />
+    <DnxInvisibleContent Include="app\components\mainheader.js" />
     <DnxInvisibleContent Include="app\components\myinput.js" />
+    <DnxInvisibleContent Include="app\consts\index.js" />
     <DnxInvisibleContent Include="app\index.js" />
+    <DnxInvisibleContent Include="app\reducers\index.js" />
+    <DnxInvisibleContent Include="app\store\index.js" />
+    <DnxInvisibleContent Include="app\store\store.js" />
+    <DnxInvisibleContent Include="app\views\app.js" />
+    <DnxInvisibleContent Include="app\views\basicconfig.js" />
+    <DnxInvisibleContent Include="app\views\dashboard.js" />
     <DnxInvisibleContent Include="bower.json" />
     <DnxInvisibleContent Include=".bowerrc" />
     <DnxInvisibleContent Include="package.json" />

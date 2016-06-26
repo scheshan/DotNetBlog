@@ -13,6 +13,7 @@
         onValid?: Function
         onInvalid?: Function
         onChange?: FormChangeHandler
+        [key: string]: any
     }
 
     class Form extends __React.Component<FormProps, any> {
@@ -47,4 +48,35 @@ declare module 'formsy-react' {
     }
 
     export default Formsy
+}
+
+declare module Blog {
+    module Store {
+        interface BlogState {
+            menu?: string
+            subMenu?: string
+        }
+    }
+
+    module Action {
+        interface ActionBase {
+            type: string
+        }
+
+        interface ChangeMenuAction extends ActionBase {
+            menu?: string
+            subMenu?: string
+        }
+    }
+
+    module Views {
+        interface MenuItem {
+            key?: string
+            text?: string
+            selected?: boolean
+            url?: string
+            icon?: string
+            children?: MenuItem[]
+        }
+    }
 }

@@ -5,7 +5,8 @@ module.exports = {
     entry: ['./index.js'],
     output: {
         path: '../wwwroot/dist/',
-        filename: 'app.js'
+        filename: 'app.js',
+        publicPath: '/dist/'
     },
     resolve: {
         extensions: ['', '.js', '.css', '.scss']
