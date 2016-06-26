@@ -1,4 +1,6 @@
 ﻿{
+  "version": "1.0.0",
+
   "dependencies": {
     "Microsoft.NETCore.App": {
       "version": "1.0.0-rc2-3002702",
@@ -10,7 +12,12 @@
     "Microsoft.AspNetCore.Razor.Tools": "1.0.0-preview1-final",
     "Microsoft.AspNetCore.StaticFiles": "1.0.0-rc2-final",
     "Microsoft.AspNetCore.Diagnostics": "1.0.0-rc2-final",
-    "Microsoft.AspNetCore.Mvc.TagHelpers": "1.0.0-rc2-final"
+    "Microsoft.AspNetCore.Mvc.TagHelpers": "1.0.0-rc2-final",
+
+    "Microsoft.EntityFrameworkCore.Sqlite": "1.0.0-rc2-final",
+    "Microsoft.EntityFrameworkCore.Tools": "1.0.0-preview1-final",
+
+    "DotNetBlog.Core": "1.0.0"
   },
 
   "tools": {
@@ -19,6 +26,10 @@
       "imports": "portable-net45+win8+dnxcore50"
     },
     "Microsoft.AspNetCore.Razor.Tools": {
+      "version": "1.0.0-preview1-final",
+      "imports": "portable-net45+win8+dnxcore50"
+    },
+    "Microsoft.EntityFrameworkCore.Tools": {
       "version": "1.0.0-preview1-final",
       "imports": "portable-net45+win8+dnxcore50"
     }

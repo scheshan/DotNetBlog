@@ -1,5 +1,5 @@
 ﻿{
-  "version": "1.0.0-*",
+  "version": "1.0.0",
 
   "dependencies": {
     "Microsoft.NETCore.App": {
@@ -7,7 +7,9 @@
       "type": "platform"
     },
     "System.Reflection": "4.1.0-rc2-24027",
-    "AutoMapper": "3.2.1"
+    "AutoMapper": "3.2.1",
+
+    "Microsoft.EntityFrameworkCore.Sqlite": "1.0.0-rc2-final"
   },
 
   "frameworks": {
