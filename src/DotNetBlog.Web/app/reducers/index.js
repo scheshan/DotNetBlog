@@ -12,5 +12,4 @@ function Reducer(state, action) {
     }
 }
 
-
-module.export = Reducer
+exports.Reducer = Reducer

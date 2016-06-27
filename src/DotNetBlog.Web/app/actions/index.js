@@ -1,6 +1,6 @@
 ﻿var Consts = require("../consts")
 
-function ChangeMenu(menu, subMenu) {
+function changeMenu(menu, subMenu) {
     var action = {
         type: Consts.ActionTypes.ChangeMenu,
         menu: menu,
@@ -9,4 +9,4 @@ function ChangeMenu(menu, subMenu) {
     return action;
 }
 
-module.export = ChangeMenu
+exports.changeMenu = changeMenu
