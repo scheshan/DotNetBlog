@@ -1,11 +1,7 @@
-﻿import React = require("react")
+﻿var React = require("react")
 
-interface MainHeaderProps {
-    title?: string
-}
-
-class MainHeader extends React.Component<MainHeaderProps, any>{
-    render(): JSX.Element {
+class MainHeader extends React.Component{
+    render() {
         return (
             <div className="main-header clearfix">
                 <h2 className="page-title pull-left">{this.props.title}</h2>
@@ -16,4 +12,4 @@ class MainHeader extends React.Component<MainHeaderProps, any>{
     }
 }
 
-export default MainHeader
+module.export = MainHeader

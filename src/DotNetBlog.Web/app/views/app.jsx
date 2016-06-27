@@ -1,25 +1,16 @@
-﻿import React = require("react")
-import {Link} from "react-router"
-import {connect} from "react-redux"
-import Consts from "../consts"
+﻿var React = require("react")
+var {Link} = require("react-router")
+var {connect} = require("react-redux")
+var Consts = require("../consts")
 
-interface AppProps {
-    menu: string
-    subMenu: string
-}
-
-interface MenuProps {
-    menu: Blog.Views.MenuItem
-}
-
-class Menu extends React.Component<MenuProps, any>{
-    render(): JSX.Element {
+class Menu extends React.Component{
+    render() {
         let className = this.props.menu.selected ? "active" : ""
-        let icon: JSX.Element;
+        let icon = null;
         if (this.props.menu.icon) {
             icon = <i className={this.props.menu.icon}></i>
         }
-        let children: JSX.Element;
+        let children = null;
         if (this.props.menu.children && this.props.menu.children.length > 0) {
             children = (
                 <ul className="sub-nav-sidebar">
@@ -45,9 +36,7 @@ class Menu extends React.Component<MenuProps, any>{
     }
 }
 
-class App extends React.Component<AppProps, any>{
-    menus: Blog.Views.MenuItem[]
-
+class App extends React.Component{
     constructor() {
         super();
 
@@ -94,7 +83,7 @@ class App extends React.Component<AppProps, any>{
         ]
     }
 
-    render(): JSX.Element {
+    render() {
         this.menus.forEach(m => {
             m.selected = this.props.menu == m.key;
             if (m.children) {
@@ -144,11 +133,11 @@ class App extends React.Component<AppProps, any>{
     }
 }
 
-function mapStateToProps(state: Blog.Store.BlogState) {
+function mapStateToProps(state) {
     return {
         menu: state.menu,
         subMenu: state.subMenu
     }
 }
 
-export default connect(mapStateToProps)(App)
+module.export = connect(mapStateToProps)(App)

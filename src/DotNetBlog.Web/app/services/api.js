@@ -1,7 +1,7 @@
-﻿import "whatwg-fetch"
-import _ = require("lodash")
+﻿require("whatwg-fetch")
+var _ = require("lodash")
 
-function get(url: string, callback: any) {
+function get(url, callback) {
     fetch(url, {
         method: "GET"
     }).then(response => {
@@ -13,6 +13,10 @@ function get(url: string, callback: any) {
     });
 }
 
-export function getBasicConfig(callback: Blog.Api.GetBasicConfigCallback) {
+function getBasicConfig(callback) {
     get("/api/config/basic", callback);
+}
+
+module.export = {
+    getBasicConfig
 }

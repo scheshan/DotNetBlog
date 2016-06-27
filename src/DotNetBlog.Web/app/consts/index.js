@@ -14,7 +14,7 @@ const MenuKeys = {
     Config_Advance: "Menu_Config_Advance"
 }
 
-export default {
+module.export = {
     ActionTypes,
     MenuKeys
 }

@@ -1,19 +1,8 @@
-﻿import React = require('react')
-import {Mixin} from 'formsy-react'
-import {FormGroup} from "react-bootstrap"
+﻿var React = require('react')
+var {Mixin} = require('formsy-react')
+var {FormGroup} = require("react-bootstrap")
 
-interface InputProps {
-    name: string
-    requireMessage?: string
-    value?: any
-    required?: boolean
-    validationError?: string
-    type?: string
-    validations?: string
-    [key: string]: any
-}
-
-const Input: React.ClassicComponentClass<InputProps> = React.createClass<InputProps, any>({
+const Input = React.createClass({
     // Add the Formsy Mixin
     mixins: [Mixin],
 
@@ -58,4 +47,4 @@ const Input: React.ClassicComponentClass<InputProps> = React.createClass<InputPr
 
 Input.defaultProps.requireMessage = "不能为空";
 
-export default Input
+module.export = Input

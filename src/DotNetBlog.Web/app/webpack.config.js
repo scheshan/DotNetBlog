@@ -1,29 +1,30 @@
 ﻿var path = require('path')
 var webpack = require('webpack')
+var commonsPlugin = new webpack.optimize.CommonsChunkPlugin('common.js');
 
 module.exports = {
-    entry: ['./index.js'],
+    entry: ['./index.jsx'],
     output: {
         path: '../wwwroot/dist/',
         filename: 'app.js',
         publicPath: '/dist/'
     },
     resolve: {
-        extensions: ['', '.js', '.css', '.scss']
+        extensions: ['', '.js', '.jsx', '.css', '.scss']
     },
     plugins: [
-      new webpack.ProvidePlugin({
-          $: 'jquery'
-      }),
-      //new webpack.optimize.UglifyJsPlugin({
-      //    compressor: {
-      //        warnings: false,
-      //    },
-      //}),
-      //new webpack.optimize.OccurenceOrderPlugin(),
-      //new webpack.DefinePlugin({
-      //    'process.env': { NODE_ENV: '"production"' }
-      //})
+        new webpack.ProvidePlugin({
+            $: 'jquery'
+        }),
+        //new webpack.optimize.UglifyJsPlugin({
+        //    compressor: {
+        //        warnings: false,
+        //    },
+        //}),
+        //new webpack.optimize.OccurenceOrderPlugin(),
+        //new webpack.DefinePlugin({
+        //    'process.env': { NODE_ENV: '"production"' }
+        //})
     ],
     module: {
         loaders: [{
@@ -38,6 +39,9 @@ module.exports = {
         }, {
             test: /\.(ttf|eot|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
             loader: "file-loader"
+        }, {
+            test: /\.jsx$/,
+            loader: "babel-loader!jsx-loader?harmony"
         }]
     }
 }

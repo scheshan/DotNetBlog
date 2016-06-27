@@ -1,25 +1,11 @@
-﻿import React = require("react")
-import {Form} from "formsy-react"
-import MainHeader from "../components/mainheader"
-import Input from "../components/input"
-import Checkbox from "../components/checkbox"
-import Api = require("../services/api")
+﻿var React = require("react")
+var {Form} = require("formsy-react")
+var MainHeader = require("../components/mainheader")
+var Input = require("../components/input")
+var Checkbox = require("../components/checkbox")
+var Api = require("../services/api")
 
-interface BasicConfigState {
-    canSubmit?: boolean,
-    title?: string
-    description?: string
-    topicsPerPage?: number
-    onlyShowSummary?: boolean
-}
-
-class BasicConfig extends React.Component<any, BasicConfigState>{
-    refs: {
-        [key: string]: any
-    }
-
-    config: Blog.Entity.BasicConfig
-
+class BasicConfig extends React.Component{
     constructor() {
         super()
 
@@ -44,7 +30,7 @@ class BasicConfig extends React.Component<any, BasicConfigState>{
         })
     }
 
-    submit(model: any) {
+    submit(model) {
         console.log(model)
     }
 
@@ -57,7 +43,7 @@ class BasicConfig extends React.Component<any, BasicConfigState>{
         })
     }
 
-    render(): JSX.Element {
+    render() {
         return (
             <div className="settings-view">
                 <Form onValidSubmit={this.submit} onValid={this.enableButton.bind(this) } onInvalid={this.disableButton.bind(this) }>
@@ -85,4 +71,4 @@ class BasicConfig extends React.Component<any, BasicConfigState>{
     }
 }
 
-export default BasicConfig
+module.export = BasicConfig

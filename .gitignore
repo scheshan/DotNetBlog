@@ -26,7 +26,6 @@ bld/
 
 /.vs
 /src/DotNetBlog.Web/app/node_modules
-/src/DotNetBlog.Web/app/**/*.js
 /src/DotNetBlog.Web/app/**/*.js.map
 /src/DotNetBlog.Web/wwwroot/dist
 !/src/DotNetBlog.Web/app/webpack.config.js

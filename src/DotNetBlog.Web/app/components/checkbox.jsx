@@ -1,17 +1,10 @@
-﻿import React = require("react")
-import {Mixin} from "formsy-react"
-import {FormGroup} from "react-bootstrap"
+﻿var React = require("react")
+var {Mixin} = require("formsy-react")
+var {FormGroup} = require("react-bootstrap")
 
-interface ChheckboxProps {
-    title?: string
-    name?: string
-    [key: string]: any
-    checked?: boolean
-}
-
-const Checkbox = React.createClass<ChheckboxProps, any>({
+const Checkbox = React.createClass({
     mixins: [Mixin],
-    render(): JSX.Element {
+    render() {
         return (
             <FormGroup>
                 <div className="checkbox">
@@ -32,4 +25,4 @@ const Checkbox = React.createClass<ChheckboxProps, any>({
     }
 })
 
-export default Checkbox
+module.export = Checkbox
