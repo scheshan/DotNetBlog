@@ -10,4 +10,4 @@ console.log(Reducer);
 
 const store = createStore(Reducer, initialState, applyMiddleware(Thunk))
 
-module.export = store
+export default store
