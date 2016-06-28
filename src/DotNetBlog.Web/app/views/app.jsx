@@ -140,4 +140,4 @@ function mapStateToProps(state) {
     }
 }
 
-exports.App = connect(mapStateToProps)(App)
+module.exports = connect(mapStateToProps)(App)

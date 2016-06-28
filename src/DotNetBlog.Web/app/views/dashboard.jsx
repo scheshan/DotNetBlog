@@ -8,4 +8,4 @@ class Dashboard extends React.Component{
     }
 }
 
-exports.Dashboard = Dashboard
+module.exports = Dashboard

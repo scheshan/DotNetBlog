@@ -8,4 +8,4 @@ const initialState = {
 
 const store = createStore(Reducer, initialState, applyMiddleware(Thunk))
 
-exports.Store = store
+module.exports = store

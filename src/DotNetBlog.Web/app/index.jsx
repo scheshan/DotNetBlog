@@ -2,23 +2,21 @@
 require("font-awesome/css/font-awesome.min.css")
 require("./styles/styles.scss")
 
-var React = require("react")
-var ReactDom = require("react-dom")
+import React from "react"
+import ReactDom from "react-dom"
 var Formsy, {Form, Mixin} = require('formsy-react')
 var {Router, Route, browserHistory, useRouterHistory} = require("react-router")
 var Input = require('./components/input')
 
 var {Provider} = require("react-redux")
-var Store = require("./store").Store
+import Store from "./store"
 var {createHistory} = require("history")
 var {changeMenu} = require("./actions")
 var Consts = require("./consts")
     
-var Views_App = require("./views/app").App
-var Views_Dashboard = require("./views/dashboard").Dashboard
-var Views_BasicConfig = require("./views/basicconfig").BasicConfig
-
-console.log(Views_Dashboard)
+import Views_App from "./views/app"
+import Views_Dashboard from "./views/dashboard"
+import Views_BasicConfig from "./views/basicconfig"
 
 const history = useRouterHistory(createHistory)({
     basename: "/admin"

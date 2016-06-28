@@ -22,9 +22,6 @@
     <DnxInvisibleContent Include="app\components\mainheader.js" />
     <DnxInvisibleContent Include="app\components\myinput.js" />
     <DnxInvisibleContent Include="app\index.js" />
-    <DnxInvisibleContent Include="app\reducers\index.js" />
-    <DnxInvisibleContent Include="app\services\api.js" />
-    <DnxInvisibleContent Include="app\store\index.js" />
     <DnxInvisibleContent Include="app\store\store.js" />
     <DnxInvisibleContent Include="app\views\app.js" />
     <DnxInvisibleContent Include="app\views\basicconfig.js" />

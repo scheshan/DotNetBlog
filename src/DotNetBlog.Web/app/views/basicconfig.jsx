@@ -71,4 +71,4 @@ class BasicConfig extends React.Component{
     }
 }
 
-exports.BasicConfig = BasicConfig
+module.exports = BasicConfig
