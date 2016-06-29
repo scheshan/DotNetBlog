@@ -4,12 +4,17 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using DotNetBlog.Core.Data.Mappings;
 
 namespace DotNetBlog.Core.Data
 {
     public class BlogContext : DbContext
     {
         public virtual DbSet<Setting> Settings { get; set; }
+
+        public virtual DbSet<Category> Categories { get; set; }
+
+        public virtual DbSet<CategoryTopic> CategoryTopics { get; set; }
 
         public BlogContext(DbContextOptions<BlogContext> options)
             : base(options)
@@ -21,7 +26,9 @@ namespace DotNetBlog.Core.Data
         {
             base.OnModelCreating(modelBuilder);
 
-            modelBuilder.Entity<Setting>(Mappings.SettingMapping.Map);
+            modelBuilder.Entity<Setting>(SettingMapping.Map);
+            modelBuilder.Entity<Category>(CategoryMapping.Map);
+            modelBuilder.Entity<CategoryTopic>(CategoryTopicMapping.Map);
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using DotNetBlog.Core.Service;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +11,8 @@ namespace DotNetBlog.Core
     {
         public static void AddBlogService(this IServiceCollection services)
         {
-            services.AddScoped<Service.ConfigService>();
+            services.AddScoped<ConfigService>()
+                .AddScoped<CategoryService>();
         }
     }
 }
