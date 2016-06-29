@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using DotNetBlog.Core.Service;
 using DotNetBlog.Web.Areas.Api.Models.Config;
+using AutoMapper;
 
 // For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -25,40 +26,50 @@ namespace DotNetBlog.Web.Areas.Api.Controllers
         public async Task<IActionResult> GetBasicConfig()
         {
             var config = await ConfigService.Get();
-            var model = new BasicConfigModel
-            {
-                Description = config.Description,
-                OnlyShowSummary = config.OnlyShowSummary,
-                Title = config.Title,
-                TopicsPerPage = config.TopicsPerPage
-            };
+            var model = Mapper.Map<BasicConfigModel>(config);
 
             return Success(model);
         }
 
         [HttpPost("basic")]
-        public async Task<IActionResult> SaveBasicConfig(BasicConfigModel model)
+        public async Task<IActionResult> SaveBasicConfig([FromBody]BasicConfigModel model)
         {
-            if (model == null)
+            if (model == null || !ModelState.IsValid)
             {
                 return InvalidRequest();
             }
 
             var config = await ConfigService.Get();
-            config.Description = model.Description;
-            config.Title = model.Title;
-            config.OnlyShowSummary = model.OnlyShowSummary;
-            config.TopicsPerPage = model.TopicsPerPage;
+            Mapper.Map(model, config);
 
             await ConfigService.Save(config);
 
             return Success();
         }
 
-        // GET: /<controller>/
-        public IActionResult Index()
+        [HttpGet("email")]
+        public async Task<IActionResult> GetEmailConfig()
         {
-            return View();
+            var config = await ConfigService.Get();
+            var model = Mapper.Map<EmailConfigModel>(config);
+
+            return Success(model);
+        }
+
+        [HttpPost("email")]
+        public async Task<IActionResult> SaveEmailConfig([FromBody]EmailConfigModel model)
+        {
+            if (model == null || !ModelState.IsValid)
+            {
+                return InvalidRequest();
+            }
+
+            var config = await ConfigService.Get();
+            Mapper.Map(model, config);
+
+            await ConfigService.Save(config);
+
+            return Success();
         }
     }
 }

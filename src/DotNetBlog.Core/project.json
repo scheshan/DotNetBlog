@@ -7,7 +7,7 @@
       "type": "platform"
     },
     "System.Reflection": "4.1.0",
-    "AutoMapper": "3.2.1",
+    "AutoMapper": "5.0.0",
 
     "Microsoft.EntityFrameworkCore.Sqlite": "1.0.0",
     "Microsoft.Extensions.Caching.Memory": "1.0.0"

@@ -14,6 +14,9 @@ const Form = React.createClass({
                 {this.props.children}
             </Formsy.Form>
         );
+    },
+    reset(model){
+        this.refs.formsy.reset(model)
     }
 })
 

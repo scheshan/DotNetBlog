@@ -13,10 +13,36 @@ function get(url, callback) {
     });
 }
 
-function getBasicConfig(callback) {
-    get("/api/config/basic", callback);
+function post(url, data, callback) {
+    fetch(url, {
+        method: "POST",   
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+    }).then(response=>{
+        return response.json()
+    }).then(data=>{
+        callback(data)
+    }).catch(ex=>{
+
+    })
 }
 
-module.exports = {
-    getBasicConfig
+const Api = {
+    getBasicConfig(callback) {
+        get("/api/config/basic", callback);
+    },
+    saveBasicConfig(config, callback) {
+        post("/api/config/basic", config, callback);
+    },
+    getEmailConfig(callback){
+        get("/api/config/email", callback)
+    },
+    saveEmailConfig(config, callback) {
+        post("/api/config/email", config, callback)
+    }
 }
+
+module.exports = Api

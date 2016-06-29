@@ -3,13 +3,35 @@
   "version": 2,
   "targets": {
     ".NETCoreApp,Version=v1.0": {
-      "AutoMapper/3.2.1": {
+      "AutoMapper/5.0.0": {
         "type": "package",
+        "dependencies": {
+          "Microsoft.CSharp": "4.0.1",
+          "System.Collections": "4.0.11",
+          "System.Collections.Concurrent": "4.0.12",
+          "System.Collections.Specialized": "4.0.1",
+          "System.ComponentModel.TypeConverter": "4.1.0",
+          "System.Diagnostics.Debug": "4.0.11",
+          "System.Dynamic.Runtime": "4.0.11",
+          "System.Globalization": "4.0.11",
+          "System.Linq": "4.1.0",
+          "System.Linq.Expressions": "4.1.0",
+          "System.Linq.Queryable": "4.0.1",
+          "System.ObjectModel": "4.0.12",
+          "System.Reflection": "4.1.0",
+          "System.Reflection.Emit": "4.0.1",
+          "System.Reflection.Emit.ILGeneration": "4.0.1",
+          "System.Reflection.Extensions": "4.0.1",
+          "System.Reflection.Primitives": "4.0.1",
+          "System.Runtime": "4.1.0",
+          "System.Runtime.Extensions": "4.1.0",
+          "System.Text.RegularExpressions": "4.1.0"
+        },
         "compile": {
-          "lib/portable-windows8+net40+wp8+sl5+MonoAndroid+MonoTouch/AutoMapper.dll": {}
+          "lib/netstandard1.3/AutoMapper.dll": {}
         },
         "runtime": {
-          "lib/portable-windows8+net40+wp8+sl5+MonoAndroid+MonoTouch/AutoMapper.dll": {}
+          "lib/netstandard1.3/AutoMapper.dll": {}
         }
       },
       "Libuv/1.9.0": {
@@ -952,6 +974,39 @@
           "lib/netstandard1.6/Microsoft.DotNet.ProjectModel.Loader.dll": {}
         }
       },
+      "Microsoft.DotNet.Watcher.Core/1.0.0-preview2-final": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.DotNet.ProjectModel": "1.0.0-rc3-003121",
+          "Microsoft.Extensions.FileProviders.Abstractions": "1.0.0",
+          "Microsoft.Extensions.FileProviders.Physical": "1.0.0",
+          "Microsoft.Extensions.FileSystemGlobbing": "1.0.0",
+          "Microsoft.Extensions.Logging.Abstractions": "1.0.0"
+        },
+        "compile": {
+          "lib/netstandard1.6/Microsoft.DotNet.Watcher.Core.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard1.6/Microsoft.DotNet.Watcher.Core.dll": {}
+        }
+      },
+      "Microsoft.DotNet.Watcher.Tools/1.0.0-preview2-final": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.DotNet.Watcher.Core": "1.0.0-preview2-final",
+          "Microsoft.Extensions.CommandLineUtils": "1.0.0",
+          "Microsoft.Extensions.Logging": "1.0.0",
+          "Microsoft.Extensions.Logging.Console": "1.0.0",
+          "Microsoft.NETCore.App": "1.0.0",
+          "System.Runtime.InteropServices.RuntimeInformation": "4.0.0"
+        },
+        "compile": {
+          "lib/netcoreapp1.0/dotnet-watch.dll": {}
+        },
+        "runtime": {
+          "lib/netcoreapp1.0/dotnet-watch.dll": {}
+        }
+      },
       "Microsoft.EntityFrameworkCore/1.0.0": {
         "type": "package",
         "dependencies": {
@@ -1375,6 +1430,22 @@
         },
         "runtime": {
           "lib/netstandard1.1/Microsoft.Extensions.Logging.Abstractions.dll": {}
+        }
+      },
+      "Microsoft.Extensions.Logging.Console/1.0.0": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Extensions.Configuration.Abstractions": "1.0.0",
+          "Microsoft.Extensions.Logging.Abstractions": "1.0.0",
+          "System.Console": "4.0.0",
+          "System.Runtime.InteropServices.RuntimeInformation": "4.0.0",
+          "System.Threading": "4.0.11"
+        },
+        "compile": {
+          "lib/netstandard1.3/Microsoft.Extensions.Logging.Console.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard1.3/Microsoft.Extensions.Logging.Console.dll": {}
         }
       },
       "Microsoft.Extensions.ObjectPool/1.0.0": {
@@ -2153,7 +2224,7 @@
           "System.Threading": "4.0.11"
         },
         "compile": {
-          "ref/netstandard1.3/_._": {}
+          "ref/netstandard1.3/System.Collections.Specialized.dll": {}
         },
         "runtime": {
           "lib/netstandard1.3/System.Collections.Specialized.dll": {}
@@ -3083,7 +3154,7 @@
           "System.Runtime": "4.1.0"
         },
         "compile": {
-          "ref/netstandard1.1/_._": {}
+          "ref/netstandard1.1/System.Reflection.Emit.dll": {}
         },
         "runtime": {
           "lib/netstandard1.3/System.Reflection.Emit.dll": {}
@@ -3097,7 +3168,7 @@
           "System.Runtime": "4.1.0"
         },
         "compile": {
-          "ref/netstandard1.0/_._": {}
+          "ref/netstandard1.0/System.Reflection.Emit.ILGeneration.dll": {}
         },
         "runtime": {
           "lib/netstandard1.3/System.Reflection.Emit.ILGeneration.dll": {}
@@ -3962,7 +4033,7 @@
         "type": "project",
         "framework": ".NETCoreApp,Version=v1.0",
         "dependencies": {
-          "AutoMapper": "3.2.1",
+          "AutoMapper": "5.0.0",
           "Microsoft.EntityFrameworkCore.Sqlite": "1.0.0",
           "Microsoft.Extensions.Caching.Memory": "1.0.0",
           "Microsoft.NETCore.App": "1.0.0",
@@ -3978,52 +4049,16 @@
     }
   },
   "libraries": {
-    "AutoMapper/3.2.1": {
-      "sha512": "NsmDRNXT6SWEVAxkCv+fJefuxC+4UFap3+i5e3quM54zdnZqZHBSiodGgGx+TqymQyUdrcHX6L85bvCl1oJBog==",
+    "AutoMapper/5.0.0": {
+      "sha512": "yG2ZCQ+RxpE+qSdW8/M8bRkg00GZYMmjyve07YnNwI6m7ct9QkmUVfxmhPnKp6DcjElcrfjN/RJ/qCXfkChPuA==",
       "type": "package",
+      "path": "AutoMapper/5.0.0",
       "files": [
-        "AutoMapper.3.2.1.nupkg.sha512",
+        "AutoMapper.5.0.0.nupkg.sha512",
         "AutoMapper.nuspec",
-        "lib/MonoAndroid/AutoMapper.Android.dll",
-        "lib/MonoAndroid/AutoMapper.dll",
-        "lib/MonoAndroid/AutoMapper.xml",
-        "lib/MonoTouch/AutoMapper.dll",
-        "lib/MonoTouch/AutoMapper.iOS.dll",
-        "lib/MonoTouch/AutoMapper.xml",
-        "lib/net40/AutoMapper.Net4.dll",
-        "lib/net40/AutoMapper.dll",
-        "lib/net40/AutoMapper.xml",
-        "lib/portable-windows8+net40+wp8+sl5+MonoAndroid+MonoTouch/AutoMapper.dll",
-        "lib/portable-windows8+net40+wp8+sl5+MonoAndroid+MonoTouch/AutoMapper.xml",
-        "lib/portable-windows8+net40+wp8+wpa81+sl5+MonoAndroid+MonoTouch/AutoMapper.dll",
-        "lib/portable-windows8+net40+wp8+wpa81+sl5+MonoAndroid+MonoTouch/AutoMapper.xml",
-        "lib/sl5/AutoMapper.SL5.dll",
-        "lib/sl5/AutoMapper.dll",
-        "lib/sl5/AutoMapper.xml",
-        "lib/windows8/AutoMapper.WinRT.dll",
-        "lib/windows8/AutoMapper.dll",
-        "lib/windows8/AutoMapper.xml",
-        "lib/wp8/AutoMapper.WP8.dll",
-        "lib/wp8/AutoMapper.dll",
-        "lib/wp8/AutoMapper.xml",
-        "lib/wpa81/AutoMapper.WPA81.dll",
-        "lib/wpa81/AutoMapper.dll",
-        "lib/wpa81/AutoMapper.xml",
-        "tools/AutoMapper.targets",
-        "tools/MonoAndroid/Install.ps1",
-        "tools/MonoAndroid/uninstall.ps1",
-        "tools/MonoTouch/Install.ps1",
-        "tools/MonoTouch/uninstall.ps1",
-        "tools/net40/Install.ps1",
-        "tools/net40/uninstall.ps1",
-        "tools/sl5/Install.ps1",
-        "tools/sl5/uninstall.ps1",
-        "tools/windows8/Install.ps1",
-        "tools/windows8/uninstall.ps1",
-        "tools/wp8/Install.ps1",
-        "tools/wp8/uninstall.ps1",
-        "tools/wpa81/Install.ps1",
-        "tools/wpa81/uninstall.ps1"
+        "lib/net45/AutoMapper.dll",
+        "lib/netstandard1.1/AutoMapper.dll",
+        "lib/netstandard1.3/AutoMapper.dll"
       ]
     },
     "Libuv/1.9.0": {
@@ -4577,7 +4612,7 @@
       ]
     },
     "Microsoft.CodeAnalysis.Common/1.3.0": {
-      "sha512": "V09G35cs0CT1C4Dr1IEOh8IGfnWALEVAOO5JXsqagxXwmYR012TlorQ+vx2eXxfZRKs3gAS/r92gN9kRBLba5A==",
+      "sha512": "zYo3yXN5I/IeRpWg2gXli5D4R49PlkzDuJd00J9sY5FpfRrgj2gJwdTjdihbUg+fJKt0TTXwiIU7U+61PbdN6A==",
       "type": "package",
       "path": "Microsoft.CodeAnalysis.Common/1.3.0",
       "files": [
@@ -4735,6 +4770,29 @@
         "Microsoft.DotNet.ProjectModel.Loader.1.0.0-preview2-003121.nupkg.sha512",
         "Microsoft.DotNet.ProjectModel.Loader.nuspec",
         "lib/netstandard1.6/Microsoft.DotNet.ProjectModel.Loader.dll"
+      ]
+    },
+    "Microsoft.DotNet.Watcher.Core/1.0.0-preview2-final": {
+      "sha512": "1zFIzL712ET66ksTGj9S7dXYlR5O0FL2ekWoMv4CLRn0j38ilLbGX4ZuMQb9WW/iClqphrTcaAMCNsIJH76xaA==",
+      "type": "package",
+      "path": "Microsoft.DotNet.Watcher.Core/1.0.0-preview2-final",
+      "files": [
+        "Microsoft.DotNet.Watcher.Core.1.0.0-preview2-final.nupkg.sha512",
+        "Microsoft.DotNet.Watcher.Core.nuspec",
+        "lib/netstandard1.6/Microsoft.DotNet.Watcher.Core.dll",
+        "lib/netstandard1.6/Microsoft.DotNet.Watcher.Core.xml"
+      ]
+    },
+    "Microsoft.DotNet.Watcher.Tools/1.0.0-preview2-final": {
+      "sha512": "43hHwT5qKapGdlta6Q55jxVbtuegToqBUZVv/exlGVzlqs6JfoSlNGGFoFwfQGSc+TAlOdP30NyEUDR095LsVw==",
+      "type": "package",
+      "path": "Microsoft.DotNet.Watcher.Tools/1.0.0-preview2-final",
+      "files": [
+        "Microsoft.DotNet.Watcher.Tools.1.0.0-preview2-final.nupkg.sha512",
+        "Microsoft.DotNet.Watcher.Tools.nuspec",
+        "lib/netcoreapp1.0/dotnet-watch.dll",
+        "lib/netcoreapp1.0/dotnet-watch.runtimeconfig.json",
+        "lib/netcoreapp1.0/dotnet-watch.xml"
       ]
     },
     "Microsoft.EntityFrameworkCore/1.0.0": {
@@ -5075,6 +5133,19 @@
         "Microsoft.Extensions.Logging.Abstractions.nuspec",
         "lib/netstandard1.1/Microsoft.Extensions.Logging.Abstractions.dll",
         "lib/netstandard1.1/Microsoft.Extensions.Logging.Abstractions.xml"
+      ]
+    },
+    "Microsoft.Extensions.Logging.Console/1.0.0": {
+      "sha512": "GN4gFFONP12KbFEG9rNFpXuz6D2Tybcm8+c1wilaQ1eSl9zVX0gVRrKw/YRwxdwbM3eK7nWfRRqJaQPzOjtLnA==",
+      "type": "package",
+      "path": "Microsoft.Extensions.Logging.Console/1.0.0",
+      "files": [
+        "Microsoft.Extensions.Logging.Console.1.0.0.nupkg.sha512",
+        "Microsoft.Extensions.Logging.Console.nuspec",
+        "lib/net451/Microsoft.Extensions.Logging.Console.dll",
+        "lib/net451/Microsoft.Extensions.Logging.Console.xml",
+        "lib/netstandard1.3/Microsoft.Extensions.Logging.Console.dll",
+        "lib/netstandard1.3/Microsoft.Extensions.Logging.Console.xml"
       ]
     },
     "Microsoft.Extensions.ObjectPool/1.0.0": {
@@ -10260,6 +10331,7 @@
   },
   "projectFileDependencyGroups": {
     "": [
+      "AutoMapper >= 5.0.0",
       "DotNetBlog.Core >= 1.0.0",
       "Microsoft.AspNetCore.Diagnostics >= 1.0.0",
       "Microsoft.AspNetCore.Mvc >= 1.0.0",
@@ -10268,6 +10340,7 @@
       "Microsoft.AspNetCore.Server.IISIntegration >= 1.0.0",
       "Microsoft.AspNetCore.Server.Kestrel >= 1.0.0",
       "Microsoft.AspNetCore.StaticFiles >= 1.0.0",
+      "Microsoft.DotNet.Watcher.Tools >= 1.0.0-preview2-final",
       "Microsoft.EntityFrameworkCore.Sqlite >= 1.0.0",
       "Microsoft.EntityFrameworkCore.Tools >= 1.0.0-preview2-final",
       "Microsoft.Extensions.Caching.Memory >= 1.0.0",
@@ -10329,6 +10402,23 @@
         "runtime": {
           "lib/netcoreapp1.0/dotnet-ef.dll": {}
         }
+      },
+      "Microsoft.DotNet.Watcher.Tools/1.0.0-preview2-final": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.DotNet.Watcher.Core": "1.0.0-preview2-final",
+          "Microsoft.Extensions.CommandLineUtils": "1.0.0",
+          "Microsoft.Extensions.Logging": "1.0.0",
+          "Microsoft.Extensions.Logging.Console": "1.0.0",
+          "Microsoft.NETCore.App": "1.0.0",
+          "System.Runtime.InteropServices.RuntimeInformation": "4.0.0"
+        },
+        "compile": {
+          "lib/netcoreapp1.0/dotnet-watch.dll": {}
+        },
+        "runtime": {
+          "lib/netcoreapp1.0/dotnet-watch.dll": {}
+        }
       }
     }
   },
@@ -10336,6 +10426,7 @@
     ".NETCoreApp,Version=v1.0": [
       "Microsoft.AspNetCore.Razor.Tools >= 1.0.0-preview2-final",
       "Microsoft.AspNetCore.Server.IISIntegration.Tools >= 1.0.0-preview2-final",
+      "Microsoft.DotNet.Watcher.Tools >= 1.0.0-preview2-final",
       "Microsoft.EntityFrameworkCore.Tools >= 1.0.0-preview2-final"
     ]
   }
