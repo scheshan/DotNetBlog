@@ -10,10 +10,14 @@ class Menu extends React.Component{
         if (this.props.menu.icon) {
             icon = <i className={this.props.menu.icon}></i>
         }
+        else{
+            icon = <i className="fa fa-circle-o"></i>
+        }
         let children = null;
         if (this.props.menu.children && this.props.menu.children.length > 0) {
+            className = className + " treeview";
             children = (
-                <ul className="sub-nav-sidebar">
+                <ul className="treeview-menu">
                     {
                         this.props.menu.children.map(menu => {
                             return <Menu menu={menu} key={menu.key}/>
@@ -27,7 +31,7 @@ class Menu extends React.Component{
             <li className={className}>
                 <Link to={this.props.menu.url}>
                     {icon}
-                    {this.props.menu.text}
+                    <span>{this.props.menu.text}</span>
                 </Link>
 
                 {children}
@@ -94,38 +98,56 @@ class App extends React.Component{
         });
 
         return (
-            <div className="main-wrapper">
-                <div className="main-sidebar">
-                    <div className="nav-user-info">
-                        <div className="nav-user">
-                            <div className="nav-user-info">
-                                <div className="nav-user-img"><img src="/Content/images/blog/noavatar.jpg"/></div>
-                                <div className="nav-user-name text-ellipsis">Administrator</div>
-                            </div>
-                            <ul className="nav-user-actions clearfix">
-                                <li title="博客首页"><a href="/" target="_blank"><i className="fa fa-home"></i></a></li>
-                                <li title="更改密码"><a href="/account/changepassword" target="_blank"><i className="fa fa-key"></i></a></li>
-                                <li title="档案">
-                                    <Link to="/security/profile"><i className="fa fa-user"></i></Link>
+            <div className="wrapper">
+                <header className="main-header">
+                    <a href="/" className="logo">
+                        DotNetBlog
+                    </a>
+
+                    <nav className="navbar navbar-static-top" role="navigation">
+
+                        <a href="#" className="sidebar-toggle" data-toggle="offcanvas" role="button">
+                            <span className="sr-only">Toggle navigation</span>
+                        </a>
+                        <div className="navbar-custom-menu">
+                            <ul className="nav navbar-nav">
+                                <li><a href="http://almsaeedstudio.com">修改密码</a></li>
+                                <li>
+                                    <a href="http://almsaeedstudio.com/premium">
+                                        <i className="fa fa-exit"></i>
+                                        注销
+                                    </a>
                                 </li>
-                                <li title="注销">
-                                    <a href="/account/logoff"><i className="fa fa-power-off"></i></a>
-                                </li>                                
                             </ul>
                         </div>
-                        <div className="nav-sidebar">
-                            <ul>
-                                {
-                                    this.menus.map(menu => {
-                                        return <Menu menu={menu} key={menu.key}/>
-                                    })
-                                }
-                            </ul>
+                    </nav>
+
+                </header>
+
+                <aside className="main-sidebar">
+                    <div className="sidebar">
+                        <div className="user-panel">
+                            <div className="pull-left image">
+                                <img src="https://almsaeedstudio.com/themes/AdminLTE/dist/img/user2-160x160.jpg" className="img-circle" alt="User Image" />
+                            </div>
+                            <div className="pull-left info">
+                                <p>User Name</p>
+
+                                <a href="#"><i className="fa fa-circle text-success"></i> Online</a>
+                            </div>
                         </div>
                     </div>
-                </div>
+                    <ul className="sidebar-menu">
+                        <li className="header">站点导航</li>
+                        {
+                            this.menus.map(menu=>{
+                                return <Menu menu={menu} key={menu.key}/>
+                            })
+                        }
+                    </ul>
+                </aside>
 
-                <div className="main-content">
+                <div className="content-wrapper">
                     {this.props.children}
                 </div>
             </div>

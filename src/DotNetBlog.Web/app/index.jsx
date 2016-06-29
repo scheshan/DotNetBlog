@@ -1,6 +1,7 @@
-﻿require("bootstrap/dist/css/bootstrap.min")
-require("font-awesome/css/font-awesome.min.css")
-require("./styles/styles.scss")
+﻿require("font-awesome/css/font-awesome.min.css")
+require("bootstrap/dist/css/bootstrap.min.css")
+require('./styles/AdminLTE.css')
+require('./styles/_all-skins.css')
 
 import React from "react"
 import ReactDom from "react-dom"

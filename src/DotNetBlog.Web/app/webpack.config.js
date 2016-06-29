@@ -42,6 +42,9 @@ module.exports = {
         }, {
             test: /\.jsx$/,
             loader: "babel-loader"
+        },{
+            test: /\.jpg$/,
+            loader: "url-loader"
         }]
     }
 }
