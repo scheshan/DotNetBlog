@@ -1,16 +1,18 @@
 ﻿var React = require("react")
-var {Form} = require("formsy-react")
-var MainHeader = require("../components/mainheader")
-var Input = require("../components/input")
+var Form = require("../components/form")
+var ContentHeader = require("../components/contentheader")
 var Checkbox = require("../components/checkbox")
 var Api = require("../services/api")
+var FRC = require("formsy-react-components")
+const {Input} = FRC
 
 class BasicConfig extends React.Component{
     constructor() {
         super()
 
         this.config = {
-
+            title: "",
+            description: ""
         }
 
         this.state = {
@@ -45,27 +47,29 @@ class BasicConfig extends React.Component{
 
     render() {
         return (
-            <div className="settings-view">
-                <Form onValidSubmit={this.submit} onValid={this.enableButton.bind(this) } onInvalid={this.disableButton.bind(this) }>
-                    <MainHeader title="基础">
-                        <button className="btn btn-success btn-sm btn-hasicon pull-left" type="button" disabled={!this.state.canSubmit}>
-                            <i className="fa fa-check"></i>
-                            保存
-                        </button>
-                    </MainHeader>
+            <div>
+                <ContentHeader title="设置" subtitle="基础">
 
-                    <div className="content-inner">
-                        <div className="form-content">
-                            <Input ref="title" name="title" type="text" title="博客名称" required value={this.config.title}/>
+                </ContentHeader>
+                
+                <div className="content">
+                    <Form validatePristine={false} onValidSubmit={this.submit} onValid={this.enableButton.bind(this) } onInvalid={this.disableButton.bind(this) }>
+                        <div className="box box-default">
+                            <div className="box-header with-border">
+                                <h3 className="box-title">Select2</h3>
 
-                            <Input ref="description" name="description" type="text" title="博客描述" value={this.config.description}/>
+                                <div className="box-tools pull-right">
+                                    <button disabled={!this.state.canSubmit} formNoValidate={true} type="submit" className="btn btn-primary">保存</button>
+                                </div>
+                            </div>
+                            <div className="box-body">
+                                <Input labelClassName="col-md-2" elementWrapperClassName="col-md-5" label="标题" name="title" required value={this.config.title}/>
 
-                            <Input ref="topicsPerPage" name="topicsPerPage" type="text" title="每页文章数" validations="isInt" validationError="请输入正确的数字" value={this.config.topicsPerPage} required/>
-
-                            <Checkbox ref="onlyShowSummary" name="onlyShowSummary" title="仅仅显示文章摘要" checked={this.config.onlyShowSummary}/>
+                                <Input labelClassName="col-md-2" elementWrapperClassName="col-md-5" label="摘要" name="description" value={this.config.description}/>
+                            </div>
                         </div>
-                    </div>
-                </Form>
+                    </Form>
+                </div>
             </div>
         )
     }

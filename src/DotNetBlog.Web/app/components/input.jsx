@@ -45,6 +45,10 @@ const Input = React.createClass({
     }
 });
 
+Input.propTypes = {
+    titie: React.PropTypes.string
+}
+
 Input.defaultProps.requireMessage = "不能为空";
 
-module.export = Input
+module.exports = Input

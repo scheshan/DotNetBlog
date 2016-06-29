@@ -17,6 +17,6 @@ function getBasicConfig(callback) {
     get("/api/config/basic", callback);
 }
 
-module.export = {
+module.exports = {
     getBasicConfig
 }
