@@ -42,6 +42,9 @@ const Api = {
     },
     saveEmailConfig(config, callback) {
         post("/api/config/email", config, callback)
+    },
+    getCategoryList(callback){
+        get("/api/category/all", callback)
     }
 }
 

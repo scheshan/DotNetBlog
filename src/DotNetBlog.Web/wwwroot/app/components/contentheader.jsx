@@ -1,18 +1,29 @@
 var React = require("react")
 var {Link} = require("react-router")
+var {connect} = require("react-redux")
+var {Menus} = require("../consts/")
+var _ = require("lodash")
 
 class ContentHeader extends React.Component{
     render(){
-        let subtitle = null;
-        if(this.props.subtitle){
-            subtitle = <small>{this.props.subtitle}</small>
+        if(this.props.menu){
+            this.currentMenu = _.find(Menus, {key: this.props.menu});
+        }
+        else{
+            this.currentMenu = null;
+        }
+        if(this.props.subMenu && this.currentMenu){
+            this.currentSubMenu = _.find(this.currentMenu.children, {key: this.props.subMenu})
+        }
+        else{
+            this.currentSubMenu = null;
         }
 
         return (
             <section className="content-header">
                 <h1>
-                    {this.props.title}
-                    {subtitle}
+                    {this.renderMenuTitle()}
+                    {this.renderSubMenuTitle()}
                 </h1>
                 
                 <ol className="breadcrumb">
@@ -22,18 +33,70 @@ class ContentHeader extends React.Component{
                             首页
                         </Link>
                     </li>
-                    <li className="active">
-                        {this.props.title}
-                    </li>
+                    {this.renderMenuNav()}
+                    {this.renderSubmenuNav()}
                 </ol>
             </section>
         )
     }
+
+    renderMenuTitle(){
+        if(this.currentMenu){
+            return this.currentMenu.text;
+        }
+
+        console.log(this.currentMenu);
+    }
+
+    renderSubMenuTitle(){
+        if(this.currentSubMenu){
+            return <small>{this.currentSubMenu.text}</small>
+        }
+        else{
+            return ""
+        }
+    }
+
+    renderMenuNav(){
+        let className = null;
+        if(!this.currentSubMenu){
+            className = "active"
+        }
+
+        if(this.currentMenu){
+            return (
+                <li className={className}>
+                    <Link to={this.currentMenu.url}>
+                        <i className={this.currentMenu.icon}></i>
+                        {this.currentMenu.text}
+                    </Link>
+                </li>
+            )
+        }
+        else{
+            return "";
+        }
+    }
+
+    renderSubmenuNav(){
+        if(this.currentSubMenu){
+            return (
+                <li className="active">
+                    {this.currentSubMenu.text}
+                </li>
+            )
+        }
+        else{
+            return "";
+        }
+    }
 }
 
-ContentHeader.prototypes = {
-    title: React.PropTypes.string.isRequired,
-    subtitle: React.PropTypes.string
+function mapStateToProps(state) {
+    return {
+        menu: state.menu,
+        subMenu: state.subMenu
+    }
 }
 
-module.exports = ContentHeader
+module.exports = connect(mapStateToProps)(ContentHeader)

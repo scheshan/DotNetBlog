@@ -1,7 +1,9 @@
 ﻿var React = require("react")
 var {Link} = require("react-router")
 var {connect} = require("react-redux")
-var Consts = require("../consts")
+var {Menus} = require("../consts")
+var ContentHeader = require('../components/contentheader')
+
 
 class Menu extends React.Component{
     render() {
@@ -44,47 +46,7 @@ class App extends React.Component{
     constructor() {
         super();
 
-        this.menus = [
-            {
-                key: Consts.MenuKeys.Dashboard,
-                text: "控制台",
-                url: "dashboard",
-                icon: "fa fa-th-large"
-            },
-            {
-                key: Consts.MenuKeys.Config,
-                text: "设置",
-                url: "config/basic",
-                icon: "fa fa-cog",
-                children: [
-                    {
-                        key: Consts.MenuKeys.Config_Basic,
-                        text: "基础",
-                        url: "config/basic"                        
-                    },
-                    {
-                        key: Consts.MenuKeys.Config_Email,
-                        text: "Email",
-                        url: "config/email"
-                    },
-                    {
-                        key: Consts.MenuKeys.Config_Feed,
-                        text: "推送",
-                        url: "config/feed"
-                    },
-                    {
-                        key: Consts.MenuKeys.Config_Comments,
-                        text: "评论",
-                        url: "config/comments"
-                    },
-                    {
-                        key: Consts.MenuKeys.Config_Advance,
-                        text: "高级",
-                        url: "config/advance"
-                    }
-                ]
-            }
-        ]
+        this.menus = Menus
     }
 
     render() {
@@ -136,18 +98,21 @@ class App extends React.Component{
                                 <a href="#"><i className="fa fa-circle text-success"></i> Online</a>
                             </div>
                         </div>
-                    </div>
-                    <ul className="sidebar-menu">
-                        <li className="header">站点导航</li>
-                        {
-                            this.menus.map(menu=>{
-                                return <Menu menu={menu} key={menu.key}/>
-                            })
-                        }
-                    </ul>
+
+                        <ul className="sidebar-menu">
+                            <li className="header">站点导航</li>
+                            {
+                                this.menus.map(menu=>{
+                                    return <Menu menu={menu} key={menu.key}/>
+                                })
+                            }
+                        </ul>
+                    </div>                    
                 </aside>
 
                 <div className="content-wrapper" style={contentWrapperStyle}>
+                    <ContentHeader></ContentHeader>
+
                     {this.props.children}
                 </div>
 

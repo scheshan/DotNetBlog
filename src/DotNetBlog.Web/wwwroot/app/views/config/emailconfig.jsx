@@ -1,7 +1,7 @@
 var React = require("react")
-var Api = require("../services/api")
-var ContentHeader = require("../components/contentheader")
-var Form = require("../components/form")
+var Api = require("../../services/api")
+var ContentHeader = require("../../components/contentheader")
+var Form = require("../../components/form")
 
 class EmailConfig extends React.Component{
     constructor(){
@@ -26,15 +26,11 @@ class EmailConfig extends React.Component{
 
     render(){
         return (
-            <div>
-                <ContentHeader title="Email"></ContentHeader>
+            <div className="content">
+                <div className="panel panel-default">
+                    <Form>
 
-                <div className="content">
-                    <div className="panel panel-default">
-                        <Form>
-
-                        </Form>
-                    </div>
+                    </Form>
                 </div>
             </div>
         )
