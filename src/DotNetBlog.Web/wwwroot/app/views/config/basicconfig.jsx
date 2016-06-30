@@ -4,6 +4,7 @@ var ContentHeader = require("../../components/contentheader")
 var Api = require("../../services/api")
 var FRC = require("formsy-react-components")
 const {Input, Checkbox} = FRC
+var Dialog = require("../../services/dialog")
 
 class BasicConfig extends React.Component{
     constructor() {
@@ -14,7 +15,8 @@ class BasicConfig extends React.Component{
                 title: "",
                 description: "",
                 topicsPerPage: 10
-            }
+            },
+            loading: false
         }
     }
 
@@ -37,12 +39,27 @@ class BasicConfig extends React.Component{
     }
 
     componentDidMount() {
-        Api.getBasicConfig(response => {
-            if (response.success) {
-                this.setState({
-                    config: response.data
-                })
-            }
+        this.loadData();
+    }
+
+    loadData(){
+        this.setState({
+            loading: true
+        }, ()=>{
+            Api.getBasicConfig(response => {
+                if (response.success) {
+                    this.setState({
+                        config: response.data,
+                        loading: false
+                    })
+                }
+                else{
+                    Dialog.error("错误");
+                    this.setState({
+                        loading: false
+                    })
+                }
+            })
         })
     }
 

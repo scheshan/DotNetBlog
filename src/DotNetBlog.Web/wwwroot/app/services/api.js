@@ -1,6 +1,11 @@
 ﻿require("whatwg-fetch")
 var _ = require("lodash")
 
+const errorResponse = {
+    success: false,
+    errorMessage: "请求发生错误，请稍后再试"
+}
+
 function get(url, callback) {
     fetch(url, {
         method: "GET"
@@ -9,7 +14,7 @@ function get(url, callback) {
     }).then(data => {
         callback(data)
     }).catch(ex => {
-
+        callback(errorResponse)
     });
 }
 
@@ -26,7 +31,7 @@ function post(url, data, callback) {
     }).then(data=>{
         callback(data)
     }).catch(ex=>{
-
+        callback(errorResponse)
     })
 }
 

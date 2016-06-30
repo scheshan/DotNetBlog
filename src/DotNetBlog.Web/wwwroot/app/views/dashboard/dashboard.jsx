@@ -1,5 +1,4 @@
 ﻿var React = require("react")
-var Toastr = require("toastr");
 
 class Dashboard extends React.Component{
     render() {
@@ -10,7 +9,5 @@ class Dashboard extends React.Component{
         )
     }
 }
-
-Toastr.success("13");
 
 module.exports = Dashboard
