@@ -7,7 +7,8 @@ class ModifyCategory extends React.Component{
         super();
 
         this.state = {
-            show: false
+            show: false,
+            name: "1"
         }
     }
 
@@ -21,6 +22,12 @@ class ModifyCategory extends React.Component{
             show: false
         })
     }
+    submit(){
+        this.setState({
+            name: "2"
+        })
+        alert(2)
+    }
 
     render(){
         return (
@@ -30,12 +37,12 @@ class ModifyCategory extends React.Component{
                 </Modal.Header>
                 <Modal.Body>
                     <Form>
-                        
+                        <input type="text" className="form-control" defaultValue={this.state.name}/>
                     </Form>
                 </Modal.Body>
                 <Modal.Footer>
                     <button type="button" className="btn btn-default pull-left" onClick={this.hide.bind(this)}>取消</button>
-                    <button type="button" className="btn btn-primary">Save changes</button>
+                    <button type="button" className="btn btn-primary" onClick={this.submit.bind(this)}>Save changes</button>
                 </Modal.Footer>
             </Modal>
         )

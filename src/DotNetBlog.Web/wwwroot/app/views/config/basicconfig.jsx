@@ -5,6 +5,7 @@ var Api = require("../../services/api")
 var FRC = require("formsy-react-components")
 const {Input, Checkbox} = FRC
 var Dialog = require("../../services/dialog")
+var Spinner = require("../../components/spinner")
 
 class BasicConfig extends React.Component{
     constructor() {
@@ -33,9 +34,26 @@ class BasicConfig extends React.Component{
     }
 
     submit(model) {
-        Api.saveBasicConfig(model, response=>{
+        if(this.state.loading){
+            return false;
+        }
 
-        })
+        this.setState({
+            loading: true
+        }, ()=>{
+            Api.saveBasicConfig(model, response=>{
+                this.setState({
+                    loading: false
+                });
+
+                if(response.success){
+                    Dialog.success("保存成功")
+                }
+                else{
+                    Dialog.error(response.errorMessage);
+                }
+            })
+        });
     }
 
     componentDidMount() {
@@ -66,8 +84,14 @@ class BasicConfig extends React.Component{
     render() {
         return (                
             <div className="content">
-                <Form onValidSubmit={this.submit} onValid={this.enableButton.bind(this) } onInvalid={this.disableButton.bind(this) }>
+                <Form onValidSubmit={this.submit.bind(this)} onValid={this.enableButton.bind(this) } onInvalid={this.disableButton.bind(this) }>
                     <div className="box box-primary">
+                        <div className="box-header with-border">
+    	                    <h3 className="box-title">
+                                基础设置
+                                <Spinner loading={this.state.loading}/>
+                            </h3>
+                        </div>
                         <div className="box-body">
                             <Input labelClassName="col-md-2" elementWrapperClassName="col-md-5" label="标题" name="title" required value={this.state.config.title}/>
 
