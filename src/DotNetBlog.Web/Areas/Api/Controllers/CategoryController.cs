@@ -1,4 +1,7 @@
-﻿using DotNetBlog.Core.Service;
+﻿using DotNetBlog.Core.Model;
+using DotNetBlog.Core.Model.Category;
+using DotNetBlog.Core.Service;
+using DotNetBlog.Web.Areas.Api.Models.Category;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -19,11 +22,51 @@ namespace DotNetBlog.Web.Areas.Api.Controllers
         }
 
         [HttpGet("all")]
-        public IActionResult All()
+        public async Task<IActionResult> All()
         {
-            var list = CategoryService.All();
+            var list = await CategoryService.All();
 
             return Success(list);
+        }
+
+        [HttpPost("add")]
+        public async Task<IActionResult> Add([FromBody] AddCategoryModel model)
+        {
+            if (model == null || !ModelState.IsValid)
+            {
+                return InvalidRequest();
+            }
+
+            OperationResult<CategoryModel> result = await CategoryService.Add(model.Name, model.Description);
+
+            if(result.Success)
+            {
+                return Success(result.Data);
+            }
+            else
+            {
+                return Error(result.ErrorMessage);
+            }
+        }
+
+        [HttpPost("edit")]
+        public async Task<IActionResult> Edit([FromBody] EditCategoryModel model)
+        {
+            if (model == null || !ModelState.IsValid)
+            {
+                return InvalidRequest();
+            }
+
+            OperationResult<CategoryModel> result = await CategoryService.Edit(model.ID.Value, model.Name, model.Description);
+
+            if (result.Success)
+            {
+                return Success(result.Data);
+            }
+            else
+            {
+                return Error(result.ErrorMessage);
+            }
         }
     }
 }

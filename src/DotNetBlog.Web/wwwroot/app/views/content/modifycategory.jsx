@@ -1,6 +1,7 @@
 var React = require("react")
 var {Modal} = require("react-bootstrap")
-var Form = require("../../components/form")
+var {Input} = require("formsy-react-components")
+var {LoadingButton, Form} = require("../../components")
 
 class ModifyCategory extends React.Component{
     constructor(){
@@ -8,7 +9,10 @@ class ModifyCategory extends React.Component{
 
         this.state = {
             show: false,
-            name: "1"
+            category: {
+                name: "",
+                description: ""
+            }
         }
     }
 
@@ -23,26 +27,25 @@ class ModifyCategory extends React.Component{
         })
     }
     submit(){
-        this.setState({
-            name: "2"
-        })
-        alert(2)
+
     }
 
     render(){
         return (
             <Modal show={this.state.show} onHide={this.hide.bind(this)}>
                 <Modal.Header closeButton>
-                    <Modal.Title>Modal heading</Modal.Title>
+                    <Modal.Title>{this.state.title || "添加分类"}</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <Form>
-                        <input type="text" className="form-control" defaultValue={this.state.name}/>
+                    <Form layout="vertical">
+                        <Input name="name" label="名称" value={this.state.category.name} required maxLength="50"/>
+
+                        <Input name="description" label="描述" value={this.state.category.description} maxLength="200"/>
                     </Form>
                 </Modal.Body>
                 <Modal.Footer>
                     <button type="button" className="btn btn-default pull-left" onClick={this.hide.bind(this)}>取消</button>
-                    <button type="button" className="btn btn-primary" onClick={this.submit.bind(this)}>Save changes</button>
+                    <LoadingButton loading={this.state.loading} className="btn btn-primary" onClick={this.submit.bind(this)}>保存</LoadingButton>
                 </Modal.Footer>
             </Modal>
         )

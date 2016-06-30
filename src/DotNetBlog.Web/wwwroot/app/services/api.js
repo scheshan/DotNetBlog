@@ -50,6 +50,12 @@ const Api = {
     },
     getCategoryList(callback){
         get("/api/category/all", callback)
+    },
+    addCategory(model, callback){
+        post("/api/category/add", model, callback)
+    },
+    editCategory(model, callback){
+        post("/api/category/edit", model, callback)
     }
 }
 

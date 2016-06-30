@@ -8,7 +8,6 @@ import React from "react"
 import ReactDom from "react-dom"
 var Formsy, {Form, Mixin} = require('formsy-react')
 var {Router, Route, browserHistory, useRouterHistory} = require("react-router")
-var Input = require('./components/input')
 
 var {Provider} = require("react-redux")
 import Store from "./store"

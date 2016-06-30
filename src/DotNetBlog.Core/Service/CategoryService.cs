@@ -79,6 +79,30 @@ namespace DotNetBlog.Core.Service
             return new OperationResult<CategoryModel>(model);
         }
 
+        public async Task<OperationResult<CategoryModel>> Edit(int id, string name, string description)
+        {
+            if (await BlogContext.Categories.AnyAsync(t => t.Name == name && t.ID != id))
+            {
+                return OperationResult<CategoryModel>.Failure("重复的分类名称");
+            }
+
+            Category entity = await BlogContext.Categories.SingleOrDefaultAsync(t => t.ID == id);
+            if(entity == null)
+            {
+                return OperationResult<CategoryModel>.Failure("分类不存在");
+            }
+
+            entity.Name = name;
+            entity.Description = description;
+            await BlogContext.SaveChangesAsync();
+
+            Cache.Remove(CacheKey_Category);
+
+            CategoryModel model = (await Transform(entity)).First();
+
+            return new OperationResult<CategoryModel>(model);
+        }
+
         private async Task<List<CategoryModel>> Transform(params Category[] entityList)
         {
             if (entityList == null)

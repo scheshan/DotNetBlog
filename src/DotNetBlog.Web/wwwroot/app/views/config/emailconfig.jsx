@@ -1,7 +1,10 @@
 var React = require("react")
 var Api = require("../../services/api")
-var ContentHeader = require("../../components/contentheader")
 var Form = require("../../components/form")
+var {Input, Checkbox} = require("formsy-react-components")
+var {FormGroup} = require("react-bootstrap")
+var Dialog = require("../../services/dialog")
+var LoadingButton = require("../../components/loadingbutton")
 
 class EmailConfig extends React.Component{
     constructor(){
@@ -9,29 +12,84 @@ class EmailConfig extends React.Component{
 
         this.state = {
             config:{
-
+                smtpEmailAddress: "",
+                smtpUser: "",
+                smtpPassword: "",
+                smtpPort: 0,
+                smtpServer: "",
+                sendEmailWhenComment: false
             }
         }
     }
 
     componentDidMount(){
-        Api.getEmailConfig(response=>{
-            if(response.success){
+        this.loadData()
+    }
+
+    loadData(){
+        this.setState({
+            loading: true
+        }, ()=>{
+            Api.getEmailConfig(response=>{
+                if(response.success){
+                    this.setState({
+                        config:response.data,
+                        loading: false
+                    })
+                }
+                else{
+                    this.setState({
+                        loading: false
+                    })
+                    Dialog.error(response.errorMessage)
+                }
+            })
+        })
+    }
+
+    submit(model){
+        if(this.state.loading){
+            return;
+        }
+
+        this.setState({
+            loading: true
+        }, ()=>{
+            Api.saveEmailConfig(model, response=>{
                 this.setState({
-                    config:response.data
-                })
-            }
+                    loading: false
+                });
+
+                if(response.success){
+                    Dialog.success("保存成功")
+                }
+                else{
+                    Dialog.error(response.errorMessage)
+                }
+            })
         })
     }
 
     render(){
         return (
             <div className="content">
-                <div className="panel panel-default">
-                    <Form>
+                <Form onValidSubmit={this.submit.bind(this)} layout="vertical" className="form-content">
+                    <Input name="smtpEmailAddress" label="Email地址" value={this.state.config.smtpEmailAddress} />
 
-                    </Form>
-                </div>
+                    <Input name="smtpUser" label="用户名" value={this.state.config.smtpUser} />
+
+                    <Input name="smtpPassword" type="password" label="密码" value={this.state.config.smtpPassword} />
+
+                    <Input name="smtpServer" label="SMTP服务器" value={this.state.config.smtpServer} />
+
+                    <Input name="smtpPort" validations="isInt" validationError="请输入正确的端口号" label="端口号" value={this.state.config.smtpPort} />
+
+                    <Checkbox layout="elementOnly" name="sendEmailWhenComment" label="发送评论邮件" value={this.state.config.sendEmailWhenComment} />
+
+                    <FormGroup>
+                        <LoadingButton loading={this.state.loading} type="submit" formNoValidate className="btn btn-primary">保存</LoadingButton>
+                    </FormGroup>
+                </Form>
             </div>
         )
     }

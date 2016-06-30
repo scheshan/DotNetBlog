@@ -17,7 +17,7 @@ class CategoryList extends React.Component{
     }
 
     componentDidMount(){
-        //this.loadData()
+        this.loadData()
     }
 
     loadData(){
@@ -61,19 +61,19 @@ class CategoryList extends React.Component{
             <div className="content">
                 <ModifyCategory ref="modifyCategoryView"></ModifyCategory>
 
-                <div className="box box-primary">
-                    <div className="box-header">分类列表</div>
-                    <div className="box-body nopadding">
-                        <div className="mailbox-controls">
-                            <button className="btn btn-success btn-sm" title="新增" onClick={this.addNew.bind(this)}>
-                                <i className="fa fa-plus"></i>
-                            </button>
-                            {' '}
-                            <button className="btn btn-danger btn-sm" title="删除" disabled={!this.canDelete()}>
-                                <i className="fa fa-trash"></i>
-                            </button>   
-                        </div>
-                        <table className="table">
+                <div className="mailbox-controls">
+                    <button className="btn btn-success btn-sm" title="新增" onClick={this.addNew.bind(this)}>
+                        <i className="fa fa-plus"></i>
+                    </button>
+                    {' '}
+                    <button className="btn btn-danger btn-sm" title="删除" disabled={!this.canDelete()}>
+                        <i className="fa fa-trash"></i>
+                    </button>   
+                </div>
+
+                <div className="box box-default">
+                    <div className="box-body table-responsive no-padding">
+                        <table className="table table-hover">
                             <thead>
                                 <tr>
                                     <th style={{"width":"10px"}}>
@@ -81,6 +81,7 @@ class CategoryList extends React.Component{
                                     </th>
                                     <th style={{"width":"30%"}}>名称</th>
                                     <th>描述</th>
+                                    <th style={{width: "100px"}}>文章</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -89,8 +90,11 @@ class CategoryList extends React.Component{
                                         return (
                                             <tr key={cat.id}>
                                                 <td><input type="checkbox" checked={cat.checked} onChange={this.checkOne.bind(this, cat)}/></td>
-                                                <td>{cat.name}</td>
+                                                <td>
+                                                    <a href="javascript:void(0)">{cat.name}</a>
+                                                </td>
                                                 <td>{cat.description}</td>
+                                                <td>{cat.topics}</td>
                                             </tr>
                                         )
                                     })
@@ -98,7 +102,7 @@ class CategoryList extends React.Component{
                             </tbody>
                         </table>
                     </div>
-                </div>
+                </div>                
             </div>
         )
     }
