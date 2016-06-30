@@ -2,6 +2,7 @@
 require("bootstrap/dist/css/bootstrap.min.css")
 require('./styles/AdminLTE.css')
 require('./styles/_all-skins.css')
+require("toastr/build/toastr.min.css")
 
 import React from "react"
 import ReactDom from "react-dom"
