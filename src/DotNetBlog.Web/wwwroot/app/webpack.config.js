@@ -10,7 +10,7 @@ module.exports = {
         './index.jsx'
     ],
     output: {
-        path: '/dist/',
+        path: path.join(__dirname, 'dist'),
         filename: 'app.js'
     },
     resolve: {
@@ -40,10 +40,10 @@ module.exports = {
             loaders: ['style', 'css']
         }, {
             test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
-            loader: "url-loader?limit=10000&mimetype=application/font-woff"
+            loader: "url-loader"
         }, {
             test: /\.(ttf|eot|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
-            loader: "file-loader"
+            loader: "url-loader"
         }, {
             test: /\.jsx$/,
             loaders: ["react-hot-loader", "babel-loader"]
