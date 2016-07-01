@@ -20,6 +20,7 @@ import Views_Dashboard from "./views/dashboard/dashboard"
 import Views_BasicConfig from "./views/config/basicconfig"
 var Views_EmailConfig = require("./views/config/emailconfig")
 var Views_CategoryList = require("./views/content/categorylist")
+var Views_ModifyTopic = require("./views/content/modifytopic")
 
 const history = useRouterHistory(createHistory)({
     basename: "/admin"
@@ -39,6 +40,7 @@ class Index extends React.Component{
                         <Route path="config/basic" component={Views_BasicConfig} onEnter={enterRoute.bind(this, Consts.MenuKeys.Config, Consts.MenuKeys.Config_Basic) } />
                         <Route path="config/email" component={Views_EmailConfig} onEnter={enterRoute.bind(this, Consts.MenuKeys.Config, Consts.MenuKeys.Config_Email) } />
                         <Route path="content/categories" component={Views_CategoryList} onEnter={enterRoute.bind(this, Consts.MenuKeys.Content, Consts.MenuKeys.Content_Categories)} />
+                        <Route path="content/topic" component={Views_ModifyTopic}/>
                     </Route>
                 </Router>
             </Provider>

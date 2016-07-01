@@ -16,6 +16,8 @@ namespace DotNetBlog.Core.Data
 
         public virtual DbSet<CategoryTopic> CategoryTopics { get; set; }
 
+        public virtual DbSet<Topic> Topics { get; set; }
+
         public BlogContext(DbContextOptions<BlogContext> options)
             : base(options)
         {
@@ -29,6 +31,7 @@ namespace DotNetBlog.Core.Data
             modelBuilder.Entity<Setting>(SettingMapping.Map);
             modelBuilder.Entity<Category>(CategoryMapping.Map);
             modelBuilder.Entity<CategoryTopic>(CategoryTopicMapping.Map);
+            modelBuilder.Entity<Topic>(TopicMapping.Map);
         }
     }
 }

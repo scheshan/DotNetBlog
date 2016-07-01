@@ -3,11 +3,15 @@ var webpack = require('webpack')
 var commonsPlugin = new webpack.optimize.CommonsChunkPlugin('common.js');
 
 module.exports = {
-    entry: ['./index.jsx'],
+    entry: [
+        // 写在入口文件之前
+        "webpack-dev-server/client?http://localhost:3000",
+        "webpack/hot/only-dev-server",
+        './index.jsx'
+    ],
     output: {
-        path: '../dist/',
-        filename: 'app.js',
-        publicPath: '/dist/'
+        path: '/dist/',
+        filename: 'app.js'
     },
     resolve: {
         extensions: ['', '.js', '.jsx', '.css', '.scss']
@@ -16,6 +20,7 @@ module.exports = {
         new webpack.ProvidePlugin({
             $: 'jquery'
         }),
+        new webpack.HotModuleReplacementPlugin()
         //new webpack.optimize.UglifyJsPlugin({
         //    compressor: {
         //        warnings: false,
@@ -41,7 +46,7 @@ module.exports = {
             loader: "file-loader"
         }, {
             test: /\.jsx$/,
-            loader: "babel-loader"
+            loaders: ["react-hot-loader", "babel-loader"]
         },{
             test: /\.jpg$/,
             loader: "url-loader"

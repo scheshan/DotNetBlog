@@ -44,8 +44,6 @@ class ContentHeader extends React.Component{
         if(this.currentMenu){
             return this.currentMenu.text;
         }
-
-        console.log(this.currentMenu);
     }
 
     renderSubMenuTitle(){
