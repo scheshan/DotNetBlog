@@ -1,4 +1,5 @@
-﻿using DotNetBlog.Web.Areas.Api.Models;
+﻿using DotNetBlog.Web.Areas.Api.Filters;
+using DotNetBlog.Web.Areas.Api.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Newtonsoft.Json;
@@ -10,6 +11,7 @@ using System.Threading.Tasks;
 
 namespace DotNetBlog.Web.Areas.Api.Controllers
 {
+    [ErrorHandlerFilter]
     public class ControllerBase : Controller
     {
         private static readonly JsonSerializerSettings _DefaultJsonSerializerSettings;

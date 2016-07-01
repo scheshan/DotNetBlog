@@ -11,6 +11,7 @@ using Microsoft.Extensions.Configuration;
 using DotNetBlog.Core;
 using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.Extensions.Logging;
+using NLog.Extensions.Logging;
 
 namespace DotNetBlog.Web
 {
@@ -49,12 +50,15 @@ namespace DotNetBlog.Web
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment enviroment)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment enviroment, ILoggerFactory loggerFactory)
         {
             app.UseStaticFiles();
 
             app.UseDeveloperExceptionPage();
             app.UseMvc();
+
+            loggerFactory.AddNLog();
+            enviroment.ConfigureNLog("App_Data/NLog.config");
 
             using (var context = app.ApplicationServices.GetService<Core.Data.BlogContext>())
             {

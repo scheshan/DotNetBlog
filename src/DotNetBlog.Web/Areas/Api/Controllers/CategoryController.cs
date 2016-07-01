@@ -68,5 +68,18 @@ namespace DotNetBlog.Web.Areas.Api.Controllers
                 return Error(result.ErrorMessage);
             }
         }
+
+        [HttpPost("remove")]
+        public async Task<IActionResult> Remove([FromBody] RemoveCategoryModel model)
+        {
+            if(model == null || !ModelState.IsValid)
+            {
+                return InvalidRequest();
+            }
+
+            await CategoryService.Remove(model.IDList);
+
+            return Success();
+        }
     }
 }

@@ -56,6 +56,9 @@ const Api = {
     },
     editCategory(model, callback){
         post("/api/category/edit", model, callback)
+    },
+    removeCategory(idList, callback){
+        post("/api/category/remove", {idList: idList}, callback)
     }
 }
 

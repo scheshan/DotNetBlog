@@ -45,7 +45,7 @@ namespace DotNetBlog.Core.Service
             if (list == null)
             {
                 list = await BlogContext.CategoryTopics.ToListAsync();
-                Cache.Set(CacheKey_Category, list);
+                Cache.Set(CacheKey_CategoryTopics, list);
             }
 
             return list;
@@ -101,6 +101,20 @@ namespace DotNetBlog.Core.Service
             CategoryModel model = (await Transform(entity)).First();
 
             return new OperationResult<CategoryModel>(model);
+        }
+
+        public async Task Remove(int[] idList)
+        {
+            List<CategoryTopic> categoryTopics = await BlogContext.CategoryTopics.Where(t => idList.Contains(t.CategoryID)).ToListAsync();
+            List<Category> categories = await BlogContext.Categories.Where(t => idList.Contains(t.ID)).ToListAsync();
+
+            BlogContext.RemoveRange(categoryTopics);
+            BlogContext.RemoveRange(categories);
+
+            await BlogContext.SaveChangesAsync();
+
+            Cache.Remove(CacheKey_Category);
+            Cache.Remove(CacheKey_CategoryTopics);
         }
 
         private async Task<List<CategoryModel>> Transform(params Category[] entityList)
