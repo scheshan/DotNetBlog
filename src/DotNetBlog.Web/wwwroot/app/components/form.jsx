@@ -17,6 +17,12 @@ const Form = React.createClass({
     },
     reset(model){
         this.refs.formsy.reset(model)
+    },
+    submit(){
+        this.refs.formsy.submit()
+    },
+    getModel(){
+        return this.refs.formsy.getModel()
     }
 })
 

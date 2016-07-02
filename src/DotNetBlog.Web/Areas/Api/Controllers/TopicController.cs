@@ -47,7 +47,7 @@ namespace DotNetBlog.Web.Areas.Api.Controllers
             }
 
             var result = await TopicService.QueryNotTrash(model.PageIndex, model.PageSize, model.Status, model.Keywords);
-            if(result.Success)
+            if (result.Success)
             {
                 return PagedData(result.Data, result.Total);
             }
@@ -55,6 +55,17 @@ namespace DotNetBlog.Web.Areas.Api.Controllers
             {
                 return Error(result.ErrorMessage);
             }
+        }
+
+        [HttpGet("{id:int}")]
+        public async Task<IActionResult> Get(int id)
+        {
+            var model = await TopicService.Get(id);
+            if(model == null)
+            {
+                return Error("文章不存在");
+            }
+            return Success(model);
         }
     }
 }

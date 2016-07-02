@@ -106,6 +106,23 @@ namespace DotNetBlog.Core.Service
             return new PagedResult<TopicModel>(modelList, total);
         }
 
+        /// <summary>
+        /// 得到文章实体
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public async Task<TopicModel> Get(int id)
+        {
+            var entity = await BlogContext.Topics.SingleOrDefaultAsync(t => t.ID == id);
+
+            if(entity == null)
+            {
+                return null;
+            }
+
+            return (await Transform(entity)).First();
+        }
+
         private async Task<List<TopicModel>> Transform(params Topic[] entityList)
         {
             if (entityList == null)

@@ -31,7 +31,7 @@ const Menus = [
             {
                 key: MenuKeys.Content_Topics,
                 text: "文章",
-                url: "content/topic"     
+                url: "content/topics"     
             },
             {
                 key: MenuKeys.Content_Categories,

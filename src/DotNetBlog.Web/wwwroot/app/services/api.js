@@ -1,9 +1,28 @@
 ﻿require("whatwg-fetch")
-var _ = require("lodash")
+const _ = require("lodash")
 
 const errorResponse = {
     success: false,
     errorMessage: "请求发生错误，请稍后再试"
+}
+
+function prepareUrl(url, param){
+    let search = "";
+    for(var key in param){        
+        if(param[key] !== undefined && param[key] !== null){
+            let str = key + "=" + encodeURIComponent(param[key])
+            search = search == "" ? str : search + "&" + str
+        }
+    }
+
+    if(url.indexOf("?") > -1){
+        url = url + "&" + search
+    }
+    else{
+        url = url + "?" + search
+    }
+
+    return url;
 }
 
 function get(url, callback) {
@@ -59,6 +78,24 @@ const Api = {
     },
     removeCategory(idList, callback){
         post("/api/category/remove", {idList: idList}, callback)
+    },
+    queryNormalTopic(page, pageSize, status, keywords, callback){
+        var param = {
+            pageIndex: page,
+            pageSize,
+            status,
+            keywords
+        };
+        get(prepareUrl("/api/topic/query", param), callback);
+    },
+    getTopic(id, callback){
+        get("/api/topic/" + id, callback);
+    },
+    addTopic(data, callback){
+        post("/api/topic/add", data, callback)
+    },
+    editTopic(data, callback){
+        post("/api/", data, callback)
     }
 }
 

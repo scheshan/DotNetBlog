@@ -1,24 +1,54 @@
 var React = require("react")
+var _ = require("lodash")
 
 class Editor extends React.Component{
-    componentDidMount(){
+    constructor(){
+        super()
 
+        this.id = _.uniqueId("editor_");
     }
-    render(){
-        var id = "editor_" + this.props.name;
-        this.id = id;
 
+    componentDidMount(){
+        let selector = '#' + this.id;
+        let options = _.assign(
+            {}, 
+            this.props.options, 
+            {
+                selector,
+                setup: (editor)=>this.editor = editor
+            });
+        tinymce.init(options)
+    }
+
+    getContent(){
+        return this.editor.getContent()
+    }
+
+    setContent(content){
+        this.editor.setContent(content)
+    }
+
+    componentDidUpdate(prevProps){
+        if(prevProps.content != this.props.content){
+            this.editor.setContent(this.props.content)
+        }
+    }
+
+    render(){
         return (
-            <div id={id}>
-                <textarea>{this.props.value}</textarea>
-            </div>
+            <textarea id={this.id}></textarea>
         )
+    }
+
+    getEditor(){
+        let selector = '#' + this.id;
+        return tinymce.get(selector);
     }
 }
 
 Editor.propType = {
-    name: React.PropTypes.string.isRequired,
-    value: React.PropTypes.string
+    content: React.PropTypes.string,
+    options: React.PropTypes.object
 }
 
 module.exports = Editor

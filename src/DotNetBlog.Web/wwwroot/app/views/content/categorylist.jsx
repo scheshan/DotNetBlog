@@ -109,12 +109,12 @@ class CategoryList extends React.Component{
                     </button>   
                 </div>
 
-                <div className="box box-default">
+                <div className="box box-solid">
                     <div className="box-body table-responsive no-padding">
                         <table className="table table-hover">
                             <thead>
                                 <tr>
-                                    <th style={{"width":"10px"}}>
+                                    <th style={{"width":"40px"}} className="text-center">
                                         <input type="checkbox" onChange={this.checkAll.bind(this)}/>
                                     </th>
                                     <th style={{"width":"30%"}}>名称</th>
@@ -127,7 +127,7 @@ class CategoryList extends React.Component{
                                     this.state.categoryList.map(cat=>{
                                         return (
                                             <tr key={cat.id}>
-                                                <td><input type="checkbox" checked={cat.checked} onChange={this.checkOne.bind(this, cat)}/></td>
+                                                <td className="text-center"><input type="checkbox" checked={cat.checked} onChange={this.checkOne.bind(this, cat)}/></td>
                                                 <td>
                                                     <a href="javascript:void(0)" onClick={this.editCategory.bind(this, cat)}>{cat.name}</a>
                                                 </td>
