@@ -8,9 +8,10 @@ using DotNetBlog.Core.Data;
 namespace DotNetBlog.Web.Migrations
 {
     [DbContext(typeof(BlogContext))]
-    partial class BlogContextModelSnapshot : ModelSnapshot
+    [Migration("20160702011303_Init")]
+    partial class Init
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.0.0-rtm-21431");

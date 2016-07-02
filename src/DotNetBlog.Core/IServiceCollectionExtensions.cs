@@ -12,7 +12,8 @@ namespace DotNetBlog.Core
         public static void AddBlogService(this IServiceCollection services)
         {
             services.AddScoped<ConfigService>()
-                .AddScoped<CategoryService>();
+                .AddScoped<CategoryService>()
+                .AddScoped<TopicService>();
         }
     }
 }

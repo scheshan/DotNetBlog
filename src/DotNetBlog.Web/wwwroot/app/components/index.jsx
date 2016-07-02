@@ -1,9 +1,11 @@
-let Form = require("./form")
-let LoadingButton = require("./loadingbutton")
-let ContentHeader = require("./contentheader")
+const Form = require("./form")
+const LoadingButton = require("./loadingbutton")
+const ContentHeader = require("./contentheader")
+const Editor = require("./editor")
 
 module.exports = {
     Form,
     LoadingButton,
-    ContentHeader
+    ContentHeader,
+    Editor
 }

@@ -3,6 +3,8 @@ require("bootstrap/dist/css/bootstrap.min.css")
 require('./styles/AdminLTE.css')
 require('./styles/_all-skins.css')
 require("toastr/build/toastr.min.css")
+require("./styles/app.css")
+require('bootstrap-tagsinput/src/bootstrap-tagsinput.css')
 
 import React from "react"
 import ReactDom from "react-dom"
@@ -21,6 +23,7 @@ import Views_BasicConfig from "./views/config/basicconfig"
 var Views_EmailConfig = require("./views/config/emailconfig")
 var Views_CategoryList = require("./views/content/categorylist")
 var Views_ModifyTopic = require("./views/content/modifytopic")
+global.jQuery = $ = require("jquery")
 
 const history = useRouterHistory(createHistory)({
     basename: "/admin"
@@ -40,7 +43,7 @@ class Index extends React.Component{
                         <Route path="config/basic" component={Views_BasicConfig} onEnter={enterRoute.bind(this, Consts.MenuKeys.Config, Consts.MenuKeys.Config_Basic) } />
                         <Route path="config/email" component={Views_EmailConfig} onEnter={enterRoute.bind(this, Consts.MenuKeys.Config, Consts.MenuKeys.Config_Email) } />
                         <Route path="content/categories" component={Views_CategoryList} onEnter={enterRoute.bind(this, Consts.MenuKeys.Content, Consts.MenuKeys.Content_Categories)} />
-                        <Route path="content/topic" component={Views_ModifyTopic}/>
+                        <Route path="content/topic" component={Views_ModifyTopic} onEnter={enterRoute.bind(this, Consts.MenuKeys.Content, Consts.MenuKeys.Content_Topics)}/>
                     </Route>
                 </Router>
             </Provider>
@@ -48,6 +51,6 @@ class Index extends React.Component{
     }
 }
 
-ReactDom.render(<Index/>, document.getElementById("main"));
-
-module.export = Index;
+$(()=>{
+    ReactDom.render(<Index/>, document.getElementById("main"));
+});

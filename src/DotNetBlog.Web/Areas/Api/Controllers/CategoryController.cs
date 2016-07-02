@@ -37,7 +37,7 @@ namespace DotNetBlog.Web.Areas.Api.Controllers
                 return InvalidRequest();
             }
 
-            OperationResult<CategoryModel> result = await CategoryService.Add(model.Name, model.Description);
+            OperationResult<int> result = await CategoryService.Add(model.Name, model.Description);
 
             if(result.Success)
             {
@@ -57,11 +57,11 @@ namespace DotNetBlog.Web.Areas.Api.Controllers
                 return InvalidRequest();
             }
 
-            OperationResult<CategoryModel> result = await CategoryService.Edit(model.ID.Value, model.Name, model.Description);
+            OperationResult result = await CategoryService.Edit(model.ID.Value, model.Name, model.Description);
 
             if (result.Success)
             {
-                return Success(result.Data);
+                return Success();
             }
             else
             {

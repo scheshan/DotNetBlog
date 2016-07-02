@@ -5,13 +5,13 @@ using System.Threading.Tasks;
 
 namespace DotNetBlog.Core.Entity
 {
-    public class CategoryTopic
+    public class TagTopic
     {
-        public int CategoryID { get; set; }
+        public int TagID { get; set; }
 
         public int TopicID { get; set; }
 
-        public virtual Category Category { get; set; }
+        public virtual Tag Tag { get; set; }
 
         public virtual Topic Topic { get; set; }
     }

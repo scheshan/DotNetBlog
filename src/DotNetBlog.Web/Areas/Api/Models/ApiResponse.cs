@@ -16,4 +16,11 @@ namespace DotNetBlog.Web.Areas.Api.Models
     {
         public T Data { get; set; }
     }
+
+    public class PagedApiResponse<T> : ApiResponse
+    {
+        public List<T> Data { get; set; }
+
+        public int Total { get; set; }
+    }
 }

@@ -8,15 +8,15 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DotNetBlog.Core.Data.Mappings
 {
-    public static class CategoryTopicMapping
+    public static class TagTopicMapping
     {
-        public static void Map(EntityTypeBuilder<CategoryTopic> builder)
+        public static void Map(EntityTypeBuilder<TagTopic> builder)
         {
-            builder.ToTable("CategoryTopic");
+            builder.ToTable("TagTopic");
 
-            builder.HasKey(t => new { t.CategoryID, t.TopicID });
-            builder.HasOne(t => t.Category).WithMany();
+            builder.HasKey(t => new { t.TagID, t.TopicID });
             builder.HasOne(t => t.Topic).WithMany();
+            builder.HasOne(t => t.Tag).WithMany();
         }
     }
 }

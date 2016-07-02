@@ -18,10 +18,16 @@ namespace DotNetBlog.Core.Data
 
         public virtual DbSet<Topic> Topics { get; set; }
 
-        public BlogContext(DbContextOptions<BlogContext> options)
+        public virtual DbSet<Tag> Tags { get; set; }
+
+        public virtual DbSet<TagTopic> TagTopics { get; set; }
+
+        public IServiceProvider ServiceProvider { get; private set; }
+
+        public BlogContext(DbContextOptions<BlogContext> options, IServiceProvider serviceProvider)
             : base(options)
         {
-
+            ServiceProvider = serviceProvider;
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -32,6 +38,8 @@ namespace DotNetBlog.Core.Data
             modelBuilder.Entity<Category>(CategoryMapping.Map);
             modelBuilder.Entity<CategoryTopic>(CategoryTopicMapping.Map);
             modelBuilder.Entity<Topic>(TopicMapping.Map);
+            modelBuilder.Entity<Tag>(TagMapping.Map);
+            modelBuilder.Entity<TagTopic>(TagTopicMapping.Map);
         }
     }
 }

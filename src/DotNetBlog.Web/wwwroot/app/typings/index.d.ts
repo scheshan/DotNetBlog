@@ -1,3 +1,4 @@
+/// <reference path="globals/async/index.d.ts" />
 /// <reference path="globals/lodash/index.d.ts" />
 /// <reference path="globals/react-bootstrap/index.d.ts" />
 /// <reference path="globals/react-redux/index.d.ts" />

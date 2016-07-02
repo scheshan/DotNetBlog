@@ -55,6 +55,18 @@ namespace DotNetBlog.Web.Areas.Api.Controllers
 
             return Json(response);
         }
+
+        protected IActionResult PagedData<T>(List<T> data, int total)
+        {
+            var response = new PagedApiResponse<T>
+            {
+                Success = true,
+                Data = data,
+                Total = total
+            };
+
+            return Json(response);
+        }
             
         protected new IActionResult Json(object data)
         {

@@ -59,14 +59,6 @@ namespace DotNetBlog.Web
 
             loggerFactory.AddNLog();
             enviroment.ConfigureNLog("App_Data/NLog.config");
-
-            using (var context = app.ApplicationServices.GetService<Core.Data.BlogContext>())
-            {
-                if (context.Database.EnsureCreated())
-                {
-                    this.InitDatabase();
-                }
-            }
         }
 
         private void InitDatabase()

@@ -8,60 +8,30 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using DotNetBlog.Core.Model;
 using DotNetBlog.Core.Model.Category;
+using DotNetBlog.Core.Extensions;
 
 namespace DotNetBlog.Core.Service
 {
     public class CategoryService
     {
-        private static readonly string CacheKey_Category = "Cache_Category";
-
-        private static readonly string CacheKey_CategoryTopics = "Cache_CategoryTopics";
-
         private BlogContext BlogContext { get; set; }
 
-        private IMemoryCache Cache { get; set; }
-
-        public CategoryService(BlogContext blogContext, IMemoryCache cache)
+        public CategoryService(BlogContext blogContext)
         {
             BlogContext = blogContext;
-            Cache = cache;
-        }
-
-        private async Task<List<Category>> AllCategories()
-        {
-            var list = Cache.Get<List<Category>>(CacheKey_Category);
-            if (list == null)
-            {
-                list = await BlogContext.Categories.ToListAsync();
-                Cache.Set(CacheKey_Category, list);
-            }
-
-            return list;
-        }
-
-        private async Task<List<CategoryTopic>> AllCategoryTopics()
-        {
-            var list = Cache.Get<List<CategoryTopic>>(CacheKey_CategoryTopics);
-            if (list == null)
-            {
-                list = await BlogContext.CategoryTopics.ToListAsync();
-                Cache.Set(CacheKey_CategoryTopics, list);
-            }
-
-            return list;
         }
 
         public async Task<List<CategoryModel>> All()
         {
-            List<Category> entityList = await AllCategories();
+            List<Category> entityList = await BlogContext.QueryAllCategoryFromCache();
             return await Transform(entityList.ToArray());
         }
 
-        public async Task<OperationResult<CategoryModel>> Add(string name, string description)
+        public async Task<OperationResult<int>> Add(string name, string description)
         {
             if (await BlogContext.Categories.AnyAsync(t => t.Name == name))
             {
-                return OperationResult<CategoryModel>.Failure("重复的分类名称");
+                return OperationResult<int>.Failure("重复的分类名称");
             }
 
             var entity = new Category
@@ -72,35 +42,31 @@ namespace DotNetBlog.Core.Service
             BlogContext.Categories.Add(entity);
             await BlogContext.SaveChangesAsync();
 
-            Cache.Remove(CacheKey_Category);
+            BlogContext.RemoveCategoryCache();
 
-            CategoryModel model = (await Transform(entity)).First();
-
-            return new OperationResult<CategoryModel>(model);
+            return new OperationResult<int>(entity.ID);
         }
 
-        public async Task<OperationResult<CategoryModel>> Edit(int id, string name, string description)
+        public async Task<OperationResult> Edit(int id, string name, string description)
         {
             if (await BlogContext.Categories.AnyAsync(t => t.Name == name && t.ID != id))
             {
-                return OperationResult<CategoryModel>.Failure("重复的分类名称");
+                return OperationResult.Failure("重复的分类名称");
             }
 
             Category entity = await BlogContext.Categories.SingleOrDefaultAsync(t => t.ID == id);
             if(entity == null)
             {
-                return OperationResult<CategoryModel>.Failure("分类不存在");
+                return OperationResult.Failure("分类不存在");
             }
 
             entity.Name = name;
             entity.Description = description;
             await BlogContext.SaveChangesAsync();
 
-            Cache.Remove(CacheKey_Category);
+            BlogContext.RemoveCategoryCache();            
 
-            CategoryModel model = (await Transform(entity)).First();
-
-            return new OperationResult<CategoryModel>(model);
+            return new OperationResult();
         }
 
         public async Task Remove(int[] idList)
@@ -113,8 +79,8 @@ namespace DotNetBlog.Core.Service
 
             await BlogContext.SaveChangesAsync();
 
-            Cache.Remove(CacheKey_Category);
-            Cache.Remove(CacheKey_CategoryTopics);
+            BlogContext.RemoveCategoryCache();
+            BlogContext.RemoveCategoryTopicCache();
         }
 
         private async Task<List<CategoryModel>> Transform(params Category[] entityList)
@@ -124,7 +90,7 @@ namespace DotNetBlog.Core.Service
                 return null;
             }
 
-            List<CategoryTopic> categoryTopics = await AllCategoryTopics();
+            List<CategoryTopic> categoryTopics = await BlogContext.QueryAllCategoryTopicFromCache();
             List<CategoryModel> result = entityList.Select(category => new CategoryModel
             {
                 Description = category.Description,

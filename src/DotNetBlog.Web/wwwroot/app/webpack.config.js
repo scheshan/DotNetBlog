@@ -11,14 +11,16 @@ module.exports = {
     ],
     output: {
         path: path.join(__dirname, 'dist'),
-        filename: 'app.js'
+        filename: 'app.js',
+        publicPath: "http://localhost:3000/"
     },
     resolve: {
         extensions: ['', '.js', '.jsx', '.css', '.scss']
     },
     plugins: [
         new webpack.ProvidePlugin({
-            $: 'jquery'
+            $: 'jquery',
+            jQuery: "jquery"
         }),
         new webpack.HotModuleReplacementPlugin()
         //new webpack.optimize.UglifyJsPlugin({
@@ -44,11 +46,14 @@ module.exports = {
         }, {
             test: /\.(ttf|eot|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
             loader: "url-loader"
+        }, { 
+            test: require.resolve('jquery'), 
+            loader: 'expose?jQuery!expose?$' 
         }, {
             test: /\.jsx$/,
             loaders: ["react-hot-loader", "babel-loader"]
         },{
-            test: /\.jpg$/,
+            test: /\.(jpg|gif)$/,
             loader: "url-loader"
         }]
     }

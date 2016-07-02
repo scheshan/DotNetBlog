@@ -1,0 +1,8 @@
+{
+	"name": "asp.net",
+	"private": true,
+  "dependencies": {
+    "editor.md": "1.5.0",
+    "tinymce": "4.2"
+  }
+}
