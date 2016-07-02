@@ -3,6 +3,8 @@
 	"private": true,
   "dependencies": {
     "editor.md": "1.5.0",
-    "tinymce": "4.2"
+    "tinymce": "4.2",
+    "bootstrap": "3.3.6",
+    "font-awesome": "4.6.3"
   }
 }

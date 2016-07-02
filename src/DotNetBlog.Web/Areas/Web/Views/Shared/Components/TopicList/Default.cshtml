@@ -1,0 +1,40 @@
+﻿@using DotNetBlog.Core.Model.Topic
+@using DotNetBlog.Core.Model.Setting
+
+@model List<TopicModel>
+@{ 
+    SettingModel config = ViewBag.Config;
+}
+
+@foreach (TopicModel topic in Model)
+{
+    <article class="post" id="post@(topic.ID)">
+        <header class="post-header">
+            <h2 class="post-title">
+                <a asp-action="Index" asp-controller="Topic" asp-route-id="@topic.ID">@topic.Title</a>
+            </h2>
+            <div class="post-info clearfix">
+                <span class="post-date">
+                    <i class="fa fa-calendar"></i>
+                    @topic.Date.ToString("yyyy-MM-dd")
+                </span>
+                <span class="post-category">
+                    <i class="fa fa-folder-close"></i>
+                </span>
+                <a rel="nofollow" class="pull-right post-comment-link" href="/post/test2#comment"><i class="glyphicon glyphicon-comment"></i>(0)</a>
+            </div>
+        </header>
+        <section class="post-body text">
+            @if (config.OnlyShowSummary)
+            { 
+                @topic.Summary
+            }
+            else
+            {
+                @topic.Content
+            }
+        </section>
+
+        <a href="http://localhost:10002/admin/app/editor/editpost.cshtml?id=6a29d5f3-106e-4e67-b82e-09a65c3b8dea">编辑</a> | <a href="#" onclick="if (confirm('您确定要 删除 文章?')) location.href='/post/test2?deletepost=6a29d5f3-106e-4e67-b82e-09a65c3b8dea'">删除</a> |
+    </article>
+}

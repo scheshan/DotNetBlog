@@ -1,0 +1,41 @@
+﻿body {
+    line-height: 1.8;
+    color: #333333;
+    background-color: #eeeeee;
+    cursor: default;
+    font-weight: 300;
+}
+
+header .navbar{
+    border-radius:0;
+    margin:0;
+}
+
+header .container > .navbar-header,
+header .container > .navbar-collapse { margin-right: -15px !important; margin-left: -15px !important; }
+header .logo { margin-right: 10px; }
+header .title-wrapper { background-color: #ffffff; padding: 30px 0; margin-bottom: 35px; box-shadow: 0 1px 2px rgba(0,0,0,0.1); }
+header .title-wrapper hgroup { height: 80px; }
+header .title-wrapper hgroup h1 { font-size: 40px; line-height: 40px; margin: 4px 0 8px; font-weight: 700; }
+header .title-wrapper hgroup h1 A { color: #000000; text-decoration: none !important; }
+header .title-wrapper hgroup h3 { font-size: 16px; font-weight: normal; margin: 0; color: #666666; }
+header .social-icon { margin-top: 10px; }
+header .social-icon a { text-decoration: none; }
+header .navbar { margin: 0; border-radius: 0; }
+header .navbar-inverse .navbar-nav > .open > a { color: rgb(153, 153, 153); }
+header .nav > li > a.dropdown-m { padding: 15px 7px 15px 10px !important; }
+header .nav > li > a { padding: 15px 10px !important; }
+header .nav > li > a.dropdown-toggle { padding: 15px 10px !important; }
+
+.post { background-color: #ffffff; padding: 2% 4% 4%; margin-bottom: 20px; border-radius: 6px; box-shadow: 0 1px 2px rgba(0,0,0,0.1); }
+.post .post-header { margin-bottom: 15px; padding-bottom: 5px; border-bottom: 1px solid #ddd; }
+.post .post-header .post-title { line-height: 20px; font-size: 20px; margin: 15px 0 10px; }
+.post .post-header .post-title a { text-decoration: none; font-weight: bold; }
+.post .post-info { font-size: 13px; color: #AAA; }
+.post .post-info span { margin-right: 7px; }
+.post .post-info a { color: #AAA; }
+.post .post-footer { margin-top: 30px; padding: 15px; background-color: #eeeeee; font-size: 13px; min-height: 35px; border-radius: 4px; border: 1px solid #eeeeee; }
+.post .post-footer:hover { border-color: #ddd; }
+.post .post-rating { height: 21px; max-width: 50%; }
+.post .post-rating * { margin: 0; padding: 0; top: 0; line-height: 10px; }
+.post .post-rating p { top: 9px; }

@@ -12,17 +12,19 @@ namespace DotNetBlog.Web.Areas.Web.Controllers
     [Route("")]
     public class HomeController : Controller
     {
-        private ConfigService ConfigService { get; set; }
+        private TopicService TopicService { get; set; }
 
-        public HomeController(ConfigService configService)
+        public HomeController(TopicService topicService)
         {
-            this.ConfigService = configService;
+            TopicService = topicService;
         }
 
-        [Route("")]
-        public async Task<IActionResult> Index()
+        [Route("{page:int?}")]
+        public async Task<IActionResult> Index(int page = 1)
         {
-            return new ObjectResult(null);
+            var topicList = await TopicService.QueryNotTrash(page, 20, Core.Enums.TopicStatus.Published, null);
+
+            return View(topicList);
         }
     }
 }

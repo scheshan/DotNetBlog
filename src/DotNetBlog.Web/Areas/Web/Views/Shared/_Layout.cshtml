@@ -1,0 +1,79 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    <link href="~/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/styles/main.css" rel="stylesheet" />
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-inverse" role="navigation">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                </div>
+                <div class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav ">
+                        <li><a asp-action="Index" asp-controller="Home">首页</a></li>
+                        <li><a href="http://localhost:10002/archive">归档</a></li>
+                        <li><a href="http://localhost:10002/contact">联系</a></li>
+
+                        <li class="page-menu clearfix">
+                            <a href="/page/example-page" class="pull-left dropdown-m">Example page </a>
+                        </li>
+
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a href="/Account/login.aspx?logoff" id="ctl00_aLogin">注销</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <div class="title-wrapper">
+            <div class="container">
+                <img src="http://localhost:10002/Custom/Themes/Standard-2015/images/logo.png" class="pull-left logo" alt="Name of the blog">
+                <hgroup class="pull-left">
+                    <h1><a href="http://localhost:10002/">Name of the blog</a></h1>
+                    <h3>Short description of the blog</h3>
+                </hgroup>
+                <div id="social-icons" class="pull-right social-icon">
+                    <a href="https://facebook.com/BlogEngine.NET">
+                        <img src="../Custom/Themes/Standard-2015/images/facebook.png">
+                    </a>
+                    <a href="https://twitter.com/blogenginenet">
+                        <img src="../Custom/Themes/Standard-2015/images/twitter.png">
+                    </a>
+                    <a href="https://plus.google.com/u/0">
+                        <img src="../Custom/Themes/Standard-2015/images/googleplus.png">
+                    </a>
+                    <a href="http://localhost:10002/syndication.axd">
+                        <img src="../Custom/Themes/Standard-2015/images/rss.png">
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <section class="container">
+        <div class="row">
+            <section class="col-md-8">
+                @RenderBody()
+            </section>
+
+            <aside class="col-md-4">
+
+            </aside>
+        </div>
+    </section>
+</body>
+</html>
