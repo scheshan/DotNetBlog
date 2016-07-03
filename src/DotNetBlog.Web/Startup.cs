@@ -43,6 +43,18 @@ namespace DotNetBlog.Web
                         opt.UseSqlite(this.Configuration["connectionString"], builder => { builder.MigrationsAssembly("DotNetBlog.Web"); });
                     });
             }
+            else if ("sqlserver".Equals(database, StringComparison.CurrentCultureIgnoreCase))
+            {
+                services.AddEntityFrameworkSqlServer()
+                    .AddDbContext<Core.Data.BlogContext>(opt =>
+                    {
+                        opt.UseSqlServer(this.Configuration["connectionString"], builder =>
+                        {
+                            builder.MigrationsAssembly("DotNetBlog.Web");
+                            builder.UseRowNumberForPaging();
+                        });
+                    });
+            }
 
             services.AddBlogService();
 
@@ -57,8 +69,8 @@ namespace DotNetBlog.Web
             app.UseDeveloperExceptionPage();
             app.UseMvc();
 
-            loggerFactory.AddNLog();
-            enviroment.ConfigureNLog("App_Data/NLog.config");
+            //loggerFactory.AddNLog();
+            //enviroment.ConfigureNLog("~/App_Data/NLog.config");
         }
 
         private void InitDatabase()

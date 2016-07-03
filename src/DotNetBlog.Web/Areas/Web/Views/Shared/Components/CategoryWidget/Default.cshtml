@@ -1,0 +1,23 @@
+﻿@using DotNetBlog.Core.Model.Category
+
+@model List<CategoryModel>
+
+<div class="Widget widget categorylist">
+    <h4 class="WidgetHeader widget-header">分类</h4>
+    <div class="WidgetContent widget-content">
+        <ul id="categorylist">
+            @foreach (var category in Model.OrderByDescending(t => t.Topics.Published))
+            {
+                <li condition="category.Topics.Published > 0">
+                    @*<a rel="nofollow" href="/category/feed/BlogEngineNET">
+                            <img class="rssButton" alt="RSS feed for SubBlog" src="/Content/images/blog/rssButton.png">
+                        </a>*@
+                    <a title="分类: @category.Name" href="/category/BlogEngineNET">
+                        @category.Name
+                        <span>(@category.Topics.Published)</span>
+                    </a>
+                </li>
+            }
+        </ul>
+    </div>
+</div>

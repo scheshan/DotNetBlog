@@ -6,9 +6,13 @@ using System.Threading.Tasks;
 
 namespace DotNetBlog.Web.Areas.Api.Models.Category
 {
-    public class EditCategoryModel : AddCategoryModel
+    public class SaveCategoryModel
     {
         [Required]
-        public int? ID { get; set; }
+        [StringLength(50)]
+        public string Name { get; set; }
+
+        [StringLength(200)]
+        public string Description { get; set; }
     }
 }

@@ -13,6 +13,15 @@ namespace DotNetBlog.Core.Model.Category
 
         public string Description { get; set; }
 
-        public int Topics { get; set; }
+        public TopicCount Topics { get; set; }
+
+        public class TopicCount
+        {
+            public int Published { get; set; }
+
+            public int Deleted { get; set; }
+
+            public int All { get; set; }
+        }
     }
 }

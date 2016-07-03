@@ -18,23 +18,28 @@
                     <i class="fa fa-calendar"></i>
                     @topic.Date.ToString("yyyy-MM-dd")
                 </span>
-                <span class="post-category">
-                    <i class="fa fa-folder-close"></i>
+                <span class="post-category" condition="@topic.Categories.Length > 0">
+                    <i class="fa fa-folder"></i>
+                    @foreach(var category in topic.Categories)
+                    {
+                        <a href="#">@category.Name</a>
+                    }
                 </span>
-                <a rel="nofollow" class="pull-right post-comment-link" href="/post/test2#comment"><i class="glyphicon glyphicon-comment"></i>(0)</a>
+                <a rel="nofollow" class="pull-right post-comment-link" href="/post/test2#comment">
+                    <i class="glyphicon glyphicon-comment"></i>
+                    (0)
+                </a>
             </div>
         </header>
         <section class="post-body text">
-            @if (config.OnlyShowSummary)
-            { 
-                @topic.Summary
-            }
-            else
-            {
+            <visible condition="config.OnlyShowSummary">
+                <render-topic-summary topic="@topic" />
+            </visible>
+            <visible condition="!config.OnlyShowSummary">
                 @topic.Content
-            }
+            </visible>
         </section>
 
-        <a href="http://localhost:10002/admin/app/editor/editpost.cshtml?id=6a29d5f3-106e-4e67-b82e-09a65c3b8dea">编辑</a> | <a href="#" onclick="if (confirm('您确定要 删除 文章?')) location.href='/post/test2?deletepost=6a29d5f3-106e-4e67-b82e-09a65c3b8dea'">删除</a> |
+        <a href="/admin#/content/topic/@(topic.ID)">编辑</a> | <a href="#" onclick="if (confirm('您确定要 删除 文章?')) location.href='/post/test2?deletepost=6a29d5f3-106e-4e67-b82e-09a65c3b8dea'">删除</a> |
     </article>
 }

@@ -23,8 +23,8 @@ namespace DotNetBlog.Core.Service
 
         public async Task<List<CategoryModel>> All()
         {
-            List<Category> entityList = await BlogContext.QueryAllCategoryFromCache();
-            return await Transform(entityList.ToArray());
+            List<CategoryModel> list = await BlogContext.QueryAllCategoryFromCache();
+            return list;
         }
 
         public async Task<OperationResult<int>> Add(string name, string description)
@@ -80,26 +80,6 @@ namespace DotNetBlog.Core.Service
             await BlogContext.SaveChangesAsync();
 
             BlogContext.RemoveCategoryCache();
-            BlogContext.RemoveCategoryTopicCache();
-        }
-
-        private async Task<List<CategoryModel>> Transform(params Category[] entityList)
-        {
-            if (entityList == null)
-            {
-                return null;
-            }
-
-            List<CategoryTopic> categoryTopics = await BlogContext.QueryAllCategoryTopicFromCache();
-            List<CategoryModel> result = entityList.Select(category => new CategoryModel
-            {
-                Description = category.Description,
-                ID = category.ID,
-                Name = category.Name,
-                Topics = categoryTopics.Count(ct => ct.CategoryID == category.ID)
-            }).ToList();
-
-            return result;
         }
     }
 }

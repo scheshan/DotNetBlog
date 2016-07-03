@@ -29,8 +29,8 @@ namespace DotNetBlog.Web.Areas.Api.Controllers
             return Success(list);
         }
 
-        [HttpPost("add")]
-        public async Task<IActionResult> Add([FromBody] AddCategoryModel model)
+        [HttpPost("")]
+        public async Task<IActionResult> Add([FromBody] SaveCategoryModel model)
         {
             if (model == null || !ModelState.IsValid)
             {
@@ -49,15 +49,15 @@ namespace DotNetBlog.Web.Areas.Api.Controllers
             }
         }
 
-        [HttpPost("edit")]
-        public async Task<IActionResult> Edit([FromBody] EditCategoryModel model)
+        [HttpPost("{id:int}")]
+        public async Task<IActionResult> Edit([FromRoute]int id, [FromBody] SaveCategoryModel model)
         {
             if (model == null || !ModelState.IsValid)
             {
                 return InvalidRequest();
             }
 
-            OperationResult result = await CategoryService.Edit(model.ID.Value, model.Name, model.Description);
+            OperationResult result = await CategoryService.Edit(id, model.Name, model.Description);
 
             if (result.Success)
             {

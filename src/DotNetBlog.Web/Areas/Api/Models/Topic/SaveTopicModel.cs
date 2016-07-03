@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace DotNetBlog.Web.Areas.Api.Models.Topic
 {
-    public class AddTopicModel
+    public class SaveTopicModel
     {
         [Required]
         [StringLength(100)]

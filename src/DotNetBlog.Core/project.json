@@ -10,6 +10,7 @@
     "AutoMapper": "5.0.0",
 
     "Microsoft.EntityFrameworkCore.Sqlite": "1.0.0",
+    "Microsoft.EntityFrameworkCore.SqlServer": "1.0.0",
     "Microsoft.Extensions.Caching.Memory": "1.0.0"
   },
 

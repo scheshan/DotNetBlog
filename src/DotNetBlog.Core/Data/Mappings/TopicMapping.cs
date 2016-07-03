@@ -16,7 +16,7 @@ namespace DotNetBlog.Core.Data.Mappings
 
             builder.HasKey(t => t.ID);
 
-            builder.Property(t => t.ID).ValueGeneratedOnAdd();
+            builder.Property(t => t.ID).ValueGeneratedOnAdd().UseSqlServerIdentityColumn();
             builder.Property(t => t.Title).IsRequired().HasMaxLength(100);
             builder.Property(t => t.Alias).HasMaxLength(100);
             builder.Property(t => t.Summary).HasMaxLength(200);

@@ -71,10 +71,10 @@ const Api = {
         get("/api/category/all", callback)
     },
     addCategory(model, callback){
-        post("/api/category/add", model, callback)
+        post("/api/category", model, callback)
     },
-    editCategory(model, callback){
-        post("/api/category/edit", model, callback)
+    editCategory(id, model, callback){
+        post("/api/category/" + id, model, callback)
     },
     removeCategory(idList, callback){
         post("/api/category/remove", {idList: idList}, callback)
@@ -92,10 +92,10 @@ const Api = {
         get("/api/topic/" + id, callback);
     },
     addTopic(data, callback){
-        post("/api/topic/add", data, callback)
+        post("/api/topic", data, callback)
     },
-    editTopic(data, callback){
-        post("/api/", data, callback)
+    editTopic(id, data, callback){
+        post("/api/topic/" + id, data, callback)
     }
 }
 

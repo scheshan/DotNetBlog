@@ -13,12 +13,14 @@ namespace DotNetBlog.Web.Migrations
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
             modelBuilder
-                .HasAnnotation("ProductVersion", "1.0.0-rtm-21431");
+                .HasAnnotation("ProductVersion", "1.0.0-rtm-21431")
+                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
             modelBuilder.Entity("DotNetBlog.Core.Entity.Category", b =>
                 {
                     b.Property<int>("ID")
-                        .ValueGeneratedOnAdd();
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Description")
                         .HasAnnotation("MaxLength", 200);
@@ -63,7 +65,8 @@ namespace DotNetBlog.Web.Migrations
             modelBuilder.Entity("DotNetBlog.Core.Entity.Tag", b =>
                 {
                     b.Property<int>("ID")
-                        .ValueGeneratedOnAdd();
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Keyword")
                         .IsRequired()
@@ -92,7 +95,8 @@ namespace DotNetBlog.Web.Migrations
             modelBuilder.Entity("DotNetBlog.Core.Entity.Topic", b =>
                 {
                     b.Property<int>("ID")
-                        .ValueGeneratedOnAdd();
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Alias")
                         .HasAnnotation("MaxLength", 100);

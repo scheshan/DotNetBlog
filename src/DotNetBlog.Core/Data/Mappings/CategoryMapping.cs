@@ -15,7 +15,7 @@ namespace DotNetBlog.Core.Data.Mappings
             builder.ToTable("Category");
             builder.HasKey(t => t.ID);
 
-            builder.Property(t => t.ID).ValueGeneratedOnAdd();
+            builder.Property(t => t.ID).ValueGeneratedOnAdd().UseSqlServerIdentityColumn();
             builder.Property(t => t.Name).IsRequired().HasMaxLength(50);
             builder.Property(t => t.Description).HasMaxLength(200);
         }

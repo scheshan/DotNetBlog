@@ -1,4 +1,6 @@
 ﻿using DotNetBlog.Core.Data;
+using DotNetBlog.Core.Model;
+using DotNetBlog.Core.Model.Topic;
 using DotNetBlog.Core.Service;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -23,6 +25,8 @@ namespace DotNetBlog.Web.Areas.Web.Controllers
         public async Task<IActionResult> Index(int page = 1)
         {
             var topicList = await TopicService.QueryNotTrash(page, 20, Core.Enums.TopicStatus.Published, null);
+
+            //var topicList = new PagedResult<TopicModel>(new List<TopicModel>(), 0);
 
             return View(topicList);
         }

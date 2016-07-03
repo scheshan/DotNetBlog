@@ -61,7 +61,7 @@ class ModifyCategory extends React.Component{
             loading: true
         }, ()=>{
             if(model.id){
-                Api.editCategory(model, this.apiCallback.bind(this))
+                Api.editCategory(model.id, model, this.apiCallback.bind(this))
             }
             else{
                 Api.addCategory(model, this.apiCallback.bind(this))

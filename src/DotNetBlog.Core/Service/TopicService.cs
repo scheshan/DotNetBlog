@@ -75,6 +75,72 @@ namespace DotNetBlog.Core.Service
             return new OperationResult<int>(topic.ID);
         }
 
+        public async Task<OperationResult> Edit(int id, string title, string content, Enums.TopicStatus status = Enums.TopicStatus.Normal, int[] categoryList = null, string[] tagList = null, string alias = null, string summary = null, DateTime? date = null, bool? allowComment = true)
+        {
+            var entity = await BlogContext.Topics.SingleOrDefaultAsync(t => t.ID == id);
+            if(entity == null)
+            {
+                return OperationResult.Failure("文章不存在");
+            }
+
+            using (var tran = await BlogContext.Database.BeginTransactionAsync())
+            {
+                List<CategoryTopic> deletedCategoryTopicList = await BlogContext.CategoryTopics.Where(t => t.TopicID == id).ToListAsync();
+                BlogContext.RemoveRange(deletedCategoryTopicList);
+                List<TagTopic> deletedTagTopicList = await BlogContext.TagTopics.Where(t => t.TopicID == id).ToListAsync();
+                BlogContext.RemoveRange(deletedTagTopicList);
+
+                await BlogContext.SaveChangesAsync();
+
+                categoryList = (categoryList ?? new int[0]).Distinct().ToArray();
+                tagList = (tagList ?? new string[0]).Distinct().ToArray();
+
+                List<Category> categoryEntityList = await BlogContext.Categories.Where(t => categoryList.Contains(t.ID)).ToListAsync();
+                List<Tag> tagEntityList = await BlogContext.Tags.Where(t => tagList.Contains(t.Keyword)).ToListAsync();
+
+                foreach (var tag in tagList)
+                {
+                    if (!tagEntityList.Any(t => t.Keyword == tag))
+                    {
+                        var tagEntity = new Tag
+                        {
+                            Keyword = tag
+                        };
+                        BlogContext.Tags.Add(tagEntity);
+                        tagEntityList.Add(tagEntity);
+                    }
+                }
+
+                entity.Title = title;
+                entity.Content = content;
+                entity.Status = status;
+                entity.Alias = alias;
+                entity.Summary = summary;
+                entity.EditDate = date ?? DateTime.Now;
+                entity.AllowComment = allowComment == true;
+
+                List<CategoryTopic> categoryTopicList = categoryEntityList.Select(t => new CategoryTopic
+                {
+                    Category = t,
+                    Topic = entity
+                }).ToList();
+                BlogContext.CategoryTopics.AddRange(categoryTopicList);
+
+                List<TagTopic> tagTopicList = tagEntityList.Select(t => new TagTopic
+                {
+                    Tag = t,
+                    Topic = entity
+                }).ToList();
+                BlogContext.TagTopics.AddRange(tagTopicList);
+
+                await BlogContext.SaveChangesAsync();
+
+                tran.Commit();
+            }
+
+            return new OperationResult();
+        }
+
         /// <summary>
         /// 查询正常状态的文章列表
         /// </summary>

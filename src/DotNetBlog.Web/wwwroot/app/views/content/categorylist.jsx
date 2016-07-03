@@ -132,7 +132,7 @@ class CategoryList extends React.Component{
                                                     <a href="javascript:void(0)" onClick={this.editCategory.bind(this, cat)}>{cat.name}</a>
                                                 </td>
                                                 <td>{cat.description}</td>
-                                                <td>{cat.topics}</td>
+                                                <td>{cat.topics.all}</td>
                                             </tr>
                                         )
                                     })

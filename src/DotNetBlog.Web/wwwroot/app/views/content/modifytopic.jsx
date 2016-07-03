@@ -94,6 +94,7 @@ class ModifyTopic extends React.Component{
     }
 
     publish(){
+        this.state.topic.status = 1;
         this.refs.form.submit();
     }
 
@@ -120,12 +121,13 @@ class ModifyTopic extends React.Component{
             return;
         }
 
+        model.status = this.state.topic.status;
         model.content = this.refs.editor.getContent();
         model.tagList = this.state.tags;
         model.categoryList = _.map(_.filter(this.state.categoryList, {checked: true}), cat=>cat.id)        
 
-        if(this.id){
-            Api.editTopic(model, this.apiCallback.bind(this))
+        if(this.props.params.id){
+            Api.editTopic(this.props.params.id, model, this.apiCallback.bind(this))
         }
         else{
             Api.addTopic(model, this.apiCallback.bind(this))

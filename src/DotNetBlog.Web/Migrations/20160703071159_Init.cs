@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore.Migrations;
+using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace DotNetBlog.Web.Migrations
 {
@@ -13,7 +14,7 @@ namespace DotNetBlog.Web.Migrations
                 columns: table => new
                 {
                     ID = table.Column<int>(nullable: false)
-                        .Annotation("Autoincrement", true),
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Description = table.Column<string>(maxLength: 200, nullable: true),
                     Name = table.Column<string>(maxLength: 50, nullable: false)
                 },
@@ -39,7 +40,7 @@ namespace DotNetBlog.Web.Migrations
                 columns: table => new
                 {
                     ID = table.Column<int>(nullable: false)
-                        .Annotation("Autoincrement", true),
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Keyword = table.Column<string>(maxLength: 100, nullable: false)
                 },
                 constraints: table =>
@@ -52,7 +53,7 @@ namespace DotNetBlog.Web.Migrations
                 columns: table => new
                 {
                     ID = table.Column<int>(nullable: false)
-                        .Annotation("Autoincrement", true),
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Alias = table.Column<string>(maxLength: 100, nullable: true),
                     AllowComment = table.Column<bool>(nullable: false),
                     Content = table.Column<string>(nullable: true),
