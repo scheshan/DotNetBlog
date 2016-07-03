@@ -83,6 +83,13 @@ namespace DotNetBlog.Web.Areas.Web.Controllers
         [HttpGet("topic/{id:int}")]
         public async Task<IActionResult> Topic(int id)
         {
+            var topic = await TopicService.Get(id);
+
+            if(topic == null)
+            {
+                return NotFound();
+            }
+
             return View();
         }
     }
