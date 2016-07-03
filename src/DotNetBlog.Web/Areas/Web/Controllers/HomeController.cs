@@ -38,8 +38,6 @@ namespace DotNetBlog.Web.Areas.Web.Controllers
 
             var topicList = await TopicService.QueryNotTrash(page, pageSize, Core.Enums.TopicStatus.Published, null);
 
-            //var topicList = new PagedResult<TopicModel>(new List<TopicModel>(), 0);
-
             return View(topicList);
         }
 
@@ -70,6 +68,22 @@ namespace DotNetBlog.Web.Areas.Web.Controllers
             var topicList = await TopicService.QueryByTag(page, pageSize, keyword);
 
             return View(topicList);
+        }
+
+        [HttpGet("{year:int}-{month:int}/{page:int?}")]
+        public async Task<IActionResult> Month(int year, int month, int page = 1)
+        {
+            int pageSize = (await ConfigService.Get()).TopicsPerPage;
+
+            var topicList = await TopicService.QueryByMonth(page, pageSize, year, month);
+
+            return View(topicList);
+        }
+
+        [HttpGet("topic/{id:int}")]
+        public async Task<IActionResult> Topic(int id)
+        {
+            return View();
         }
     }
 }

@@ -224,6 +224,49 @@ namespace DotNetBlog.Core.Service
         }
 
         /// <summary>
+        /// 根据月份，查询文章列表
+        /// </summary>
+        /// <param name="pageIndex"></param>
+        /// <param name="pageSize"></param>
+        /// <param name="year"></param>
+        /// <param name="month"></param>
+        /// <returns></returns>
+        public async Task<PagedResult<TopicModel>> QueryByMonth(int pageIndex, int pageSize, int year, int month)
+        {
+            var startDate = new DateTime(year, month, 1, 0, 0, 0);
+            var endDate = startDate.AddMonths(1);
+
+            var query = BlogContext.Topics.Where(t => t.Status == Enums.TopicStatus.Published)
+                .Where(t => t.EditDate >= startDate && t.EditDate < endDate);
+
+            int total = await query.CountAsync();
+
+            Topic[] entityList = await query.OrderByDescending(t => t.EditDate).Skip((pageIndex - 1) * pageSize).Take(pageSize).ToArrayAsync();
+
+            List<TopicModel> modelList = await Transform(entityList);
+
+            return new PagedResult<TopicModel>(modelList, total);
+        }
+
+        /// <summary>
+        /// 查询最新发布的文章
+        /// </summary>
+        /// <param name="count"></param>
+        /// <returns></returns>
+        public async Task<List<TopicModel>> QueryRecent(int count)
+        {
+            var query = BlogContext.Topics.Where(t => t.Status == Enums.TopicStatus.Published)
+                .OrderByDescending(t => t.EditDate)
+                .Take(count);
+
+            Topic[] entityList = await query.ToArrayAsync();
+
+            List<TopicModel> modelList = await Transform(entityList);
+
+            return modelList;
+        }
+
+        /// <summary>
         /// 得到文章实体
         /// </summary>
         /// <param name="id"></param>
