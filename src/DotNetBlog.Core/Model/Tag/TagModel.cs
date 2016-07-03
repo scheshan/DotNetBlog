@@ -4,15 +4,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace DotNetBlog.Core.Model.Category
+namespace DotNetBlog.Core.Model.Tag
 {
-    public class CategoryModel
+    public class TagModel
     {
         public int ID { get; set; }
 
-        public string Name { get; set; }
-
-        public string Description { get; set; }
+        public string Keyword { get; set; }
 
         public TopicCountModel Topics { get; set; }
     }

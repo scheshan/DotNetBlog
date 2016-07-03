@@ -1,0 +1,14 @@
+﻿@using DotNetBlog.Core.Model.Tag
+@model List<TagModel>
+
+<div class="Widget widget tagcloud">
+    <h4 class="WidgetHeader widget-header">TagCloud</h4>
+    <div class="WidgetContent widget-content">
+        <ul>
+            @foreach (var tag in Model)
+            {
+            <li><a asp-action="Tag" asp-controller="Home" asp-route-keyword="@tag.Keyword" class="biggest" title="Tag: @tag.Keyword">@tag.Keyword</a> </li>
+            }
+        </ul>
+    </div>
+</div>

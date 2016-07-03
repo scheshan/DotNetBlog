@@ -1,0 +1,26 @@
+﻿@using DotNetBlog.Core.Model.Topic
+@model List<MonthStatisticsModel>
+
+@{ 
+    var groupList = Model.GroupBy(t => t.Month.Year);
+}
+
+<div class="Widget widget monthlist">
+    <h4 class="WidgetHeader widget-header">Month List</h4>
+    <div class="WidgetContent widget-content">
+        <ul>
+            @foreach (var year in groupList)
+            {
+            <li onclick="BlogEngine.toggleMonth('year@(year.Key)')" class="year">
+                @year.Key                
+                <ul id="year@(year.Key)" class="open">
+                    @foreach (var month in year)
+                    {
+                    <li><a href="/2016/07/default">@month.Month.ToString("MM月")</a> (@month.Topics.Published)</li>
+                    }
+                </ul>
+            </li>
+            }
+        </ul>
+    </div>
+</div>

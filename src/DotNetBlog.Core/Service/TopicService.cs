@@ -72,6 +72,9 @@ namespace DotNetBlog.Core.Service
 
             await BlogContext.SaveChangesAsync();
 
+            BlogContext.RemoveCategoryCache();
+            BlogContext.RemoveTagCache();
+
             return new OperationResult<int>(topic.ID);
         }
 
@@ -138,6 +141,9 @@ namespace DotNetBlog.Core.Service
                 tran.Commit();
             }
 
+            BlogContext.RemoveCategoryCache();
+            BlogContext.RemoveTagCache();
+
             return new OperationResult();
         }
 
@@ -151,8 +157,7 @@ namespace DotNetBlog.Core.Service
         /// <returns></returns>
         public async Task<PagedResult<TopicModel>> QueryNotTrash(int pageIndex, int pageSize, Enums.TopicStatus? status, string keywords)
         {
-            var query = BlogContext.Topics.AsQueryable()
-                .Where(t => t.Status != Enums.TopicStatus.Trash);
+            var query = BlogContext.Topics.Where(t => t.Status != Enums.TopicStatus.Trash);
 
             if (status.HasValue)
             {
@@ -162,6 +167,52 @@ namespace DotNetBlog.Core.Service
             {
                 query = query.Where(t => t.Title.Contains(keywords));
             }
+
+            int total = await query.CountAsync();
+
+            Topic[] entityList = await query.OrderByDescending(t => t.EditDate).Skip((pageIndex - 1) * pageSize).Take(pageSize).ToArrayAsync();
+
+            List<TopicModel> modelList = await Transform(entityList);
+
+            return new PagedResult<TopicModel>(modelList, total);
+        }
+
+        /// <summary>
+        /// 根据分类，查询文章列表
+        /// </summary>
+        /// <param name="pageIndex"></param>
+        /// <param name="pageSize"></param>
+        /// <param name="categoryID"></param>
+        /// <returns></returns>
+        public async Task<PagedResult<TopicModel>> QueryByCategory(int pageIndex, int pageSize, int categoryID)
+        {
+            var topicIDQuery = BlogContext.CategoryTopics.Where(t => t.CategoryID == categoryID).Select(t => t.TopicID);
+            var query = BlogContext.Topics.Where(t => t.Status == Enums.TopicStatus.Published && topicIDQuery.Contains(t.ID));
+
+            int total = await query.CountAsync();
+
+            Topic[] entityList = await query.OrderByDescending(t => t.EditDate).Skip((pageIndex - 1) * pageSize).Take(pageSize).ToArrayAsync();
+
+            List<TopicModel> modelList = await Transform(entityList);
+
+            return new PagedResult<TopicModel>(modelList, total);
+        }
+
+        /// <summary>
+        /// 根据标签，查询文章列表
+        /// </summary>
+        /// <param name="pageIndex"></param>
+        /// <param name="pageSize"></param>
+        /// <param name="keyword"></param>
+        /// <returns></returns>
+        public async Task<PagedResult<TopicModel>> QueryByTag(int pageIndex, int pageSize, string keyword)
+        {
+            var topicIDQuery = from tag in BlogContext.Tags
+                               where tag.Keyword == keyword
+                               join tagTopic in BlogContext.TagTopics on tag.ID equals tagTopic.TagID
+                               select tagTopic.TopicID;
+
+            var query = BlogContext.Topics.Where(t => t.Status == Enums.TopicStatus.Published && topicIDQuery.Contains(t.ID));
 
             int total = await query.CountAsync();
 
@@ -187,6 +238,15 @@ namespace DotNetBlog.Core.Service
             }
 
             return (await Transform(entity)).First();
+        }
+
+        /// <summary>
+        /// 得到按月份的文章统计结果
+        /// </summary>
+        /// <returns></returns>
+        public async Task<List<MonthStatisticsModel>> QueryMonthStatistics()
+        {
+            return await BlogContext.QueryMonthStatisticsFromCache();
         }
 
         private async Task<List<TopicModel>> Transform(params Topic[] entityList)

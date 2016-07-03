@@ -22,11 +22,11 @@
                     <i class="fa fa-folder"></i>
                     @foreach(var category in topic.Categories)
                     {
-                        <a href="#">@category.Name</a>
+                        <a asp-action="Category" asp-controller="Home" asp-route-id="@category.ID">@category.Name</a>
                     }
                 </span>
                 <a rel="nofollow" class="pull-right post-comment-link" href="/post/test2#comment">
-                    <i class="glyphicon glyphicon-comment"></i>
+                    <i class="fa fa-comment"></i>
                     (0)
                 </a>
             </div>

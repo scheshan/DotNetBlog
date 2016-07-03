@@ -1,0 +1,5 @@
+﻿@using DotNetBlog.Core.Model.Topic
+@using DotNetBlog.Core.Model
+@model PagedResult<TopicModel>
+
+@await Component.InvokeAsync("TopicList", new { topicList = Model.Data })

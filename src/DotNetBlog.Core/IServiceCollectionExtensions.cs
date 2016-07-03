@@ -13,7 +13,8 @@ namespace DotNetBlog.Core
         {
             services.AddScoped<ConfigService>()
                 .AddScoped<CategoryService>()
-                .AddScoped<TopicService>();
+                .AddScoped<TopicService>()
+                .AddScoped<TagService>();
         }
     }
 }
