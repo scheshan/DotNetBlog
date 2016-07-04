@@ -20,6 +20,8 @@
     "bootstrap-tagsinput": "^0.7.1",
     "codemirror": "^5.16.0",
     "css-loader": "^0.23.1",
+    "expose": "^0.1.4",
+    "expose-loader": "^0.7.1",
     "file-loader": "^0.9.0",
     "font-awesome": "^4.6.3",
     "formsy-react": "^0.18.0",
