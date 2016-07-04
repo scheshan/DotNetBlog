@@ -1,9 +1,12 @@
-﻿<!DOCTYPE html>
+﻿@inject SettingModel settingModel
+
+<!DOCTYPE html>
 
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
-    <title>@ViewBag.Title</title>
+    <title></title>
+    <meta name="description" content="@settingModel.Description"/>
     <link href="~/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
     <link href="~/lib/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
     <link href="~/styles/main.css" rel="stylesheet" />
@@ -44,8 +47,8 @@
             <div class="container">
                 <img src="http://localhost:10002/Custom/Themes/Standard-2015/images/logo.png" class="pull-left logo" alt="Name of the blog">
                 <hgroup class="pull-left">
-                    <h1><a href="http://localhost:10002/">Name of the blog</a></h1>
-                    <h3>Short description of the blog</h3>
+                    <h1><a asp-action="Index" asp-controller="Home">@settingModel.Title</a></h1>
+                    <h3>@settingModel.Description</h3>
                 </hgroup>
                 <div id="social-icons" class="pull-right social-icon">
                     <a href="https://facebook.com/BlogEngine.NET">
@@ -82,7 +85,7 @@
 
         </div>
         <div class="end-line text-center">
-            <p class="text-muted credit">Copyright © 2016 <a href="http://localhost:10002/">Name of the blog</a> - Powered by <a href="http://dotnetblogengine.net" target="_blank">BlogEngine.NET</a> 3.3.0.1 - Design by <a href="http://seyfolahi.net/" title="Farzin Seyfolahi - UI/UX Designer at BlogEngine.NET" target="_blank">FS</a> </p>
+            <p class="text-muted credit">Copyright © 2016 <a asp-action="Index" asp-controller="Home">@settingModel.Title</a> - Powered by <a href="http://dotnetblogengine.net" target="_blank">BlogEngine.NET</a> 3.3.0.1 - Design by <a href="http://seyfolahi.net/" title="Farzin Seyfolahi - UI/UX Designer at BlogEngine.NET" target="_blank">FS</a> </p>
         </div>
     </footer>
 </body>

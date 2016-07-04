@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DotNetBlog.Core.Service
 {
-    public class ConfigService
+    public class SettingService
     {
         private BlogContext BlogContext { get; set; }
 
@@ -21,28 +21,28 @@ namespace DotNetBlog.Core.Service
 
         private static object _sync = new object();
 
-        public ConfigService(BlogContext blogContext, IMemoryCache cache)
+        public SettingService(BlogContext blogContext, IMemoryCache cache)
         {
             BlogContext = blogContext;
             Cache = cache;
         }
 
-        private async Task<List<Setting>> All()
+        private List<Setting> All()
         {
             var settings = Cache.Get<List<Setting>>(CacheKey);
 
             if (settings == null)
             {
-                settings = await BlogContext.Settings.ToListAsync();
+                settings = BlogContext.Settings.ToList();
                 Cache.Set(CacheKey, settings);
             }
 
             return settings;
         }
 
-        public async Task<SettingModel> Get()
+        public SettingModel Get()
         {
-            var settings = await All();
+            var settings = All();
             var dict = settings.ToDictionary(t => t.Key, t => t.Value);
             return new SettingModel(dict);
         }

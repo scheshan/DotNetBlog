@@ -15,17 +15,17 @@ namespace DotNetBlog.Web.Areas.Api.Controllers
     [Route("api/config")]
     public class ConfigController : ControllerBase
     {
-        private ConfigService ConfigService { get; set; }
+        private SettingService SettingService { get; set; }
 
-        public ConfigController(ConfigService configService)
+        public ConfigController(SettingService settingService)
         {
-            ConfigService = configService;
+            SettingService = settingService;
         }
 
         [HttpGet("basic")]
-        public async Task<IActionResult> GetBasicConfig()
+        public IActionResult GetBasicConfig()
         {
-            var config = await ConfigService.Get();
+            var config = SettingService.Get();
             var model = Mapper.Map<BasicConfigModel>(config);
 
             return Success(model);
@@ -39,18 +39,18 @@ namespace DotNetBlog.Web.Areas.Api.Controllers
                 return InvalidRequest();
             }
 
-            var config = await ConfigService.Get();
+            var config = SettingService.Get();
             Mapper.Map(model, config);
 
-            await ConfigService.Save(config);
+            await SettingService.Save(config);
 
             return Success();
         }
 
         [HttpGet("email")]
-        public async Task<IActionResult> GetEmailConfig()
+        public IActionResult GetEmailConfig()
         {
-            var config = await ConfigService.Get();
+            var config = SettingService.Get();
             var model = Mapper.Map<EmailConfigModel>(config);
 
             return Success(model);
@@ -64,10 +64,10 @@ namespace DotNetBlog.Web.Areas.Api.Controllers
                 return InvalidRequest();
             }
 
-            var config = await ConfigService.Get();
+            var config = SettingService.Get();
             Mapper.Map(model, config);
 
-            await ConfigService.Save(config);
+            await SettingService.Save(config);
 
             return Success();
         }

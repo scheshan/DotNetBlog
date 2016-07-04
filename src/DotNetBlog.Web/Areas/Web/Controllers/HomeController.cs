@@ -1,5 +1,6 @@
 ﻿using DotNetBlog.Core.Data;
 using DotNetBlog.Core.Model;
+using DotNetBlog.Core.Model.Setting;
 using DotNetBlog.Core.Model.Topic;
 using DotNetBlog.Core.Service;
 using DotNetBlog.Web.Areas.Web.ViewModels.Home;
@@ -19,22 +20,22 @@ namespace DotNetBlog.Web.Areas.Web.Controllers
 
         private CategoryService CategoryService { get; set; }
 
-        private ConfigService ConfigService { get; set; }
-
         private TagService TagService { get; set; }
 
-        public HomeController(TopicService topicService, CategoryService categoryService, ConfigService configService, TagService tagService)
+        private SettingModel SettingModel { get; set; }
+
+        public HomeController(TopicService topicService, CategoryService categoryService, SettingModel settingModel, TagService tagService)
         {
             TopicService = topicService;
             CategoryService = categoryService;
-            ConfigService = configService;
+            SettingModel = settingModel;
             TagService = tagService;
         }
 
         [Route("{page:int?}")]
         public async Task<IActionResult> Index(int page = 1)
         {
-            int pageSize = (await ConfigService.Get()).TopicsPerPage;
+            int pageSize = SettingModel.TopicsPerPage;
 
             var topicList = await TopicService.QueryNotTrash(page, pageSize, Core.Enums.TopicStatus.Published, null);
 
@@ -51,7 +52,9 @@ namespace DotNetBlog.Web.Areas.Web.Controllers
                 return this.NotFound();
             }
 
-            int pageSize = (await ConfigService.Get()).TopicsPerPage;
+            ViewBag.Title = $"分类:{category.Name}";
+
+            int pageSize = SettingModel.TopicsPerPage;
 
             var vm = new CategoryViewModel();
             vm.Category = category;
@@ -63,7 +66,9 @@ namespace DotNetBlog.Web.Areas.Web.Controllers
         [HttpGet("tag/{keyword}/{page:int?}")]
         public async Task<IActionResult> Tag(string keyword, int page = 1)
         {
-            int pageSize = (await ConfigService.Get()).TopicsPerPage;
+            ViewBag.Title = $"标签:{keyword}";
+
+            int pageSize = SettingModel.TopicsPerPage;
 
             var topicList = await TopicService.QueryByTag(page, pageSize, keyword);
 
@@ -73,7 +78,7 @@ namespace DotNetBlog.Web.Areas.Web.Controllers
         [HttpGet("{year:int}-{month:int}/{page:int?}")]
         public async Task<IActionResult> Month(int year, int month, int page = 1)
         {
-            int pageSize = (await ConfigService.Get()).TopicsPerPage;
+            int pageSize = SettingModel.TopicsPerPage;
 
             var topicList = await TopicService.QueryByMonth(page, pageSize, year, month);
 
@@ -85,7 +90,7 @@ namespace DotNetBlog.Web.Areas.Web.Controllers
         {
             var topic = await TopicService.Get(id);
 
-            if(topic == null)
+            if (topic == null)
             {
                 return NotFound();
             }

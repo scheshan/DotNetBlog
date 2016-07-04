@@ -20,7 +20,7 @@ namespace DotNetBlog.Web.TagHelpers
             if (output.TagName == "visible")
             {
                 output.TagName = "";
-            }
+            }            
 
             if (!this.Condition)
             {

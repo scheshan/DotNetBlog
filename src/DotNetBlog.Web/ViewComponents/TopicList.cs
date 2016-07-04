@@ -1,4 +1,5 @@
-﻿using DotNetBlog.Core.Model.Topic;
+﻿using DotNetBlog.Core.Model.Setting;
+using DotNetBlog.Core.Model.Topic;
 using DotNetBlog.Core.Service;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -10,16 +11,16 @@ namespace DotNetBlog.Web.ViewComponents
 {
     public class TopicList : ViewComponent
     {
-        private ConfigService ConfigService { get; set; }
+        private SettingModel SettingModel { get; set; }
 
-        public TopicList(ConfigService configService)
+        public TopicList(SettingModel settingModel)
         {
-            ConfigService = configService;
+            SettingModel = settingModel;
         }
 
-        public async Task<IViewComponentResult> InvokeAsync(List<TopicModel> topicList)
+        public IViewComponentResult Invoke(List<TopicModel> topicList)
         {
-            ViewBag.Config = await ConfigService.Get();
+            ViewBag.Config = SettingModel;
 
             return this.View(topicList);
         }
