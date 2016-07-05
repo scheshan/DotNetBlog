@@ -8,6 +8,7 @@ using DotNetBlog.Core.Extensions;
 using DotNetBlog.Core.Data;
 using DotNetBlog.Core.Entity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace DotNetBlog.Core.Service
 {
@@ -15,9 +16,12 @@ namespace DotNetBlog.Core.Service
     {
         private BlogContext BlogContext { get; set; }
 
-        public TopicService(BlogContext blogContext)
+        private IMemoryCache Cache { get; set; }
+
+        public TopicService(BlogContext blogContext, IMemoryCache cache)
         {
             BlogContext = blogContext;
+            Cache = cache;
         }
 
         public async Task<OperationResult<int>> Add(string title, string content, Enums.TopicStatus status = Enums.TopicStatus.Normal, int[] categoryList = null, string[] tagList = null, string alias = null, string summary = null, DateTime? date = null, bool? allowComment = true)
@@ -326,20 +330,49 @@ namespace DotNetBlog.Core.Service
         /// </summary>
         /// <param name="topic"></param>
         /// <returns></returns>
-        public async Task<List<TopicModel>> QueryRelated(TopicModel topic, int count)
+        public async Task<List<TopicModel>> QueryRelated(TopicModel topic)
         {
-            if (topic.Tags.Length == 0 && topic.Categories.Length == 0)
+            string cacheKey = $"Cache_RelatedTopic_{topic.ID}";
+
+            var list = Cache.Get<List<TopicModel>>(cacheKey);
+            if (list == null)
             {
-                return new List<TopicModel>();
+                if (topic.Tags.Length == 0 && topic.Categories.Length == 0)
+                {
+                    list = new List<TopicModel>();
+                    Cache.Set(cacheKey, list);
+                    return list;
+                }
+
+                var query = BlogContext.Topics.Where(t => t.Status == Enums.TopicStatus.Published && t.ID != topic.ID);
+                if (topic.Tags.Length > 0)
+                {
+                    var topicIDQuery = from tag in BlogContext.Tags
+                                       where topic.Tags.Contains(tag.Keyword)
+                                       join tagTopic in BlogContext.TagTopics on tag.ID equals tagTopic.TagID
+                                       select tagTopic.TopicID;
+
+                    query = query.Where(t => topicIDQuery.Contains(t.ID));
+                }
+                if (topic.Categories.Length > 0)
+                {
+                    var categoryIDList = topic.Categories.Select(t => t.ID).ToArray();
+                    var topicIDQuery = from category in BlogContext.Categories
+                                       where categoryIDList.Contains(category.ID)
+                                       join categoryTopic in BlogContext.CategoryTopics on category.ID equals categoryTopic.CategoryID
+                                       select categoryTopic.TopicID;
+
+                    query = query.Where(t => topicIDQuery.Contains(t.ID));
+                }
+
+                var entityList = await query.OrderByDescending(t => t.EditDate).Take(10).ToArrayAsync();
+
+                list = await Transform(entityList);
+
+                Cache.Set(cacheKey, list);
             }
 
-            var query = BlogContext.Topics.Where(t => t.Status == Enums.TopicStatus.Published && t.ID != topic.ID);
-            if (topic.Tags.Length > 0)
-            {
-
-            }
-
-            return new List<TopicModel>();
+            return list;
         }
 
         /// <summary>

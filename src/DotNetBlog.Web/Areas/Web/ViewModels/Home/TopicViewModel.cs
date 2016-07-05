@@ -13,5 +13,7 @@ namespace DotNetBlog.Web.Areas.Web.ViewModels.Home
         public TopicModel PrevTopic { get; set; }
 
         public TopicModel NextTopic { get; set; }
+
+        public List<TopicModel> RelatedTopicList { get; set; }
     }
 }

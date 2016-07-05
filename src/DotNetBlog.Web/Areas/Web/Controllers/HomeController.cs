@@ -97,12 +97,14 @@ namespace DotNetBlog.Web.Areas.Web.Controllers
 
             var prevTopic = await TopicService.GetPrev(topic);
             var nextTopic = await TopicService.GetNext(topic);
+            var relatedTopicList = await TopicService.QueryRelated(topic);
 
             var vm = new TopicViewModel
             {
                 Topic = topic,
                 PrevTopic = prevTopic,
-                NextTopic = nextTopic
+                NextTopic = nextTopic,
+                RelatedTopicList = relatedTopicList
             };
 
             return View(vm);

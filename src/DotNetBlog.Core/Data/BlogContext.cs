@@ -22,6 +22,8 @@ namespace DotNetBlog.Core.Data
 
         public virtual DbSet<TagTopic> TagTopics { get; set; }
 
+        public virtual DbSet<Comment> Comments { get; set; }
+
         public IServiceProvider ServiceProvider { get; private set; }
 
         public BlogContext(DbContextOptions<BlogContext> options, IServiceProvider serviceProvider)
@@ -40,6 +42,7 @@ namespace DotNetBlog.Core.Data
             modelBuilder.Entity<Topic>(TopicMapping.Map);
             modelBuilder.Entity<Tag>(TagMapping.Map);
             modelBuilder.Entity<TagTopic>(TagTopicMapping.Map);
+            modelBuilder.Entity<Comment>(CommentMapping.Map);
         }
     }
 }
