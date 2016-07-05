@@ -95,7 +95,17 @@ namespace DotNetBlog.Web.Areas.Web.Controllers
                 return NotFound();
             }
 
-            return View();
+            var prevTopic = await TopicService.GetPrev(topic);
+            var nextTopic = await TopicService.GetNext(topic);
+
+            var vm = new TopicViewModel
+            {
+                Topic = topic,
+                PrevTopic = prevTopic,
+                NextTopic = nextTopic
+            };
+
+            return View(vm);
         }
     }
 }

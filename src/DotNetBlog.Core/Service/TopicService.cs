@@ -81,7 +81,7 @@ namespace DotNetBlog.Core.Service
         public async Task<OperationResult> Edit(int id, string title, string content, Enums.TopicStatus status = Enums.TopicStatus.Normal, int[] categoryList = null, string[] tagList = null, string alias = null, string summary = null, DateTime? date = null, bool? allowComment = true)
         {
             var entity = await BlogContext.Topics.SingleOrDefaultAsync(t => t.ID == id);
-            if(entity == null)
+            if (entity == null)
             {
                 return OperationResult.Failure("文章不存在");
             }
@@ -275,12 +275,71 @@ namespace DotNetBlog.Core.Service
         {
             var entity = await BlogContext.Topics.SingleOrDefaultAsync(t => t.ID == id);
 
-            if(entity == null)
+            if (entity == null)
             {
                 return null;
             }
 
             return (await Transform(entity)).First();
+        }
+
+        /// <summary>
+        /// 得到前一篇文章
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public async Task<TopicModel> GetPrev(TopicModel topic)
+        {
+            var entity = await BlogContext.Topics.Where(t => t.Status == Enums.TopicStatus.Published && t.EditDate < topic.Date)
+                .OrderByDescending(t => t.EditDate)
+                .FirstOrDefaultAsync();
+
+            if (entity == null)
+            {
+                return null;
+            }
+
+            return (await Transform(entity)).First();
+        }
+
+        /// <summary>
+        /// 得到下一篇文章
+        /// </summary>
+        /// <param name="topic"></param>
+        /// <returns></returns>
+        public async Task<TopicModel> GetNext(TopicModel topic)
+        {
+            var entity = await BlogContext.Topics.Where(t => t.Status == Enums.TopicStatus.Published && t.EditDate > topic.Date)
+                .OrderBy(t => t.EditDate)
+                .FirstOrDefaultAsync();
+
+            if (entity == null)
+            {
+                return null;
+            }
+
+            return (await Transform(entity)).First();
+        }
+
+        /// <summary>
+        /// 查询关联文章
+        /// </summary>
+        /// <param name="topic"></param>
+        /// <returns></returns>
+        public async Task<List<TopicModel>> QueryRelated(TopicModel topic, int count)
+        {
+            if (topic.Tags.Length == 0 && topic.Categories.Length == 0)
+            {
+                return new List<TopicModel>();
+            }
+
+            var query = BlogContext.Topics.Where(t => t.Status == Enums.TopicStatus.Published && t.ID != topic.ID);
+            if (topic.Tags.Length > 0)
+            {
+
+            }
+
+            return new List<TopicModel>();
         }
 
         /// <summary>
