@@ -38,9 +38,13 @@
     </section>
 
 
-    <footer class="post-footer">
+    <footer class="post-footer" condition="Model.Topic.Tags.Any()">
         <div class="post-tags">
             标签 :
+            @foreach(var tag in Model.Topic.Tags)
+            {
+                <a asp-action="Tag" asp-controller="Home" asp-route-keyword="@tag">@tag</a>
+            }
         </div>
     </footer>
 

@@ -78,6 +78,8 @@ namespace DotNetBlog.Web.Areas.Web.Controllers
         [HttpGet("{year:int}-{month:int}/{page:int?}")]
         public async Task<IActionResult> Month(int year, int month, int page = 1)
         {
+            ViewBag.Title = $"{year}年{month}月";
+
             int pageSize = SettingModel.TopicsPerPage;
 
             var topicList = await TopicService.QueryByMonth(page, pageSize, year, month);
@@ -94,6 +96,8 @@ namespace DotNetBlog.Web.Areas.Web.Controllers
             {
                 return NotFound();
             }
+
+            ViewBag.Title = topic.Title;
 
             var prevTopic = await TopicService.GetPrev(topic);
             var nextTopic = await TopicService.GetNext(topic);
