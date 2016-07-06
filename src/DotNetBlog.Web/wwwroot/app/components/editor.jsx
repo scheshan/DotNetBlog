@@ -15,7 +15,12 @@ class Editor extends React.Component{
             this.props.options, 
             {
                 selector,
-                setup: (editor)=>this.editor = editor
+                setup: (editor)=>{
+                    this.editor = editor
+                    if(this.props.content){
+                        this.editor.setContent(this.props.content)
+                    }
+                }
             });
         tinymce.init(options)
     }
@@ -30,7 +35,9 @@ class Editor extends React.Component{
 
     componentDidUpdate(prevProps){
         if(prevProps.content != this.props.content){
-            this.editor.setContent(this.props.content)
+            if(this.editor){
+                this.editor.setContent(this.props.content)
+            }
         }
     }
 

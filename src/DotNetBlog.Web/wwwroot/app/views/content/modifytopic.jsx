@@ -43,12 +43,18 @@ class ModifyTopic extends React.Component{
                 let categoryList = args[0];
                 let topic = args[1];
 
+                _.forEach(topic.categories, cat=>{
+                    let category = _.find(categoryList, {id: cat.id});
+                    if(category){
+                        category.checked = true;
+                    }
+                })
+
                 this.setState({
                     loading: false,
                     categoryList: args[0],
                     topic: topic,
-                    tags: topic.tags,
-                    selectedCategory: _.map(topic.categories, c=> c.id)
+                    tags: topic.tags
                 });
             });
         });
@@ -99,7 +105,12 @@ class ModifyTopic extends React.Component{
     }
 
     save(){
+        this.refs.form.submit();
+    }
 
+    draft(){
+        this.state.topic.status = 0;
+        this.refs.form.submit();
     }
 
     cancel(){
@@ -107,8 +118,14 @@ class ModifyTopic extends React.Component{
     }
 
     apiCallback(response){
+        this.loading = false;
         if(response.success){
             Dialog.success("保存成功");
+
+            if(!this.state.topic.id && response.data){
+                this.state.topic.id = response.data;
+            }
+            this.forceUpdate()
         }
         else{
             Dialog.error(response.errorMessage)
@@ -120,6 +137,13 @@ class ModifyTopic extends React.Component{
             Dialog.error("请输入文章标题");
             return;
         }
+
+        if(this.loading){
+            Dialog.error("正在保存，请稍候...");
+            return;
+        }
+
+        this.loading = true;
 
         model.status = this.state.topic.status;
         model.content = this.refs.editor.getContent();
@@ -149,13 +173,7 @@ class ModifyTopic extends React.Component{
                             <Textarea label="摘要" name="summary" value={this.state.topic.summary || ''}/>
                         </div>
                         <div className="col-md-2">
-                            <FormGroup>
-                                <button type="button" formNoValidate className="btn btn-success btn-block" onClick={this.publish.bind(this)}>发布</button>
-
-                                <button type="button" className="btn btn-primary btn-block">保存</button>
-
-                                <button type="button" className="btn btn-default btn-block" onClick={this.cancel.bind(this)}>取消</button>
-                            </FormGroup>
+                            {this.renderButton()}
 
                             {this.renderCategory()}
 
@@ -214,24 +232,11 @@ class ModifyTopic extends React.Component{
     }
 
     checkCategory(cat){
-        let selectedCategory = this.state.selectedCategory;
-        if(selectedCategory.indexOf(cat.id) > -1){
-            _.remove(selectedCategory, cat.id);
-        }
-        else{
-            selectedCategory.push(cat.id);
-        }
-        
-        this.setState({
-            selectedCategory: selectedCategory
-        })
+        cat.checked = !cat.checked;
+        this.forceUpdate()
     }
 
     renderCategory(){
-        _.forEach(this.state.categoryList, cat=>{
-            cat.checked = this.state.selectedCategory.indexOf(cat.id) > -1
-        }, this);
-
         return (
             <FormGroup>
                 <label className="control-label">分类</label>
@@ -246,8 +251,7 @@ class ModifyTopic extends React.Component{
                                             type="checkbox" 
                                             name="category" 
                                             value={cat.id} 
-                                            checked={cat.checked} 
-                                            onChange={this.checkCategory.bind(this, cat)}/>
+                                            checked={cat.checked}/>
                                         {cat.name}
                                     </label>
                                 </a>
@@ -257,6 +261,54 @@ class ModifyTopic extends React.Component{
                 </ul>
             </FormGroup>
         )
+    }
+
+    renderButton(){
+        let publishBtn = (
+            <button type="button" className="btn btn-success btn-block" onClick={this.publish.bind(this)}>发布</button>
+        )
+        let saveBtn = (
+            <button type="button" className="btn btn-primary btn-block" onClick={this.save.bind(this)}>保存</button>
+        )
+        let cancelBtn = (
+            <button type="button" className="btn btn-default btn-block" onClick={this.cancel.bind(this)}>取消</button>
+        )
+        let draftBtn = (
+            <button type="button" className="btn btn-warning btn-block" onClick={this.draft.bind(this)}>取消发布</button>
+        )
+        let viewBtn = (
+            <a target="_blank" href={"/topic/" + this.state.topic.id} type="button" className="btn btn-success btn-block">转到文章</a>
+        )
+
+        if(!this.state.topic.id){
+            return (
+                <FormGroup>
+                    {publishBtn}
+                    {saveBtn}
+                    {cancelBtn}
+                </FormGroup>
+            )
+        }
+        else if(this.state.topic.status == 1){
+            return (
+                <FormGroup>
+                    {viewBtn}
+                    {draftBtn}
+                    {saveBtn}
+                    {cancelBtn}
+                </FormGroup>
+            )
+        }
+        else{
+            return (
+                <FormGroup>
+                    {viewBtn}
+                    {publishBtn}
+                    {saveBtn}
+                    {cancelBtn}
+                </FormGroup>
+            )
+        }
     }
 }
 

@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using DotNetBlog.Core.Extensions;
+using DotNetBlog.Core.Model;
 
 namespace DotNetBlog.Core.Service
 {
@@ -20,6 +21,17 @@ namespace DotNetBlog.Core.Service
         public async Task<List<TagModel>> All()
         {
             return await BlogContext.QueryAllTagFromCache();
+        }
+
+        public async Task<PagedResult<TagModel>> Query(int pageIndex, int pageSize)
+        {
+            var all = await this.All();
+
+            int total = all.Count;
+
+            var list = all.Skip((pageIndex - 1) * pageSize).Take(pageSize).ToList();
+
+            return new PagedResult<TagModel>(list, total);
         }
 
         public async Task<TagModel> Get(string keyword)

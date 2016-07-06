@@ -9,7 +9,6 @@ namespace DotNetBlog.Core.Enums
     {
         Normal = 0,
         Published = 1,
-        Draft = 100,
         Trash = 255
     }
 }

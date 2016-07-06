@@ -104,20 +104,20 @@ class TopicList extends React.Component{
                             </thead>
                             <tbody>
                                 {
-                                    this.state.topicList.map(article=>{
+                                    this.state.topicList.map(topic=>{
                                         return (
-                                            <tr key={article.id}>
+                                            <tr key={topic.id}>
                                                 <td className="text-center">
                                                     <input type="checkbox"/>
                                                 </td>
                                                 <td>
-                                                    <Link to={'/content/topic/' + article.id}>{article.title}</Link>
+                                                    <Link to={'/content/topic/' + topic.id}>{topic.title}</Link>
 
                                                     <a href="" className="pull-right text-muted"><i className="fa fa-external-link"></i></a>
                                                 </td>
                                                 <td className="text-center">10</td>
-                                                <td className="text-muted text-center">{article.date.split(' ')[0]}</td>
-                                                <td className="text-center">{article.status}</td>
+                                                <td className="text-muted text-center">{topic.date.split(' ')[0]}</td>
+                                                <td className="text-center">{this.renderStatus(topic)}</td>
                                             </tr>
                                         )
                                     })
@@ -130,6 +130,15 @@ class TopicList extends React.Component{
                 <Pager page={page} pageSize={pageSize} total={this.state.total} onPageChange={this.changePage.bind(this)}/>
             </div>
         )
+    }
+
+    renderStatus(topic){
+        if(topic.status == 0){
+            return <span className="label label-warning">草稿</span>
+        }
+        else if(topic.status == 1){
+            return <span className="label label-success">发布</span>
+        }
     }
 }
 
