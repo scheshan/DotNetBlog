@@ -12,12 +12,21 @@ class TopicList extends React.Component{
 
         this.state = {
             total: 0,
-            topicList: []
+            topicList: [],
+            selectAll: false
         }
     }
 
     remove(){
 
+    }
+
+    publish(){
+
+    }
+
+    draft(){
+        
     }
 
     canDelete(){
@@ -51,6 +60,10 @@ class TopicList extends React.Component{
         }, ()=>{
             Api.queryNormalTopic(page, pageSize, null, null, response=>{
                 if(response.success){
+                    _.forEach(response.data, topic=>{
+                        topic.checked = false
+                    });
+
                     this.setState({
                         loading: false,
                         topicList: response.data,
@@ -67,6 +80,31 @@ class TopicList extends React.Component{
         })
     }
 
+    canBatchOperate(){
+        if(!this.state.topicList){
+            return false;
+        }
+        return _.some(this.state.topicList, {checked: true});
+    }
+
+    selectAll(e){
+        let selectAll = e.target.checked;
+
+        let topicList = this.state.topicList;
+        _.forEach(topicList, topic=>{
+            topic.checked = selectAll
+        });
+        this.setState({
+            topicList,
+            selectAll
+        });
+    }
+
+    selectTopic(topic){
+        topic.checked = !topic.checked;
+        this.forceUpdate()
+    }
+
     render(){
         let page = this.props.location.query.page || 1;
         return (
@@ -76,9 +114,18 @@ class TopicList extends React.Component{
                         <i className="fa fa-plus"></i>
                     </Link>
                     {' '}
-                    <button className="btn btn-danger btn-sm" title="删除" disabled={!this.canDelete()} onClick={this.remove.bind(this)}>
-                        <i className="fa fa-trash"></i>
-                    </button>   
+
+                    <div className="btn-group">
+                        <button className="btn btn-success btn-sm" title="发布" disabled={!this.canBatchOperate()} onClick={this.remove.bind(this)}>
+                            <i className="fa fa-check"></i>
+                        </button>   
+                        <button className="btn btn-warning btn-sm" title="取消发布" disabled={!this.canBatchOperate()} onClick={this.remove.bind(this)}>
+                            <i className="fa fa-archive"></i>
+                        </button>   
+                        <button className="btn btn-danger btn-sm" title="删除" disabled={!this.canBatchOperate()} onClick={this.remove.bind(this)}>
+                            <i className="fa fa-trash"></i>
+                        </button>   
+                    </div>
 
                     <span className="pull-right">
                         <div className="has-feedback">
@@ -94,7 +141,7 @@ class TopicList extends React.Component{
                             <thead>
                                 <tr>
                                     <th style={{"width":"40px"}} className="text-center">
-                                        <input type="checkbox"/>
+                                        <input checked={this.state.selectAll} onChange={this.selectAll.bind(this)} type="checkbox"/>
                                     </th>
                                     <th>文章</th>
                                     <th style={{width: "100px"}} className="text-center">评论</th>
@@ -108,7 +155,7 @@ class TopicList extends React.Component{
                                         return (
                                             <tr key={topic.id}>
                                                 <td className="text-center">
-                                                    <input type="checkbox"/>
+                                                    <input type="checkbox" checked={topic.checked} onChange={this.selectTopic.bind(this, topic)}/>
                                                 </td>
                                                 <td>
                                                     <Link to={'/content/topic/' + topic.id}>{topic.title}</Link>

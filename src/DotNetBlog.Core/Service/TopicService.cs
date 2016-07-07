@@ -384,6 +384,27 @@ namespace DotNetBlog.Core.Service
             return await BlogContext.QueryMonthStatisticsFromCache();
         }
 
+        /// <summary>
+        /// 批量修改文章的状态
+        /// </summary>
+        /// <param name="idList"></param>
+        /// <param name="status"></param>
+        /// <returns></returns>
+        public async Task BatchUpdateStatus(int[] idList, Enums.TopicStatus status)
+        {
+            var topicList = await BlogContext.Topics.Where(t => idList.Contains(t.ID)).ToListAsync();
+
+            topicList.ForEach(topic =>
+            {
+                topic.Status = status;
+            });
+
+            await BlogContext.SaveChangesAsync();
+
+            BlogContext.RemoveCategoryCache();
+            BlogContext.RemoveTagCache();
+        }
+
         private async Task<List<TopicModel>> Transform(params Topic[] entityList)
         {
             if (entityList == null)

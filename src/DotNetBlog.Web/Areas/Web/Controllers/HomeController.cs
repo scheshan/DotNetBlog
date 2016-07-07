@@ -113,5 +113,11 @@ namespace DotNetBlog.Web.Areas.Web.Controllers
 
             return View(vm);
         }
+
+        [HttpGet("view/{alias}")]
+        public async Task<IActionResult> TopicByAlias(string alias)
+        {
+            return View();
+        }
     }
 }

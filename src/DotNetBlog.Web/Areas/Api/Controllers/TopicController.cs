@@ -86,5 +86,44 @@ namespace DotNetBlog.Web.Areas.Api.Controllers
             }
             return Success(model);
         }
+
+        [HttpPost("batch/publish")]
+        public async Task<IActionResult> BatchPublish([FromBody]BatchModel model)
+        {
+            if (model == null || !ModelState.IsValid)
+            {
+                return InvalidRequest();
+            }
+
+            await this.TopicService.BatchUpdateStatus(model.TopicList, Core.Enums.TopicStatus.Published);
+
+            return Success();
+        }
+
+        [HttpPost("batch/publish")]
+        public async Task<IActionResult> BatchDraft([FromBody]BatchModel model)
+        {
+            if (model == null || !ModelState.IsValid)
+            {
+                return InvalidRequest();
+            }
+
+            await this.TopicService.BatchUpdateStatus(model.TopicList, Core.Enums.TopicStatus.Normal);
+
+            return Success();
+        }
+
+        [HttpPost("batch/trash")]
+        public async Task<IActionResult> BatchTrash([FromBody]BatchModel model)
+        {
+            if (model == null || !ModelState.IsValid)
+            {
+                return InvalidRequest();
+            }
+
+            await this.TopicService.BatchUpdateStatus(model.TopicList, Core.Enums.TopicStatus.Trash);
+
+            return Success();
+        }
     }
 }
