@@ -96,6 +96,15 @@ const Api = {
     },
     editTopic(id, data, callback){
         post("/api/topic/" + id, data, callback)
+    },
+    batchPublishTopic(idList, callback){
+        post("/pai/topic/batch/publish", idList, callback)
+    },
+    batchDraftTopic(idList, callback){
+        post("/pai/topic/batch/draft", idList, callback)
+    },
+    batchDeleteTopic(idList, callback){
+        post("/pai/topic/batch/delete", idList, callback)
     }
 }
 
