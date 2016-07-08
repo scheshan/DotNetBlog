@@ -23,13 +23,18 @@ namespace DotNetBlog.Core.Service
             return await BlogContext.QueryAllTagFromCache();
         }
 
-        public async Task<PagedResult<TagModel>> Query(int pageIndex, int pageSize)
+        public async Task<PagedResult<TagModel>> Query(int pageIndex, int pageSize, string keywords)
         {
-            var all = await this.All();
+            var query = (await this.All()).AsQueryable();
 
-            int total = all.Count;
+            if (!string.IsNullOrWhiteSpace(keywords))
+            {
+                query = query.Where(t => t.Keyword == keywords);
+            }
 
-            var list = all.Skip((pageIndex - 1) * pageSize).Take(pageSize).ToList();
+            int total = query.Count();
+
+            var list = query.Skip((pageIndex - 1) * pageSize).Take(pageSize).ToList();
 
             return new PagedResult<TagModel>(list, total);
         }

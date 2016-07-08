@@ -13,5 +13,7 @@ namespace DotNetBlog.Web.Areas.Api.Models.Tag
 
         [Range(1, 100)]
         public int PageSize { get; set; }
+
+        public string Keywords { get; set; }
     }
 }

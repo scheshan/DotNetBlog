@@ -27,7 +27,7 @@ namespace DotNetBlog.Web.Areas.Api.Controllers
                 return InvalidRequest();
             }
 
-            var result = await TagService.Query(model.PageIndex, model.PageSize);
+            var result = await TagService.Query(model.PageIndex, model.PageSize, model.Keywords);
 
             return this.PagedData(result.Data, result.Total);
         }

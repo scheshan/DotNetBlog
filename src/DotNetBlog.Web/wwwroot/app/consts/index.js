@@ -7,6 +7,7 @@ const MenuKeys = {
     Content: "Menu_Content",
     Content_Topics: "Menu_Content_Topics",
     Content_Categories: "Menu_Content_Categories",
+    Content_Tags: "Menu_Content_Tags",
     Config: "Menu_Config",
     Config_Basic: "Menu_Config_Basic",
     Config_Email: "Menu_Config_Email",
@@ -25,7 +26,7 @@ const Menus = [
     {
         key: MenuKeys.Content,
         text: "内容",
-        url: "content/categories",
+        url: "content/topics",
         icon: "fa fa-align-justify",
         children: [
             {
@@ -37,6 +38,11 @@ const Menus = [
                 key: MenuKeys.Content_Categories,
                 text: "管理分类",
                 url: "content/categories"     
+            },
+            {
+                key: MenuKeys.Content_Tags,
+                text: "标签",
+                url: "content/tags"
             }
         ]
     },

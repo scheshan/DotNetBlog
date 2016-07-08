@@ -78,6 +78,7 @@ class TopicList extends React.Component{
     }
 
     componentDidMount(){
+        this.state.status = this.props.location.query.status;
         this.loadData()
     }
 
@@ -202,10 +203,10 @@ class TopicList extends React.Component{
                     </div>
 
                     <div className="pull-right form-inline">
-                        <select className="form-control input-sm" onChange={this.handleStatusChange.bind(this)}>
+                        <select className="form-control input-sm" onChange={this.handleStatusChange.bind(this)} value={this.state.status}>
                             <option value="">请选择</option>
-                            <option value="0" selected={this.props.location.query.status == 0}>草稿</option>
-                            <option value="1" selected={this.props.location.query.status == 1}>已发布</option>
+                            <option value="0">草稿</option>
+                            <option value="1">已发布</option>
                         </select>
                         {' '}
                         <input type="text" className="form-control input-sm" value={this.state.keywords} onChange={this.handleKeywordsChange.bind(this)}/>   
