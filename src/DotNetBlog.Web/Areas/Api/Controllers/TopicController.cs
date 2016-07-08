@@ -100,7 +100,7 @@ namespace DotNetBlog.Web.Areas.Api.Controllers
             return Success();
         }
 
-        [HttpPost("batch/publish")]
+        [HttpPost("batch/draft")]
         public async Task<IActionResult> BatchDraft([FromBody]BatchModel model)
         {
             if (model == null || !ModelState.IsValid)

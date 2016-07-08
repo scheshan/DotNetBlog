@@ -98,13 +98,13 @@ const Api = {
         post("/api/topic/" + id, data, callback)
     },
     batchPublishTopic(idList, callback){
-        post("/pai/topic/batch/publish", idList, callback)
+        post("/api/topic/batch/publish", {topicList: idList}, callback)
     },
     batchDraftTopic(idList, callback){
-        post("/pai/topic/batch/draft", idList, callback)
+        post("/api/topic/batch/draft", {topicList: idList}, callback)
     },
     batchDeleteTopic(idList, callback){
-        post("/pai/topic/batch/delete", idList, callback)
+        post("/api/topic/batch/delete", {topicList: idList}, callback)
     }
 }
 

@@ -4,7 +4,7 @@ var {hashHistory, Link} = require("react-router")
 var Api = require("../../services/api")
 var Dialog = require("../../services/dialog")
 
-const pageSize = 20;
+const pageSize = 1;
 
 class TopicList extends React.Component{
     constructor(){
@@ -13,24 +13,68 @@ class TopicList extends React.Component{
         this.state = {
             total: 0,
             topicList: [],
-            selectAll: false
+            selectAll: false,
+            keywords: ''
         }
     }
 
     remove(){
+        var idList = _.map(_.filter(this.state.topicList, {checked: true}), topic=>topic.id);
+        if(idList.length == 0){
+            return;
+        }
 
+        if(this.state.loading){
+            return;
+        }
+
+        this.setState({loading: true}, ()=>{
+            Api.batchDeleteTopic(idList, this.apiCallback.bind(this))
+        })
     }
 
     publish(){
+        var idList = _.map(_.filter(this.state.topicList, {checked: true}), topic=>topic.id);
+        if(idList.length == 0){
+            return;
+        }
 
+        if(this.state.loading){
+            return;
+        }
+
+        this.setState({loading: true}, ()=>{
+            Api.batchPublishTopic(idList, this.apiCallback.bind(this))
+        })
     }
 
     draft(){
-        
+        var idList = _.map(_.filter(this.state.topicList, {checked: true}), topic=>topic.id);
+        if(idList.length == 0){
+            return;
+        }
+
+        if(this.state.loading){
+            return;
+        }
+
+        this.setState({loading: true}, ()=>{
+            Api.batchDraftTopic(idList, this.apiCallback.bind(this))
+        })
     }
 
-    canDelete(){
+    apiCallback(response){
+        this.setState({
+            loading: false
+        });
 
+        if(response.success){
+            Dialog.success("操作成功");
+            this.loadData()
+        }
+        else{
+            Dialog.error(response.errorMessage);
+        }
     }
 
     componentDidMount(){
@@ -38,27 +82,23 @@ class TopicList extends React.Component{
     }
 
     componentDidUpdate(prevProps){
-        if(prevProps.location.query.page != this.props.location.query.page){
+        if(prevProps.location.query.page != this.props.location.query.page
+            || prevProps.location.query.keywords != this.props.location.query.keywords
+            || prevProps.location.query.status != this.props.location.query.status
+        ){
             this.loadData()
         }
     }
 
-    changePage(page){
-        hashHistory.push({
-            pathname: "content/topics",
-            query:{
-                page: page
-            }
-        })
-    }
-
     loadData(){
         let page = this.props.location.query.page || 1;
+        let keywords = this.props.location.query.keywords;
+        let status = this.props.location.query.status;
 
         this.setState({
             loading: true
         }, ()=>{
-            Api.queryNormalTopic(page, pageSize, null, null, response=>{
+            Api.queryNormalTopic(page, pageSize, status, keywords, response=>{
                 if(response.success){
                     _.forEach(response.data, topic=>{
                         topic.checked = false
@@ -81,6 +121,9 @@ class TopicList extends React.Component{
     }
 
     canBatchOperate(){
+        if(this.state.loading){
+            return false;
+        }
         if(!this.state.topicList){
             return false;
         }
@@ -105,6 +148,37 @@ class TopicList extends React.Component{
         this.forceUpdate()
     }
 
+    search(){
+        this.changePage(1, this.state.status, this.state.keywords)
+    }
+
+    handleKeywordsChange(e){
+        this.setState({
+            keywords: e.target.value
+        })
+    }
+
+    handleStatusChange(e){
+        this.setState({
+            status: e.target.value
+        })
+    }
+
+    handlePageChange(page){
+        this.changePage(page, this.props.location.query.status, this.props.location.query.keywords)
+    }
+
+    changePage(page, status, keywords){
+        hashHistory.push({
+            pathname: "content/topics",
+            query:{
+                page: page,
+                status: status,
+                keywords: keywords
+            }
+        })
+    }
+
     render(){
         let page = this.props.location.query.page || 1;
         return (
@@ -116,10 +190,10 @@ class TopicList extends React.Component{
                     {' '}
 
                     <div className="btn-group">
-                        <button className="btn btn-success btn-sm" title="发布" disabled={!this.canBatchOperate()} onClick={this.remove.bind(this)}>
+                        <button className="btn btn-success btn-sm" title="发布" disabled={!this.canBatchOperate()} onClick={this.publish.bind(this)}>
                             <i className="fa fa-check"></i>
                         </button>   
-                        <button className="btn btn-warning btn-sm" title="取消发布" disabled={!this.canBatchOperate()} onClick={this.remove.bind(this)}>
+                        <button className="btn btn-warning btn-sm" title="取消发布" disabled={!this.canBatchOperate()} onClick={this.draft.bind(this)}>
                             <i className="fa fa-archive"></i>
                         </button>   
                         <button className="btn btn-danger btn-sm" title="删除" disabled={!this.canBatchOperate()} onClick={this.remove.bind(this)}>
@@ -127,12 +201,19 @@ class TopicList extends React.Component{
                         </button>   
                     </div>
 
-                    <span className="pull-right">
-                        <div className="has-feedback">
-                            <input type="text" className="form-control input-sm" /> 
-                            <span className="fa fa-search form-control-feedback"></span>
-                        </div>                        
-                    </span>
+                    <div className="pull-right form-inline">
+                        <select className="form-control input-sm" onChange={this.handleStatusChange.bind(this)}>
+                            <option value="">请选择</option>
+                            <option value="0" selected={this.props.location.query.status == 0}>草稿</option>
+                            <option value="1" selected={this.props.location.query.status == 1}>已发布</option>
+                        </select>
+                        {' '}
+                        <input type="text" className="form-control input-sm" value={this.state.keywords} onChange={this.handleKeywordsChange.bind(this)}/>   
+                        {' '}
+                        <button className="btn btn-default btn-sm" onClick={this.search.bind(this)}>
+                            <i className="fa fa-search"></i>
+                        </button>
+                    </div>
                 </div>
 
                 <div className="box box-solid">
@@ -160,7 +241,7 @@ class TopicList extends React.Component{
                                                 <td>
                                                     <Link to={'/content/topic/' + topic.id}>{topic.title}</Link>
 
-                                                    <a href="" className="pull-right text-muted"><i className="fa fa-external-link"></i></a>
+                                                    <a target="_blank" href={'/topic/' + topic.id} className="pull-right text-muted"><i className="fa fa-external-link"></i></a>
                                                 </td>
                                                 <td className="text-center">10</td>
                                                 <td className="text-muted text-center">{topic.date.split(' ')[0]}</td>
@@ -174,7 +255,7 @@ class TopicList extends React.Component{
                     </div>
                 </div>               
 
-                <Pager page={page} pageSize={pageSize} total={this.state.total} onPageChange={this.changePage.bind(this)}/>
+                <Pager page={page} pageSize={pageSize} total={this.state.total} onPageChange={this.handlePageChange.bind(this)}/>
             </div>
         )
     }
