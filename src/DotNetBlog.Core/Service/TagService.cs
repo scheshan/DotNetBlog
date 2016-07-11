@@ -30,7 +30,7 @@ namespace DotNetBlog.Core.Service
 
             if (!string.IsNullOrWhiteSpace(keywords))
             {
-                query = query.Where(t => t.Keyword == keywords);
+                query = query.Where(t => t.Keyword.Contains(keywords));
             }
 
             int total = query.Count();
@@ -52,6 +52,29 @@ namespace DotNetBlog.Core.Service
             await this.BlogContext.SaveChangesAsync();
 
             this.BlogContext.RemoveTagCache();
+        }
+
+        public async Task<OperationResult> Edit(int id, string keyword)
+        {
+            var all = await this.All();
+            if (all.Any(t => t.Keyword == keyword && t.ID != id))
+            {
+                return OperationResult.Failure("标签名称重复");
+            }
+
+            var entity = await this.BlogContext.Tags.SingleOrDefaultAsync(t => t.ID == id);
+
+            if(entity == null)
+            {
+                return OperationResult.Failure("标签不存在");
+            }
+
+            entity.Keyword = keyword;
+            await this.BlogContext.SaveChangesAsync();
+
+            this.BlogContext.RemoveTagCache();
+
+            return new OperationResult();
         }
     }
 }

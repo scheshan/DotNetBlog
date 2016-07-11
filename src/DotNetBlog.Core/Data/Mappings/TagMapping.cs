@@ -12,7 +12,7 @@ namespace DotNetBlog.Core.Data.Mappings
     {
         public static void Map(EntityTypeBuilder<Tag> builder)
         {
-            builder.ToTable("Tag").HasAlternateKey(t => t.Keyword);
+            builder.ToTable("Tag");
 
             builder.HasKey(t => t.ID);
             builder.Property(t => t.ID).ValueGeneratedOnAdd().UseSqlServerIdentityColumn();

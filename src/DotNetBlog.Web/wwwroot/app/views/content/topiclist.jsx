@@ -4,7 +4,7 @@ var {hashHistory, Link} = require("react-router")
 var Api = require("../../services/api")
 var Dialog = require("../../services/dialog")
 
-const pageSize = 1;
+const pageSize = 20;
 
 class TopicList extends React.Component{
     constructor(){
@@ -79,6 +79,7 @@ class TopicList extends React.Component{
 
     componentDidMount(){
         this.state.status = this.props.location.query.status;
+        this.state.keywords = this.props.location.query.keywords;
         this.loadData()
     }
 
@@ -106,6 +107,7 @@ class TopicList extends React.Component{
                     });
 
                     this.setState({
+                        selectAll: false,
                         loading: false,
                         topicList: response.data,
                         total: response.total

@@ -105,6 +105,20 @@ const Api = {
     },
     batchDeleteTopic(idList, callback){
         post("/api/topic/batch/delete", {topicList: idList}, callback)
+    },
+    queryTag(page, pageSize, keywords, callback){
+        var param = {
+            pageIndex: page,
+            pageSize,
+            keywords
+        };
+        get(prepareUrl("/api/tag/query", param), callback);
+    },
+    deleteTag(idList, callback){
+        post("/api/tag/delete", {tagList: idList}, callback);
+    },
+    editTag(id, keyword, callback){
+        post("/api/tag/" + id, {keyword: keyword}, callback);
     }
 }
 

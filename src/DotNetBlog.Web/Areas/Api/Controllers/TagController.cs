@@ -44,5 +44,25 @@ namespace DotNetBlog.Web.Areas.Api.Controllers
 
             return this.Success();
         }
+
+        [HttpPost("{id:int}")]
+        public async Task<IActionResult> Edit([FromRoute]int id, [FromBody]SaveTagModel model)
+        {
+            if (model == null || !ModelState.IsValid)
+            {
+                return InvalidRequest();
+            }
+
+            var result = await this.TagService.Edit(id, model.Keyword);
+
+            if (result.Success)
+            {
+                return Success();
+            }
+            else
+            {
+                return Error(result.ErrorMessage);
+            }
+        }
     }
 }
