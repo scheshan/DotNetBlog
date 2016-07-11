@@ -1,5 +1,5 @@
 var React = require("react")
-var {Pager} = require("../../components")
+var {Pager, Spinner} = require("../../components")
 var {hashHistory, Link} = require("react-router")
 var Api = require("../../services/api")
 var Dialog = require("../../services/dialog")
@@ -186,6 +186,8 @@ class TopicList extends React.Component{
         let page = this.props.location.query.page || 1;
         return (
             <div className="content">
+                <Spinner loading={this.state.loading}/>
+
                 <div className="mailbox-controls">
                     <Link to="/content/topic" className="btn btn-success btn-sm" title="新增">
                         <i className="fa fa-plus"></i>

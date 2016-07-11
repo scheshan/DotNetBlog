@@ -3,6 +3,7 @@ var Api = require("../../services/api")
 var _ = require("lodash")
 var ModifyCategory = require("./modifycategory")
 var Dialog = require("../../services/dialog")
+var {Spinner} = require("../../components")
 
 class CategoryList extends React.Component{
     constructor(){
@@ -18,16 +19,27 @@ class CategoryList extends React.Component{
     }
 
     loadData(){
-        Api.getCategoryList(response=>{
-            if(response.success){
-                _.forEach(response.data, category=>{
-                    category.checked = false
-                });
+        this.setState({
+            loading: true
+        }, ()=>{
+            Api.getCategoryList(response=>{
+                if(response.success){
+                    _.forEach(response.data, category=>{
+                        category.checked = false
+                    });
 
-                this.setState({
-                    categoryList: response.data
-                })
-            }
+                    this.setState({
+                        loading: false,
+                        categoryList: response.data
+                    })
+                }
+                else{
+                    this.setState({
+                        loading: false
+                    })
+                    Dialog.error(response.errorMessage)
+                }
+            })
         })
     }
 
@@ -64,21 +76,24 @@ class CategoryList extends React.Component{
 
         this.setState({
             loading: true
-        })
-
-        Api.removeCategory(idList, response=>{
-            if(response.success){
-                var categoryList = _.filter(this.state.categoryList, (category)=>{
-                    return !category.checked
-                });
-                this.setState({
-                    loading: false,
-                    categoryList: categoryList
-                })
-            }
-            else{
-                Dialog.error(response.errorMessage)
-            }
+        }, ()=>{
+            Api.removeCategory(idList, response=>{
+                if(response.success){
+                    var categoryList = _.filter(this.state.categoryList, (category)=>{
+                        return !category.checked
+                    });
+                    this.setState({
+                        loading: false,
+                        categoryList: categoryList
+                    })
+                }
+                else{
+                    this.setState({
+                        loading: false
+                    })
+                    Dialog.error(response.errorMessage)
+                }
+            })
         })
     }
 
@@ -98,7 +113,7 @@ class CategoryList extends React.Component{
         return (
             <div className="content">
                 <ModifyCategory onSuccess={this.onModifyCategorySuccess.bind(this)} ref="modifyCategoryView"></ModifyCategory>
-
+                <Spinner loading={this.state.loading}/>
                 <div className="mailbox-controls">
                     <button className="btn btn-success btn-sm" title="新增" onClick={this.addNew.bind(this)}>
                         <i className="fa fa-plus"></i>

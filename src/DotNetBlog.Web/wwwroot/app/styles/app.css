@@ -65,3 +65,44 @@
   width: auto;
   max-width: inherit;
 }
+
+.main-loading {
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -webkit-user-select: none;
+    user-select: none;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    border-radius: 3px;
+    background: none;
+    text-transform: uppercase;
+    z-index: 2;
+    position: fixed;
+    right: 30px;
+    bottom: 60px;
+}
+
+.main-loading .loader {
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    border: solid 5px #aaa;
+    border-left-color: #1cac7b;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    -moz-border-radius: 50%;
+    -webkit-border-radius: 50%;
+    border-radius: 50%;
+    -webkit-animation: loader 400ms linear infinite;
+    animation: loader 400ms linear infinite;
+}
+
+@-webkit-keyframes loader {
+  0%{-webkit-transform:rotate(0deg)}
+  100%{-webkit-transform:rotate(360deg)}
+}
+@keyframes loader{
+  0%{transform:rotate(0deg)}
+  100%{transform:rotate(360deg)}
+}

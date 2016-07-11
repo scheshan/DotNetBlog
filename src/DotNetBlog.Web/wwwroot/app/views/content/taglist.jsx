@@ -1,7 +1,7 @@
 var React = require("react")
 var Api = require("../../services/api")
 var Dialog = require("../../services/dialog")
-var {Pager} = require("../../components")
+var {Pager, Spinner} = require("../../components")
 var {hashHistory} = require("react-router")
 var ModifyTag = require("./modifytag")
 
@@ -104,9 +104,6 @@ class TagList extends React.Component{
     }
 
     canBatchOperate(){
-        if(this.state.loading){
-            return false;
-        }
         if(!this.state.tagList){
             return false;
         }
@@ -153,6 +150,7 @@ class TagList extends React.Component{
         return (
             <div className="content">
                 <ModifyTag ref="modifyTag" onSuccess={this.onModifyTagSuccess.bind(this)}></ModifyTag>
+                <Spinner loading={this.state.loading}/>
                 <div className="mailbox-controls">
                     <button className="btn btn-danger btn-sm" title="删除" disabled={!this.canBatchOperate()} onClick={this.remove.bind(this)}>
                         <i className="fa fa-trash"></i>
