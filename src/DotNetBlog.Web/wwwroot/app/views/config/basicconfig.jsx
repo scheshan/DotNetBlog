@@ -1,6 +1,5 @@
 ﻿var React = require("react")
-var Form = require("../../components/form")
-var ContentHeader = require("../../components/contentheader")
+var {Form, Spinner} = require("../../components")
 var Api = require("../../services/api")
 var FRC = require("formsy-react-components")
 const {Input, Checkbox} = FRC
@@ -72,6 +71,8 @@ class BasicConfig extends React.Component{
     render() {
         return (                
             <div className="content">
+                <Spinner loading={this.state.loading}/>
+
                 <Form layout="vertical" onValidSubmit={this.submit.bind(this)} className="form-content">
 
                     <Input label="标题" name="title" required value={this.state.config.title}/>
@@ -93,9 +94,9 @@ class BasicConfig extends React.Component{
                         value={this.state.config.onlyShowSummary}/>
 
                     <div className="form-group">
-                        <LoadingButton formNoValidate loading={this.state.loading} type="submit" className="btn btn-primary">
+                        <button formNoValidate type="submit" className="btn btn-primary">
                             保存
-                        </LoadingButton>
+                        </button>
                     </div>
                 </Form>
             </div>

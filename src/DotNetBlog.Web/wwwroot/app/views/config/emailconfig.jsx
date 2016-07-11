@@ -1,10 +1,9 @@
 var React = require("react")
 var Api = require("../../services/api")
-var Form = require("../../components/form")
+var {Form, Spinner} = require("../../components")
 var {Input, Checkbox} = require("formsy-react-components")
 var {FormGroup} = require("react-bootstrap")
 var Dialog = require("../../services/dialog")
-var LoadingButton = require("../../components/loadingbutton")
 
 class EmailConfig extends React.Component{
     constructor(){
@@ -73,6 +72,8 @@ class EmailConfig extends React.Component{
     render(){
         return (
             <div className="content">
+                <Spinner loading={this.state.loading}/>
+
                 <Form onValidSubmit={this.submit.bind(this)} layout="vertical" className="form-content">
                     <Input name="smtpEmailAddress" label="Email地址" value={this.state.config.smtpEmailAddress} />
 
@@ -87,7 +88,7 @@ class EmailConfig extends React.Component{
                     <Checkbox layout="elementOnly" name="sendEmailWhenComment" label="发送评论邮件" value={this.state.config.sendEmailWhenComment} />
 
                     <FormGroup>
-                        <LoadingButton loading={this.state.loading} type="submit" formNoValidate className="btn btn-primary">保存</LoadingButton>
+                        <button type="submit" formNoValidate className="btn btn-primary">保存</button>
                     </FormGroup>
                 </Form>
             </div>
