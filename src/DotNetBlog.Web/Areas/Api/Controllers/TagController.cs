@@ -31,5 +31,18 @@ namespace DotNetBlog.Web.Areas.Api.Controllers
 
             return this.PagedData(result.Data, result.Total);
         }
+
+        [HttpPost("delete")]
+        public async Task<IActionResult> Delete([FromBody]DeleteTagModel model)
+        {
+            if (model == null || !ModelState.IsValid)
+            {
+                return InvalidRequest();
+            }
+
+            await this.TagService.Delete(model.TagList);
+
+            return this.Success();
+        }
     }
 }

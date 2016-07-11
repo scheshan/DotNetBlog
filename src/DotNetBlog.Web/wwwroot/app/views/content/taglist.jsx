@@ -5,3 +5,5 @@ class TagList extends React.Component{
         return <div>tag list</div>
     }
 }
+
+module.exports = TagList

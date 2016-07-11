@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using DotNetBlog.Core.Extensions;
 using DotNetBlog.Core.Model;
+using Microsoft.EntityFrameworkCore;
 
 namespace DotNetBlog.Core.Service
 {
@@ -42,6 +43,15 @@ namespace DotNetBlog.Core.Service
         public async Task<TagModel> Get(string keyword)
         {
             return (await All()).FirstOrDefault(t => t.Keyword == keyword);
+        }
+
+        public async Task Delete(int[] idList)
+        {
+            var entityList = await this.BlogContext.Tags.Where(t => idList.Contains(t.ID)).ToListAsync();
+            this.BlogContext.RemoveRange(entityList);
+            await this.BlogContext.SaveChangesAsync();
+
+            this.BlogContext.RemoveTagCache();
         }
     }
 }
