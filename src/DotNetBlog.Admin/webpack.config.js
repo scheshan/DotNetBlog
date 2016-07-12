@@ -41,6 +41,9 @@ module.exports = {
             test: /\.css$/,
             loaders: ['style', 'css']
         }, {
+            test: /\.less$/,
+            loaders: ['style', 'css', 'less']
+        }, {
             test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
             loader: "url-loader"
         }, {
