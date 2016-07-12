@@ -21,7 +21,8 @@ namespace DotNetBlog.Core.Service
 
         public async Task<List<TagModel>> All()
         {
-            return await BlogContext.QueryAllTagFromCache();
+            var list = BlogContext.QueryAllTagFromCache();
+            return await Task.FromResult(list);
         }
 
         public async Task<PagedResult<TagModel>> Query(int pageIndex, int pageSize, string keywords)

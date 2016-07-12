@@ -21,14 +21,15 @@ namespace DotNetBlog.Core.Extensions
 
         private static readonly string CacheKey_MonthStatistics = "Cache_MonthStatistics";
 
-        public static async Task<List<CategoryModel>> QueryAllCategoryFromCache(this BlogContext context)
-        {
-            var cache = context.ServiceProvider.GetService<IMemoryCache>();
+        private static readonly string CacheKey_User = "Cache_User";
 
-            var list = cache.Get<List<CategoryModel>>(CacheKey_Category);
-            if (list == null)
+        private static readonly string CacheKey_UserToken = "Cache_UserToken";
+
+        public static List<CategoryModel> QueryAllCategoryFromCache(this BlogContext context)
+        {
+            var result = RetriveCache(context, CacheKey_Category, () =>
             {
-                List<Category> entityList = await context.Categories.ToListAsync();
+                List<Category> entityList = context.Categories.ToList();
 
                 var categoryTopics = context.CategoryTopics.Include(ct => ct.Topic)
                                     .GroupBy(ct => ct.CategoryID)
@@ -38,7 +39,8 @@ namespace DotNetBlog.Core.Extensions
                                         Total = ct.Count(),
                                         Published = ct.Count(t => t.Topic.Status == Enums.TopicStatus.Published),
                                         Deleted = ct.Count(t => t.Topic.Status == Enums.TopicStatus.Trash)
-                                    });
+                                    })
+                                    .ToList();
 
                 var query = from entity in entityList
                             join ct in categoryTopics on entity.ID equals ct.ID into temp
@@ -56,21 +58,17 @@ namespace DotNetBlog.Core.Extensions
                                 }
                             };
 
-                list = query.ToList();
-                cache.Set(CacheKey_Category, list);
-            }
+                return query.ToList();
+            });
 
-            return list;
+            return result;
         }
 
-        public static async Task<List<TagModel>> QueryAllTagFromCache(this BlogContext context)
+        public static List<TagModel> QueryAllTagFromCache(this BlogContext context)
         {
-            var cache = context.ServiceProvider.GetService<IMemoryCache>();
-
-            var list = cache.Get<List<TagModel>>(CacheKey_Tag);
-            if (list == null)
+            var result = RetriveCache(context, CacheKey_Tag, () =>
             {
-                var entityList = await context.Tags.ToListAsync();
+                var entityList = context.Tags.ToList();
 
                 var tagTopics = context.TagTopics.Include(ct => ct.Topic)
                                 .GroupBy(ct => ct.TagID)
@@ -80,7 +78,8 @@ namespace DotNetBlog.Core.Extensions
                                     Total = ct.Count(),
                                     Published = ct.Count(t => t.Topic.Status == Enums.TopicStatus.Published),
                                     Deleted = ct.Count(t => t.Topic.Status == Enums.TopicStatus.Trash)
-                                });
+                                })
+                                .ToList();
 
                 var query = from entity in entityList
                             join tt in tagTopics on entity.ID equals tt.ID into temp
@@ -97,21 +96,17 @@ namespace DotNetBlog.Core.Extensions
                                 }
                             };
 
-                list = query.ToList();
-                cache.Set(CacheKey_Tag, list);
-            }
+                return query.ToList();
+            });
 
-            return list;
+            return result;
         }
 
-        public static async Task<List<MonthStatisticsModel>> QueryMonthStatisticsFromCache(this BlogContext context)
+        public static List<MonthStatisticsModel> QueryMonthStatisticsFromCache(this BlogContext context)
         {
-            var cache = context.ServiceProvider.GetService<IMemoryCache>();
-
-            var list = cache.Get<List<MonthStatisticsModel>>(CacheKey_MonthStatistics);
-            if(list == null)
+            var result = RetriveCache(context, CacheKey_MonthStatistics, () =>
             {
-                var topicList = await context.Topics.ToListAsync();
+                var topicList = context.Topics.ToList();
 
                 var query = topicList.GroupBy(g => new { g.EditDate.Year, g.EditDate.Month })
                     .Select(g => new MonthStatisticsModel
@@ -125,23 +120,82 @@ namespace DotNetBlog.Core.Extensions
                         }
                     });
 
-                list = query.ToList();
-                cache.Set(CacheKey_MonthStatistics, list, DateTime.Now.AddMinutes(20));
-            }
+                return query.ToList();
+            }, new MemoryCacheEntryOptions { AbsoluteExpiration = DateTime.Now.AddMinutes(20) });
 
-            return list;
+            return result;
+        }
+
+        public static Dictionary<string, UserToken> QueryUserTokenFromCache(this BlogContext context)
+        {
+            var result = RetriveCache(context, CacheKey_UserToken, () =>
+            {
+                return context.UserTokens.ToDictionary(t => t.Token);
+            });
+
+            return result;
+        }
+
+        public static List<User> QueryUserFromCache(this BlogContext context)
+        {
+            var result = RetriveCache(context, CacheKey_User, () =>
+            {
+                return context.Users.ToList();
+            });
+
+            return result;
         }
 
         public static void RemoveCategoryCache(this BlogContext context)
         {
-            var cache = context.ServiceProvider.GetService<IMemoryCache>();
-            cache.Remove(CacheKey_Category);
+            RemoveCache(context, CacheKey_Category);
         }
 
         public static void RemoveTagCache(this BlogContext context)
         {
-            var cache = context.ServiceProvider.GetService<IMemoryCache>();
-            cache.Remove(CacheKey_Tag);
+            RemoveCache(context, CacheKey_Tag);
         }
+
+        public static void RemoveUserTokenCache(this BlogContext context)
+        {
+            RemoveCache(context, CacheKey_UserToken);
+        }
+
+        public static void RemoveUserCache(this BlogContext context)
+        {
+            RemoveCache(context, CacheKey_User);
+        }
+
+        #region private static methods
+
+        private static T RetriveCache<T>(BlogContext context, string cacheKey, Func<T> func, MemoryCacheEntryOptions options = null)
+        {
+            var cache = context.ServiceProvider.GetService<IMemoryCache>();
+            var result = cache.Get<T>(cacheKey);
+
+            if (result == null)
+            {
+                result = func();
+
+                if (options == null)
+                {
+                    cache.Set(cacheKey, result);
+                }
+                else
+                {
+                    cache.Set(cacheKey, result, options);
+                }
+            }
+
+            return result;
+        }
+
+        private static void RemoveCache(BlogContext context, string cacheKey)
+        {
+            var cache = context.ServiceProvider.GetService<IMemoryCache>();
+            cache.Remove(cacheKey);
+        }
+
+        #endregion
     }
 }

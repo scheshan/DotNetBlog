@@ -4232,6 +4232,7 @@
         "framework": ".NETCoreApp,Version=v1.0",
         "dependencies": {
           "AutoMapper": "5.0.0",
+          "Microsoft.AspNetCore.Http": "1.0.0",
           "Microsoft.EntityFrameworkCore.SqlServer": "1.0.0",
           "Microsoft.EntityFrameworkCore.Sqlite": "1.0.0",
           "Microsoft.Extensions.Caching.Memory": "1.0.0",

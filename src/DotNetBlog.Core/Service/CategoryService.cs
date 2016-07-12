@@ -23,8 +23,8 @@ namespace DotNetBlog.Core.Service
 
         public async Task<List<CategoryModel>> All()
         {
-            List<CategoryModel> list = await BlogContext.QueryAllCategoryFromCache();
-            return list;
+            List<CategoryModel> list = BlogContext.QueryAllCategoryFromCache();
+            return await Task.FromResult(list);
         }
 
         public async Task<OperationResult<int>> Add(string name, string description)

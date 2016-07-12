@@ -20,7 +20,5 @@ namespace DotNetBlog.Core.Entity
         public DateTime LoginDate { get; set; }
 
         public string Avatar { get; set; }
-
-        public string Token { get; set; }
     }
 }

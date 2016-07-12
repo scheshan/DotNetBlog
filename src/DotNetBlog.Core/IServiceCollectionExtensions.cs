@@ -21,6 +21,8 @@ namespace DotNetBlog.Core
             {
                 return provider.GetService<SettingService>().Get();
             });
+
+            services.AddScoped<ClientManager>();
         }
     }
 }

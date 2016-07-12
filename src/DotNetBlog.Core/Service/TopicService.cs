@@ -381,7 +381,8 @@ namespace DotNetBlog.Core.Service
         /// <returns></returns>
         public async Task<List<MonthStatisticsModel>> QueryMonthStatistics()
         {
-            return await BlogContext.QueryMonthStatisticsFromCache();
+            var list = BlogContext.QueryMonthStatisticsFromCache();
+            return await Task.FromResult(list);
         }
 
         /// <summary>

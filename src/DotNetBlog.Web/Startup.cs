@@ -12,6 +12,7 @@ using DotNetBlog.Core;
 using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.Extensions.Logging;
 using NLog.Extensions.Logging;
+using DotNetBlog.Web.Middlewares;
 
 namespace DotNetBlog.Web
 {
@@ -67,6 +68,9 @@ namespace DotNetBlog.Web
             app.UseStaticFiles();
 
             app.UseDeveloperExceptionPage();
+
+            app.UseClientManager();
+
             app.UseMvc();
 
             //loggerFactory.AddNLog();

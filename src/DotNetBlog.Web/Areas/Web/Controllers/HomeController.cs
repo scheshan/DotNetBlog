@@ -24,7 +24,7 @@ namespace DotNetBlog.Web.Areas.Web.Controllers
 
         private SettingModel SettingModel { get; set; }
 
-        public HomeController(TopicService topicService, CategoryService categoryService, SettingModel settingModel, TagService tagService)
+        public HomeController(TopicService topicService, CategoryService categoryService, SettingModel settingModel, TagService tagService, Core.ClientManager clientManager)
         {
             TopicService = topicService;
             CategoryService = categoryService;
