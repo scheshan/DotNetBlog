@@ -10,7 +10,7 @@ module.exports = {
         './index.jsx'
     ],
     output: {
-        path: path.join(__dirname, 'dist'),
+        path: path.normalize(path.join(__dirname, '../DotNetBlog.Web/wwwroot/dist')),
         filename: 'app.js',
         publicPath: "http://localhost:3000/"
     },

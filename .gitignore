@@ -25,7 +25,8 @@ bld/
 [Oo]bj/
 
 /.vs
-/src/DotNetBlog.Web/wwwroot/app/node_modules
+/src/DotNetBlog.Admin/node_modules
+/src/DotNetBlog.Admin/**/*.js.map
 /src/DotNetBlog.Web/wwwroot/app/**/*.js.map
 /src/DotNetBlog.Web/wwwroot/lib
 /src/DotNetBlog.Web/wwwroot/dist
