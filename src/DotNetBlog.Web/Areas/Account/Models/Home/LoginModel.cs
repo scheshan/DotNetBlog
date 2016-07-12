@@ -13,5 +13,9 @@ namespace DotNetBlog.Web.Areas.Account.Models.Home
 
         [Required]
         public string Password { get; set; }
+
+        public bool RememberMe { get; set; }
+
+        public string Redirect { get; set; }
     }
 }

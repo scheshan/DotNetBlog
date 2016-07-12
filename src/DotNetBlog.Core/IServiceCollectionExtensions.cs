@@ -15,7 +15,8 @@ namespace DotNetBlog.Core
             services.AddScoped<SettingService>()
                 .AddScoped<CategoryService>()
                 .AddScoped<TopicService>()
-                .AddScoped<TagService>();
+                .AddScoped<TagService>()
+                .AddScoped<AuthService>();
 
             services.AddScoped<SettingModel>(provider =>
             {

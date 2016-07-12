@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace DotNetBlog.Web.Areas.Web.Controllers
 {
@@ -118,6 +119,23 @@ namespace DotNetBlog.Web.Areas.Web.Controllers
         public async Task<IActionResult> TopicByAlias(string alias)
         {
             return View();
+        }
+
+        [HttpGet("adminuser/add")]
+        public async Task<IActionResult> AddAdminUser()
+        {
+            var context = HttpContext.RequestServices.GetService<Core.Data.BlogContext>();
+            context.Add(new Core.Entity.User
+            {
+                Email = "admin@dotnetblog.com",
+                LoginDate = DateTime.Now,
+                Nickname = "管理员",
+                Password = Core.Utilities.EncryptHelper.MD5("admin"),
+                UserName = "admin"
+            });
+            await context.SaveChangesAsync();
+
+            return RedirectToAction("Index");
         }
     }
 }

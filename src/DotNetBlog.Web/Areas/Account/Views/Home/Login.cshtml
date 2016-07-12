@@ -1,16 +1,22 @@
-﻿<div class="login-box">
+﻿@using DotNetBlog.Web.Areas.Account.Models.Home
+@model LoginViewModel
+
+<div class="login-box">
     <div class="login-logo">
         <a asp-action="Index" asp-controller="Home" asp-area="Web"><b>DotNet</b>Blog</a>
     </div>
-    <!-- /.login-logo -->
     <div class="login-box-body">
         <p class="login-box-msg">登录博客</p>
 
-        <form asp-action="Login" asp-controller="Home" asp-antiforgery="true" method="post">
+        <div class="alert alert-danger" condition="Model.ErrorMessage != null">
+            @Model.ErrorMessage
+        </div>
+
+        <form novalidate asp-action="Login" asp-controller="Home" asp-antiforgery="true" method="post">
             <div class="form-group has-feedback">
-                <input name="UserName" type="text" class="form-control" placeholder="请输入用户名" required>
+                <input name="UserName" type="text" class="form-control" placeholder="请输入用户名" required value="@Model.Model.UserName">
                 <span class="form-control-feedback">
-                    <i class="fa fa-envelope"></i>
+                    <i class="fa fa-user"></i>
                 </span>
             </div>
             <div class="form-group has-feedback">
@@ -23,16 +29,15 @@
                 <div class="col-xs-8">
                     <div class="checkbox">
                         <label class="">                            
-                            <input type="checkbox"/> 
+                            <input type="checkbox" name="RememberMe"/> 
                             保持登录状态
                         </label>
                     </div>
                 </div>
-                <!-- /.col -->
                 <div class="col-xs-4">
+                    <input type="hidden" value="@Model.Model.Redirect" name="Redirect"/>
                     <button type="submit" class="btn btn-primary btn-block btn-flat">登录</button>
                 </div>
-                <!-- /.col -->
             </div>
         </form>
 

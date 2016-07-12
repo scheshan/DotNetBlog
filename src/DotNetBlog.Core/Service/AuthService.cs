@@ -44,5 +44,17 @@ namespace DotNetBlog.Core.Service
 
             return new OperationResult<string>(token);
         }
+
+        public async Task LogOff(string token)
+        {
+            var entity = new UserToken
+            {
+                Token = token
+            };
+            BlogContext.Attach(entity).State = EntityState.Deleted;
+            await BlogContext.SaveChangesAsync();
+
+            BlogContext.RemoveUserTokenCache();
+        }
     }
 }
