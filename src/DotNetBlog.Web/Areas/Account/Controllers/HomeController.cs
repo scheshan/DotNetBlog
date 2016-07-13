@@ -15,12 +15,15 @@ namespace DotNetBlog.Web.Areas.Account.Controllers
     {
         private AuthService AuthService { get; set; }
 
+        private UserService UserService { get; set; }
+
         private ClientManager ClientManager { get; set; }
 
-        public HomeController(AuthService authService, ClientManager clientManager)
+        public HomeController(AuthService authService, ClientManager clientManager, UserService userService)
         {
             this.AuthService = authService;
             this.ClientManager = clientManager;
+            this.UserService = userService;
         }
 
         [HttpGet("login")]
@@ -39,8 +42,14 @@ namespace DotNetBlog.Web.Areas.Account.Controllers
         }
 
         [HttpPost("login")]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login([FromForm]LoginModel model)
         {
+            if (model == null || !ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+
             var result = await this.AuthService.Login(model.UserName, model.Password);
 
             if (result.Success)
@@ -76,6 +85,41 @@ namespace DotNetBlog.Web.Areas.Account.Controllers
             ClientManager.ClearTokenFromCookies(this.HttpContext);
 
             return RedirectToAction("Index", "Home", new { area = "Web" });
+        }
+
+        [HttpGet("changepassword")]
+        [Filters.RequireLoginFilter]
+        public IActionResult ChangePassword()
+        {
+            var vm = new ChangePasswordViewModel();
+
+            return View(vm);
+        }
+
+        [HttpPost("changepassword")]
+        [Filters.RequireLoginFilter]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ChangePassword([FromForm]ChangePasswordModel model)
+        {
+            if (model == null || !ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+
+            var vm = new ChangePasswordViewModel();
+
+            var result = await this.UserService.ChangePassword(this.ClientManager.CurrentUser.ID, model.OldPassword, model.Password);
+
+            if (result.Success)
+            {
+                vm.SuccessMessage = "操作成功";
+            }
+            else
+            {
+                vm.ErrorMessage = result.ErrorMessage;
+            }
+
+            return View(vm);
         }
     }
 }

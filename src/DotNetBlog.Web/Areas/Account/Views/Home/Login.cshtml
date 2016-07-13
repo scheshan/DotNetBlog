@@ -12,7 +12,7 @@
             @Model.ErrorMessage
         </div>
 
-        <form novalidate asp-action="Login" asp-controller="Home" asp-antiforgery="true" method="post">
+        <form id="form" novalidate asp-action="Login" asp-controller="Home" asp-antiforgery="true" method="post">
             <div class="form-group has-feedback">
                 <input name="UserName" type="text" class="form-control" placeholder="请输入用户名" required value="@Model.Model.UserName">
                 <span class="form-control-feedback">
@@ -46,3 +46,25 @@
     </div>
     <!-- /.login-box-body -->
 </div>
+
+<script type="text/javascript">
+    $("#form").validate({
+        rules: {
+            ConfirmPassword: {
+                equalTo: "#txtPassword"
+            }
+        },
+        messages: {
+            UserName: "请输入用户名",
+            Password: "请输入密码"
+        },
+        errorClass: "help-block",
+        errorElement: "span",
+        success: function (label) {
+            $(label).parent().removeClass("has-error")
+        },
+        highlight: function (element) {
+            $(element).parent().addClass("has-error")
+        }
+    })
+</script>

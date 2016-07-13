@@ -6,6 +6,7 @@
     "tinymce": "4.2",
     "bootstrap": "3.3.6",
     "font-awesome": "4.6.3",
-    "adminlte": "*"
+    "adminlte": "*",
+    "jquery.validate": "1.13.0"
   }
 }
