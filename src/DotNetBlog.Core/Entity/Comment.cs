@@ -28,5 +28,9 @@ namespace DotNetBlog.Core.Entity
         public string CreateIP { get; set; }
 
         public bool NotifyOnComment { get; set; }
+
+        public int? UserID { get; set; }
+
+        public User User { get; set; }
     }
 }
