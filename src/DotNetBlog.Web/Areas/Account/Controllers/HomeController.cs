@@ -68,9 +68,12 @@ namespace DotNetBlog.Web.Areas.Account.Controllers
         }
 
         [HttpGet("logoff")]
+        [Filters.RequireLoginFilter]
         public async Task<IActionResult> LogOff()
         {
             await AuthService.LogOff(this.ClientManager.Token);
+
+            ClientManager.ClearTokenFromCookies(this.HttpContext);
 
             return RedirectToAction("Index", "Home", new { area = "Web" });
         }

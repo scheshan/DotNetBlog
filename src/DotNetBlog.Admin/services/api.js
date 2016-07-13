@@ -27,7 +27,8 @@ function prepareUrl(url, param){
 
 function get(url, callback) {
     fetch(url, {
-        method: "GET"
+        method: "GET",
+        credentials: 'same-origin'
     }).then(response => {
         return response.json()
     }).then(data => {
@@ -44,7 +45,8 @@ function post(url, data, callback) {
             'Accept': 'application/json',
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify(data)
+        body: JSON.stringify(data),
+        credentials: 'same-origin'
     }).then(response=>{
         return response.json()
     }).then(data=>{

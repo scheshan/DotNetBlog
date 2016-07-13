@@ -68,14 +68,14 @@ class App extends React.Component{
 
                     <nav className="navbar navbar-static-top" role="navigation">
 
-                        <a href="#" className="sidebar-toggle" data-toggle="offcanvas" role="button">
+                        <a href="javascript:void(0)" className="sidebar-toggle" data-toggle="offcanvas" role="button">
                             <span className="sr-only">Toggle navigation</span>
                         </a>
                         <div className="navbar-custom-menu">
                             <ul className="nav navbar-nav">
-                                <li><a href="http://almsaeedstudio.com">修改密码</a></li>
+                                <li><a href="/account/changepassword">修改密码</a></li>
                                 <li>
-                                    <a href="http://almsaeedstudio.com/premium">
+                                    <a href="/account/logoff">
                                         <i className="fa fa-exit"></i>
                                         注销
                                     </a>

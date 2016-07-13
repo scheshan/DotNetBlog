@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 namespace DotNetBlog.Web.Areas.Api.Controllers
 {
     [ErrorHandlerFilter]
+    [RequireLoginApiFilter]
     public class ControllerBase : Controller
     {
         private static readonly JsonSerializerSettings _DefaultJsonSerializerSettings;
@@ -24,8 +25,8 @@ namespace DotNetBlog.Web.Areas.Api.Controllers
                 ContractResolver = new CamelCasePropertyNamesContractResolver()
             };
         }
-        
-        protected IActionResult Success()
+
+        public IActionResult Success()
         {
             var response = new ApiResponse
             {
@@ -34,8 +35,8 @@ namespace DotNetBlog.Web.Areas.Api.Controllers
 
             return Json(response);
         }
-        
-        protected IActionResult Error(string errorMessage)
+
+        public IActionResult Error(string errorMessage)
         {
             var response = new ApiResponse
             {
@@ -45,7 +46,7 @@ namespace DotNetBlog.Web.Areas.Api.Controllers
             return Json(response);
         }
 
-        protected IActionResult Success<T>(T data)
+        public IActionResult Success<T>(T data)
         {
             var response = new ApiResponse<T>
             {
@@ -56,7 +57,7 @@ namespace DotNetBlog.Web.Areas.Api.Controllers
             return Json(response);
         }
 
-        protected IActionResult PagedData<T>(List<T> data, int total)
+        public IActionResult PagedData<T>(List<T> data, int total)
         {
             var response = new PagedApiResponse<T>
             {
@@ -67,13 +68,13 @@ namespace DotNetBlog.Web.Areas.Api.Controllers
 
             return Json(response);
         }
-            
-        protected new IActionResult Json(object data)
+
+        public new IActionResult Json(object data)
         {
             return base.Json(data, _DefaultJsonSerializerSettings);
         }
 
-        protected IActionResult InvalidRequest()
+        public IActionResult InvalidRequest()
         {
             string errorMessage;
 

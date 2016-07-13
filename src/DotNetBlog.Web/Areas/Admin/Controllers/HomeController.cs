@@ -8,6 +8,7 @@ namespace DotNetBlog.Web.Areas.Admin.Controllers
 {
     [Area("admin")]
     [Route("admin")]
+    [Filters.RequireLoginFilter]
     public class HomeController : Controller
     {
         [Route("{*path}")]
