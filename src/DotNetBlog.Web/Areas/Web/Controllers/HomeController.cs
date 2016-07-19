@@ -121,21 +121,10 @@ namespace DotNetBlog.Web.Areas.Web.Controllers
             return View();
         }
 
-        [HttpGet("adminuser/add")]
-        public async Task<IActionResult> AddAdminUser()
+        [HttpPost("topic/{topicID:int}/comments")]
+        public async Task<IActionResult> AddComment(int topicID)
         {
-            var context = HttpContext.RequestServices.GetService<Core.Data.BlogContext>();
-            context.Add(new Core.Entity.User
-            {
-                Email = "admin@dotnetblog.com",
-                LoginDate = DateTime.Now,
-                Nickname = "管理员",
-                Password = Core.Utilities.EncryptHelper.MD5("admin"),
-                UserName = "admin"
-            });
-            await context.SaveChangesAsync();
-
-            return RedirectToAction("Index");
+            return View();
         }
     }
 }
