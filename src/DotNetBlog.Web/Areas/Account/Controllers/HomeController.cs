@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace DotNetBlog.Web.Areas.Account.Controllers
 {
-    [Area("account")]
+    [Area("Account")]
     [Route("account")]
     public class HomeController : Controller
     {

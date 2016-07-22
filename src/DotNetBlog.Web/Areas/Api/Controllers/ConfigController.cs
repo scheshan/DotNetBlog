@@ -11,7 +11,7 @@ using AutoMapper;
 
 namespace DotNetBlog.Web.Areas.Api.Controllers
 {
-    [Area("api")]
+    [Area("Api")]
     [Route("api/config")]
     public class ConfigController : ControllerBase
     {

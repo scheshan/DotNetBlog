@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DotNetBlog.Web.Areas.Admin.Controllers
 {
-    [Area("admin")]
+    [Area("Admin")]
     [Route("admin")]
     [Filters.RequireLoginFilter]
     public class HomeController : Controller

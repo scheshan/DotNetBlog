@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace DotNetBlog.Web.Areas.Api.Controllers
 {
-    [Area("api")]
+    [Area("Api")]
     [Route("api/topic")]
     public class TopicController : ControllerBase
     {

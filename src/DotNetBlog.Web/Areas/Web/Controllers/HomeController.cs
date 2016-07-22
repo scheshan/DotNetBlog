@@ -13,7 +13,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace DotNetBlog.Web.Areas.Web.Controllers
 {
-    [Area("web")]
+    [Area("Web")]
     [Route("")]
     public class HomeController : Controller
     {
