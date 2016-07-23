@@ -146,13 +146,15 @@ namespace DotNetBlog.Web.Controllers
             var prevTopic = await TopicService.GetPrev(topic);
             var nextTopic = await TopicService.GetNext(topic);
             var relatedTopicList = await TopicService.QueryRelated(topic);
+            var commentList = await CommentService.QueryByTopic(topic.ID);
 
             var vm = new TopicPageViewModel
             {
                 Topic = topic,
                 PrevTopic = prevTopic,
                 NextTopic = nextTopic,
-                RelatedTopicList = relatedTopicList
+                RelatedTopicList = relatedTopicList,
+                CommentList = commentList
             };
 
             return View(vm);

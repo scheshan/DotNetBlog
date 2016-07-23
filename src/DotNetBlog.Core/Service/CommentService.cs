@@ -68,15 +68,43 @@ namespace DotNetBlog.Core.Service
 
         public async Task<List<CommentModel>> QueryByTopic(int topicID)
         {
-            var entityList = await BlogContext.Comments.Where(t => t.TopicID == topicID).Where(t => t.Status == Enums.CommentStatus.Approved).ToArrayAsync();
+            var entityList = await BlogContext.Comments.Where(t => t.TopicID == topicID).ToArrayAsync();
 
             return this.Transform(entityList);
+        }
+
+        public async Task<PagedResult<CommentModel>> Query(int pageIndex, int pageSize, Enums.CommentStatus? status, string keywords)
+        {
+            var query = this.BlogContext.Comments.AsQueryable();
+            if (status.HasValue)
+            {
+                query = query.Where(t => t.Status == status.Value);
+            }
+            if (!string.IsNullOrWhiteSpace(keywords))
+            {
+                query = query.Where(t => t.Name.Contains(keywords) || t.Content.Contains(keywords) || t.WebSite.Contains(keywords) || t.Email.Contains(keywords));
+            }
+
+            int total = await query.CountAsync();
+
+            query = query.OrderByDescending(t => t.ID)
+                .Skip((pageIndex - 1) * pageSize)
+                .Take(pageSize);
+
+            var entityList = await query.ToArrayAsync();
+
+            var modelList = this.Transform(entityList);
+
+            return new PagedResult<CommentModel>(modelList, total);
         }
 
         public List<CommentModel> Transform(params Comment[] entityList)
         {
             var userIDList = entityList.Where(t => t.UserID.HasValue).Select(t => t.UserID.Value).ToList();
             var userList = this.BlogContext.QueryUserFromCache().Where(t => userIDList.Contains(t.ID)).ToList();
+
+            var commentIDList = entityList.Select(t => t.ID).Cast<int?>().ToList();
+            var hasChildrenIDList = this.BlogContext.Comments.Where(t => commentIDList.Contains(t.ReplyToID)).Select(t => t.ReplyToID).Distinct().ToList();
 
             var result = from comment in entityList
                          join user in userList on comment.UserID equals user.ID
@@ -98,7 +126,8 @@ namespace DotNetBlog.Core.Service
                                  Email = user.Email,
                                  ID = user.ID,
                                  UserName = user.UserName
-                             } : null
+                             } : null,
+                             HasChildren = hasChildrenIDList.Contains(comment.ID)
                          };
 
             return result.ToList();

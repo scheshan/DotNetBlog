@@ -25,6 +25,7 @@ var Views_CategoryList = require("./views/content/categorylist")
 var Views_ModifyTopic = require("./views/content/modifytopic")
 var Views_TopicList = require("./views/content/topiclist")
 var Views_TagList = require("./views/content/taglist")
+var Views_CommentList = require("./views/content/commentlist")
 global.jQuery = $ = require("jquery")
 
 const history = useRouterHistory(createHistory)({
@@ -47,6 +48,7 @@ class Index extends React.Component{
                         <Route path="content/categories" component={Views_CategoryList} onEnter={enterRoute.bind(this, Consts.MenuKeys.Content, Consts.MenuKeys.Content_Categories)} />
                         <Route path="content/topics" component={Views_TopicList} onEnter={enterRoute.bind(this, Consts.MenuKeys.Content, Consts.MenuKeys.Content_Topics)}/>
                         <Route path="content/topic(/:id)" component={Views_ModifyTopic} onEnter={enterRoute.bind(this, Consts.MenuKeys.Content, Consts.MenuKeys.Content_Topics)}/>
+                        <Route path="content/comments" component={Views_CommentList} onEnter={enterRoute.bind(this, Consts.MenuKeys.Content, Consts.MenuKeys.Content_Comments)} />
                         <Route path="content/tags" component={Views_TagList} onEnter={enterRoute.bind(this, Consts.MenuKeys.Content, Consts.MenuKeys.Content_Tags)}/>
                     </Route>
                 </Router>

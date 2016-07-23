@@ -1,4 +1,5 @@
-﻿using DotNetBlog.Core.Model.Topic;
+﻿using DotNetBlog.Core.Model.Comment;
+using DotNetBlog.Core.Model.Topic;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,5 +16,7 @@ namespace DotNetBlog.Web.ViewModels.Home
         public TopicModel NextTopic { get; set; }
 
         public List<TopicModel> RelatedTopicList { get; set; }
+
+        public List<CommentModel> CommentList { get; set; }
     }
 }

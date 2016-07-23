@@ -6,6 +6,7 @@ const MenuKeys = {
     Dashboard: "Menu_Dashboard",
     Content: "Menu_Content",
     Content_Topics: "Menu_Content_Topics",
+    Content_Comments: "Menu_Content_Comments",
     Content_Categories: "Menu_Content_Categories",
     Content_Tags: "Menu_Content_Tags",
     Config: "Menu_Config",
@@ -33,6 +34,11 @@ const Menus = [
                 key: MenuKeys.Content_Topics,
                 text: "文章",
                 url: "content/topics"     
+            },
+            {
+                key: MenuKeys.Content_Comments,
+                text: "评论",
+                url: "content/comments"     
             },
             {
                 key: MenuKeys.Content_Categories,
