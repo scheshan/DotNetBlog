@@ -30,7 +30,5 @@ namespace DotNetBlog.Core.Entity
         public bool NotifyOnComment { get; set; }
 
         public int? UserID { get; set; }
-
-        public User User { get; set; }
     }
 }

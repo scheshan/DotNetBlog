@@ -40,7 +40,7 @@ namespace DotNetBlog.Web.Filters
 
             context.HttpContext.Response.StatusCode = (int)HttpStatusCode.Unauthorized;
 
-            context.Result = new RedirectToActionResult("Login", "Home", new { area = "Account", redirect = sourceUrl });
+            context.Result = new RedirectToActionResult("Login", "Account", new { redirect = sourceUrl });
             
         }
     }

@@ -1,9 +1,0 @@
-﻿@using DotNetBlog.Core.Model.Topic
-
-@model PagedResult<TopicModel>
-@{
-}
-
-
-
-@await Component.InvokeAsync("TopicList", new { topicList = Model.Data })

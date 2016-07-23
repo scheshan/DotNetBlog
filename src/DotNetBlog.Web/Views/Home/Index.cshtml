@@ -1,0 +1,3 @@
+﻿@model IndexPageViewModel
+
+@await Component.InvokeAsync("TopicList", new { topicList = Model.TopicList.Data })

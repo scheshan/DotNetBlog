@@ -23,7 +23,7 @@ namespace DotNetBlog.Web
         public Startup()
         {
             this.Configuration = new ConfigurationBuilder()
-                .AddJsonFile("App_Data/config.json")
+                .AddJsonFile("App_Data/config.json", false, true)
                 .Build();
         }
 

@@ -26,6 +26,7 @@
     "font-awesome": "^4.6.3",
     "formsy-react": "^0.18.0",
     "formsy-react-components": "^0.8.0",
+    "history": "^3.0.0",
     "jquery": "^3.0.0",
     "jsx-loader": "^0.13.2",
     "less": "^2.7.1",

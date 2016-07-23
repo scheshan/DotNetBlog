@@ -17,7 +17,7 @@ namespace DotNetBlog.Core.Entity
 
         public string Nickname { get; set; }
 
-        public DateTime LoginDate { get; set; }
+        public DateTime? LoginDate { get; set; }
 
         public string Avatar { get; set; }
     }

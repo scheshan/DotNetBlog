@@ -23,8 +23,6 @@ namespace DotNetBlog.Core.Data.Mappings
             builder.Property(t => t.Email).IsRequired().HasMaxLength(100);
             builder.Property(t => t.Name).IsRequired().HasMaxLength(20);
             builder.Property(t => t.WebSite).HasMaxLength(100);
-
-            builder.HasOne(t => t.User).WithMany();
         }
     }
 }

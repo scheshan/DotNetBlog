@@ -1,0 +1,18 @@
+﻿@using DotNetBlog.Core.Model.Topic
+@model List<TopicModel>
+
+<div class="Widget widget postlist">
+    <h4 class="WidgetHeader widget-header">最新文章</h4>
+    <div class="WidgetContent widget-content">
+        <ul>
+            @foreach (var topic in Model)
+            {
+            <li class="post-item-list">
+                <a asp-action="Topic" asp-controller="Home" asp-route-id="@topic.ID">
+                    <h5 class="post-item-title">@topic.Title</h5>
+                </a>
+            </li>
+            }
+        </ul>
+    </div>
+</div>

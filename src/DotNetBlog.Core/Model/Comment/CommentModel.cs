@@ -27,6 +27,8 @@ namespace DotNetBlog.Core.Model.Comment
 
         public string CreateIP { get; set; }
 
+        public UserModel User { get; set; }
+
         public class UserModel
         {
             public int ID { get; set; }
@@ -35,7 +37,7 @@ namespace DotNetBlog.Core.Model.Comment
 
             public string Email { get; set; }
 
-            public string Display { get; set; }
+            public string Nickname { get; set; }
         }
     }
 }
