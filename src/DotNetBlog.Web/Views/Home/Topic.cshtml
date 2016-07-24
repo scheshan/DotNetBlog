@@ -66,7 +66,7 @@
 </div>
 
 <div id="comment-form" condition="Model.Topic.AllowComment">
-    <form method="post" asp-action="AddComment" asp-controller="Home" asp-area="Web">
+    <form method="post" asp-action="AddComment" asp-controller="Home">
         <input type="hidden" name="TopicID" value="@Model.Topic.ID"/>
         <input type="hidden" name="ReplyTo" value="" />
         <div class="comment-form well-global">

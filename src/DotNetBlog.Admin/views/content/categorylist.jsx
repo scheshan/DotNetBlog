@@ -27,10 +27,6 @@ class CategoryList extends React.Component{
         }, ()=>{
             Api.getCategoryList(response=>{
                 if(response.success){
-                    _.forEach(response.data, category=>{
-                        category.checked = false
-                    });
-
                     this.setState({
                         loading: false,
                         categoryList: response.data,
@@ -45,21 +41,6 @@ class CategoryList extends React.Component{
                 }
             })
         })
-    }
-
-    checkAll(e){
-        let categoryList = this.state.categoryList;
-        _.forEach(categoryList, cat=>{
-            cat.checked = e.target.checked;
-        });
-        this.setState({
-            categoryList: categoryList
-        });
-    }
-
-    checkOne(category){
-        category.checked = !category.checked;
-        this.forceUpdate()
     }
 
     canDelete(){
@@ -80,7 +61,8 @@ class CategoryList extends React.Component{
             loading: true
         }, ()=>{
             Api.removeCategory(idList, response=>{
-                if(response.success){            
+                if(response.success){       
+                    Dialog.success("操作成功");     
                     this.loadData();
                 }
                 else{
@@ -129,8 +111,15 @@ class CategoryList extends React.Component{
         this.setState({
             selectedList: arr
         });
+    }
 
-        console.log(this.state);
+    formatName(cell, row){
+        return (
+            <div>
+                <a href="javascript:void(0)" onClick={this.editCategory.bind(this, row)}>{row.name}</a>
+                <a title="查看" className="pull-right text-muted" target="_blank" href={'/category/' + row.id}><i className="fa fa-external-link"></i></a>
+            </div>
+        )
     }
 
     render(){
@@ -140,15 +129,6 @@ class CategoryList extends React.Component{
             onSelectAll: this.handleSelectAll.bind(this),
             selected: this.state.selectedList
         };
-
-        function formatCategoryName(cell, row) {
-            return (
-                <div>
-                    <a href="javascript:void(0)" onClick={this.editCategory.bind(this, row)}>{row.name}</a>
-                    <a title="查看" className="pull-right text-muted" target="_blank" href={'/category/' + row.id}><i className="fa fa-external-link"></i></a>
-                </div>
-            )
-        }
 
         function formatTopics(cell, row) {
             return cell.all
@@ -171,7 +151,7 @@ class CategoryList extends React.Component{
                 <div className="box box-solid">
                     <div className="box-body table-responsive no-padding">
                         <BootstrapTable keyField="id" hover={true} striped={true} data={this.state.categoryList} selectRow={selectRowProp}>
-                            <TableHeaderColumn dataField='name' dataFormat={formatCategoryName.bind(this)}>名称</TableHeaderColumn>
+                            <TableHeaderColumn dataField='name' dataFormat={this.formatName.bind(this)}>名称</TableHeaderColumn>
                             <TableHeaderColumn width="100" dataAlign="center" dataField='topics' dataFormat={formatTopics.bind(this)}>文章</TableHeaderColumn>
                         </BootstrapTable>
                     </div>

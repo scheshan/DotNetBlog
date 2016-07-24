@@ -208,7 +208,7 @@ class TopicList extends React.Component{
 
                     <div className="pull-right form-inline">
                         <select className="form-control input-sm" onChange={this.handleStatusChange.bind(this)} value={this.state.status}>
-                            <option value="">请选择</option>
+                            <option value="">全部</option>
                             <option value="0">草稿</option>
                             <option value="1">已发布</option>
                         </select>

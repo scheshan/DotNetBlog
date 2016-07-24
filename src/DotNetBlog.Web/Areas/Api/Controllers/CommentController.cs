@@ -26,5 +26,44 @@ namespace DotNetBlog.Web.Areas.Api.Controllers
 
             return this.PagedData(result.Data, result.Total);
         }
+
+        [HttpPost("batch/approve")]
+        public async Task<IActionResult> BatchApprove([FromBody]BatchModel model)
+        {
+            if (model == null || !ModelState.IsValid)
+            {
+                return this.InvalidRequest();
+            }
+
+            await this.CommentService.BathUpdateStatus(model.CommentList, Core.Enums.CommentStatus.Approved);
+
+            return this.Success();
+        }
+
+        [HttpPost("batch/reject")]
+        public async Task<IActionResult> BatchReject([FromBody]BatchModel model)
+        {
+            if (model == null || !ModelState.IsValid)
+            {
+                return this.InvalidRequest();
+            }
+
+            await this.CommentService.BathUpdateStatus(model.CommentList, Core.Enums.CommentStatus.Reject);
+
+            return this.Success();
+        }
+
+        [HttpPost("delete")]
+        public async Task<IActionResult> Delete([FromBody]BatchModel model)
+        {
+            if (model == null || !ModelState.IsValid)
+            {
+                return this.InvalidRequest();
+            }
+
+            await this.CommentService.BathUpdateStatus(model.CommentList, Core.Enums.CommentStatus.Reject);
+
+            return this.Success();
+        }
     }
 }

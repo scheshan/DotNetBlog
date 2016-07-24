@@ -98,7 +98,18 @@ namespace DotNetBlog.Core.Service
             return new PagedResult<CommentModel>(modelList, total);
         }
 
-        public List<CommentModel> Transform(params Comment[] entityList)
+        public async Task BathUpdateStatus(int[] idList, Enums.CommentStatus status)
+        {
+            var entityList = await this.BlogContext.Comments.Where(t => idList.Contains(t.ID)).ToListAsync();
+            foreach (var entity in entityList)
+            {
+                entity.Status = status;
+            }
+
+            await this.BlogContext.SaveChangesAsync();
+        }
+
+        private List<CommentModel> Transform(params Comment[] entityList)
         {
             var userIDList = entityList.Where(t => t.UserID.HasValue).Select(t => t.UserID.Value).ToList();
             var userList = this.BlogContext.QueryUserFromCache().Where(t => userIDList.Contains(t.ID)).ToList();

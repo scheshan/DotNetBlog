@@ -6,7 +6,7 @@ var {hashHistory} = require("react-router")
 var ModifyTag = require("./modifytag")
 var {BootstrapTable, TableHeaderColumn} = require("react-bootstrap-table")
 
-const pageSize = 2
+const pageSize = 20
 
 class TagList extends React.Component{
     constructor(){
@@ -35,15 +35,11 @@ class TagList extends React.Component{
         }, ()=>{
             Api.queryTag(page, pageSize, keywords, response=>{
                 if(response.success){
-                    _.forEach(response.data, tag=>{
-                        tag.checked = false
-                    });
-
                     this.setState({
                         loading: false,
-                        selectAll: false,
                         tagList: response.data,
-                        total: response.total
+                        total: response.total,
+                        selectedList: []
                     })
                 }
                 else{
@@ -62,24 +58,6 @@ class TagList extends React.Component{
         ){
             this.loadData()
         }
-    }
-
-    selectAll(e){
-        let selectAll = e.target.checked;
-
-        let tagList = this.state.tagList;
-        _.forEach(tagList, tag=>{
-            tag.checked = selectAll
-        });
-        this.setState({
-            tagList,
-            selectAll
-        });
-    }
-
-    selectTag(tag){
-        tag.checked = !tag.checked;
-        this.forceUpdate();
     }
 
     handlePageChange(page){
@@ -110,11 +88,11 @@ class TagList extends React.Component{
         if(!this.state.tagList){
             return false;
         }
-        return _.some(this.state.tagList, {checked: true});
+        return this.state.selectedList.length > 0;
     }
 
     remove(){
-        var idList = _.map(_.filter(this.state.tagList, {checked: true}), tag=>tag.id);
+        var idList = this.state.selectedList;
         if(idList.length == 0){
             return;
         }
@@ -148,13 +126,38 @@ class TagList extends React.Component{
         this.loadData()
     }
 
-    handleSelect(){
-        this.forceUpdate()
+    handleSelect(row, selected){
+        var arr = this.state.selectedList;
+
+        if(selected){
+            arr.push(row.id);
+        }
+        else{
+            _.remove(arr, item=>item == row.id);
+        }
+
+        this.setState({
+            selectedList: arr
+        })
     }
     
-    handleSelectAll(){
-        this.forceUpdate()
+    handleSelectAll(selected){
+        var arr = [];
+        if(selected){
+            arr = _.map(this.state.tagList, item=>item.id);
+        }
+        this.setState({
+            selectedList: arr
+        })
+    }
 
+    formatName(cell, row){
+        return (
+            <div>
+                <a href="javascript:void(0)" onClick={this.editTag.bind(this, row)}>{cell}</a>
+                <a target="_blank" href={'/tag/' + cell} className="pull-right text-muted"><i className="fa fa-external-link"></i></a>
+            </div>
+        )
     }
 
     render(){
@@ -192,39 +195,9 @@ class TagList extends React.Component{
                 <div className="box box-solid">
                     <div className="box-body table-responsive no-padding">
                         <BootstrapTable keyField="id" data={this.state.tagList} selectRow={selectRowProp}>
-                           <TableHeaderColumn dataField="keyword">名称</TableHeaderColumn>
+                           <TableHeaderColumn dataField="keyword" dataFormat={this.formatName.bind(this)}>名称</TableHeaderColumn>
                            <TableHeaderColumn width="100" dataAlign="center" dataField="topics" dataFormat={function(cell){return cell.all}}>文章</TableHeaderColumn>
                         </BootstrapTable>
-                        <table className="table table-hover">
-                            <thead>
-                                <tr>
-                                    <th style={{"width":"40px"}} className="text-center">
-                                        <input checked={this.state.selectAll} onChange={this.selectAll.bind(this)} type="checkbox"/>
-                                    </th>
-                                    <th>名称</th>
-                                    <th style={{width: "100px"}} className="text-center">文章</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {
-                                    this.state.tagList.map(tag=>{
-                                        return (
-                                            <tr key={tag.id}>
-                                                <td className="text-center">
-                                                    <input type="checkbox" checked={tag.checked} onChange={this.selectTag.bind(this, tag)}/>
-                                                </td>
-                                                <td>
-                                                    <a href="javascript:void(0)" onClick={this.editTag.bind(this, tag)}>{tag.keyword}</a>
-
-                                                    <a target="_blank" href={'/tag/' + tag.keyword} className="pull-right text-muted"><i className="fa fa-external-link"></i></a>
-                                                </td>
-                                                <td className="text-center">{tag.topics.all}</td>
-                                            </tr>
-                                        )
-                                    })
-                                }
-                            </tbody>
-                        </table>
                     </div>
                 </div>               
 

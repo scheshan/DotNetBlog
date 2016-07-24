@@ -121,7 +121,22 @@ const Api = {
     },
     editTag(id, keyword, callback){
         post("/api/tag/" + id, {keyword: keyword}, callback);
+    },
+    queryComment(page, pageSize, keywords, status, callback){
+        var param = {
+            pageIndex: page,
+            pageSize,
+            keywords,
+            status
+        };
+        get(prepareUrl("/api/comment/query", param), callback);
+    },
+    batchApproveComment(idList, callback){
+        post("/api/comment/batch/approve", {commentList: idList}, callback);
+    },
+    batchRejectComment(idList, callback){
+        post("/api/comment/batch/reject", {commentList: idList}, callback);
     }
 }
 
-module.exports = Api
+module.exports = Api;
