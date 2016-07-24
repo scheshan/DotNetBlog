@@ -1,5 +1,13 @@
 ﻿@model TopicPageViewModel
 
+@{ 
+    var commentListViewModel = new CommentListViewModel
+    {
+        AllCommentList = Model.CommentList,
+        CommentList = Model.CommentList.Where(t => t.ReplyToID == null).ToList()
+    };
+}
+
 <div id="postnavigation" class="navigation-posts well-global" condition="Model.PrevTopic != null || Model.NextTopic != null">
     <div class="row">
 
@@ -34,7 +42,10 @@
                     <a asp-action="Category" asp-controller="Home" asp-route-id="@category.ID">@category.Name</a>
                 }
             </span>
-            <a rel="nofollow" class="pull-right post-comment-link" href="/post/2016/02/06/post-two#comment"><i class="glyphicon glyphicon-comment"></i>(0)</a>
+            <a rel="nofollow" class="pull-right post-comment-link" asp-action="Topic" asp-controller="Home" asp-route-id="@Model.Topic.ID" asp-fragment="comments">
+                <i class="fa fa-comment"></i>
+                (@Model.Topic.Comments.Approved)
+            </a>
         </div>
     </header>
     <section class="post-body text">
@@ -63,6 +74,18 @@
         </li>
         }
     </ul>
+</div>
+
+<div class="well-global">
+    <h3 id="comments" class="well-global-title">
+        评论 (@Model.Topic.Comments.Approved)
+    </h3>
+
+    <div id="commentlist">
+        <ul class="media-list">
+            @Html.Partial("_CommentList", commentListViewModel)
+        </ul>
+    </div>
 </div>
 
 <div id="comment-form" condition="Model.Topic.AllowComment">

@@ -136,6 +136,9 @@ const Api = {
     },
     batchRejectComment(idList, callback){
         post("/api/comment/batch/reject", {commentList: idList}, callback);
+    },
+    deleteComment(idList, callback){
+        post("/api/comment/delete", {commentList: idList}, callback);
     }
 }
 

@@ -27,6 +27,8 @@ namespace DotNetBlog.Core.Model.Topic
 
         public Enums.TopicStatus Status { get; set; }
 
+        public Comment.CommentCountModel Comments { get; set; }
+
         public class CategoryModel
         {
             public int ID { get; set; }

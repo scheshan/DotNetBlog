@@ -37,9 +37,16 @@ namespace DotNetBlog.Core.Service
 
             if (model.ReplyTo.HasValue)
             {
-                if (!await BlogContext.Comments.AnyAsync(t => t.ID == model.ReplyTo.Value && t.Status == Enums.CommentStatus.Approved))
+                var replyEntity = await BlogContext.Comments.SingleOrDefaultAsync(t => t.ID == model.ReplyTo.Value);
+
+                if (replyEntity == null || replyEntity.Status != Enums.CommentStatus.Approved)
                 {
                     return OperationResult<CommentModel>.Failure("回复的评论不存在");
+                }
+
+                if (replyEntity.TopicID != model.TopicID)
+                {
+                    return OperationResult<CommentModel>.Failure("错误的回复对象");
                 }
             }
 
@@ -68,7 +75,7 @@ namespace DotNetBlog.Core.Service
 
         public async Task<List<CommentModel>> QueryByTopic(int topicID)
         {
-            var entityList = await BlogContext.Comments.Where(t => t.TopicID == topicID).ToArrayAsync();
+            var entityList = await BlogContext.Comments.Where(t => t.TopicID == topicID && t.Status != Enums.CommentStatus.Junk).ToArrayAsync();
 
             return this.Transform(entityList);
         }
@@ -109,13 +116,65 @@ namespace DotNetBlog.Core.Service
             await this.BlogContext.SaveChangesAsync();
         }
 
+        public async Task BatchDelete(int[] idList)
+        {
+            int?[] deleteIDList = idList.Cast<int?>().ToArray();
+
+            using (var tran = this.BlogContext.Database.BeginTransaction())
+            {
+                var entityList = await this.BlogContext.Comments.Where(t => deleteIDList.Contains(t.ID)).ToListAsync();
+                this.BlogContext.RemoveRange(entityList);
+                await this.BlogContext.SaveChangesAsync();
+
+                var childReplyList = await this.BlogContext.Comments.Where(t => deleteIDList.Contains(t.ReplyToID)).ToListAsync();
+                foreach (var entity in childReplyList)
+                {
+                    entity.ReplyToID = null;
+                }
+                await this.BlogContext.SaveChangesAsync();
+
+                tran.Commit();
+            }
+        }
+
+        public async Task<CommentModel> Delete(int id, bool deleteChild)
+        {
+            var entity = await this.BlogContext.Comments.SingleOrDefaultAsync(t => t.ID == id);
+            if (entity == null)
+            {
+                return null;
+            }
+
+            var result = this.Transform(entity).First();
+
+            this.BlogContext.Comments.Remove(entity);
+
+            if (deleteChild)
+            {
+                var allCommentList = await this.BlogContext.Comments.Where(t => t.TopicID == entity.TopicID).ToListAsync();
+                var idList = this.GetChildCommentIDList(allCommentList, entity.ID);
+
+                var deleteEntityList = allCommentList.Where(t => idList.Contains(t.ID)).ToList();
+                this.BlogContext.Comments.RemoveRange(deleteEntityList);
+            }
+            else
+            {
+                var replyEntityList = await this.BlogContext.Comments.Where(t => t.ReplyToID == entity.ID).ToListAsync();
+                foreach (var replyEntity in replyEntityList)
+                {
+                    replyEntity.ReplyToID = null;
+                }
+            }
+
+            await this.BlogContext.SaveChangesAsync();
+
+            return result;
+        }
+
         private List<CommentModel> Transform(params Comment[] entityList)
         {
             var userIDList = entityList.Where(t => t.UserID.HasValue).Select(t => t.UserID.Value).ToList();
             var userList = this.BlogContext.QueryUserFromCache().Where(t => userIDList.Contains(t.ID)).ToList();
-
-            var commentIDList = entityList.Select(t => t.ID).Cast<int?>().ToList();
-            var hasChildrenIDList = this.BlogContext.Comments.Where(t => commentIDList.Contains(t.ReplyToID)).Select(t => t.ReplyToID).Distinct().ToList();
 
             var result = from comment in entityList
                          join user in userList on comment.UserID equals user.ID
@@ -137,11 +196,24 @@ namespace DotNetBlog.Core.Service
                                  Email = user.Email,
                                  ID = user.ID,
                                  UserName = user.UserName
-                             } : null,
-                             HasChildren = hasChildrenIDList.Contains(comment.ID)
+                             } : null
                          };
 
             return result.ToList();
+        }
+
+        private List<int> GetChildCommentIDList(List<Comment> entityList, int parent)
+        {
+            List<int> result = new List<int>();
+            result.Add(parent);
+
+            var children = entityList.Where(t => t.ReplyToID == parent).ToList();
+            foreach (var child in children)
+            {
+                result.AddRange(this.GetChildCommentIDList(entityList, child.ID));
+            }
+
+            return result;
         }
     }
 }

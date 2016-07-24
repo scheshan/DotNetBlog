@@ -187,5 +187,18 @@ namespace DotNetBlog.Web.Controllers
 
             return this.RedirectToAction("Topic", "Home", new { id = result.Data.TopicID });
         }
+
+        [HttpGet("comment/delete")]
+        [Filters.RequireLoginFilter]
+        public async Task<IActionResult> DeleteComment(int id, bool deleteChild)
+        {
+            var commentModel = await this.CommentService.Delete(id, deleteChild);
+            if (commentModel == null)
+            {
+                return this.NotFound();
+            }
+
+            return this.RedirectToAction("Topic", "Home", new { id = commentModel.TopicID });
+        }
     }
 }

@@ -29,8 +29,6 @@ namespace DotNetBlog.Core.Model.Comment
 
         public UserModel User { get; set; }
 
-        public bool HasChildren { get; set; }
-
         public class UserModel
         {
             public int ID { get; set; }

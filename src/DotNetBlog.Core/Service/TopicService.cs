@@ -417,6 +417,16 @@ namespace DotNetBlog.Core.Service
 
             List<CategoryTopic> categoryTopicList = await BlogContext.CategoryTopics.Include(t => t.Category).Where(t => idList.Contains(t.TopicID)).ToListAsync();
             List<TagTopic> tagTopicList = await BlogContext.TagTopics.Include(t => t.Tag).Where(t => idList.Contains(t.TopicID)).ToListAsync();
+            var topicComments = await BlogContext.Comments.Where(t => idList.Contains(t.TopicID))
+                                .GroupBy(t => t.TopicID)
+                                .Select(t => new
+                                {
+                                    TopicID = t.Key,
+                                    Approved = t.Count(c => c.Status == Enums.CommentStatus.Approved),
+                                    Reject = t.Count(c => c.Status == Enums.CommentStatus.Reject),
+                                    Pending = t.Count(c => c.Status == Enums.CommentStatus.Pending),
+                                    Total = t.Count()
+                                }).ToListAsync();
 
             List<TopicModel> result = entityList.Select(entity =>
             {
@@ -430,7 +440,18 @@ namespace DotNetBlog.Core.Service
                 model.Tags = tagTopicList.Where(tag => tag.TopicID == entity.ID)
                     .Select(tag => tag.Tag.Keyword)
                     .ToArray();
-                return model;
+                model.Comments = new Model.Comment.CommentCountModel();
+
+                var topicComment = topicComments.SingleOrDefault(t => t.TopicID == entity.ID);
+                if (topicComment != null)
+                {
+                    model.Comments.Approved = topicComment.Approved;
+                    model.Comments.Pending = topicComment.Pending;
+                    model.Comments.Reject = topicComment.Reject;
+                    model.Comments.Total = topicComment.Total;
+                }
+
+                return model;                
             }).ToList();
 
             return result;

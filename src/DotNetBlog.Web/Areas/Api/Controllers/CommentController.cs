@@ -61,7 +61,7 @@ namespace DotNetBlog.Web.Areas.Api.Controllers
                 return this.InvalidRequest();
             }
 
-            await this.CommentService.BathUpdateStatus(model.CommentList, Core.Enums.CommentStatus.Reject);
+            await this.CommentService.BatchDelete(model.CommentList);
 
             return this.Success();
         }

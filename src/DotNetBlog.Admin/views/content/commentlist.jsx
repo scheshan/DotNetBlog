@@ -69,10 +69,6 @@ class CommentList extends React.Component{
         return this.state.selectedList.length > 0;
     }
 
-    remove(){
-
-    }
-
     search(){
         this.changePage(1, this.state.keywords, this.state.status);
     }
@@ -173,6 +169,22 @@ class CommentList extends React.Component{
             loading: true
         }, ()=>{
             Api.batchRejectComment(idList, this.apiCallback.bind(this))
+        });
+    }
+
+    remove(){
+        var idList = this.state.selectedList;
+        if(idList.length == 0){
+            return;
+        }
+        if(this.state.loading){
+            return;
+        }
+
+        this.setState({
+            loading: true
+        }, ()=>{
+            Api.deleteComment(idList, this.apiCallback.bind(this))
         });
     }
 
