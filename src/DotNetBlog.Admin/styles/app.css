@@ -106,3 +106,19 @@
   0%{transform:rotate(0deg)}
   100%{transform:rotate(360deg)}
 }
+
+.react-bs-table table{
+  margin-bottom: 0px;
+}
+
+.external-link {
+    display: block;
+    width: 44px;
+    height: 100%;
+    text-align: center;
+}
+
+.react-bs-table-pagination{
+  padding-left:15px;
+  padding-right:15px;
+}

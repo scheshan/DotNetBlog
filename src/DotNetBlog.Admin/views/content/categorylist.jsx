@@ -4,13 +4,16 @@ var _ = require("lodash")
 var ModifyCategory = require("./modifycategory")
 var Dialog = require("../../services/dialog")
 var {Spinner} = require("../../components")
+var {BootstrapTable, TableHeaderColumn} = require("react-bootstrap-table")
 
 class CategoryList extends React.Component{
     constructor(){
         super()
 
         this.state = {
-            categoryList: []
+            loading: false,
+            categoryList: [],
+            selectedList: []
         }
     }
 
@@ -30,7 +33,8 @@ class CategoryList extends React.Component{
 
                     this.setState({
                         loading: false,
-                        categoryList: response.data
+                        categoryList: response.data,
+                        selectedList: []
                     })
                 }
                 else{
@@ -62,7 +66,7 @@ class CategoryList extends React.Component{
         if(!this.state.categoryList){
             return false;
         }
-        return _.some(this.state.categoryList, {checked: true})
+        return this.state.selectedList.length > 0;
     }
 
     remove(){
@@ -70,22 +74,14 @@ class CategoryList extends React.Component{
             return false;
         }
 
-        var idList = _.map(_.filter(this.state.categoryList, {checked: true}), item=>{
-            return item.id
-        });
+        var idList = this.state.selectedList;
 
         this.setState({
             loading: true
         }, ()=>{
             Api.removeCategory(idList, response=>{
-                if(response.success){
-                    var categoryList = _.filter(this.state.categoryList, (category)=>{
-                        return !category.checked
-                    });
-                    this.setState({
-                        loading: false,
-                        categoryList: categoryList
-                    })
+                if(response.success){            
+                    this.loadData();
                 }
                 else{
                     this.setState({
@@ -109,7 +105,55 @@ class CategoryList extends React.Component{
         this.loadData()
     }
 
+    handleSelect(category, selected){
+        var arr = this.state.selectedList;
+        if(selected){
+            arr.push(category.id);
+        }
+        else{
+            _.remove(arr, id=>id == category.id);
+        }
+
+        this.setState({
+            selectedList: arr
+        });
+    }
+
+    handleSelectAll(selected){
+        var arr = this.state.selectedList;
+        arr = [];
+        if(selected){
+            arr = _.map(this.state.categoryList, cat=>cat.id);
+        }
+
+        this.setState({
+            selectedList: arr
+        });
+
+        console.log(this.state);
+    }
+
     render(){
+        const selectRowProp = {
+            mode: 'checkbox',
+            onSelect: this.handleSelect.bind(this),
+            onSelectAll: this.handleSelectAll.bind(this),
+            selected: this.state.selectedList
+        };
+
+        function formatCategoryName(cell, row) {
+            return (
+                <div>
+                    <a href="javascript:void(0)" onClick={this.editCategory.bind(this, row)}>{row.name}</a>
+                    <a title="查看" className="pull-right text-muted" target="_blank" href={'/category/' + row.id}><i className="fa fa-external-link"></i></a>
+                </div>
+            )
+        }
+
+        function formatTopics(cell, row) {
+            return cell.all
+        }
+
         return (
             <div className="content">
                 <ModifyCategory onSuccess={this.onModifyCategorySuccess.bind(this)} ref="modifyCategoryView"></ModifyCategory>
@@ -126,34 +170,10 @@ class CategoryList extends React.Component{
 
                 <div className="box box-solid">
                     <div className="box-body table-responsive no-padding">
-                        <table className="table table-hover">
-                            <thead>
-                                <tr>
-                                    <th style={{"width":"40px"}} className="text-center">
-                                        <input type="checkbox" onChange={this.checkAll.bind(this)}/>
-                                    </th>
-                                    <th style={{"width":"30%"}}>名称</th>
-                                    <th>描述</th>
-                                    <th style={{width: "100px"}}>文章</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {
-                                    this.state.categoryList.map(cat=>{
-                                        return (
-                                            <tr key={cat.id}>
-                                                <td className="text-center"><input type="checkbox" checked={cat.checked} onChange={this.checkOne.bind(this, cat)}/></td>
-                                                <td>
-                                                    <a href="javascript:void(0)" onClick={this.editCategory.bind(this, cat)}>{cat.name}</a>
-                                                </td>
-                                                <td>{cat.description}</td>
-                                                <td>{cat.topics.all}</td>
-                                            </tr>
-                                        )
-                                    })
-                                }
-                            </tbody>
-                        </table>
+                        <BootstrapTable keyField="id" hover={true} striped={true} data={this.state.categoryList} selectRow={selectRowProp}>
+                            <TableHeaderColumn dataField='name' dataFormat={formatCategoryName.bind(this)}>名称</TableHeaderColumn>
+                            <TableHeaderColumn width="100" dataAlign="center" dataField='topics' dataFormat={formatTopics.bind(this)}>文章</TableHeaderColumn>
+                        </BootstrapTable>
                     </div>
                 </div>                
             </div>

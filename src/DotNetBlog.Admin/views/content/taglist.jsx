@@ -4,17 +4,20 @@ var Dialog = require("../../services/dialog")
 var {Pager, Spinner} = require("../../components")
 var {hashHistory} = require("react-router")
 var ModifyTag = require("./modifytag")
+var {BootstrapTable, TableHeaderColumn} = require("react-bootstrap-table")
 
-const pageSize = 20
+const pageSize = 2
 
 class TagList extends React.Component{
     constructor(){
         super()
 
         this.state = {
+            loading: false,
             selectAll: false,
             tagList: [],
-            keywords: ''
+            keywords: '',
+            selectedList: []
         }
     }
 
@@ -145,7 +148,28 @@ class TagList extends React.Component{
         this.loadData()
     }
 
+    handleSelect(){
+        this.forceUpdate()
+    }
+    
+    handleSelectAll(){
+        this.forceUpdate()
+
+    }
+
     render(){
+        const tableOptions = {
+            sizePerPageList: [2],
+            sizePerPage: 2
+        }
+
+        const selectRowProp = {
+            mode: 'checkbox',
+            onSelect: this.handleSelect.bind(this),
+            onSelectAll: this.handleSelectAll.bind(this),
+            selected: this.state.selectedList
+        };
+
         let page = this.props.location.query.page || 1;
         return (
             <div className="content">
@@ -167,6 +191,10 @@ class TagList extends React.Component{
 
                 <div className="box box-solid">
                     <div className="box-body table-responsive no-padding">
+                        <BootstrapTable keyField="id" data={this.state.tagList} selectRow={selectRowProp}>
+                           <TableHeaderColumn dataField="keyword">名称</TableHeaderColumn>
+                           <TableHeaderColumn width="100" dataAlign="center" dataField="topics" dataFormat={function(cell){return cell.all}}>文章</TableHeaderColumn>
+                        </BootstrapTable>
                         <table className="table table-hover">
                             <thead>
                                 <tr>
