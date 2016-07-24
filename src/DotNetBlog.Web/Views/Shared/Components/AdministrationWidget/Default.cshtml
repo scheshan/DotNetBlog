@@ -2,12 +2,11 @@
     <h4 class="WidgetHeader widget-header">管理</h4>
     <div class="WidgetContent widget-content">
         <ul class="toprounded" id="uxMenu_ulMenu">
-            <li><a href="/admin#/dashboard"><span>控制台</span></a></li>
-            <li><a href="/admin#/content/topics"><span>内容</span></a></li>
-            <li><a href="/admin/#/custom/themes"><span>Custom</span></a></li>
-            <li><a href="/admin#/config/basic"><span>设置</span></a></li>
-            <li><a href="/admin/#/security/profile"><span>My Profile</span></a></li>
-            <li><a href="/Account/change-password.aspx"><span>Change password</span></a></li>
+            <li><a asp-action="Index" asp-controller="Admin" asp-fragment="/dashboard"><span>控制台</span></a></li>
+            <li><a asp-action="Index" asp-controller="Admin" asp-fragment="/content/topics"><span>内容</span></a></li>
+            <li><a asp-action="Index" asp-controller="Admin" asp-fragment="/config/basic"><span>设置</span></a></li>
+            <li><a asp-action="Index" asp-controller="Admin" asp-fragment="/content/topics"><span>个人资料</span></a></li>
+            <li><a asp-action="ChangePassword" asp-controller="Account"><span>修改密码</span></a></li>
         </ul>
     </div>
 </div>
