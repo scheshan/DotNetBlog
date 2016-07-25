@@ -8,6 +8,9 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using DotNetBlog.Core.Model.Comment;
 using DotNetBlog.Core.Extensions;
+using DotNetBlog.Core.Model.Topic;
+using Microsoft.Extensions.Caching.Memory;
+using DotNetBlog.Core.Extensions;
 
 namespace DotNetBlog.Core.Service
 {
@@ -17,10 +20,13 @@ namespace DotNetBlog.Core.Service
 
         private ClientManager ClientManager { get; set; }
 
-        public CommentService(BlogContext blogContext, ClientManager clientManager)
+        private IMemoryCache Cache { get; set; }
+
+        public CommentService(BlogContext blogContext, ClientManager clientManager, IMemoryCache cache)
         {
             this.BlogContext = blogContext;
             this.ClientManager = clientManager;
+            this.Cache = cache;
         }
 
         public async Task<OperationResult<CommentModel>> Add(AddCommentModel model)
@@ -75,7 +81,17 @@ namespace DotNetBlog.Core.Service
 
         public async Task<List<CommentModel>> QueryByTopic(int topicID)
         {
-            var entityList = await BlogContext.Comments.Where(t => t.TopicID == topicID && t.Status != Enums.CommentStatus.Junk).ToArrayAsync();
+            var query = BlogContext.Comments.Where(t => t.TopicID == topicID);
+            if (ClientManager.IsLogin)
+            {
+                query = query.Where(t => t.Status == Enums.CommentStatus.Pending || t.Status == Enums.CommentStatus.Approved);
+            }
+            else
+            {
+                query = query.Where(t => t.Status == Enums.CommentStatus.Approved);
+            }
+
+            var entityList = await query.ToArrayAsync();
 
             return this.Transform(entityList);
         }
@@ -196,6 +212,75 @@ namespace DotNetBlog.Core.Service
             await this.BlogContext.SaveChangesAsync();
 
             return this.Transform(entity).First();
+        }
+
+        public async Task<List<CommentItemModel>> QueryLatest(int count)
+        {
+            string cacheKey = "Cache_Comment_Latest";
+            var result = await this.Cache.RetriveCacheAsync(cacheKey, async () =>
+            {
+                var entityList = await this.BlogContext.Comments.Where(t => t.Status == Enums.CommentStatus.Approved)
+                .OrderByDescending(t => t.ID)
+                .Take(count)
+                .ToListAsync();
+
+                if (entityList.Count == 0)
+                {
+                    return new List<CommentItemModel>();
+                }
+
+                var topicIDList = entityList.Select(t => t.TopicID).ToArray();
+                var topicList = await this.BlogContext.Topics
+                    .Where(t => topicIDList.Contains(t.ID))
+                    .Select(t => new TopicBasicModel
+                    {
+                        ID = t.ID,
+                        Title = t.Title
+                    }).ToListAsync();
+                var topicComments = await this.BlogContext.Comments.Where(t => topicIDList.Contains(t.TopicID))
+                    .GroupBy(t => t.TopicID)
+                    .Select(g => new
+                    {
+                        TopicID = g.Key,
+                        Total = g.Count(),
+                        Approved = g.Count(t => t.Status == Enums.CommentStatus.Approved),
+                        Pending = g.Count(t => t.Status == Enums.CommentStatus.Pending),
+                        Reject = g.Count(t => t.Status == Enums.CommentStatus.Reject)
+                    }).ToListAsync();
+
+                var modelList = entityList.Select(entity =>
+                {
+                    var commentModel = new CommentItemModel
+                    {
+                        ID = entity.ID,
+                        Name = entity.Name,
+                        Content = entity.Content
+                    };
+
+                    var topic = topicList.SingleOrDefault(t => t.ID == entity.TopicID);
+                    commentModel.Topic = new TopicBasicModel
+                    {
+                        ID = topic.ID,
+                        Title = topic.Title,
+                        Comments = new CommentCountModel()
+                    };
+
+                    var commentCount = topicComments.SingleOrDefault(t => t.TopicID == entity.TopicID);
+                    if (commentCount != null)
+                    {
+                        commentModel.Topic.Comments.Approved = commentCount.Approved;
+                        commentModel.Topic.Comments.Reject = commentCount.Reject;
+                        commentModel.Topic.Comments.Pending = commentCount.Pending;
+                        commentModel.Topic.Comments.Total = commentCount.Total;
+                    }
+
+                    return commentModel;
+                });
+
+                return modelList.ToList();
+            });
+
+            return result;            
         }
 
         private List<CommentModel> Transform(params Comment[] entityList)

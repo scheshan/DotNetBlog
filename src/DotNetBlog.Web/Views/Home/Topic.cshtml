@@ -1,4 +1,5 @@
 ﻿@model TopicPageViewModel
+@inject ClientManager clientManager
 
 @{ 
     var commentListViewModel = new CommentListViewModel
@@ -61,6 +62,15 @@
             }
         </div>
     </footer>
+
+    <visible condition="clientManager.IsLogin">
+        <visible condition="Model.Topic.Comments.Pending > 0">
+            <a asp-action="Topic" asp-controller="Home" asp-route-id="@Model.Topic.ID" asp-fragment="comments">未审核的评论(@Model.Topic.Comments.Pending)</a> |
+            <a asp-action="ApproveComments" asp-controller="QuickAction" asp-route-topicID="@Model.Topic.ID">通过所有评论</a> |
+        </visible>
+        <a asp-action="Index" asp-controller="Admin" asp-fragment="@("/content/topic/" + Model.Topic.ID.ToString())">编辑</a> |
+        <a asp-action="DeleteTopic" asp-controller="QuickAction" asp-route-id="@Model.Topic.ID" onclick="if (!confirm('您确定要 删除 文章?')) return false">删除</a>
+    </visible>
 </article>
 
 <div id="relatedPosts" class="related-posts well-global" condition="Model.RelatedTopicList.Any()">

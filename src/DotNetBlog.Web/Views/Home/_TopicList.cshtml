@@ -41,7 +41,7 @@
 
         <visible condition="clientManager.IsLogin">
             <visible condition="topic.Comments.Pending > 0">
-                <a asp-action="Topic" asp-controller="Home" asp-route-id="@topic.ID">未审核的评论(@topic.Comments.Pending)</a> |
+                <a asp-action="Topic" asp-controller="Home" asp-route-id="@topic.ID" asp-fragment="comments">未审核的评论(@topic.Comments.Pending)</a> |
                 <a asp-action="ApproveComments" asp-controller="QuickAction" asp-route-topicID="@topic.ID">通过所有评论</a> |
             </visible>
             <a asp-action="Index" asp-controller="Admin" asp-fragment="@("/content/topic/" + topic.ID.ToString())">编辑</a> |

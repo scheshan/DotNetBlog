@@ -6,12 +6,8 @@ using System.Threading.Tasks;
 
 namespace DotNetBlog.Core.Model.Topic
 {
-    public class TopicModel
+    public class TopicModel : TopicBasicModel
     {
-        public int ID { get; set; }
-
-        public string Title { get; set; }
-
         public string Alias { get; set; }
 
         public string Summary { get; set; }
@@ -27,7 +23,5 @@ namespace DotNetBlog.Core.Model.Topic
         public bool AllowComment { get; set; }
 
         public Enums.TopicStatus Status { get; set; }
-
-        public Comment.CommentCountModel Comments { get; set; }
     }
 }

@@ -171,23 +171,7 @@ namespace DotNetBlog.Core.Extensions
         private static T RetriveCache<T>(BlogContext context, string cacheKey, Func<T> func, MemoryCacheEntryOptions options = null)
         {
             var cache = context.ServiceProvider.GetService<IMemoryCache>();
-            var result = cache.Get<T>(cacheKey);
-
-            if (result == null)
-            {
-                result = func();
-
-                if (options == null)
-                {
-                    cache.Set(cacheKey, result);
-                }
-                else
-                {
-                    cache.Set(cacheKey, result, options);
-                }
-            }
-
-            return result;
+            return cache.RetriveCache<T>(cacheKey, func, options);
         }
 
         private static void RemoveCache(BlogContext context, string cacheKey)
