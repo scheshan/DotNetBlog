@@ -200,5 +200,13 @@ namespace DotNetBlog.Web.Controllers
 
             return this.RedirectToAction("Topic", "Home", new { id = commentModel.TopicID });
         }
+
+        [HttpGet("topic/{topicID:int}/approvecomments")]
+        public async Task<IActionResult> ApproveComments(int topicID)
+        {
+            await this.CommentService.ApprovePendingComments(topicID);
+
+            return this.RedirectToAction("Topic", "Home", new { id = topicID });
+        }
     }
 }

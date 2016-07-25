@@ -171,6 +171,18 @@ namespace DotNetBlog.Core.Service
             return result;
         }
 
+        public async Task ApprovePendingComments(int topicID)
+        {
+            var entityList = await this.BlogContext.Comments.Where(t => t.TopicID == topicID && t.Status == Enums.CommentStatus.Pending).ToListAsync();
+
+            foreach (var entity in entityList)
+            {
+                entity.Status = Enums.CommentStatus.Approved;
+            }
+
+            await this.BlogContext.SaveChangesAsync();
+        }
+
         private List<CommentModel> Transform(params Comment[] entityList)
         {
             var userIDList = entityList.Where(t => t.UserID.HasValue).Select(t => t.UserID.Value).ToList();

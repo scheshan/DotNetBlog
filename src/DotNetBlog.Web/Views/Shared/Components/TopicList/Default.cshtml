@@ -1,5 +1,6 @@
 ﻿@using DotNetBlog.Core.Model.Topic
 @using DotNetBlog.Core.Model.Setting
+@inject ClientManager clientManager
 
 @model List<TopicModel>
 @{ 
@@ -40,6 +41,14 @@
             </visible>
         </section>
 
-        <a href="/admin#/content/topic/@(topic.ID)">编辑</a> | <a href="#" onclick="if (confirm('您确定要 删除 文章?')) location.href='/post/test2?deletepost=6a29d5f3-106e-4e67-b82e-09a65c3b8dea'">删除</a> |
+        <visible condition="clientManager.IsLogin">
+            <visible condition="topic.Comments.Pending > 0">
+                <a asp-action="Topic" asp-controller="Home" asp-route-id="@topic.ID">未审核的评论(@topic.Comments.Pending)</a> |
+                <a asp-action="ApproveComments" asp-controller="Home" asp-route-topicID="@topic.ID">通过所有评论</a> |
+            </visible>
+            <a asp-action="Index" asp-controller="Admin" asp-fragment="@("/content/topic/" + topic.ID.ToString())">编辑</a> | 
+            <a asp-action="DeleteTopic" asp-controller="Home" asp-route-id="@topic.ID" onclick="if (!confirm('您确定要 删除 文章?')) return false">删除</a>
+        </visible>
+        
     </article>
 }
