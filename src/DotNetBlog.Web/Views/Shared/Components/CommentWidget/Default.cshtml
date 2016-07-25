@@ -1,0 +1,22 @@
+﻿@using DotNetBlog.Core.Model.Comment
+@model List<CommentItemModel>
+
+<div class="Widget widget recentcomments">
+    <h4 class="WidgetHeader widget-header">最新评论</h4>
+    <div class="WidgetContent widget-content">
+        <ul class="recentcomments">
+            @foreach (var comment in Model)
+            {
+            <li>
+                <a asp-action="Topic" asp-controller="Home" asp-route-id="@comment.Topic.ID" asp-fragment="comments">@comment.Topic.Title</a> (@comment.Topic.Comments.Approved)
+                <br>@comment.Name 写道: @comment.Content
+            </li>
+            }
+            <li>
+                <a href="/syndication.axd?comments=true">
+                    评论RSS <img alt="" src="/Content/images/blog/rssButton.png">
+                </a>
+            </li>
+        </ul>
+    </div>
+</div>

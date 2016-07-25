@@ -16,9 +16,10 @@ namespace DotNetBlog.Web.ViewComponents
             this.CommentService = commentService;
         }
 
-        public async Task Invoke()
+        public async Task<IViewComponentResult> InvokeAsync()
         {
-
+            var commentList = await this.CommentService.QueryLatest(10);
+            return View(commentList);
         }
     }
 }
