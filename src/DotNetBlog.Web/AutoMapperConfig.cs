@@ -20,6 +20,8 @@ namespace DotNetBlog.Web
                 config.CreateMap<SettingModel, BasicConfigModel>();
                 config.CreateMap<EmailConfigModel, SettingModel>();
                 config.CreateMap<SettingModel, EmailConfigModel>();
+                config.CreateMap<SettingModel, CommentConfigModel>();
+                config.CreateMap<CommentConfigModel, SettingModel>();
                 config.CreateMap<Topic, TopicModel>().ForMember(dest => dest.Date, map => map.MapFrom(source => source.EditDate));
             });
         }

@@ -71,5 +71,30 @@ namespace DotNetBlog.Web.Areas.Api.Controllers
 
             return Success();
         }
+        
+        [HttpGet("comment")]
+        public IActionResult GetCommentConfig()
+        {
+            var config = SettingService.Get();
+            var model = Mapper.Map<CommentConfigModel>(config);
+
+            return Success(model);
+        }
+
+        [HttpPost("comment")]
+        public async Task<IActionResult> SaveCommentConfig([FromBody]CommentConfigModel model)
+        {
+            if (model == null || !ModelState.IsValid)
+            {
+                return InvalidRequest();
+            }
+
+            var config = SettingService.Get();
+            Mapper.Map(model, config);
+
+            await SettingService.Save(config);
+
+            return Success();
+        }
     }
 }

@@ -1,25 +1,25 @@
-﻿require("whatwg-fetch")
-const _ = require("lodash")
+﻿require("whatwg-fetch");
+const _ = require("lodash");
 
 const errorResponse = {
     success: false,
     errorMessage: "请求发生错误，请稍后再试"
-}
+};
 
 function prepareUrl(url, param){
     let search = "";
     for(var key in param){        
         if(param[key] !== undefined && param[key] !== null){
-            let str = key + "=" + encodeURIComponent(param[key])
-            search = search == "" ? str : search + "&" + str
+            let str = key + "=" + encodeURIComponent(param[key]);
+            search = search == "" ? str : search + "&" + str;
         }
     }
 
     if(url.indexOf("?") > -1){
-        url = url + "&" + search
+        url = url + "&" + search;
     }
     else{
-        url = url + "?" + search
+        url = url + "?" + search;
     }
 
     return url;
@@ -30,11 +30,11 @@ function get(url, callback) {
         method: "GET",
         credentials: 'same-origin'
     }).then(response => {
-        return response.json()
+        return response.json();
     }).then(data => {
-        callback(data)
+        callback(data);
     }).catch(ex => {
-        callback(errorResponse)
+        callback(errorResponse);
     });
 }
 
@@ -48,12 +48,12 @@ function post(url, data, callback) {
         body: JSON.stringify(data),
         credentials: 'same-origin'
     }).then(response=>{
-        return response.json()
+        return response.json();
     }).then(data=>{
-        callback(data)
+        callback(data);
     }).catch(ex=>{
-        callback(errorResponse)
-    })
+        callback(errorResponse);
+    });
 }
 
 const Api = {
@@ -64,22 +64,28 @@ const Api = {
         post("/api/config/basic", config, callback);
     },
     getEmailConfig(callback){
-        get("/api/config/email", callback)
+        get("/api/config/email", callback);
     },
     saveEmailConfig(config, callback) {
-        post("/api/config/email", config, callback)
+        post("/api/config/email", config, callback);
+    },
+    getCommentConfig(callback){
+        get("/api/config/comment", callback);
+    },
+    saveCommentConfig(config, callback){
+        post("/api/config/comment", config, callback);
     },
     getCategoryList(callback){
-        get("/api/category/all", callback)
+        get("/api/category/all", callback);
     },
     addCategory(model, callback){
-        post("/api/category", model, callback)
+        post("/api/category", model, callback);
     },
     editCategory(id, model, callback){
-        post("/api/category/" + id, model, callback)
+        post("/api/category/" + id, model, callback);
     },
     removeCategory(idList, callback){
-        post("/api/category/remove", {idList: idList}, callback)
+        post("/api/category/remove", {idList: idList}, callback);
     },
     queryNormalTopic(page, pageSize, status, keywords, callback){
         var param = {
@@ -94,19 +100,19 @@ const Api = {
         get("/api/topic/" + id, callback);
     },
     addTopic(data, callback){
-        post("/api/topic", data, callback)
+        post("/api/topic", data, callback);
     },
     editTopic(id, data, callback){
-        post("/api/topic/" + id, data, callback)
+        post("/api/topic/" + id, data, callback);
     },
     batchPublishTopic(idList, callback){
-        post("/api/topic/batch/publish", {topicList: idList}, callback)
+        post("/api/topic/batch/publish", {topicList: idList}, callback);
     },
     batchDraftTopic(idList, callback){
-        post("/api/topic/batch/draft", {topicList: idList}, callback)
+        post("/api/topic/batch/draft", {topicList: idList}, callback);
     },
     batchDeleteTopic(idList, callback){
-        post("/api/topic/batch/delete", {topicList: idList}, callback)
+        post("/api/topic/batch/delete", {topicList: idList}, callback);
     },
     queryTag(page, pageSize, keywords, callback){
         var param = {
@@ -140,6 +146,6 @@ const Api = {
     deleteComment(idList, callback){
         post("/api/comment/delete", {commentList: idList}, callback);
     }
-}
+};
 
 module.exports = Api;

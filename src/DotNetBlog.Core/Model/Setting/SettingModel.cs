@@ -164,6 +164,81 @@ namespace DotNetBlog.Core.Model.Setting
             }
         }
 
+        /// <summary>
+        /// 是否允许评论
+        /// </summary>
+        public bool AllowComment
+        {
+            get
+            {
+                return GetBooleanValue(nameof(AllowComment), true);
+            }
+            set
+            {
+                SetValue(nameof(AllowComment), value.ToString());
+            }
+        }
+
+        /// <summary>
+        /// 是否审核评论
+        /// </summary>
+        public bool VerifyComment
+        {
+            get
+            {
+                return GetBooleanValue(nameof(VerifyComment), true);
+            }
+            set
+            {
+                SetValue(nameof(VerifyComment), value.ToString());
+            }
+        }
+
+        /// <summary>
+        /// 信任通过审核的评论用户
+        /// </summary>
+        public bool TrustAuthenticatedCommentUser
+        {
+            get
+            {
+                return GetBooleanValue(nameof(TrustAuthenticatedCommentUser), true);
+            }
+            set
+            {
+                SetValue(nameof(TrustAuthenticatedCommentUser), value.ToString());
+            }
+        }
+
+        /// <summary>
+        /// 在评论中启用网站
+        /// </summary>
+        public bool EnableCommentWebSite
+        {
+            get
+            {
+                return GetBooleanValue(nameof(EnableCommentWebSite), true);
+            }
+            set
+            {
+                SetValue(nameof(EnableCommentWebSite), value.ToString());
+            }
+        }
+
+        /// <summary>
+        /// 自动关闭评论
+        /// </summary>
+        public int CloseCommentDays
+        {
+            get
+            {
+                return GetIntValue(nameof(CloseCommentDays), 0);
+            }
+            set
+            {
+                SetValue(nameof(CloseCommentDays), value.ToString());
+            }
+        }
+
         #region Private Methods
 
         private string GetStringValue(string key, string defaultValue)
