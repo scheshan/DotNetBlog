@@ -3,6 +3,12 @@
 
 @foreach (var comment in Model.CommentList)
 {
+    var commentListViewModel = new CommentListViewModel
+    {
+        CommentList = Model.AllCommentList.Where(t => t.ReplyToID == comment.ID).ToList(),
+        AllCommentList = Model.AllCommentList
+    };    
+
     <li class="media comment-item">
         <div class="pull-left comment-gravatar ">
             <img src="http://www.gravatar.com/avatar/ed9089f088b2256affb5953d215363e3.jpg?d=identicon" width="72"></div>
@@ -10,24 +16,33 @@
             <div class="comment-content ">
                 <div class="comment-header clearfix">
                     <h4 class="media-heading pull-left"><span class="fn">@comment.Name  @comment.ID</span></h4>
-                    <small class="pull-right text-muted text-uppercase">@comment.CreateDate |  <a href="javascript:void(0);" class="reply-to-comment" onclick="BlogEngine.replyToComment('e04b8c99-d1e4-4d1d-b3d6-67c0adf553c7');">回复</a> </small>
+                    <small class="pull-right text-muted text-uppercase">
+                        @comment.CreateDate
+                        
+                        <visible condition="comment.Status == DotNetBlog.Core.Enums.CommentStatus.Approved">
+                            |  
+                            <a href="javascript:void(0);" class="reply-to-comment" onclick="BlogEngine.replyToComment('e04b8c99-d1e4-4d1d-b3d6-67c0adf553c7');">回复</a> 
+                        </visible>
+                    </small>
                 </div>
                 <p>@comment.Content</p>
                 <div class="text-right reply-to" condition="clientManager.IsLogin">
-                    <a class="email" href="mailto:a@a.cn">@comment.Email</a> | 
-                    <a href="http://www.domaintools.com/go/?service=whois&amp;q=::1/">@comment.CreateIP</a> | 
-                    <a asp-action="DeleteComment" asp-controller="Home" asp-route-id="@comment.ID" asp-route-deleleChild="False" onclick="if (!confirm('您确定要 删除 评论??')) return false">删除该留言，但保留回复</a> | 
-                    <a asp-action="DeleteComment" asp-controller="Home" asp-route-id="@comment.ID" asp-route-deleleChild="True" onclick="if (!confirm('您确定要 删除 评论??')) return false">删除该留言和回复</a>
+                    <a class="email" href="mailto:@(comment.Email)">@comment.Email</a> | 
+                    <a href="http://www.domaintools.com/go/?service=whois&q=@(comment.CreateIP)" target="_blank">@comment.CreateIP</a>
+                    <visible condition="commentListViewModel.CommentList.Any()">
+                        | <a asp-action="DeleteComment" asp-controller="QuickAction" asp-route-id="@comment.ID" asp-route-deleleChild="False" onclick="if (!confirm('您确定要 删除 评论?')) return false">删除该留言，但保留回复</a>
+                        | <a asp-action="DeleteComment" asp-controller="QuickAction" asp-route-id="@comment.ID" asp-route-deleleChild="True" onclick="if (!confirm('您确定要 删除 评论?')) return false">删除该留言和回复</a> 
+                    </visible>
+                    <visible condition="!commentListViewModel.CommentList.Any()">
+                        | <a asp-action="DeleteComment" asp-controller="QuickAction" asp-route-id="@comment.ID" asp-route-deleleChild="True" onclick="if (!confirm('您确定要 删除 评论?')) return false">删除</a>
+                    </visible>
+                    <visible condition="comment.Status == DotNetBlog.Core.Enums.CommentStatus.Pending">
+                        | <a asp-action="ApproveComment" asp-controller="QuickAction" asp-route-commentID="@comment.ID">通过</a>
+                    </visible>
                 </div>
             </div>
 
-            @{
-                var commentListViewModel = new CommentListViewModel
-                {
-                    CommentList = Model.AllCommentList.Where(t => t.ReplyToID == comment.ID).ToList(),
-                    AllCommentList = Model.AllCommentList
-                };
-            }
+            
 
             <div class="media" id="replies_@comment.ID" condition="commentListViewModel.CommentList.Any()">
                 <ul class="media-list">

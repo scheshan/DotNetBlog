@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DotNetBlog.Core.Model.Category;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -17,7 +18,7 @@ namespace DotNetBlog.Core.Model.Topic
 
         public string Content { get; set; }
 
-        public CategoryModel[] Categories { get; set; }
+        public CategoryBasicModel[] Categories { get; set; }
 
         public string[] Tags { get; set; }
 
@@ -28,12 +29,5 @@ namespace DotNetBlog.Core.Model.Topic
         public Enums.TopicStatus Status { get; set; }
 
         public Comment.CommentCountModel Comments { get; set; }
-
-        public class CategoryModel
-        {
-            public int ID { get; set; }
-
-            public string Name { get; set; }
-        }
     }
 }

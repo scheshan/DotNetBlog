@@ -183,6 +183,21 @@ namespace DotNetBlog.Core.Service
             await this.BlogContext.SaveChangesAsync();
         }
 
+        public async Task<CommentModel> ApproveComment(int id)
+        {
+            var entity = await this.BlogContext.Comments.SingleOrDefaultAsync(t => t.ID == id && t.Status == Enums.CommentStatus.Pending);
+
+            if (entity == null)
+            {
+                return null;
+            }
+
+            entity.Status = Enums.CommentStatus.Approved;
+            await this.BlogContext.SaveChangesAsync();
+
+            return this.Transform(entity).First();
+        }
+
         private List<CommentModel> Transform(params Comment[] entityList)
         {
             var userIDList = entityList.Where(t => t.UserID.HasValue).Select(t => t.UserID.Value).ToList();

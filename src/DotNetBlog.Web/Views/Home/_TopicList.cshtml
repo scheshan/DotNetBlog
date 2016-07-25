@@ -1,11 +1,9 @@
 ﻿@using DotNetBlog.Core.Model.Topic
 @using DotNetBlog.Core.Model.Setting
 @inject ClientManager clientManager
+@inject SettingModel config
 
 @model List<TopicModel>
-@{ 
-    SettingModel config = ViewBag.Config;
-}
 
 @foreach (TopicModel topic in Model)
 {
@@ -21,7 +19,7 @@
                 </span>
                 <span class="post-category" condition="@topic.Categories.Length > 0">
                     <i class="fa fa-folder"></i>
-                    @foreach(var category in topic.Categories)
+                    @foreach (var category in topic.Categories)
                     {
                         <a asp-action="Category" asp-controller="Home" asp-route-id="@category.ID">@category.Name</a>
                     }
@@ -44,11 +42,11 @@
         <visible condition="clientManager.IsLogin">
             <visible condition="topic.Comments.Pending > 0">
                 <a asp-action="Topic" asp-controller="Home" asp-route-id="@topic.ID">未审核的评论(@topic.Comments.Pending)</a> |
-                <a asp-action="ApproveComments" asp-controller="Home" asp-route-topicID="@topic.ID">通过所有评论</a> |
+                <a asp-action="ApproveComments" asp-controller="QuickAction" asp-route-topicID="@topic.ID">通过所有评论</a> |
             </visible>
-            <a asp-action="Index" asp-controller="Admin" asp-fragment="@("/content/topic/" + topic.ID.ToString())">编辑</a> | 
-            <a asp-action="DeleteTopic" asp-controller="Home" asp-route-id="@topic.ID" onclick="if (!confirm('您确定要 删除 文章?')) return false">删除</a>
+            <a asp-action="Index" asp-controller="Admin" asp-fragment="@("/content/topic/" + topic.ID.ToString())">编辑</a> |
+            <a asp-action="DeleteTopic" asp-controller="QuickAction" asp-route-id="@topic.ID" onclick="if (!confirm('您确定要 删除 文章?')) return false">删除</a>
         </visible>
-        
+
     </article>
 }

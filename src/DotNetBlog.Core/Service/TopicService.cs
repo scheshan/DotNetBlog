@@ -9,6 +9,7 @@ using DotNetBlog.Core.Data;
 using DotNetBlog.Core.Entity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
+using DotNetBlog.Core.Model.Category;
 
 namespace DotNetBlog.Core.Service
 {
@@ -432,7 +433,7 @@ namespace DotNetBlog.Core.Service
             {
                 var model = AutoMapper.Mapper.Map<TopicModel>(entity);
                 model.Categories = categoryTopicList.Where(category => category.TopicID == entity.ID)
-                    .Select(category => new TopicModel.CategoryModel
+                    .Select(category => new CategoryBasicModel
                     {
                         ID = category.CategoryID,
                         Name = category.Category.Name

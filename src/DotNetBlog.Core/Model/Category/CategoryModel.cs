@@ -6,12 +6,8 @@ using System.Threading.Tasks;
 
 namespace DotNetBlog.Core.Model.Category
 {
-    public class CategoryModel
+    public class CategoryModel : CategoryBasicModel
     {
-        public int ID { get; set; }
-
-        public string Name { get; set; }
-
         public string Description { get; set; }
 
         public TopicCountModel Topics { get; set; }
