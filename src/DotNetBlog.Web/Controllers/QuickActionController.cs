@@ -8,7 +8,6 @@ using System.Threading.Tasks;
 
 namespace DotNetBlog.Web.Controllers
 {
-    [Filters.RequireLoginFilter]
     public class QuickActionController : Controller
     {
         private CommentService CommentService { get; set; }
@@ -54,6 +53,7 @@ namespace DotNetBlog.Web.Controllers
         }
 
         [HttpGet("topic/{topicID:int}/approvecomments")]
+        [Filters.RequireLoginFilter]
         public async Task<IActionResult> ApproveComments(int topicID)
         {
             await this.CommentService.ApprovePendingComments(topicID);
@@ -62,6 +62,7 @@ namespace DotNetBlog.Web.Controllers
         }
 
         [HttpGet("comment/{commentID:int}/approve")]
+        [Filters.RequireLoginFilter]
         public async Task<IActionResult> ApproveComment(int commentID)
         {
             var comment = await this.CommentService.ApproveComment(commentID);

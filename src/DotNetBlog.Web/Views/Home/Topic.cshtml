@@ -5,7 +5,8 @@
     var commentListViewModel = new CommentListViewModel
     {
         AllCommentList = Model.CommentList,
-        CommentList = Model.CommentList.Where(t => t.ReplyToID == null).ToList()
+        CommentList = Model.CommentList.Where(t => t.ReplyToID == null).ToList(),
+        Topic = Model.Topic
     };
 }
 
@@ -98,50 +99,86 @@
     </div>
 </div>
 
-<div id="comment-form" condition="Model.Topic.AllowComment">
-    <form method="post" asp-action="AddComment" asp-controller="QuickAction">
-        <input type="hidden" name="TopicID" value="@Model.Topic.ID"/>
-        <input type="hidden" name="ReplyTo" value="" />
-        <div class="comment-form well-global">
-            <div class="well-global-title clearfix">
-                <h3 class="pull-left" id="addcomment">添加评论</h3>
+<div id="comment-form-container" condition="Model.Topic.AllowComment">
+    <div id="comment-form">
+        <form method="post" asp-action="AddComment" asp-controller="QuickAction">
+            <input type="hidden" name="TopicID" value="@Model.Topic.ID" />
+            <input type="hidden" name="ReplyTo" id="hdnReplyTo" value="" />
+            <div class="comment-form well-global">
+                <div class="well-global-title clearfix">
+                    <h3 class="pull-left" id="addcomment">添加评论</h3>
+                </div>
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        <label for="txtName" class="col-md-2 control-label">名字 *</label>
+                        <div class="col-md-10">
+                            <input type="text" class="form-control" name="Name" id="txtName">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="txtEmail" class="col-md-2 control-label">E-mail *</label>
+                        <div class="col-md-10">
+                            <input type="text" class="form-control" name="Email" id="txtEmail">
+                            <span id="gravatarmsg"></span>
+                        </div>
+                    </div>
+
+                    <div class="form-group" id="commentCompose">
+                        <label for="txtContent" class="col-md-2 control-label">评论 *</label>
+                        <div class="col-md-10">
+                            <textarea class="form-control" id="txtContent" cols="50" rows="6" name="Content"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-md-7 control-label">
+                            <input type="checkbox" id="cbNotify" class="cmnt-frm-notify">
+                            有评论的时候通知我
+                        </label>
+                        <div class="col-md-5 text-right">
+                            <input type="submit" id="btnSave" value="保存评论" class="btn btn-primary">
+                        </div>
+                    </div>
+                </div>
+
             </div>
-            <div class="form-horizontal">
-                <div class="form-group">
-                    <label for="txtName" class="col-md-2 control-label">名字 *</label>
-                    <div class="col-md-10">
-                        <input type="text" class="form-control" name="Name" id="txtName">
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="txtEmail" class="col-md-2 control-label">E-mail *</label>
-                    <div class="col-md-10">
-                        <input type="text" class="form-control" name="Email" id="txtEmail">
-                        <span id="gravatarmsg"></span>
-                    </div>
-                </div>
+            <p id="cancelReply" style="display: none;">
+                <a href="javascript:void(0);" onclick="cancelReply();">取消对该留言的回复</a>
+            </p>
+        </form>
+    </div>
 
-                <div class="form-group" id="commentCompose">
-                    <label for="txtContent" class="col-md-2 control-label">评论 *</label>
-                    <div class="col-md-10">
-                        <textarea class="form-control" id="txtContent" cols="50" rows="6" name="Content"></textarea>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label class="col-md-7 control-label">
-                        <input type="checkbox" id="cbNotify" class="cmnt-frm-notify">
-                        有评论的时候通知我
-                    </label>
-                    <div class="col-md-5 text-right">
-                        <input type="submit" id="btnSaveAjax" value="保存评论" class="btn btn-primary" onclick="return BlogEngine.validateAndSubmitCommentForm()">
-                    </div>
-                </div>
-            </div>
-
-        </div>
-        <p id="cancelReply" style="display: none;">
-            <a href="javascript:void(0);" onclick="BlogEngine.cancelReply();">取消对该留言的回复</a>
-        </p>
-    </form>
+    <script type="text/javascript">
+        function replyTo(id) {
+            var container = $("#replies_" + id);
+            $("#comment-form").appendTo(container);
+            $("#hdnReplyTo").val(id);
+            $("#cancelReply").show();
+            $("#txtContent").focus();
+        }
+        function cancelReply() {
+            var container = $("#comment-form-container");
+            $("#comment-form").appendTo(container);
+            $("#hdnReplyTo").val("");
+            $("#cancelReply").hide();
+        }
+        $("#btnSave").click(function () {
+            if ($("#txtName").val() == "") {
+                alert("请填写名字");
+                $("#txtName").focus();
+                return false;
+            }
+            if ($("#txtEmail").val() == "") {
+                alert("请填写邮箱");
+                $("#txtEmail").focus();
+                return false;
+            }
+            if ($("#txtContent").val() == "") {
+                alert("请填写评论内容");
+                $("#txtContent").focus();
+                return false;
+            }
+        })
+    </script>
 </div>
+

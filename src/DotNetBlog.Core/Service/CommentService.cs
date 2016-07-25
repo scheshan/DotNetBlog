@@ -289,7 +289,8 @@ namespace DotNetBlog.Core.Service
             var userList = this.BlogContext.QueryUserFromCache().Where(t => userIDList.Contains(t.ID)).ToList();
 
             var result = from comment in entityList
-                         join user in userList on comment.UserID equals user.ID
+                         join user in userList on comment.UserID equals user.ID into u
+                         from user in u.DefaultIfEmpty()
                          select new CommentModel
                          {
                              Content = comment.Content,

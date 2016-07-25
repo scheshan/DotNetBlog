@@ -1,4 +1,5 @@
 ﻿using DotNetBlog.Core.Model.Comment;
+using DotNetBlog.Core.Model.Topic;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,6 +9,11 @@ namespace DotNetBlog.Web.ViewModels.Home
 {
     public class CommentListViewModel
     {
+        /// <summary>
+        /// 对应的文章
+        /// </summary>
+        public TopicModel Topic { get; set; }
+
         /// <summary>
         /// 所有评论列表
         /// </summary>

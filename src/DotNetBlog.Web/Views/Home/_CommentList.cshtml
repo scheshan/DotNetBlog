@@ -6,22 +6,23 @@
     var commentListViewModel = new CommentListViewModel
     {
         CommentList = Model.AllCommentList.Where(t => t.ReplyToID == comment.ID).ToList(),
-        AllCommentList = Model.AllCommentList
+        AllCommentList = Model.AllCommentList,
+        Topic = Model.Topic
     };    
 
-    <li class="media comment-item">
+    <li class="media comment-item" id="comment_@comment.ID">
         <div class="pull-left comment-gravatar ">
             <img src="http://gravatar.duoshuo.com/avatar/@(DotNetBlog.Core.Utilities.EncryptHelper.MD5(comment.Email)).jpg?d=identicon" width="72"></div>
         <div class="media-body">
             <div class="comment-content ">
                 <div class="comment-header clearfix">
-                    <h4 class="media-heading pull-left"><span class="fn">@comment.Name  @comment.ID</span></h4>
+                    <h4 class="media-heading pull-left"><span class="fn">@comment.Name</span></h4>
                     <small class="pull-right text-muted text-uppercase">
                         @comment.CreateDate
                         
-                        <visible condition="comment.Status == DotNetBlog.Core.Enums.CommentStatus.Approved">
+                        <visible condition="Model.Topic.AllowComment && comment.Status == DotNetBlog.Core.Enums.CommentStatus.Approved">
                             |  
-                            <a href="javascript:void(0);" class="reply-to-comment" onclick="BlogEngine.replyToComment('e04b8c99-d1e4-4d1d-b3d6-67c0adf553c7');">回复</a> 
+                            <a href="javascript:void(0);" class="reply-to-comment" onclick="replyTo('@comment.ID');">回复</a> 
                         </visible>
                     </small>
                 </div>
@@ -42,10 +43,8 @@
                 </div>
             </div>
 
-            
-
-            <div class="media" id="replies_@comment.ID" condition="commentListViewModel.CommentList.Any()">
-                <ul class="media-list">
+            <div class="media" id="replies_@comment.ID">
+                <ul class="media-list" condition="commentListViewModel.CommentList.Any()">
                     @Html.Partial("_CommentList", commentListViewModel)
                 </ul>
             </div>
