@@ -106,6 +106,35 @@ namespace DotNetBlog.Core.Service
             return new OperationResult<CommentModel>(commentModel);
         }
 
+        public async Task<OperationResult<CommentModel>> DirectlyReply(int replyTo, string content)
+        {
+            Comment comment = await BlogContext.Comments.SingleOrDefaultAsync(t => t.ID == replyTo);
+
+            if (comment == null)
+            {
+                return OperationResult<CommentModel>.Failure("评论不存在");
+            }
+
+            var entity = new Comment
+            {
+                Content = content,
+                CreateDate = DateTime.Now,
+                CreateIP = this.ClientManager.ClientIP,
+                Email = this.ClientManager.CurrentUser.Email,
+                Name = this.ClientManager.CurrentUser.Nickname,
+                ReplyToID = replyTo,
+                Status = Enums.CommentStatus.Approved,
+                TopicID = comment.TopicID,
+                UserID = this.ClientManager.CurrentUser.ID
+            };
+
+            this.BlogContext.Add(entity);
+            await this.BlogContext.SaveChangesAsync();
+
+            var commentModel = Transform(entity).First();
+            return new OperationResult<CommentModel>(commentModel);
+        }
+
         public async Task<List<CommentModel>> QueryByTopic(int topicID)
         {
             var query = BlogContext.Comments.Where(t => t.TopicID == topicID);

@@ -146,6 +146,9 @@ const Api = {
     deleteComment(idList, callback){
         post("/api/comment/delete", {commentList: idList}, callback);
     },
+    replyComment(data, callback){
+        post("/api/comment/reply", data, callback);
+    },
     getMyInfo(callback){
         get("/api/my", callback);
     },

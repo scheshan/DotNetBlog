@@ -65,5 +65,25 @@ namespace DotNetBlog.Web.Areas.Api.Controllers
 
             return this.Success();
         }
+
+        [HttpPost("reply")]
+        public async Task<IActionResult> Reply([FromBody]ReplyCommentModel model)
+        {
+            if (model == null || !ModelState.IsValid)
+            {
+                return this.InvalidRequest();
+            }
+
+            var result = await this.CommentService.DirectlyReply(model.ReplyTo, model.Content);
+
+            if (result.Success)
+            {
+                return this.Success();
+            }
+            else
+            {
+                return this.Error(result.ErrorMessage);
+            }
+        }
     }
 }

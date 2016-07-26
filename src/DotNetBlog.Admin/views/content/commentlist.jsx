@@ -4,6 +4,7 @@ var {BootstrapTable, TableHeaderColumn} = require("react-bootstrap-table")
 var {hashHistory} = require("react-router")
 var Api = require("../../services/api")
 var Dialog = require("../../services/dialog")
+var ReplyComment = require("./replycomment")
 
 const pageSize = 20;
 
@@ -188,6 +189,14 @@ class CommentList extends React.Component{
         });
     }
 
+    replyComment(comment){
+        this.refs.replyComment.show(comment);
+    }
+
+    onReplyCommentSuccess(){
+        this.loadData();
+    }
+
     formatStatus(cell, row){
         let className = "";
         let text = "";
@@ -216,6 +225,12 @@ class CommentList extends React.Component{
         )
     }
 
+    formatContent(cell, row){
+        return (
+            <a href="javascript:void(0)" onClick={this.replyComment.bind(this, row)}>{cell}</a>
+        )
+    }
+
     render(){
         let page = this.props.location.query.page || 1;
 
@@ -228,6 +243,7 @@ class CommentList extends React.Component{
 
         return (
             <div className="content">
+                <ReplyComment ref="replyComment" successCallback={this.onReplyCommentSuccess.bind(this)}></ReplyComment>
                 <Spinner loading={this.state.loading}/>
                 <div className="mailbox-controls">
                     <div className="btn-group">
@@ -261,7 +277,7 @@ class CommentList extends React.Component{
                 <div className="box box-solid">
                     <div className="box-body table-responsive no-padding">
                         <BootstrapTable keyField="id" data={this.state.commentList} selectRow={selectRowProp}>
-                           <TableHeaderColumn dataField="content">内容</TableHeaderColumn>
+                           <TableHeaderColumn dataField="content" dataFormat={this.formatContent.bind(this)}>内容</TableHeaderColumn>
                            <TableHeaderColumn width="180" dataAlign="center" dataField="createDate">日期</TableHeaderColumn>
                            <TableHeaderColumn width="180" dataAlign="center" dataField="name">作者</TableHeaderColumn>
                            <TableHeaderColumn width="100" dataAlign="center" dataField="status" dataFormat={this.formatStatus.bind(this)}>状态</TableHeaderColumn>
