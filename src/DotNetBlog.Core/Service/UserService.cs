@@ -42,5 +42,29 @@ namespace DotNetBlog.Core.Service
 
             return new Model.OperationResult();
         }
+
+        public async Task<OperationResult> EditUserInfo(int id, string email, string nickname)
+        {
+            if (await BlogContext.Users.AnyAsync(t => t.Email == email && t.ID != id))
+            {
+                return OperationResult.Failure("邮箱地址重复");
+            }
+
+            var user = await BlogContext.Users.SingleOrDefaultAsync(t => t.ID == id);
+
+            if (user == null)
+            {
+                return OperationResult.Failure("用户不存在");
+            }
+
+            user.Email = email;
+            user.Nickname = nickname;
+
+            await BlogContext.SaveChangesAsync();
+
+            BlogContext.RemoveUserCache();
+
+            return new Model.OperationResult();
+        }
     }
 }

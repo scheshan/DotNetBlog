@@ -7,6 +7,11 @@ var ContentHeader = require('../components/contentheader')
 
 class Menu extends React.Component{
     render() {
+        let menu = this.props.menu;
+        if(menu.hide){
+            return null;
+        }
+
         let className = this.props.menu.selected ? "active" : ""
         let icon = null;
         if (this.props.menu.icon) {
@@ -93,9 +98,15 @@ class App extends React.Component{
                                 <img src="https://almsaeedstudio.com/themes/AdminLTE/dist/img/user2-160x160.jpg" className="img-circle" alt="User Image" />
                             </div>
                             <div className="pull-left info">
-                                <p>User Name</p>
+                                <p>
+                                    <Link to="profile">{user.nickname}</Link>
+                                </p>
 
-                                <a href="#"><i className="fa fa-circle text-success"></i> Online</a>
+                                <span>
+                                    <i className="fa fa-circle text-success"></i> 
+                                    {' '}
+                                    2016-1-1 10:00:01
+                                </span>
                             </div>
                         </div>
 

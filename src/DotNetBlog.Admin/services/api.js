@@ -145,6 +145,12 @@ const Api = {
     },
     deleteComment(idList, callback){
         post("/api/comment/delete", {commentList: idList}, callback);
+    },
+    getMyInfo(callback){
+        get("/api/my", callback);
+    },
+    editMyInfo(data, callback){
+        post("/api/my", data, callback);
     }
 };
 

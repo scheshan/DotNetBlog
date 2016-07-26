@@ -14,7 +14,9 @@ const MenuKeys = {
     Config_Email: "Menu_Config_Email",
     Config_Feed: "Menu_Config_Feed",
     Config_Comments: "Menu_Config_Comments",
-    Config_Advance: "Menu_Config_Advance"
+    Config_Advance: "Menu_Config_Advance",
+    User: "Menu_User",
+    User_Profile: "Menu_User_Profile"
 }
 
 const Menus = [
@@ -82,6 +84,20 @@ const Menus = [
                 key: MenuKeys.Config_Advance,
                 text: "高级",
                 url: "config/advance"
+            }
+        ]
+    },
+    {
+        key: MenuKeys.User,
+        text: "用户",
+        url: "user/profile",
+        icon: "fa fa-user",
+        hide: true,
+        children: [
+            {
+                key: MenuKeys.User_Profile,
+                text: "个人资料",
+                url: "user/profile"                        
             }
         ]
     }

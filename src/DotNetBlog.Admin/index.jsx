@@ -27,6 +27,7 @@ var Views_TopicList = require("./views/content/topiclist")
 var Views_TagList = require("./views/content/taglist")
 var Views_CommentList = require("./views/content/commentlist")
 var Views_CommentConfig = require("./views/config/commentconfig")
+var Views_Profile = require("./views/user/profile")
 global.jQuery = $ = require("jquery")
 
 const history = useRouterHistory(createHistory)({
@@ -52,6 +53,7 @@ class Index extends React.Component{
                         <Route path="content/topic(/:id)" component={Views_ModifyTopic} onEnter={enterRoute.bind(this, Consts.MenuKeys.Content, Consts.MenuKeys.Content_Topics)}/>
                         <Route path="content/comments" component={Views_CommentList} onEnter={enterRoute.bind(this, Consts.MenuKeys.Content, Consts.MenuKeys.Content_Comments)} />
                         <Route path="content/tags" component={Views_TagList} onEnter={enterRoute.bind(this, Consts.MenuKeys.Content, Consts.MenuKeys.Content_Tags)}/>
+                        <Route path="profile" component={Views_Profile} onEnter={enterRoute.bind(this, Consts.MenuKeys.User, Consts.MenuKeys.User_Profile)}/>
                     </Route>
                 </Router>
             </Provider>

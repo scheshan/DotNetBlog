@@ -1,4 +1,5 @@
-﻿@{ 
+﻿@inject ClientManager clientManager
+@{ 
     Layout = null;
 }
 
@@ -15,6 +16,13 @@
     </div>
 </body>
 </html>
+
+<script type="text/javascript">
+    var user = {
+        nickname: "@Html.Raw(clientManager.CurrentUser.Nickname)",
+        icon: "http://gravatar.duoshuo.com/"
+    }
+</script>
 
 <environment names="Development">
     <!--please use webpack-dev-server to serve the development js file-->
