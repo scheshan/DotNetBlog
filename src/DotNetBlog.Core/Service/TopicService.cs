@@ -37,6 +37,26 @@ namespace DotNetBlog.Core.Service
             List<Category> categoryEntityList = await BlogContext.Categories.Where(t => categoryList.Contains(t.ID)).ToListAsync();
             List<Tag> tagEntityList = await BlogContext.Tags.Where(t => tagList.Contains(t.Keyword)).ToListAsync();
 
+            if (string.IsNullOrWhiteSpace(alias))
+            {
+                alias = title;
+            }
+            if (await this.BlogContext.Topics.AnyAsync(t => t.Alias == title))
+            {
+                alias = string.Empty;
+            }
+            if (string.IsNullOrWhiteSpace(summary))
+            {
+                if (string.IsNullOrWhiteSpace(content))
+                {
+                    summary = content;
+                }
+                else
+                {
+                    summary = content.TrimHtml().ToLength(200);
+                }
+            }
+
             foreach (var tag in tagList)
             {
                 if (!tagEntityList.Any(t => t.Keyword == tag))
@@ -120,6 +140,26 @@ namespace DotNetBlog.Core.Service
                         };
                         BlogContext.Tags.Add(tagEntity);
                         tagEntityList.Add(tagEntity);
+                    }
+                }
+
+                if (string.IsNullOrWhiteSpace(alias))
+                {
+                    alias = title;
+                }
+                if (await this.BlogContext.Topics.AnyAsync(t => t.Alias == title))
+                {
+                    alias = string.Empty;
+                }
+                if (string.IsNullOrWhiteSpace(summary))
+                {
+                    if (string.IsNullOrWhiteSpace(content))
+                    {
+                        summary = content;
+                    }
+                    else
+                    {
+                        summary = content.TrimHtml().ToLength(200);
                     }
                 }
 
