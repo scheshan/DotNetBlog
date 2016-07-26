@@ -150,6 +150,7 @@ namespace DotNetBlog.Web.Controllers
 
             var vm = new TopicPageViewModel
             {
+                AllowComment = topic.AllowComment,
                 Topic = topic,
                 PrevTopic = prevTopic,
                 NextTopic = nextTopic,

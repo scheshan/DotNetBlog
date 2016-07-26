@@ -10,7 +10,7 @@ using DotNetBlog.Core.Model.Comment;
 using DotNetBlog.Core.Extensions;
 using DotNetBlog.Core.Model.Topic;
 using Microsoft.Extensions.Caching.Memory;
-using DotNetBlog.Core.Extensions;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace DotNetBlog.Core.Service
 {
@@ -22,11 +22,14 @@ namespace DotNetBlog.Core.Service
 
         private IMemoryCache Cache { get; set; }
 
-        public CommentService(BlogContext blogContext, ClientManager clientManager, IMemoryCache cache)
+        private IServiceProvider ServiceProvider { get; set; }
+
+        public CommentService(BlogContext blogContext, ClientManager clientManager, IMemoryCache cache, IServiceProvider serviceProvider)
         {
             this.BlogContext = blogContext;
             this.ClientManager = clientManager;
             this.Cache = cache;
+            this.ServiceProvider = serviceProvider;
         }
 
         public async Task<OperationResult<CommentModel>> Add(AddCommentModel model)
@@ -36,7 +39,9 @@ namespace DotNetBlog.Core.Service
             {
                 return OperationResult<CommentModel>.Failure("文章不存在");
             }
-            if (!topic.AllowComment)
+
+            var topicService = this.ServiceProvider.GetService<TopicService>();
+            if (!topicService.CanComment(topic))
             {
                 return OperationResult<CommentModel>.Failure("文章不允许评论");
             }
@@ -280,7 +285,7 @@ namespace DotNetBlog.Core.Service
                 return modelList.ToList();
             });
 
-            return result;            
+            return result;
         }
 
         private List<CommentModel> Transform(params Comment[] entityList)

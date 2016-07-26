@@ -6,7 +6,7 @@
     {
         AllCommentList = Model.CommentList,
         CommentList = Model.CommentList.Where(t => t.ReplyToID == null).ToList(),
-        Topic = Model.Topic
+        AllowComment = Model.AllowComment
     };
 }
 

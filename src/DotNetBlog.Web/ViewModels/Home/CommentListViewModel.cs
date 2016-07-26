@@ -10,9 +10,9 @@ namespace DotNetBlog.Web.ViewModels.Home
     public class CommentListViewModel
     {
         /// <summary>
-        /// 对应的文章
+        /// 是否允许评论
         /// </summary>
-        public TopicModel Topic { get; set; }
+        public bool AllowComment { get; set; }
 
         /// <summary>
         /// 所有评论列表

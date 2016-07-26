@@ -7,7 +7,7 @@
     {
         CommentList = Model.AllCommentList.Where(t => t.ReplyToID == comment.ID).ToList(),
         AllCommentList = Model.AllCommentList,
-        Topic = Model.Topic
+        AllowComment = Model.AllowComment
     };    
 
     <li class="media comment-item" id="comment_@comment.ID">
@@ -20,7 +20,7 @@
                     <small class="pull-right text-muted text-uppercase">
                         @comment.CreateDate
                         
-                        <visible condition="Model.Topic.AllowComment && comment.Status == DotNetBlog.Core.Enums.CommentStatus.Approved">
+                        <visible condition="Model.AllowComment && comment.Status == DotNetBlog.Core.Enums.CommentStatus.Approved">
                             |  
                             <a href="javascript:void(0);" class="reply-to-comment" onclick="replyTo('@comment.ID');">回复</a> 
                         </visible>

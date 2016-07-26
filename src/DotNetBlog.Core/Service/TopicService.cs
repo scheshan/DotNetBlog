@@ -10,6 +10,7 @@ using DotNetBlog.Core.Entity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
 using DotNetBlog.Core.Model.Category;
+using DotNetBlog.Core.Model.Setting;
 
 namespace DotNetBlog.Core.Service
 {
@@ -19,10 +20,13 @@ namespace DotNetBlog.Core.Service
 
         private IMemoryCache Cache { get; set; }
 
-        public TopicService(BlogContext blogContext, IMemoryCache cache)
+        private SettingModel Settings { get; set; }
+
+        public TopicService(BlogContext blogContext, IMemoryCache cache, SettingModel settings)
         {
             BlogContext = blogContext;
             Cache = cache;
+            Settings = settings;
         }
 
         public async Task<OperationResult<int>> Add(string title, string content, Enums.TopicStatus status = Enums.TopicStatus.Normal, int[] categoryList = null, string[] tagList = null, string alias = null, string summary = null, DateTime? date = null, bool? allowComment = true)
@@ -432,6 +436,7 @@ namespace DotNetBlog.Core.Service
             List<TopicModel> result = entityList.Select(entity =>
             {
                 var model = AutoMapper.Mapper.Map<TopicModel>(entity);
+                model.AllowComment = this.CanComment(entity);
                 model.Categories = categoryTopicList.Where(category => category.TopicID == entity.ID)
                     .Select(category => new CategoryBasicModel
                     {
@@ -456,6 +461,27 @@ namespace DotNetBlog.Core.Service
             }).ToList();
 
             return result;
+        }
+
+        public bool CanComment(Topic entity)
+        {
+            if (entity == null || entity.Status != Enums.TopicStatus.Published || !entity.AllowComment)
+            {
+                return false;
+            }
+            if (!this.Settings.AllowComment)
+            {
+                return false;
+            }
+            if (this.Settings.CloseCommentDays > 0)
+            {
+                if (entity.EditDate.AddDays(this.Settings.CloseCommentDays) < DateTime.Now)
+                {
+                    return false;
+                }
+            }
+
+            return true;
         }
     }
 }

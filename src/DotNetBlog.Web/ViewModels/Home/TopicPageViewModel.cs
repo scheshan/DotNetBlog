@@ -9,6 +9,8 @@ namespace DotNetBlog.Web.ViewModels.Home
 {
     public class TopicPageViewModel
     {
+        public bool AllowComment { get; set; }
+
         public TopicModel Topic { get; set; }
 
         public TopicModel PrevTopic { get; set; }
