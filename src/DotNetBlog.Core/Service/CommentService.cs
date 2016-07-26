@@ -11,6 +11,7 @@ using DotNetBlog.Core.Extensions;
 using DotNetBlog.Core.Model.Topic;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.DependencyInjection;
+using DotNetBlog.Core.Model.Setting;
 
 namespace DotNetBlog.Core.Service
 {
@@ -24,12 +25,15 @@ namespace DotNetBlog.Core.Service
 
         private IServiceProvider ServiceProvider { get; set; }
 
-        public CommentService(BlogContext blogContext, ClientManager clientManager, IMemoryCache cache, IServiceProvider serviceProvider)
+        private SettingModel Settings { get; set; }
+
+        public CommentService(BlogContext blogContext, ClientManager clientManager, IMemoryCache cache, IServiceProvider serviceProvider, SettingModel settings)
         {
             this.BlogContext = blogContext;
             this.ClientManager = clientManager;
             this.Cache = cache;
             this.ServiceProvider = serviceProvider;
+            this.Settings = settings;
         }
 
         public async Task<OperationResult<CommentModel>> Add(AddCommentModel model)
@@ -61,6 +65,24 @@ namespace DotNetBlog.Core.Service
                 }
             }
 
+            Enums.CommentStatus status;
+            if (!this.Settings.VerifyComment)
+            {
+                status = Enums.CommentStatus.Pending;
+
+                if (this.Settings.TrustAuthenticatedCommentUser)
+                {
+                    if (await BlogContext.Comments.AnyAsync(t => t.Email == model.Email && t.Status == Enums.CommentStatus.Approved))
+                    {
+                        status = Enums.CommentStatus.Approved;
+                    }
+                }
+            }
+            else
+            {
+                status = Enums.CommentStatus.Approved;
+            }            
+
             var entity = new Comment
             {
                 Content = model.Content,
@@ -71,7 +93,7 @@ namespace DotNetBlog.Core.Service
                 NotifyOnComment = model.NotifyOnComment,
                 ReplyToID = model.ReplyTo,
                 TopicID = model.TopicID.Value,
-                Status = Enums.CommentStatus.Pending,
+                Status = status,
                 UserID = this.ClientManager.CurrentUser?.ID,
                 WebSite = model.WebSite
             };
