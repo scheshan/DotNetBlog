@@ -227,7 +227,10 @@ class CommentList extends React.Component{
 
     formatContent(cell, row){
         return (
-            <a href="javascript:void(0)" onClick={this.replyComment.bind(this, row)}>{cell}</a>
+            <div>
+                <a href="javascript:void(0)" onClick={this.replyComment.bind(this, row)}>{cell}</a>
+                <a title="查看" className="pull-right text-muted" target="_blank" href={'/topic/' + row.topicID + '#comment_' + row.id}><i className="fa fa-external-link"></i></a>
+            </div>
         )
     }
 
