@@ -15,13 +15,13 @@
 
         <div class="col-sm-6 text-left next-post">
             <visible condition="Model.NextTopic != null">
-                <a asp-action="Topic" asp-controller="Home" asp-route-id="@Model.NextTopic.ID" class="nav-next"> &larr; @Model.NextTopic.Title </a>
+                <a blog-topic="Model.NextTopic" class="nav-next"> &larr; @Model.NextTopic.Title </a>
             </visible>
         </div>
 
         <div class="col-sm-6 text-right prev-post">
             <visible condition="Model.PrevTopic != null">
-                <a asp-action="Topic" asp-controller="Home" asp-route-id="@Model.PrevTopic.ID" class="nav-prev">@Model.PrevTopic.Title &rarr;</a>
+                <a blog-topic="Model.PrevTopic" class="nav-prev">@Model.PrevTopic.Title &rarr;</a>
             </visible>
         </div>
     </div>
@@ -70,7 +70,7 @@
             <a asp-action="ApproveComments" asp-controller="QuickAction" asp-route-topicID="@Model.Topic.ID">通过所有评论</a> |
         </visible>
         <a asp-action="Index" asp-controller="Admin" asp-fragment="@("/content/topic/" + Model.Topic.ID.ToString())">编辑</a> |
-        <a asp-action="DeleteTopic" asp-controller="QuickAction" asp-route-id="@Model.Topic.ID" onclick="if (!confirm('您确定要 删除 文章?')) return false">删除</a>
+        <a asp-action="DeleteTopic" asp-controller="QuickAction" asp-route-topicID="@Model.Topic.ID" onclick="if (!confirm('您确定要 删除 文章?')) return false">删除</a>
     </visible>
 </article>
 

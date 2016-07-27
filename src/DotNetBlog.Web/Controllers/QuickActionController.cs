@@ -12,9 +12,12 @@ namespace DotNetBlog.Web.Controllers
     {
         private CommentService CommentService { get; set; }
 
-        public QuickActionController(CommentService commentService)
+        private TopicService TopicService { get; set; }
+
+        public QuickActionController(CommentService commentService, TopicService topicService)
         {
             this.CommentService = commentService;
+            this.TopicService = topicService;
         }
 
         [HttpPost("comment/add")]
@@ -73,6 +76,15 @@ namespace DotNetBlog.Web.Controllers
             }
 
             return this.RedirectToAction("Topic", "Home", new { id = comment.TopicID });
+        }
+
+        [HttpGet("topic/{topicID:int}/delete")]
+        [Filters.RequireLoginFilter]
+        public async Task<IActionResult> DeleteTopic(int topicID)
+        {
+            await this.TopicService.BatchUpdateStatus(new int[] { topicID }, Core.Enums.TopicStatus.Trash);
+
+            return this.RedirectToAction("Index", "Home");
         }
     }
 }

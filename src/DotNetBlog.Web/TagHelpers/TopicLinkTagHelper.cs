@@ -50,7 +50,7 @@ namespace DotNetBlog.Web.TagHelpers
                 string url;
                 if (!string.IsNullOrWhiteSpace(this.Topic.Alias))
                 {
-                    url = urlHelper.Action("Topic", "Home", new { alias = this.Topic.Alias });
+                    url = urlHelper.Action("TopicByAlias", "Home", new { alias = this.Topic.Alias });
                 }
                 else
                 {

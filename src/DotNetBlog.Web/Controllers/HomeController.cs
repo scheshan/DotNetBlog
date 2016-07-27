@@ -141,7 +141,7 @@ namespace DotNetBlog.Web.Controllers
         }
 
         [HttpGet("topic/{alias}")]
-        public async Task<IActionResult> Topic(string alias)
+        public async Task<IActionResult> TopicByAlias(string alias)
         {
             var topic = await TopicService.Get(alias);
 
