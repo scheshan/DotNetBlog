@@ -23,6 +23,7 @@ How to Build and Run:
 	bower install
     ```
 *   Edit connection string
+
 	Open 'src/DotNetBlog.Web/App_Data/config.json' to specify you own connection string.
 
     ```
