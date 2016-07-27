@@ -118,16 +118,19 @@ class ModifyTopic extends React.Component{
         hashHistory.goBack()
     }
 
-    apiCallback(response){
-        this.loading = false;
+    apiCallback(response){        
         if(response.success){
             Dialog.success("保存成功");
 
             this.setState({
-                topic: response.data
+                topic: response.data,
+                loading: false
             });
         }
         else{
+            this.setState({
+                loading: false
+            })
             Dialog.error(response.errorMessage)
         }
     }
@@ -143,25 +146,27 @@ class ModifyTopic extends React.Component{
             return;
         }
 
-        if(this.loading){
+        if(this.state.loading){
             return;
         }
 
-        this.loading = true;
+        this.setState({
+            loading: true
+        }, ()=>{
+            model.status = this.state.topic.status;
+            model.content = content;
+            model.tagList = this.state.tags;
+            model.categoryList = _.map(_.filter(this.state.categoryList, {checked: true}), cat=>cat.id)        
+            model.alias = this.state.topic.alias;
+            model.summary = this.state.topic.summary;
 
-        model.status = this.state.topic.status;
-        model.content = content;
-        model.tagList = this.state.tags;
-        model.categoryList = _.map(_.filter(this.state.categoryList, {checked: true}), cat=>cat.id)        
-        model.alias = this.state.topic.alias;
-        model.summary = this.state.topic.summary;
-
-        if(this.props.params.id){
-            Api.editTopic(this.props.params.id, model, this.apiCallback.bind(this))
-        }
-        else{
-            Api.addTopic(model, this.apiCallback.bind(this))
-        }
+            if(this.props.params.id){
+                Api.editTopic(this.props.params.id, model, this.apiCallback.bind(this))
+            }
+            else{
+                Api.addTopic(model, this.apiCallback.bind(this))
+            }
+        });
     }
 
     render(){

@@ -3,6 +3,7 @@ var {Pager, Spinner} = require("../../components")
 var {hashHistory, Link} = require("react-router")
 var Api = require("../../services/api")
 var Dialog = require("../../services/dialog")
+var {BootstrapTable, TableHeaderColumn} = require("react-bootstrap-table")
 
 const pageSize = 20;
 
@@ -14,12 +15,14 @@ class TopicList extends React.Component{
             total: 0,
             topicList: [],
             selectAll: false,
-            keywords: ''
+            keywords: '',
+            status: null,
+            selectedList: []
         }
     }
 
     remove(){
-        var idList = _.map(_.filter(this.state.topicList, {checked: true}), topic=>topic.id);
+        var idList = this.state.selectedList;
         if(idList.length == 0){
             return;
         }
@@ -34,7 +37,7 @@ class TopicList extends React.Component{
     }
 
     publish(){
-        var idList = _.map(_.filter(this.state.topicList, {checked: true}), topic=>topic.id);
+        var idList = this.state.selectedList;
         if(idList.length == 0){
             return;
         }
@@ -49,7 +52,7 @@ class TopicList extends React.Component{
     }
 
     draft(){
-        var idList = _.map(_.filter(this.state.topicList, {checked: true}), topic=>topic.id);
+        var idList = this.state.selectedList;
         if(idList.length == 0){
             return;
         }
@@ -110,12 +113,14 @@ class TopicList extends React.Component{
                         selectAll: false,
                         loading: false,
                         topicList: response.data,
-                        total: response.total
+                        total: response.total,
+                        selectedList: []
                     })
                 }
                 else{
                     this.setState({
-                        loading: false
+                        loading: false,
+                        selectedList: []
                     });
                     Dialog.error(response.errorMessage);
                 }
@@ -124,31 +129,10 @@ class TopicList extends React.Component{
     }
 
     canBatchOperate(){
-        if(this.state.loading){
-            return false;
-        }
         if(!this.state.topicList){
             return false;
         }
-        return _.some(this.state.topicList, {checked: true});
-    }
-
-    selectAll(e){
-        let selectAll = e.target.checked;
-
-        let topicList = this.state.topicList;
-        _.forEach(topicList, topic=>{
-            topic.checked = selectAll
-        });
-        this.setState({
-            topicList,
-            selectAll
-        });
-    }
-
-    selectTopic(topic){
-        topic.checked = !topic.checked;
-        this.forceUpdate()
+        return this.state.selectedList.length > 0;
     }
 
     search(){
@@ -182,8 +166,82 @@ class TopicList extends React.Component{
         })
     }
 
+    handleSelect(row, selected){
+        var arr = this.state.selectedList;
+
+        if(selected){
+            arr.push(row.id);
+        }
+        else{
+            _.remove(arr, item=>item == row.id);
+        }
+
+        this.setState({
+            selectedList: arr
+        });
+    }
+
+    handleSelectAll(selected){
+        var arr = this.state.selectedList;
+        arr = [];
+        if(selected){
+            arr = _.map(this.state.topicList, topic=>topic.id);
+        }
+
+        this.setState({
+            selectedList: arr
+        });
+    }
+
+    formatStatus(cell, row){
+        let className = "";
+        let text = "";
+
+        switch(cell){
+            case 0:
+                className = "warning";
+                text = "草稿";
+            break;
+            case 1:
+                className = "success";
+                text = "已发布";
+            break;
+        }
+
+        className = 'text-' + className;
+
+        return (
+            <span className={className}>
+                <strong>{text}</strong>
+            </span>
+        )
+    }
+
+    formatTitle(cell, row){
+        return (
+            <div>
+                <Link to={'/content/topic/' + row.id}>{cell}</Link>
+                <a title="查看" className="pull-right text-muted" target="_blank" href={'/topic/' + (row.alias || row.id) }><i className="fa fa-external-link"></i></a>
+            </div>
+        )
+    }
+
+    formatComments(cell, row){
+        return (
+            <span className="badge">{cell.approved}</span>
+        )
+    }
+
     render(){
         let page = this.props.location.query.page || 1;
+
+        const selectRowProp = {
+            mode: 'checkbox',
+            onSelect: this.handleSelect.bind(this),
+            onSelectAll: this.handleSelectAll.bind(this),
+            selected: this.state.selectedList
+        };
+        
         return (
             <div className="content">
                 <Spinner loading={this.state.loading}/>
@@ -223,55 +281,18 @@ class TopicList extends React.Component{
 
                 <div className="box box-solid">
                     <div className="box-body table-responsive no-padding">
-                        <table className="table table-hover">
-                            <thead>
-                                <tr>
-                                    <th style={{"width":"40px"}} className="text-center">
-                                        <input checked={this.state.selectAll} onChange={this.selectAll.bind(this)} type="checkbox"/>
-                                    </th>
-                                    <th>文章</th>
-                                    <th style={{width: "100px"}} className="text-center">评论</th>
-                                    <th style={{width: "100px"}} className="text-center">日期</th>
-                                    <th style={{width: "100px"}} className="text-center">状态</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {
-                                    this.state.topicList.map(topic=>{
-                                        return (
-                                            <tr key={topic.id}>
-                                                <td className="text-center">
-                                                    <input type="checkbox" checked={topic.checked} onChange={this.selectTopic.bind(this, topic)}/>
-                                                </td>
-                                                <td>
-                                                    <Link to={'/content/topic/' + topic.id}>{topic.title}</Link>
-
-                                                    <a target="_blank" href={'/topic/' + topic.id} className="pull-right text-muted"><i className="fa fa-external-link"></i></a>
-                                                </td>
-                                                <td className="text-center">10</td>
-                                                <td className="text-muted text-center">{topic.date.split(' ')[0]}</td>
-                                                <td className="text-center">{this.renderStatus(topic)}</td>
-                                            </tr>
-                                        )
-                                    })
-                                }
-                            </tbody>
-                        </table>
+                        <BootstrapTable keyField="id" data={this.state.topicList} selectRow={selectRowProp}>
+                            <TableHeaderColumn dataField="title" dataFormat={this.formatTitle.bind(this)}>文章</TableHeaderColumn>
+                            <TableHeaderColumn width="100" dataAlign="center" dataField="comments" dataFormat={this.formatComments.bind(this)}>评论</TableHeaderColumn>
+                            <TableHeaderColumn width="180" dataAlign="center" dataField="date">日期</TableHeaderColumn>
+                            <TableHeaderColumn width="100" dataAlign="center" dataField="status" dataFormat={this.formatStatus.bind(this)}>状态</TableHeaderColumn>
+                        </BootstrapTable>
                     </div>
                 </div>               
 
                 <Pager page={page} pageSize={pageSize} total={this.state.total} onPageChange={this.handlePageChange.bind(this)}/>
             </div>
         )
-    }
-
-    renderStatus(topic){
-        if(topic.status == 0){
-            return <span className="label label-warning">草稿</span>
-        }
-        else if(topic.status == 1){
-            return <span className="label label-success">发布</span>
-        }
     }
 }
 

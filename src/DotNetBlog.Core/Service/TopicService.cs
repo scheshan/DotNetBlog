@@ -41,6 +41,7 @@ namespace DotNetBlog.Core.Service
             List<Tag> tagEntityList = await BlogContext.Tags.Where(t => model.TagList.Contains(t.Keyword)).ToListAsync();
 
             model.Alias = await this.GenerateAlias(null, model.Alias, model.Title);
+            model.Summary = model.Summary.TrimHtml();
             if (string.IsNullOrWhiteSpace(model.Summary))
             {
                 model.Summary = model.Content.TrimHtml().ToLength(200);
@@ -122,6 +123,7 @@ namespace DotNetBlog.Core.Service
                 List<Tag> tagEntityList = await BlogContext.Tags.Where(t => model.TagList.Contains(t.Keyword)).ToListAsync();
 
                 model.Alias = await this.GenerateAlias(model.ID, model.Alias, model.Title);
+                model.Summary = model.Summary.TrimHtml();
                 if (string.IsNullOrWhiteSpace(model.Summary))
                 {
                     model.Summary = model.Content.TrimHtml().ToLength(200);
@@ -501,9 +503,10 @@ namespace DotNetBlog.Core.Service
 
         private async Task<string> GenerateAlias(int? id, string alias, string title)
         {
+            alias = alias.TrimNotCharater();
             if (string.IsNullOrWhiteSpace(alias))
             {
-                alias = title;
+                alias = title.TrimNotCharater();
             }
 
             var query = this.BlogContext.Topics.Where(t => t.Alias == alias);

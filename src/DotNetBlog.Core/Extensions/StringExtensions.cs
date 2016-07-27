@@ -43,9 +43,11 @@ namespace DotNetBlog.Core.Extensions
             input = Regex.Replace(input, @"&#(\d+);", "",
               RegexOptions.IgnoreCase);
 
-            input.Replace("<", "&lt;");
-            input.Replace(">", "&gt;");
-            input.Replace("\r\n", "<br/>");
+            input = input.Replace("<", "&lt;");
+            input = input.Replace(">", "&gt;");
+            input = input.Replace("\r\n", "");
+            input = input.Replace("\r", "");
+            input = input.Replace("\n", "");
 
             return input;
         }
@@ -62,6 +64,17 @@ namespace DotNetBlog.Core.Extensions
                 return input;
             }
             return input.Substring(0, length);
+        }
+
+        public static string TrimNotCharater(this string input)
+        {
+            if (input == null)
+            {
+                return string.Empty;
+            }
+
+            var regex = new Regex("[^\u4e00-\u9fa5_a-zA-Z0-9]");
+            return regex.Replace(input, "");
         }
     }
 }
