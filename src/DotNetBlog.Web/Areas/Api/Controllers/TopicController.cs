@@ -1,4 +1,5 @@
-﻿using DotNetBlog.Core.Service;
+﻿using DotNetBlog.Core.Model.Topic;
+using DotNetBlog.Core.Service;
 using DotNetBlog.Web.Areas.Api.Models.Topic;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -20,14 +21,14 @@ namespace DotNetBlog.Web.Areas.Api.Controllers
         }
 
         [HttpPost("")]
-        public async Task<IActionResult> Add([FromBody]SaveTopicModel model)
+        public async Task<IActionResult> Add([FromBody]AddTopicModel model)
         {
             if (model == null || !ModelState.IsValid)
             {
                 return InvalidRequest();
             }
 
-            var result = await TopicService.Add(model.Title, model.Content, model.Status, model.CategoryList, model.TagList, model.Alias, model.Summary, model.Date, model.AllowComment);
+            var result = await TopicService.Add(model);
             if (result.Success)
             {
                 return Success(result.Data);
@@ -39,17 +40,19 @@ namespace DotNetBlog.Web.Areas.Api.Controllers
         }
 
         [HttpPost("{id:int}")]
-        public async Task<IActionResult> Edit([FromRoute]int id, [FromBody]SaveTopicModel model)
+        public async Task<IActionResult> Edit([FromRoute]int id, [FromBody]EditTopicModel model)
         {
             if (model == null || !ModelState.IsValid)
             {
                 return InvalidRequest();
             }
 
-            var result = await TopicService.Edit(id, model.Title, model.Content, model.Status, model.CategoryList, model.TagList, model.Alias, model.Summary, model.Date, model.AllowComment);
+            model.ID = id;
+
+            var result = await TopicService.Edit(model);
             if (result.Success)
             {
-                return Success();
+                return Success(result.Data);
             }
             else
             {

@@ -32,10 +32,10 @@
         </header>
         <section class="post-body text">
             <visible condition="config.OnlyShowSummary">
-                <render-topic-summary topic="@topic" />
+                @topic.Summary
             </visible>
             <visible condition="!config.OnlyShowSummary">
-                @topic.Content
+                @Html.Raw(topic.Content)
             </visible>
         </section>
 

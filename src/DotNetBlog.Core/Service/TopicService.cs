@@ -22,42 +22,38 @@ namespace DotNetBlog.Core.Service
 
         private SettingModel Settings { get; set; }
 
-        public TopicService(BlogContext blogContext, IMemoryCache cache, SettingModel settings)
+        private ClientManager ClientManager { get; set; }
+
+        public TopicService(BlogContext blogContext, IMemoryCache cache, SettingModel settings, ClientManager clientManager)
         {
             BlogContext = blogContext;
             Cache = cache;
             Settings = settings;
+            ClientManager = clientManager;
         }
 
-        public async Task<OperationResult<int>> Add(string title, string content, Enums.TopicStatus status = Enums.TopicStatus.Normal, int[] categoryList = null, string[] tagList = null, string alias = null, string summary = null, DateTime? date = null, bool? allowComment = true)
+        public async Task<OperationResult<TopicModel>> Add(AddTopicModel model)
         {
-            categoryList = (categoryList ?? new int[0]).Distinct().ToArray();
-            tagList = (tagList ?? new string[0]).Distinct().ToArray();
+            model.CategoryList = (model.CategoryList ?? new int[0]).Distinct().ToArray();
+            model.TagList = (model.TagList ?? new string[0]).Distinct().ToArray();
 
-            List<Category> categoryEntityList = await BlogContext.Categories.Where(t => categoryList.Contains(t.ID)).ToListAsync();
-            List<Tag> tagEntityList = await BlogContext.Tags.Where(t => tagList.Contains(t.Keyword)).ToListAsync();
+            List<Category> categoryEntityList = await BlogContext.Categories.Where(t => model.CategoryList.Contains(t.ID)).ToListAsync();
+            List<Tag> tagEntityList = await BlogContext.Tags.Where(t => model.TagList.Contains(t.Keyword)).ToListAsync();
 
-            if (string.IsNullOrWhiteSpace(alias))
+            if (string.IsNullOrWhiteSpace(model.Alias))
             {
-                alias = title;
+                model.Alias = model.Title;
             }
-            if (await this.BlogContext.Topics.AnyAsync(t => t.Alias == title))
+            if (await this.BlogContext.Topics.AnyAsync(t => t.Alias == model.Alias))
             {
-                alias = string.Empty;
+                model.Alias = string.Empty;
             }
-            if (string.IsNullOrWhiteSpace(summary))
+            if (string.IsNullOrWhiteSpace(model.Summary))
             {
-                if (string.IsNullOrWhiteSpace(content))
-                {
-                    summary = content;
-                }
-                else
-                {
-                    summary = content.TrimHtml().ToLength(200);
-                }
+                model.Summary = model.Content.TrimHtml().ToLength(200);
             }
 
-            foreach (var tag in tagList)
+            foreach (var tag in model.TagList)
             {
                 if (!tagEntityList.Any(t => t.Keyword == tag))
                 {
@@ -72,16 +68,16 @@ namespace DotNetBlog.Core.Service
 
             var topic = new Topic
             {
-                Alias = alias,
-                AllowComment = allowComment == true,
-                Content = content,
+                Alias = model.Alias,
+                AllowComment = model.AllowComment,
+                Content = model.Content,
                 CreateDate = DateTime.Now,
-                CreateUserID = 1,
-                EditDate = date ?? DateTime.Now,
+                CreateUserID = this.ClientManager.CurrentUser.ID,
+                EditDate = model.Date ?? DateTime.Now,
                 EditUserID = 1,
-                Status = status,
-                Summary = summary,
-                Title = title
+                Status = model.Status,
+                Summary = model.Summary,
+                Title = model.Title
             };
             BlogContext.Topics.Add(topic);
 
@@ -104,33 +100,48 @@ namespace DotNetBlog.Core.Service
             BlogContext.RemoveCategoryCache();
             BlogContext.RemoveTagCache();
 
-            return new OperationResult<int>(topic.ID);
+            var topicModel = (await this.Transform(topic)).First();
+
+            return new OperationResult<TopicModel>(topicModel);
         }
 
-        public async Task<OperationResult> Edit(int id, string title, string content, Enums.TopicStatus status = Enums.TopicStatus.Normal, int[] categoryList = null, string[] tagList = null, string alias = null, string summary = null, DateTime? date = null, bool? allowComment = true)
+        public async Task<OperationResult<TopicModel>> Edit(EditTopicModel model)
         {
-            var entity = await BlogContext.Topics.SingleOrDefaultAsync(t => t.ID == id);
+            var entity = await BlogContext.Topics.SingleOrDefaultAsync(t => t.ID == model.ID);
             if (entity == null)
             {
-                return OperationResult.Failure("文章不存在");
+                return OperationResult<TopicModel>.Failure("文章不存在");
             }
 
             using (var tran = await BlogContext.Database.BeginTransactionAsync())
             {
-                List<CategoryTopic> deletedCategoryTopicList = await BlogContext.CategoryTopics.Where(t => t.TopicID == id).ToListAsync();
+                List<CategoryTopic> deletedCategoryTopicList = await BlogContext.CategoryTopics.Where(t => t.TopicID == model.ID).ToListAsync();
                 BlogContext.RemoveRange(deletedCategoryTopicList);
-                List<TagTopic> deletedTagTopicList = await BlogContext.TagTopics.Where(t => t.TopicID == id).ToListAsync();
+                List<TagTopic> deletedTagTopicList = await BlogContext.TagTopics.Where(t => t.TopicID == model.ID).ToListAsync();
                 BlogContext.RemoveRange(deletedTagTopicList);
 
                 await BlogContext.SaveChangesAsync();
 
-                categoryList = (categoryList ?? new int[0]).Distinct().ToArray();
-                tagList = (tagList ?? new string[0]).Distinct().ToArray();
+                model.CategoryList = (model.CategoryList ?? new int[0]).Distinct().ToArray();
+                model.TagList = (model.TagList ?? new string[0]).Distinct().ToArray();
 
-                List<Category> categoryEntityList = await BlogContext.Categories.Where(t => categoryList.Contains(t.ID)).ToListAsync();
-                List<Tag> tagEntityList = await BlogContext.Tags.Where(t => tagList.Contains(t.Keyword)).ToListAsync();
+                List<Category> categoryEntityList = await BlogContext.Categories.Where(t => model.CategoryList.Contains(t.ID)).ToListAsync();
+                List<Tag> tagEntityList = await BlogContext.Tags.Where(t => model.TagList.Contains(t.Keyword)).ToListAsync();
 
-                foreach (var tag in tagList)
+                if (string.IsNullOrWhiteSpace(model.Alias))
+                {
+                    model.Alias = model.Title;
+                }
+                if (await this.BlogContext.Topics.AnyAsync(t => t.Alias == model.Alias && t.ID != model.ID))
+                {
+                    model.Alias = string.Empty;
+                }
+                if (string.IsNullOrWhiteSpace(model.Summary))
+                {
+                    model.Summary = model.Content.TrimHtml().ToLength(200);
+                }
+
+                foreach (var tag in model.TagList)
                 {
                     if (!tagEntityList.Any(t => t.Keyword == tag))
                     {
@@ -143,33 +154,13 @@ namespace DotNetBlog.Core.Service
                     }
                 }
 
-                if (string.IsNullOrWhiteSpace(alias))
-                {
-                    alias = title;
-                }
-                if (await this.BlogContext.Topics.AnyAsync(t => t.Alias == title))
-                {
-                    alias = string.Empty;
-                }
-                if (string.IsNullOrWhiteSpace(summary))
-                {
-                    if (string.IsNullOrWhiteSpace(content))
-                    {
-                        summary = content;
-                    }
-                    else
-                    {
-                        summary = content.TrimHtml().ToLength(200);
-                    }
-                }
-
-                entity.Title = title;
-                entity.Content = content;
-                entity.Status = status;
-                entity.Alias = alias;
-                entity.Summary = summary;
-                entity.EditDate = date ?? DateTime.Now;
-                entity.AllowComment = allowComment == true;
+                entity.Title = model.Title;
+                entity.Content = model.Content;
+                entity.Status = model.Status;
+                entity.Alias = model.Alias;
+                entity.Summary = model.Summary;
+                entity.EditDate = model.Date ?? DateTime.Now;
+                entity.AllowComment = model.AllowComment;
 
                 List<CategoryTopic> categoryTopicList = categoryEntityList.Select(t => new CategoryTopic
                 {
@@ -193,9 +184,11 @@ namespace DotNetBlog.Core.Service
             BlogContext.RemoveCategoryCache();
             BlogContext.RemoveTagCache();
 
-            return new OperationResult();
-        }
+            var topicModel = (await this.Transform(entity)).First();
 
+            return new OperationResult<TopicModel>(topicModel);
+        }
+        
         /// <summary>
         /// 查询正常状态的文章列表
         /// </summary>

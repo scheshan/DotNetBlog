@@ -5,14 +5,15 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace DotNetBlog.Web.Areas.Api.Models.Topic
+namespace DotNetBlog.Core.Model.Topic
 {
-    public class SaveTopicModel
+    public class AddTopicModel
     {
         [Required]
         [StringLength(100)]
         public string Title { get; set; }
 
+        [Required]
         public string Content { get; set; }
 
         [StringLength(100)]

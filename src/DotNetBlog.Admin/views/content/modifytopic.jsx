@@ -1,6 +1,6 @@
 var React = require("react");
 var {Input, Textarea, Checkbox} = require("formsy-react-components");
-var {Form, Editor} = require("../../components");
+var {Form, Editor, Spinner} = require("../../components");
 var {FormGroup} = require("react-bootstrap");
 var Async = require("async");
 var Api = require("../../services/api");
@@ -13,6 +13,7 @@ const emptyTopic = {
     title: "",
     content: "",
     alias: "",
+    summary: "",
     allowComment: true,
     tags: [],
     categoryList: []
@@ -122,10 +123,9 @@ class ModifyTopic extends React.Component{
         if(response.success){
             Dialog.success("保存成功");
 
-            if(!this.state.topic.id && response.data){
-                this.state.topic.id = response.data;
-            }
-            this.forceUpdate()
+            this.setState({
+                topic: response.data
+            });
         }
         else{
             Dialog.error(response.errorMessage)
@@ -161,6 +161,7 @@ class ModifyTopic extends React.Component{
     render(){
         return (
             <div className="content">
+                <Spinner loading={this.state.loading} />
                 <div className="row">
                     <Form onSubmit={this.onSubmit.bind(this)} ref="form" layout="vertical">
                         <div className="col-md-10">
@@ -168,7 +169,7 @@ class ModifyTopic extends React.Component{
 
                             {this.renderContent()}
 
-                            <Input type="text" label="别名(可选)" name="alias" value={this.state.topic.alias || ''}/>
+                            {this.renderAlias()}
 
                             <Textarea label="摘要" name="summary" value={this.state.topic.summary || ''}/>
                         </div>
@@ -228,6 +229,23 @@ class ModifyTopic extends React.Component{
                 />
             </FormGroup>
 
+        )
+    }
+
+    renderAlias(){
+        function handleAliasChange(e){
+            var topic = this.state.topic;
+            topic.alias = e.target.value;
+            this.setState({
+                topic: topic
+            });
+        }
+
+        return (
+            <FormGroup>
+                <label className="control-label">别名(可选)</label>
+                <input name="alias" type="text" className="form-control" value={this.state.topic.alias} onChange={handleAliasChange.bind(this)}/>
+            </FormGroup>
         )
     }
 
