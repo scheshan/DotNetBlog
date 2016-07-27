@@ -13,7 +13,7 @@ How to Build and Run:
 
     ```
     cd src/DotNetBlog.Admin
-	npm install
+    npm install
     webpack
     ```
 *   Install front-end client libraries
@@ -40,7 +40,8 @@ How to Build and Run:
     ```
     dotnet run
     ```
-*   Initialize blog
-    You can access 'http://{your blog address}/install' to initialize the blog, this will help to create a default admin user, which username and password are both 'admin'.
+*   Initialize the blog
+
+    You can access 'http://{YourBlogAddress}/install' to initialize the blog, this will help to create a default admin user, which username and password are both 'admin'.
 
 The project is still in DEVELOPMENT!
