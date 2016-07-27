@@ -137,18 +137,24 @@ class ModifyTopic extends React.Component{
             Dialog.error("请输入文章标题");
             return;
         }
+        let content = this.refs.editor.getContent();
+        if(content == ""){
+            Dialog.error("请输入文章标题");
+            return;
+        }
 
         if(this.loading){
-            Dialog.error("正在保存，请稍候...");
             return;
         }
 
         this.loading = true;
 
         model.status = this.state.topic.status;
-        model.content = this.refs.editor.getContent();
+        model.content = content;
         model.tagList = this.state.tags;
         model.categoryList = _.map(_.filter(this.state.categoryList, {checked: true}), cat=>cat.id)        
+        model.alias = this.state.topic.alias;
+        model.summary = this.state.topic.summary;
 
         if(this.props.params.id){
             Api.editTopic(this.props.params.id, model, this.apiCallback.bind(this))
@@ -171,7 +177,7 @@ class ModifyTopic extends React.Component{
 
                             {this.renderAlias()}
 
-                            <Textarea label="摘要" name="summary" value={this.state.topic.summary || ''}/>
+                            {this.renderSummary()}
                         </div>
                         <div className="col-md-2">
                             {this.renderButton()}
@@ -245,6 +251,23 @@ class ModifyTopic extends React.Component{
             <FormGroup>
                 <label className="control-label">别名(可选)</label>
                 <input name="alias" type="text" className="form-control" value={this.state.topic.alias} onChange={handleAliasChange.bind(this)}/>
+            </FormGroup>
+        )
+    }
+
+    renderSummary(){
+        function handleSummaryChange(e){
+            var topic = this.state.topic;
+            topic.summary = e.target.value;
+            this.setState({
+                topic: topic
+            });
+        }
+
+        return (
+            <FormGroup>
+                <label className="control-label">摘要</label>
+                <textarea rows="4" name="summary" className="form-control" value={this.state.topic.summary} onChange={handleSummaryChange.bind(this)}></textarea>
             </FormGroup>
         )
     }

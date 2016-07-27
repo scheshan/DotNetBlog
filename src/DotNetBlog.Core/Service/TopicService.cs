@@ -40,14 +40,7 @@ namespace DotNetBlog.Core.Service
             List<Category> categoryEntityList = await BlogContext.Categories.Where(t => model.CategoryList.Contains(t.ID)).ToListAsync();
             List<Tag> tagEntityList = await BlogContext.Tags.Where(t => model.TagList.Contains(t.Keyword)).ToListAsync();
 
-            if (string.IsNullOrWhiteSpace(model.Alias))
-            {
-                model.Alias = model.Title;
-            }
-            if (await this.BlogContext.Topics.AnyAsync(t => t.Alias == model.Alias))
-            {
-                model.Alias = string.Empty;
-            }
+            model.Alias = await this.GenerateAlias(null, model.Alias, model.Title);
             if (string.IsNullOrWhiteSpace(model.Summary))
             {
                 model.Summary = model.Content.TrimHtml().ToLength(200);
@@ -128,14 +121,7 @@ namespace DotNetBlog.Core.Service
                 List<Category> categoryEntityList = await BlogContext.Categories.Where(t => model.CategoryList.Contains(t.ID)).ToListAsync();
                 List<Tag> tagEntityList = await BlogContext.Tags.Where(t => model.TagList.Contains(t.Keyword)).ToListAsync();
 
-                if (string.IsNullOrWhiteSpace(model.Alias))
-                {
-                    model.Alias = model.Title;
-                }
-                if (await this.BlogContext.Topics.AnyAsync(t => t.Alias == model.Alias && t.ID != model.ID))
-                {
-                    model.Alias = string.Empty;
-                }
+                model.Alias = await this.GenerateAlias(model.ID, model.Alias, model.Title);
                 if (string.IsNullOrWhiteSpace(model.Summary))
                 {
                     model.Summary = model.Content.TrimHtml().ToLength(200);
@@ -188,7 +174,7 @@ namespace DotNetBlog.Core.Service
 
             return new OperationResult<TopicModel>(topicModel);
         }
-        
+
         /// <summary>
         /// 查询正常状态的文章列表
         /// </summary>
@@ -316,6 +302,23 @@ namespace DotNetBlog.Core.Service
         public async Task<TopicModel> Get(int id)
         {
             var entity = await BlogContext.Topics.SingleOrDefaultAsync(t => t.ID == id);
+
+            if (entity == null)
+            {
+                return null;
+            }
+
+            return (await Transform(entity)).First();
+        }
+
+        /// <summary>
+        /// 根据别名，得到文章实体
+        /// </summary>
+        /// <param name="alias"></param>
+        /// <returns></returns>
+        public async Task<TopicModel> Get(string alias)
+        {
+            var entity = await BlogContext.Topics.SingleOrDefaultAsync(t => t.Alias == alias);
 
             if (entity == null)
             {
@@ -490,10 +493,31 @@ namespace DotNetBlog.Core.Service
                     model.Comments.Total = topicComment.Total;
                 }
 
-                return model;                
+                return model;
             }).ToList();
 
             return result;
+        }
+
+        private async Task<string> GenerateAlias(int? id, string alias, string title)
+        {
+            if (string.IsNullOrWhiteSpace(alias))
+            {
+                alias = title;
+            }
+
+            var query = this.BlogContext.Topics.Where(t => t.Alias == alias);
+            if (id.HasValue)
+            {
+                query = query.Where(t => t.ID != id.Value);
+            }
+
+            if (await query.AnyAsync())
+            {
+                alias = string.Empty;
+            }
+
+            return alias;
         }
 
         public bool CanComment(Topic entity)

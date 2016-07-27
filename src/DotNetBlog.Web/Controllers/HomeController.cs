@@ -1,5 +1,6 @@
 ﻿using DotNetBlog.Core.Model.Comment;
 using DotNetBlog.Core.Model.Setting;
+using DotNetBlog.Core.Model.Topic;
 using DotNetBlog.Core.Service;
 using DotNetBlog.Web.ViewModels.Home;
 using Microsoft.AspNetCore.Mvc;
@@ -136,6 +137,20 @@ namespace DotNetBlog.Web.Controllers
         {
             var topic = await TopicService.Get(id);
 
+            return await this.TopicView(topic);
+        }
+
+        [HttpGet("topic/{alias}")]
+        public async Task<IActionResult> Topic(string alias)
+        {
+            var topic = await TopicService.Get(alias);
+
+            return await this.TopicView(topic);
+        }
+
+        [NonAction]
+        private async Task<IActionResult> TopicView(TopicModel topic)
+        {
             if (topic == null)
             {
                 return NotFound();
@@ -158,13 +173,7 @@ namespace DotNetBlog.Web.Controllers
                 CommentList = commentList
             };
 
-            return View(vm);
-        }
-
-        [HttpGet("view/{alias}")]
-        public async Task<IActionResult> TopicByAlias(string alias)
-        {
-            return View();
+            return View("Topic", vm);
         }
     }
 }

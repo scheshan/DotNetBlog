@@ -291,7 +291,8 @@ namespace DotNetBlog.Core.Service
                     .Select(t => new TopicBasicModel
                     {
                         ID = t.ID,
-                        Title = t.Title
+                        Title = t.Title,
+                        Alias = t.Alias
                     }).ToListAsync();
                 var topicComments = await this.BlogContext.Comments.Where(t => topicIDList.Contains(t.TopicID))
                     .GroupBy(t => t.TopicID)
@@ -318,6 +319,7 @@ namespace DotNetBlog.Core.Service
                     {
                         ID = topic.ID,
                         Title = topic.Title,
+                        Alias = topic.Alias,
                         Comments = new CommentCountModel()
                     };
 

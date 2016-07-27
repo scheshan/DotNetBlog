@@ -8,7 +8,7 @@
             @foreach (var comment in Model)
             {
             <li>
-                <a asp-action="Topic" asp-controller="Home" asp-route-id="@comment.Topic.ID" asp-fragment="comments">@comment.Topic.Title</a> (@comment.Topic.Comments.Approved)
+                <a blog-topic="@comment.Topic" blog-topic-fragment="comments">@comment.Topic.Title</a> (@comment.Topic.Comments.Approved)
                 <br>@comment.Name 写道: @comment.Content
             </li>
             }

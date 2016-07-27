@@ -8,7 +8,7 @@
             @foreach (var topic in Model)
             {
             <li class="post-item-list">
-                <a asp-action="Topic" asp-controller="Home" asp-route-id="@topic.ID">
+                <a blog-topic="topic">
                     <h5 class="post-item-title">@topic.Title</h5>
                 </a>
             </li>
