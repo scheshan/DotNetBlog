@@ -2,5 +2,5 @@
   "database": "sqlite",
   "connectionString": "DataSource=App_Data/blog.db"
   //"database": "sqlserver",
-  //"connectionString": "server=.\\SqlServer2008;database=DotNetBlog;uid=sa;pwd=1987321"
+  //"connectionString": "server=.\\SqlServer2008;database=DotNetBlog;uid=sa;pwd=123456"
 }
