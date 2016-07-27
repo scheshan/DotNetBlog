@@ -13,6 +13,7 @@ using System.Threading.Tasks;
 namespace DotNetBlog.Web.TagHelpers
 {
     [HtmlTargetElement("a", Attributes = "blog-topic")]
+    [HtmlTargetElement("topic-link")]
     public class TopicLinkTagHelper : TagHelper
     {
         [HtmlAttributeName("blog-topic")]
@@ -62,8 +63,16 @@ namespace DotNetBlog.Web.TagHelpers
                     url = string.Format("{0}#{1}", url, this.Fragment);
                 }
 
-                output.Attributes.Add("href", url);
-                output.Attributes.Add("title", this.Topic.Title);
+                if (output.TagName == "topic-link")
+                {
+                    output.TagName = "";
+                    output.Content.SetHtmlContent(url);
+                }
+                else
+                {
+                    output.Attributes.Add("href", url);
+                    output.Attributes.Add("title", this.Topic.Title);
+                }
             }
         }
     }

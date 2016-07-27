@@ -148,6 +148,30 @@ namespace DotNetBlog.Web.Controllers
             return await this.TopicView(topic);
         }
 
+        [HttpGet("search")]
+        public async Task<IActionResult> Search(string keywords, int page = 1)
+        {
+            int pageSize = 10;
+
+            ViewBag.Title = $"搜索结果:{keywords}";
+
+            var topicList = await TopicService.QueryByKeywords(page, pageSize, keywords);
+
+            var vm = new SearchPageViewModel
+            {
+                Keywords = keywords,
+                TopicList = new TopicListModel
+                {
+                    Data = topicList.Data,
+                    PageIndex = page,
+                    PageSize = pageSize,
+                    Total = topicList.Total
+                }
+            };
+
+            return this.View(vm);
+        }
+
         [NonAction]
         private async Task<IActionResult> TopicView(TopicModel topic)
         {

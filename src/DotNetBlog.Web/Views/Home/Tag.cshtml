@@ -1,3 +1,5 @@
 ﻿@model TagPageViewModel
 
 @Html.Partial("_TopicList", Model.TopicList.Data)
+
+<pager page-index="Model.TopicList.PageIndex" page-size="Model.TopicList.PageSize" total="Model.TopicList.Total"></pager>

@@ -279,6 +279,27 @@ namespace DotNetBlog.Core.Service
         }
 
         /// <summary>
+        /// 根据关键字，查询文章列表
+        /// </summary>
+        /// <param name="pageIndex"></param>
+        /// <param name="pageSize"></param>
+        /// <param name="keywords"></param>
+        /// <returns></returns>
+        public async Task<PagedResult<TopicModel>> QueryByKeywords(int pageIndex, int pageSize, string keywords)
+        {
+            var query = BlogContext.Topics.Where(t => t.Status == Enums.TopicStatus.Published)
+                .Where(t => t.Title.Contains(keywords) || t.Summary.Contains(keywords) || t.Content.Contains(keywords));
+
+            int total = await query.CountAsync();
+
+            Topic[] entityList = await query.OrderByDescending(t => t.EditDate).Skip((pageIndex - 1) * pageSize).Take(pageSize).ToArrayAsync();
+
+            List<TopicModel> modelList = await Transform(entityList);
+
+            return new PagedResult<TopicModel>(modelList, total);
+        }
+
+        /// <summary>
         /// 查询最新发布的文章
         /// </summary>
         /// <param name="count"></param>
