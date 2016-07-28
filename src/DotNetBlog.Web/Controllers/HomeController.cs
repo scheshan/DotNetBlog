@@ -151,23 +151,31 @@ namespace DotNetBlog.Web.Controllers
         [HttpGet("search")]
         public async Task<IActionResult> Search(string keywords, int page = 1)
         {
+            SearchPageViewModel vm = new SearchPageViewModel
+            {
+                Keywords = keywords,
+                TopicList = new TopicListModel
+                {
+                    Data = new List<TopicModel>()
+                }
+            };
+
             int pageSize = 10;
 
             ViewBag.Title = $"搜索结果:{keywords}";
 
-            var topicList = await TopicService.QueryByKeywords(page, pageSize, keywords);
-
-            var vm = new SearchPageViewModel
+            if (!string.IsNullOrWhiteSpace(keywords))
             {
-                Keywords = keywords,
-                TopicList = new TopicListModel
+                var topicList = await TopicService.QueryByKeywords(page, pageSize, keywords);
+
+                vm.TopicList = new TopicListModel
                 {
                     Data = topicList.Data,
                     PageIndex = page,
                     PageSize = pageSize,
                     Total = topicList.Total
-                }
-            };
+                };
+            }
 
             return this.View(vm);
         }

@@ -1,5 +1,11 @@
-﻿<div class="widgetzone">
-    @await Component.InvokeAsync("AdministrationWidget")
+﻿@inject ClientManager clientManager
+
+<div class="widgetzone">
+    <visible condition="clientManager.IsLogin">
+        @await Component.InvokeAsync("AdministrationWidget")
+    </visible>
+
+    @await Component.InvokeAsync("SearchWidget")
 
     @await Component.InvokeAsync("CategoryWidget")
 

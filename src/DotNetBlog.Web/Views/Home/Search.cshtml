@@ -1,47 +1,35 @@
 ﻿@model SearchPageViewModel
 
 <div class="searchpage post search-page page-global">
-    <h2 id="ctl00_cphBody_h1Headline" class="page-global-title">搜索结果： '@Model.Keywords'</h2>
+    <h2 condition="!string.IsNullOrWhiteSpace(Model.Keywords)" class="page-global-title">搜索结果： '@Model.Keywords'</h2>
+    <h2 condition="string.IsNullOrWhiteSpace(Model.Keywords)" class="page-global-title">输入关键字进行搜索</h2>
     <div id="searchpage" class="search-page-searchbox clearfix">
-        <form asp-action="Search" asp-controller="Home" asp-route-page="">
+        <form method="get" asp-action="Search" asp-controller="Home" asp-route-page="">
             <input type="text" name="keywords" value="@Model.Keywords" >
             <input type="submit" value="搜索" class="btn btn-primary" >
         </form>
     </div>
-
-    <script type="text/javascript">
-
-        //<![CDATA[
-        var check = document.getElementById('comment');
-
-        function SearchPage()
-        {
-            var searchTerm = encodeURIComponent(document.getElementById('q').value);
-            var include = check ? check.checked : false;
-            var comment = '&comment=true';
-
-            if (!include)
-            {
-                comment = ''
-            }
-
-            location.href = 'search?q=' + searchTerm + comment;
-        }
-
-        if (check != null)
-        {
-            check.checked = false;
-        }
-
-        //]]>
-    </script>
 
     @foreach (var topic in Model.TopicList.Data)
     {
         <div class="searchresult">
             <a blog-topic="topic">@topic.Title</a>
             <span class="text">@topic.Summary</span>
-            <span class="url"><topic-link blog-topic="topic"/></span>
+            <span class="type" style="display:block;">
+                <strong>分类</strong> : 
+                @foreach (var category in topic.Categories)
+                { 
+                    @category.Name 
+                    @(" ")
+                }
+                <br>
+                <strong>标签</strong> :
+                @foreach (var tag in topic.Tags)
+                { 
+                    @tag
+                    @(" ")
+                }
+            </span>
         </div>
     }
 

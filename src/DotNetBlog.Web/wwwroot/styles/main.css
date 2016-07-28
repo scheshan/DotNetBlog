@@ -176,8 +176,8 @@ header .nav > li > a.dropdown-toggle { padding: 15px 10px !important; }
 /*[23.search]*/
 .search { padding: 4px; background: #fff; }
 .search input[type=text] { background-color: #fff; border: none; padding: 2%; height: 40px; width: 75%; outline: none !important; }
-.search input[type=button] { border: none; padding: 0; height: 40px; width: 25%; background-color: #428bca; color: #fff; border-radius: 4px; }
-.search input[type=button]:hover { background-color: #3276b1; }
+.search input[type=submit] { border: none; padding: 0; height: 40px; width: 25%; background-color: #428bca; color: #fff; border-radius: 4px; }
+.search input[type=submit]:hover { background-color: #3276b1; }
 
 /*[24.tagcloud]*/
 .tagcloud ul li { display: inline-block; margin: 1px; border: none; padding: 3px; }
@@ -207,7 +207,7 @@ header .nav > li > a.dropdown-toggle { padding: 15px 10px !important; }
 
 /*[27.search-page]*/
 .search-page .search-page-searchbox { background: #fff; padding: 3px; border-radius: 6px; border: 1px solid #CCC; margin-bottom: 15px; }
-.search-page .search-page-searchbox input[type=button] { float: right; width: 20%; border: none; height: 100%; padding: 8px 0; }
+.search-page .search-page-searchbox input[type=submit] { float: right; width: 20%; border: none; height: 100%; padding: 8px 0; }
 .search-page .search-page-searchbox input[type=text] { border: none; width: 76%; border-radius: 3px; padding: 4px 1%; outline:none !important; }
 .search-page .searchresult { border-bottom: 1px dotted #CCC; padding: 10px 0; font-size: 14px; }
 .search-page .searchresult a { font-weight: normal; font-size: 16px; }
