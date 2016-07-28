@@ -28,6 +28,8 @@ namespace DotNetBlog.Core.Data
 
         public virtual DbSet<UserToken> UserTokens { get; set; }
 
+        public virtual DbSet<Page> Pages { get; set; }
+
         public IServiceProvider ServiceProvider { get; private set; }
 
         public BlogContext(DbContextOptions<BlogContext> options, IServiceProvider serviceProvider)
@@ -49,6 +51,7 @@ namespace DotNetBlog.Core.Data
             modelBuilder.Entity<Comment>(CommentMapping.Map);
             modelBuilder.Entity<User>(UserMapping.Map);
             modelBuilder.Entity<UserToken>(UserTokenMapping.Map);
+            modelBuilder.Entity<Page>(PageMapping.Map);
         }
     }
 }
