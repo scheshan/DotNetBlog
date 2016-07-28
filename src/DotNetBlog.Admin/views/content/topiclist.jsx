@@ -12,6 +12,7 @@ class TopicList extends React.Component{
         super()
 
         this.state = {
+            loading: false,
             total: 0,
             topicList: [],
             selectAll: false,

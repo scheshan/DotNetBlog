@@ -7,6 +7,7 @@ using DotNetBlog.Web.Areas.Api.Models.Config;
 using DotNetBlog.Core.Model.Setting;
 using DotNetBlog.Core.Model.Topic;
 using DotNetBlog.Core.Entity;
+using DotNetBlog.Core.Model.Page;
 
 namespace DotNetBlog.Web
 {
@@ -22,7 +23,11 @@ namespace DotNetBlog.Web
                 config.CreateMap<SettingModel, EmailConfigModel>();
                 config.CreateMap<SettingModel, CommentConfigModel>();
                 config.CreateMap<CommentConfigModel, SettingModel>();
+
                 config.CreateMap<Topic, TopicModel>().ForMember(dest => dest.Date, map => map.MapFrom(source => source.EditDate));
+                config.CreateMap<Page, PageModel>().ForMember(dest => dest.Date, map => map.MapFrom(source => source.EditDate));
+                config.CreateMap<Page, PageBasicModel>().ForMember(dest => dest.Date, map => map.MapFrom(source => source.EditDate));
+                config.CreateMap<AddPageModel, Page>();
             });
         }
     }

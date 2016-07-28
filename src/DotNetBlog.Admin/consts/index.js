@@ -9,6 +9,7 @@ const MenuKeys = {
     Content_Comments: "Menu_Content_Comments",
     Content_Categories: "Menu_Content_Categories",
     Content_Tags: "Menu_Content_Tags",
+    Content_Pages: "Menu_Content_Pages",
     Config: "Menu_Config",
     Config_Basic: "Menu_Config_Basic",
     Config_Email: "Menu_Config_Email",
@@ -41,6 +42,11 @@ const Menus = [
                 key: MenuKeys.Content_Comments,
                 text: "评论",
                 url: "content/comments"     
+            },
+            {
+                key: MenuKeys.Content_Pages,
+                text: "页面",
+                url: "content/pages"     
             },
             {
                 key: MenuKeys.Content_Categories,
