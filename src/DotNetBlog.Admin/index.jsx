@@ -26,6 +26,7 @@ var Views_ModifyTopic = require("./views/content/modifytopic")
 var Views_TopicList = require("./views/content/topiclist")
 var Views_TagList = require("./views/content/taglist")
 var Views_PageList = require("./views/content/pagelist")
+var Views_ModifyPage = require("./views/content/modifypage")
 var Views_CommentList = require("./views/content/commentlist")
 var Views_CommentConfig = require("./views/config/commentconfig")
 var Views_Profile = require("./views/user/profile")
@@ -55,6 +56,7 @@ class Index extends React.Component{
                         <Route path="content/comments" component={Views_CommentList} onEnter={enterRoute.bind(this, Consts.MenuKeys.Content, Consts.MenuKeys.Content_Comments)} />
                         <Route path="content/tags" component={Views_TagList} onEnter={enterRoute.bind(this, Consts.MenuKeys.Content, Consts.MenuKeys.Content_Tags)}/>
                         <Route path="content/pages" component={Views_PageList} onEnter={enterRoute.bind(this, Consts.MenuKeys.Content, Consts.MenuKeys.Content_Pages)}/>
+                        <Route path="content/page(/:id)" component={Views_ModifyPage} onEnter={enterRoute.bind(this, Consts.MenuKeys.Content, Consts.MenuKeys.Content_Pages)}/>
                         <Route path="profile" component={Views_Profile} onEnter={enterRoute.bind(this, Consts.MenuKeys.User, Consts.MenuKeys.User_Profile)}/>
                     </Route>
                 </Router>

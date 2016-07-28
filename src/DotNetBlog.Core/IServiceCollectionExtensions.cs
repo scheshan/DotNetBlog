@@ -18,7 +18,8 @@ namespace DotNetBlog.Core
                 .AddScoped<TagService>()
                 .AddScoped<AuthService>()
                 .AddScoped<UserService>()
-                .AddScoped<CommentService>();
+                .AddScoped<CommentService>()
+                .AddScoped<PageService>();
 
             services.AddScoped<SettingModel>(provider =>
             {

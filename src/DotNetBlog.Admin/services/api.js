@@ -154,6 +154,9 @@ const Api = {
     },
     editMyInfo(data, callback){
         post("/api/my", data, callback);
+    },
+    queryPage(callback){
+        get("api/page/all", callback);
     }
 };
 
