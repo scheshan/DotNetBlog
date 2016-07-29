@@ -1,0 +1,12 @@
+﻿@model List<DotNetBlog.Core.Model.Page.PageBasicModel>
+
+@{ 
+    var root = Model.Where(t => t.Parent == null);
+}
+
+<li class="page-menu clearfix">
+    @foreach (var page in root)
+    {
+        <a blog-page="page" class="pull-left dropdown-m">@page.Title</a>
+    }
+</li>

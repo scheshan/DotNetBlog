@@ -142,7 +142,7 @@ class ModifyTopic extends React.Component{
         }
         let content = this.refs.editor.getContent();
         if(content == ""){
-            Dialog.error("请输入文章标题");
+            Dialog.error("请输入文章内容");
             return;
         }
 

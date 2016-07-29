@@ -114,16 +114,19 @@ class PageList extends React.Component{
     formatTitle(cell, row){
         return (
             <div>
-                <Link to={'/content/topic/' + row.id}>{cell}</Link>
-                <a title="查看" className="pull-right text-muted" target="_blank" href={'/topic/' + (row.alias || row.id) }><i className="fa fa-external-link"></i></a>
+                <Link to={'/content/page/' + row.id}>{cell}</Link>
+                <a title="查看" className="pull-right text-muted" target="_blank" href={'/page/' + (row.alias || row.id) }><i className="fa fa-external-link"></i></a>
             </div>
         )
     }
 
-    formatComments(cell, row){
-        return (
-            <span className="badge">{cell.approved}</span>
-        )
+    formatParent(cell, row){
+        if(cell){
+            return cell.title;
+        }
+        else{
+            return "";
+        }
     }
 
     render(){
@@ -160,9 +163,9 @@ class PageList extends React.Component{
                 <div className="box box-solid">
                     <div className="box-body table-responsive no-padding">
                         <BootstrapTable keyField="id" data={this.state.pageList} selectRow={selectRowProp}>
-                            <TableHeaderColumn dataField="title" dataFormat={this.formatTitle.bind(this)}>文章</TableHeaderColumn>
-                            <TableHeaderColumn width="100" dataAlign="center" dataField="comments" dataFormat={this.formatComments.bind(this)}>评论</TableHeaderColumn>
-                            <TableHeaderColumn width="180" dataAlign="center" dataField="date">日期</TableHeaderColumn>
+                            <TableHeaderColumn dataField="title" dataFormat={this.formatTitle.bind(this)}>标题</TableHeaderColumn>
+                            <TableHeaderColumn width="100" dataAlign="center" dataField="parent" dataFormat={this.formatParent.bind(this)}>上级</TableHeaderColumn>
+                            <TableHeaderColumn width="180" dataAlign="center" dataField="order">排序</TableHeaderColumn>
                             <TableHeaderColumn width="100" dataAlign="center" dataField="status" dataFormat={this.formatStatus.bind(this)}>状态</TableHeaderColumn>
                         </BootstrapTable>
                     </div>

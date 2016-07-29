@@ -1,4 +1,5 @@
-﻿using DotNetBlog.Core.Model.Setting;
+﻿using DotNetBlog.Core.Model.Page;
+using DotNetBlog.Core.Model.Setting;
 using DotNetBlog.Core.Service;
 using Microsoft.Extensions.DependencyInjection;
 using System;

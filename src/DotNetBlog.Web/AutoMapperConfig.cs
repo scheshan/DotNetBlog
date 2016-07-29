@@ -28,6 +28,7 @@ namespace DotNetBlog.Web
                 config.CreateMap<Page, PageModel>().ForMember(dest => dest.Date, map => map.MapFrom(source => source.EditDate));
                 config.CreateMap<Page, PageBasicModel>().ForMember(dest => dest.Date, map => map.MapFrom(source => source.EditDate));
                 config.CreateMap<AddPageModel, Page>();
+                config.CreateMap<EditPageModel, Page>();
             });
         }
     }

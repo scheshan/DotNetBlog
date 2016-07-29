@@ -1,4 +1,5 @@
 ﻿using DotNetBlog.Core.Model.Comment;
+using DotNetBlog.Core.Model.Page;
 using DotNetBlog.Core.Model.Setting;
 using DotNetBlog.Core.Model.Topic;
 using DotNetBlog.Core.Service;
@@ -21,15 +22,18 @@ namespace DotNetBlog.Web.Controllers
 
         private CommentService CommentService { get; set; }
 
+        private PageService PageService { get; set; }
+
         private SettingModel SettingModel { get; set; }
 
-        public HomeController(TopicService topicService, CategoryService categoryService, SettingModel settingModel, TagService tagService, CommentService commentService)
+        public HomeController(TopicService topicService, CategoryService categoryService, SettingModel settingModel, TagService tagService, CommentService commentService, PageService pageService)
         {
             TopicService = topicService;
             CategoryService = categoryService;
             SettingModel = settingModel;
             TagService = tagService;
             CommentService = commentService;
+            PageService = pageService;
         }
 
         [Route("{page:int?}")]
@@ -180,6 +184,22 @@ namespace DotNetBlog.Web.Controllers
             return this.View(vm);
         }
 
+        [HttpGet("page/{id:int}")]
+        public async Task<IActionResult> Page(int id)
+        {
+            var page = await this.PageService.Get(id);
+
+            return this.PageView(page);
+        }
+
+        [HttpGet("page/{alias}")]
+        public async Task<IActionResult> PageByAlias(string alias)
+        {
+            var page = await this.PageService.Get(alias);
+
+            return this.PageView(page);
+        }
+
         [NonAction]
         private async Task<IActionResult> TopicView(TopicModel topic)
         {
@@ -206,6 +226,19 @@ namespace DotNetBlog.Web.Controllers
             };
 
             return View("Topic", vm);
+        }
+
+        [NonAction]
+        private IActionResult PageView(PageModel page)
+        {
+            if (page == null)
+            {
+                return NotFound();
+            }
+
+            ViewBag.Title = page.Title;
+
+            return View("Page", page);
         }
     }
 }

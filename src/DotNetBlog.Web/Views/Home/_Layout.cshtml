@@ -32,10 +32,7 @@
                         <li><a href="http://localhost:10002/archive">归档</a></li>
                         <li><a href="http://localhost:10002/contact">联系</a></li>
 
-                        <li class="page-menu clearfix">
-                            <a href="/page/example-page" class="pull-left dropdown-m">Example page </a>
-                        </li>
-
+                        @await Component.InvokeAsync("PageListNav")
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
                         <li><a asp-action="LogOff" asp-controller="Account" condition="clientManager.IsLogin">注销</a></li>

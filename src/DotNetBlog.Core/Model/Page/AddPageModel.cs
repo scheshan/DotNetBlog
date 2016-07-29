@@ -18,11 +18,11 @@ namespace DotNetBlog.Core.Model.Page
         [StringLength(100)]
         public string Alias { get; set; }
 
-        [StringLength(200)]
-        public string Summary { get; set; }
-
         [StringLength(100)]
         public string Keywords { get; set; }
+
+        [StringLength(500)]
+        public string Description { get; set; }
 
         public DateTime? Date { get; set; }
 

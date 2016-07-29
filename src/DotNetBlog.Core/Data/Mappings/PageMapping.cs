@@ -22,7 +22,7 @@ namespace DotNetBlog.Core.Data.Mappings
             builder.Property(t => t.Title).IsRequired().HasMaxLength(100);
             builder.Property(t => t.Alias).HasMaxLength(100);
             builder.Property(t => t.Keywords).HasMaxLength(100);
-            builder.Property(t => t.Summary).HasMaxLength(200);
+            builder.Property(t => t.Description).HasMaxLength(500);
         }
     }
 }

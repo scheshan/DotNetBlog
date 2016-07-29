@@ -50,11 +50,6 @@ namespace DotNetBlog.Core.Service
             }
 
             model.Alias = await this.GenerateAlias(null, model.Alias, model.Title);
-            model.Summary = model.Summary.TrimHtml();
-            if (string.IsNullOrWhiteSpace(model.Summary))
-            {
-                model.Summary = model.Content.TrimHtml().ToLength(200);
-            }
 
             var entity = Mapper.Map<Page>(model);
             entity.CreateDate = DateTime.Now;
@@ -95,15 +90,11 @@ namespace DotNetBlog.Core.Service
                 }
             }
 
-            model.Alias = await this.GenerateAlias(null, model.Alias, model.Title);
-            model.Summary = model.Summary.TrimHtml();
-            if (string.IsNullOrWhiteSpace(model.Summary))
-            {
-                model.Summary = model.Content.TrimHtml().ToLength(200);
-            }
+            model.Alias = await this.GenerateAlias(model.ID, model.Alias, model.Title);
 
-            Mapper.Map(entity, model);
+            Mapper.Map(model, entity);
             entity.EditDate = model.Date ?? DateTime.Now;
+            entity.ParentID = model.Parent;
 
             await this.BlogContext.SaveChangesAsync();
 
@@ -132,6 +123,52 @@ namespace DotNetBlog.Core.Service
             });
 
             return result.ToList();
+        }
+
+        public async Task<List<PageBasicModel>> QueryPublished()
+        {
+            var entityList = (await this.All()).Where(t=>t.Status == Enums.PageStatus.Published);
+
+            var result = entityList.Select(entity =>
+            {
+                var pageModel = Mapper.Map<PageBasicModel>(entity);
+
+                if (entity.ParentID.HasValue)
+                {
+                    var parent = entityList.SingleOrDefault(t => t.ID == entity.ParentID.Value);
+                    pageModel.Parent = Mapper.Map<PageBasicModel>(parent);
+                }
+
+                return pageModel;
+            });
+
+            return result.ToList();
+        }
+
+        public async Task<PageModel> Get(int id)
+        {
+            var entity = (await this.All()).SingleOrDefault(t => t.ID == id);
+            if (entity == null)
+            {
+                return null;
+            }
+
+            var pageModel = (await this.Transform(entity)).First();
+
+            return pageModel;
+        }
+
+        public async Task<PageModel> Get(string alias)
+        {
+            var entity = (await this.All()).SingleOrDefault(t => t.Alias == alias);
+            if (entity == null)
+            {
+                return null;
+            }
+
+            var pageModel = (await this.Transform(entity)).First();
+
+            return pageModel;
         }
 
         private async Task<string> GenerateAlias(int? id, string alias, string title)

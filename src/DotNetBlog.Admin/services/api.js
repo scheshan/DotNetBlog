@@ -156,7 +156,16 @@ const Api = {
         post("/api/my", data, callback);
     },
     queryPage(callback){
-        get("api/page/all", callback);
+        get("/api/page/all", callback);
+    },
+    addPage(data, callback){
+        post("/api/page", data, callback);
+    },
+    editPage(id, data, callback){
+        post("/api/page/" + id, data, callback);
+    },
+    getPage(id, callback){
+        get("/api/page/" + id, callback);
     }
 };
 
