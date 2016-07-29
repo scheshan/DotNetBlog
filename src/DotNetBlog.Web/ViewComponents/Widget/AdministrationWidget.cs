@@ -4,15 +4,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace DotNetBlog.Web.ViewComponents
+namespace DotNetBlog.Web.ViewComponents.Widget
 {
-    public class SearchWidget : ViewComponent
+    public class AdministrationWidget : ViewComponent
     {
-        public SearchWidget()
-        {
-
-        }
-
         public IViewComponentResult Invoke()
         {
             return View();

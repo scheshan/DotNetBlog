@@ -1,0 +1,15 @@
+﻿@model List<DotNetBlog.Core.Model.Page.PageBasicModel>
+
+<div class="Widget widget pagelist">
+    <h4 class="WidgetHeader widget-header">页面</h4>
+    <div class="WidgetContent widget-content">
+        <ul>
+            @foreach (var page in Model)
+            {
+            <li>
+                <a blog-page="page">@page.Title</a>
+            </li>
+            }
+        </ul>
+    </div>
+</div>

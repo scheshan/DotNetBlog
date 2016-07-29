@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace DotNetBlog.Web.ViewComponents
+namespace DotNetBlog.Web.ViewComponents.Widget
 {
     public class CategoryWidget : ViewComponent
     {

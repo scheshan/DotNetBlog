@@ -5,22 +5,22 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace DotNetBlog.Web.ViewComponents
+namespace DotNetBlog.Web.ViewComponents.Widget
 {
-    public class TopicWidget : ViewComponent
+    public class MonthStatisticsWidget : ViewComponent
     {
         private TopicService TopicService { get; set; }
 
-        public TopicWidget(TopicService topicService)
+        public MonthStatisticsWidget(TopicService topicService)
         {
             TopicService = topicService;
         }
 
         public async Task<IViewComponentResult> InvokeAsync()
         {
-            var topicList = await TopicService.QueryRecent(10);
+            var list = await TopicService.QueryMonthStatistics();
 
-            return View(topicList);
+            return View(list);
         }
     }
 }
