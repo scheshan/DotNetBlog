@@ -11,17 +11,26 @@ class Editor extends React.Component{
     componentDidMount(){
         let selector = '#' + this.id;
         let options = _.assign(
-            {}, 
-            this.props.options, 
+            {},             
             {
                 selector,
+                relative_urls :false,
+                menubar: false,
+                height: 420,
+                plugins: [
+                    "advlist autolink lists link image charmap print preview anchor",
+                    "searchreplace visualblocks code fullscreen textcolor imagetools",
+                    "insertdatetime media table contextmenu paste imageUpload"
+                ],
                 setup: (editor)=>{
                     this.editor = editor
                     if(this.props.content){
                         this.editor.setContent(this.props.content)
                     }
-                }
-            });
+                },
+                toolbar: 'code | undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image imageUpload'
+            }, 
+            this.props.options);
         tinymce.init(options)
     }
 

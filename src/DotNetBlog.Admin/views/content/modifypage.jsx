@@ -231,15 +231,6 @@ class ModifyPage extends React.Component{
             <FormGroup>
                 <Editor 
                     ref="editor"
-                    options={{
-                        height: 420,
-                        menubar: false,
-                        plugins: [
-                            "advlist autolink lists link image charmap print preview anchor",
-                            "searchreplace visualblocks code fullscreen textcolor imagetools",
-                            "insertdatetime media table contextmenu paste"
-                        ]
-                    }} 
                     content={this.state.page.content} 
                     onChange={handleContentChange.bind(this)}
                 />
@@ -313,7 +304,7 @@ class ModifyPage extends React.Component{
             <button type="button" className="btn btn-warning btn-block" onClick={this.draft.bind(this)}>取消发布</button>
         )
         let viewBtn = (
-            <a target="_blank" href={"/topic/" + this.state.page.id} type="button" className="btn btn-success btn-block">转到文章</a>
+            <a target="_blank" href={"/page/" + this.state.page.id} type="button" className="btn btn-success btn-block">转到页面</a>
         )
 
         if(!this.state.page.id){

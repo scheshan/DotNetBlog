@@ -26,6 +26,7 @@ namespace DotNetBlog.Web.Areas.Api.Controllers
             };
         }
 
+        [NonAction]
         public IActionResult Success()
         {
             var response = new ApiResponse
@@ -36,6 +37,7 @@ namespace DotNetBlog.Web.Areas.Api.Controllers
             return Json(response);
         }
 
+        [NonAction]
         public IActionResult Error(string errorMessage)
         {
             var response = new ApiResponse
@@ -46,6 +48,7 @@ namespace DotNetBlog.Web.Areas.Api.Controllers
             return Json(response);
         }
 
+        [NonAction]
         public IActionResult Success<T>(T data)
         {
             var response = new ApiResponse<T>
@@ -57,6 +60,7 @@ namespace DotNetBlog.Web.Areas.Api.Controllers
             return Json(response);
         }
 
+        [NonAction]
         public IActionResult PagedData<T>(List<T> data, int total)
         {
             var response = new PagedApiResponse<T>
@@ -69,11 +73,13 @@ namespace DotNetBlog.Web.Areas.Api.Controllers
             return Json(response);
         }
 
+        [NonAction]
         public new IActionResult Json(object data)
         {
             return base.Json(data, _DefaultJsonSerializerSettings);
         }
 
+        [NonAction]
         public IActionResult InvalidRequest()
         {
             string errorMessage;

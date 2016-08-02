@@ -225,16 +225,7 @@ class ModifyTopic extends React.Component{
         return (
             <FormGroup>
                 <Editor 
-                    ref="editor"
-                    options={{
-                        height: 420,
-                        menubar: false,
-                        plugins: [
-                            "advlist autolink lists link image charmap print preview anchor",
-                            "searchreplace visualblocks code fullscreen textcolor imagetools",
-                            "insertdatetime media table contextmenu paste"
-                        ]
-                    }} 
+                    ref="editor" 
                     content={this.state.topic.content || ''} 
                     onChange={this.handleContentChange.bind(this)}
                 />

@@ -76,10 +76,10 @@
       "wwwroot",
       "web.config",
       "App_Data",
-      "Areas/*/Views"
+      "Views"
     ],
     "exclude": [
-      "wwwroot/app"
+      "wwwroot/upload"
     ]
   },
 
