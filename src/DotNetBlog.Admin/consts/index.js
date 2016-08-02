@@ -10,6 +10,8 @@ const MenuKeys = {
     Content_Categories: "Menu_Content_Categories",
     Content_Tags: "Menu_Content_Tags",
     Content_Pages: "Menu_Content_Pages",
+    Custom: "Menu_Custom",
+    Custom_Widgets: "Menu_Custom_Widgets",
     Config: "Menu_Config",
     Config_Basic: "Menu_Config_Basic",
     Config_Email: "Menu_Config_Email",
@@ -17,7 +19,7 @@ const MenuKeys = {
     Config_Comments: "Menu_Config_Comments",
     Config_Advance: "Menu_Config_Advance",
     User: "Menu_User",
-    User_Profile: "Menu_User_Profile"
+    User_Profile: "Menu_User_Profile"    
 }
 
 const Menus = [
@@ -57,6 +59,19 @@ const Menus = [
                 key: MenuKeys.Content_Tags,
                 text: "标签",
                 url: "content/tags"
+            }
+        ]
+    },
+    {
+        key: MenuKeys.Custom,
+        text: "自定义",
+        url: "custom/widgets",
+        icon: "fa fa-cog",
+        children: [
+            {
+                key: MenuKeys.Custom_Widgets,
+                text: "组件",
+                url: "custom/widgets"                        
             }
         ]
     },
