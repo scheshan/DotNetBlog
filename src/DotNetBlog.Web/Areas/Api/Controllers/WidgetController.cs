@@ -45,7 +45,30 @@ namespace DotNetBlog.Web.Areas.Api.Controllers
                 return this.InvalidRequest();
             }
 
-            return this.Success();
+            var widgetList = model.Select(t => new WidgetModel
+            {
+                Type = t.Type,
+                Config = this.WidgetService.Transform(t.Type, t.Config)
+            }).ToList();
+
+            foreach (var widget in widgetList)
+            {
+                if (!widget.Config.IsValid)
+                {
+                    return this.InvalidRequest();
+                }
+            }
+
+            var result = await this.WidgetService.Save(widgetList);
+
+            if (result.Success)
+            {
+                return this.Success();
+            }
+            else
+            {
+                return this.Error(result.ErrorMessage);
+            }
         }
     }
 }

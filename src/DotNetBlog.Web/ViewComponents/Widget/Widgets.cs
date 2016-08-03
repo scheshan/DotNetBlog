@@ -1,4 +1,5 @@
 ﻿
+using DotNetBlog.Core.Service;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -9,9 +10,18 @@ namespace DotNetBlog.Web.ViewComponents.Widget
 {
     public class Widgets : ViewComponent
     {
-        public IViewComponentResult Invoke()
+        private WidgetService WidgetService { get; set; }
+
+        public Widgets(WidgetService widgetService)
         {
-            return this.View();
+            this.WidgetService = widgetService;
+        }
+
+        public async Task<IViewComponentResult> InvokeAsync()
+        {
+            var widgetList = await this.WidgetService.Query();
+
+            return this.View(widgetList);
         }
     }
 }

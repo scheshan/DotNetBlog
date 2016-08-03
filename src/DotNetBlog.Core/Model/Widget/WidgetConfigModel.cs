@@ -9,6 +9,14 @@ namespace DotNetBlog.Core.Model.Widget
     public abstract class WidgetConfigModelBase
     {
         public string Title { get; set; }
+
+        public virtual bool IsValid
+        {
+            get
+            {
+                return !string.IsNullOrWhiteSpace(this.Title);
+            }
+        }
     }
 
     public class AdministratorWidgetConfigModel : WidgetConfigModelBase
@@ -42,6 +50,14 @@ namespace DotNetBlog.Core.Model.Widget
         }
 
         public int Number { get; set; }
+
+        public override bool IsValid
+        {
+            get
+            {
+                return base.IsValid && this.Number > 0;
+            }
+        }
     }
     
     public class MonthStatisticeWidgetConfigModel : WidgetConfigModelBase
@@ -71,6 +87,14 @@ namespace DotNetBlog.Core.Model.Widget
         public int Number { get; set; }
 
         public int? Category { get; set; }
+
+        public override bool IsValid
+        {
+            get
+            {
+                return base.IsValid && this.Number > 0;
+            }
+        }
     }
 
     public class SearchWidgetConfigModel : WidgetConfigModelBase
@@ -93,5 +117,13 @@ namespace DotNetBlog.Core.Model.Widget
         public int Number { get; set; }
 
         public int MinTopicNumber { get; set; }
+
+        public override bool IsValid
+        {
+            get
+            {
+                return base.IsValid && this.Number > 0 && this.MinTopicNumber > 0;
+            }
+        }
     }
 }

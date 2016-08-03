@@ -21,10 +21,10 @@ namespace DotNetBlog.Core.Service
 
         private static readonly Dictionary<WidgetType, string> DefaultNames = new Dictionary<WidgetType, string>
         {
-            { WidgetType.Administrator, "管理" },
+            { WidgetType.Administration, "管理" },
             { WidgetType.Category, "分类" },
             { WidgetType.RecentComment, "最新评论" },
-            { WidgetType.MonthStatistice, "归档" },
+            { WidgetType.MonthStatistics, "归档" },
             { WidgetType.Page, "页面" },
             { WidgetType.Search, "搜索" },
             { WidgetType.Tag, "标签" },
@@ -33,10 +33,10 @@ namespace DotNetBlog.Core.Service
 
         private static readonly Dictionary<WidgetType, Type> DefaultWidgetConfigTypes = new Dictionary<WidgetType, Type>
         {
-            { WidgetType.Administrator, typeof(AdministratorWidgetConfigModel) },
+            { WidgetType.Administration, typeof(AdministratorWidgetConfigModel) },
             { WidgetType.Category, typeof(CategoryWidgetConfigModel) },
             { WidgetType.RecentComment, typeof(RecentCommentWidgetConfigModel) },
-            { WidgetType.MonthStatistice, typeof(MonthStatisticeWidgetConfigModel) },
+            { WidgetType.MonthStatistics, typeof(MonthStatisticeWidgetConfigModel) },
             { WidgetType.Page, typeof(PageWidgetConfigModel) },
             { WidgetType.Search, typeof(SearchWidgetConfigModel) },
             { WidgetType.Tag, typeof(TagWidgetConfigModel) },
@@ -119,7 +119,8 @@ namespace DotNetBlog.Core.Service
 
         public WidgetConfigModelBase Transform(WidgetType type, JObject config)
         {
-            return new SearchWidgetConfigModel();
+            Type targetType = DefaultWidgetConfigTypes[type];
+            return config.ToObject(targetType) as WidgetConfigModelBase;
         }
     }
 }

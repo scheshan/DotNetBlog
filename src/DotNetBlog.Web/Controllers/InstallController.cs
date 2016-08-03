@@ -38,7 +38,7 @@ namespace DotNetBlog.Web.Controllers
                 var widgetList = new List<WidgetModel>();
                 widgetList.Add(new WidgetModel
                 {
-                    Type = WidgetType.Administrator,
+                    Type = WidgetType.Administration,
                     Config = new AdministratorWidgetConfigModel()
                 });
                 widgetList.Add(new WidgetModel
@@ -58,7 +58,7 @@ namespace DotNetBlog.Web.Controllers
                 });
                 widgetList.Add(new WidgetModel
                 {
-                    Type = WidgetType.MonthStatistice,
+                    Type = WidgetType.MonthStatistics,
                     Config = new MonthStatisticeWidgetConfigModel()
                 });
                 widgetList.Add(new WidgetModel

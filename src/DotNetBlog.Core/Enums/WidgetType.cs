@@ -7,7 +7,7 @@ namespace DotNetBlog.Core.Enums
 {
     public enum WidgetType : byte
     {
-        Administrator = 1,
+        Administration = 1,
 
         Category = 2,
 
@@ -17,7 +17,7 @@ namespace DotNetBlog.Core.Enums
 
         RecentComment = 5,
 
-        MonthStatistice = 6,
+        MonthStatistics = 6,
 
         Page = 7,
 

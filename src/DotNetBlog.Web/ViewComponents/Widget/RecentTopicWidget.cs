@@ -7,19 +7,20 @@ using System.Threading.Tasks;
 
 namespace DotNetBlog.Web.ViewComponents.Widget
 {
-    public class CommentWidget : ViewComponent
+    public class RecentTopicWidget : ViewComponent
     {
-        private CommentService CommentService { get; set; }
+        private TopicService TopicService { get; set; }
 
-        public CommentWidget(CommentService commentService)
+        public RecentTopicWidget(TopicService topicService)
         {
-            this.CommentService = commentService;
+            TopicService = topicService;
         }
 
         public async Task<IViewComponentResult> InvokeAsync()
         {
-            var commentList = await this.CommentService.QueryLatest(10);
-            return View(commentList);
+            var topicList = await TopicService.QueryRecent(10);
+
+            return View(topicList);
         }
     }
 }
