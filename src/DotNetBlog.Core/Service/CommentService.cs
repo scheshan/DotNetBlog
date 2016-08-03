@@ -137,7 +137,7 @@ namespace DotNetBlog.Core.Service
 
         public async Task<List<CommentModel>> QueryByTopic(int topicID)
         {
-            var query = BlogContext.Comments.Where(t => t.TopicID == topicID);
+            var query = BlogContext.Comments.AsNoTracking().Where(t => t.TopicID == topicID);
             if (ClientManager.IsLogin)
             {
                 query = query.Where(t => t.Status == Enums.CommentStatus.Pending || t.Status == Enums.CommentStatus.Approved);
@@ -154,7 +154,7 @@ namespace DotNetBlog.Core.Service
 
         public async Task<PagedResult<CommentModel>> Query(int pageIndex, int pageSize, Enums.CommentStatus? status, string keywords)
         {
-            var query = this.BlogContext.Comments.AsQueryable();
+            var query = this.BlogContext.Comments.AsNoTracking().AsQueryable();
             if (status.HasValue)
             {
                 query = query.Where(t => t.Status == status.Value);
@@ -275,7 +275,7 @@ namespace DotNetBlog.Core.Service
             string cacheKey = "Cache_Comment_Latest";
             var result = await this.Cache.RetriveCacheAsync(cacheKey, async () =>
             {
-                var entityList = await this.BlogContext.Comments.Where(t => t.Status == Enums.CommentStatus.Approved)
+                var entityList = await this.BlogContext.Comments.AsNoTracking().Where(t => t.Status == Enums.CommentStatus.Approved)
                 .OrderByDescending(t => t.ID)
                 .Take(count)
                 .ToListAsync();
@@ -294,7 +294,7 @@ namespace DotNetBlog.Core.Service
                         Title = t.Title,
                         Alias = t.Alias
                     }).ToListAsync();
-                var topicComments = await this.BlogContext.Comments.Where(t => topicIDList.Contains(t.TopicID))
+                var topicComments = await this.BlogContext.Comments.AsNoTracking().Where(t => topicIDList.Contains(t.TopicID))
                     .GroupBy(t => t.TopicID)
                     .Select(g => new
                     {
