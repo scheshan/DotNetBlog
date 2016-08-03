@@ -38,23 +38,14 @@ namespace DotNetBlog.Web.Areas.Api.Controllers
         }
 
         [HttpPost("")]
-        public async Task<IActionResult> Save([FromBody]SaveWidgetModel model)
+        public async Task<IActionResult> Save([FromBody]List<SaveWidgetModel> model)
         {
             if (model == null || !ModelState.IsValid)
             {
                 return this.InvalidRequest();
             }
 
-            var result = await this.WidgetService.Save(model.WidgetList);
-
-            if (result.Success)
-            {
-                return this.Success();
-            }
-            else
-            {
-                return this.Error(result.ErrorMessage);
-            }
+            return this.Success();
         }
     }
 }

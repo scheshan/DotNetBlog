@@ -11,6 +11,7 @@ using DotNetBlog.Core.Extensions;
 using Microsoft.EntityFrameworkCore;
 using DotNetBlog.Core.Model;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace DotNetBlog.Core.Service
 {
@@ -114,6 +115,11 @@ namespace DotNetBlog.Core.Service
                 tran.Commit();
                 return new OperationResult();
             }
+        }
+
+        public WidgetConfigModelBase Transform(WidgetType type, JObject config)
+        {
+            return new SearchWidgetConfigModel();
         }
     }
 }

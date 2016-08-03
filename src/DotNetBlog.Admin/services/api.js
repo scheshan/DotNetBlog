@@ -174,7 +174,7 @@ const Api = {
         get("/api/widget/all", callback)
     },
     saveWidget(data, callback){
-        post("/api/widget", {widgetList: data}, callback);
+        post("/api/widget", data, callback);
     }
 };
 
