@@ -90,9 +90,10 @@ namespace DotNetBlog.Web.Areas.Api.Controllers
             }
             else
             {
-                errorMessage = ModelState.Where(t => t.Value.Errors.Any()).Select(t => t.Value).FirstOrDefault()?.Errors.FirstOrDefault()?.ErrorMessage;
-                errorMessage = errorMessage ?? "错误的请求";
+                errorMessage = ModelState.Where(t => t.Value.Errors.Any()).Select(t => t.Value).FirstOrDefault()?.Errors.FirstOrDefault()?.ErrorMessage;                
             }
+
+            errorMessage = string.IsNullOrWhiteSpace(errorMessage) ? "错误的请求" : errorMessage;
 
             return this.Error(errorMessage);
         }

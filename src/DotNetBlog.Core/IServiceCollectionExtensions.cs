@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Reflection;
 
 namespace DotNetBlog.Core
 {
@@ -13,14 +14,12 @@ namespace DotNetBlog.Core
     {
         public static void AddBlogService(this IServiceCollection services)
         {
-            services.AddScoped<SettingService>()
-                .AddScoped<CategoryService>()
-                .AddScoped<TopicService>()
-                .AddScoped<TagService>()
-                .AddScoped<AuthService>()
-                .AddScoped<UserService>()
-                .AddScoped<CommentService>()
-                .AddScoped<PageService>();
+            var assembly = typeof(IServiceCollectionExtensions).GetTypeInfo().Assembly;
+            var serviceList = assembly.DefinedTypes.Where(t => t.Name.EndsWith("Service") && t.Namespace == "DotNetBlog.Core.Service").ToList();
+            foreach (var service in serviceList)
+            {
+                services.AddScoped(service.AsType());
+            }
 
             services.AddScoped<SettingModel>(provider =>
             {

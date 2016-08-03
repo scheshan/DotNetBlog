@@ -5,16 +5,7 @@ var WidgetItem = React.createClass({
     displayName: 'WidgetItem',
     render: function() {
         return (
-            <div {...this.props} className="col-md-4">
-                <div className="box">
-                    <div className="box-header">
-                        插件
-                    </div>
-                    <div className="box-body">
-                        {this.props.children}
-                    </div>
-                </div>
-            </div>
+            <li {...this.props}>{this.props.children.config.title}</li>
         )
     }
 })

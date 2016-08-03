@@ -1,5 +1,9 @@
 ﻿using DotNetBlog.Core.Data;
+using DotNetBlog.Core.Entity;
+using DotNetBlog.Core.Enums;
+using DotNetBlog.Core.Model.Widget;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,7 +25,7 @@ namespace DotNetBlog.Web.Controllers
         {
             if (await this.BlogContext.Database.EnsureCreatedAsync())
             {
-                var user = new Core.Entity.User
+                var user = new User
                 {
                     UserName = "admin",
                     Password = Core.Utilities.EncryptHelper.MD5("admin"),
@@ -30,6 +34,56 @@ namespace DotNetBlog.Web.Controllers
                 };
 
                 this.BlogContext.Users.Add(user);
+
+                var widgetList = new List<WidgetModel>();
+                widgetList.Add(new WidgetModel
+                {
+                    Type = WidgetType.Administrator,
+                    Config = new AdministratorWidgetConfigModel()
+                });
+                widgetList.Add(new WidgetModel
+                {
+                    Type = WidgetType.Search,
+                    Config = new SearchWidgetConfigModel()
+                });
+                widgetList.Add(new WidgetModel
+                {
+                    Type = WidgetType.Category,
+                    Config = new CategoryWidgetConfigModel()
+                });
+                widgetList.Add(new WidgetModel
+                {
+                    Type = WidgetType.Tag,
+                    Config = new TagWidgetConfigModel()
+                });
+                widgetList.Add(new WidgetModel
+                {
+                    Type = WidgetType.MonthStatistice,
+                    Config = new MonthStatisticeWidgetConfigModel()
+                });
+                widgetList.Add(new WidgetModel
+                {
+                    Type = WidgetType.RecentTopic,
+                    Config = new RecentTopicWidgetConfigModel()
+                });
+                widgetList.Add(new WidgetModel
+                {
+                    Type = WidgetType.RecentComment,
+                    Config = new RecentCommentWidgetConfigModel()
+                });
+                widgetList.Add(new WidgetModel
+                {
+                    Type = WidgetType.Page,
+                    Config = new PageWidgetConfigModel()
+                });
+
+                var widgetEntityList = widgetList.Select(t => new Widget
+                {
+                    Config = JsonConvert.SerializeObject(t.Config),
+                    Type = t.Type,
+                    ID = widgetList.IndexOf(t) + 1
+                });
+                this.BlogContext.AddRange(widgetEntityList);
 
                 await this.BlogContext.SaveChangesAsync();
             }

@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace DotNetBlog.Core.Entity
+namespace DotNetBlog.Core.Model.Widget
 {
-    public class Widget
+    public class AvailableWidgetModel
     {
-        public int ID { get; set; }
-
         public Enums.WidgetType Type { get; set; }
 
-        public string Config { get; set; }
+        public string Name { get; set; }
+
+        public string Icon { get; set; }
     }
 }

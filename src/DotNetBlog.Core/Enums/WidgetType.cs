@@ -13,14 +13,16 @@ namespace DotNetBlog.Core.Enums
 
         Tag = 3,
 
-        Topic = 4,
+        RecentTopic = 4,
 
-        Comment = 5,
+        RecentComment = 5,
 
         MonthStatistice = 6,
 
         Page = 7,
 
-        Search = 8
+        Search = 8,
+
+        //Link = 9
     }
 }

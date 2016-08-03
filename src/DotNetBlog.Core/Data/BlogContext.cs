@@ -30,6 +30,8 @@ namespace DotNetBlog.Core.Data
 
         public virtual DbSet<Page> Pages { get; set; }
 
+        public virtual DbSet<Widget> Widgets { get; set; }
+
         public IServiceProvider ServiceProvider { get; private set; }
 
         public BlogContext(DbContextOptions<BlogContext> options, IServiceProvider serviceProvider)
@@ -52,6 +54,7 @@ namespace DotNetBlog.Core.Data
             modelBuilder.Entity<User>(UserMapping.Map);
             modelBuilder.Entity<UserToken>(UserTokenMapping.Map);
             modelBuilder.Entity<Page>(PageMapping.Map);
+            modelBuilder.Entity<Widget>(WidgetMapping.Map);
         }
     }
 }

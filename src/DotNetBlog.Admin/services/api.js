@@ -166,6 +166,15 @@ const Api = {
     },
     getPage(id, callback){
         get("/api/page/" + id, callback);
+    },
+    queryAvaiableWidgets(callback){
+        get("/api/widget/available", callback)
+    },
+    queryAllWidgets(callback){
+        get("/api/widget/all", callback)
+    },
+    saveWidget(data, callback){
+        post("/api/widget", {widgetList: data}, callback);
     }
 };
 

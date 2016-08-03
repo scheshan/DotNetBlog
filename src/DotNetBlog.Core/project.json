@@ -8,6 +8,7 @@
     },
     "System.Reflection": "4.1.0",
     "AutoMapper": "5.0.0",
+    "Newtonsoft.Json": "9.0.0",
 
     "Microsoft.EntityFrameworkCore.Sqlite": "1.0.0",
     "Microsoft.EntityFrameworkCore.SqlServer": "1.0.0",

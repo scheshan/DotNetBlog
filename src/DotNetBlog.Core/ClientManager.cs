@@ -77,13 +77,20 @@ namespace DotNetBlog.Core
         {
             if (!string.IsNullOrWhiteSpace(this.Token))
             {
-                var userTokens = BlogContext.QueryUserTokenFromCache();
-                if (userTokens.ContainsKey(this.Token))
+                try
                 {
-                    var userToken = userTokens[this.Token];
-                    var users = BlogContext.QueryUserFromCache();
+                    var userTokens = BlogContext.QueryUserTokenFromCache();
+                    if (userTokens.ContainsKey(this.Token))
+                    {
+                        var userToken = userTokens[this.Token];
+                        var users = BlogContext.QueryUserFromCache();
 
-                    this.CurrentUser = users.SingleOrDefault(t => t.ID == userToken.UserID);
+                        this.CurrentUser = users.SingleOrDefault(t => t.ID == userToken.UserID);
+                    }
+                }
+                catch
+                {
+
                 }
             }
         }
