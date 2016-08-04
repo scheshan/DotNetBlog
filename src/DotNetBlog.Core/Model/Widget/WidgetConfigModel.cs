@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using DotNetBlog.Core.Enums;
+using Newtonsoft.Json;
 
 namespace DotNetBlog.Core.Model.Widget
 {
@@ -10,6 +11,7 @@ namespace DotNetBlog.Core.Model.Widget
     {
         public string Title { get; set; }
 
+        [JsonIgnore]
         public virtual bool IsValid
         {
             get

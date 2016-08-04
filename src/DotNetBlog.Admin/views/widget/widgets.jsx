@@ -1,5 +1,6 @@
 var React = require("react")
 var WidgetItem = require("./widgetitem")
+var WidgetInfo = require("./widgetinfo")
 var Api = require("../../services/api")
 var Dialog = require("../../services/dialog")
 var Async = require("async")
@@ -78,6 +79,30 @@ class Widgets extends React.Component{
         })
     }
 
+    addWidget(widget){
+        let items = this.state.data.items;
+        items.push({type: widget.type, config: widget.defaultConfig});
+        this.setState({
+            data:{
+                items: items
+            }
+        });
+    }
+
+    showWidgetInfo(widget){
+        this.refs.widgetInfo.show(widget);
+    }
+
+    removeWidget(index){
+        let items = this.state.data.items;
+        items = _.remove(items, (item, i)=>i != index);
+        this.setState({
+            data:{
+                items: items
+            }
+        });
+    }
+
     save(){
         if(this.state.loading){
             return;
@@ -101,7 +126,12 @@ class Widgets extends React.Component{
     }
 
     render() {
-        var listItems = this.state.data.items.map(function (item, i) {
+        let listItems = this.state.data.items.map(function (item, i) {
+            let data = {
+                widget: item,
+                onEdit: null,
+                onRemove: this.removeWidget.bind(this, i)
+            }
             return (
                 <WidgetItem
                     key={i}
@@ -110,7 +140,7 @@ class Widgets extends React.Component{
                     draggingIndex={this.state.draggingIndex}
                     sortId={i}
                     outline="list">
-                    {item}
+                    {data}
                 </WidgetItem>
             );
         }, this);
@@ -118,6 +148,7 @@ class Widgets extends React.Component{
         return (
             <div className="content">
                 <Spinner loading={this.state.loading}></Spinner>
+                <WidgetInfo ref="widgetInfo"></WidgetInfo>
 
                 <div className="mailbox-controls">
                     <LoadingButton className="btn btn-primary" loading={this.state.loading} title="保存" onClick={this.save.bind(this)}>
@@ -136,8 +167,8 @@ class Widgets extends React.Component{
                                             <li key={i}>
                                                 {widget.name}
                                                 <span className="item-buttons">
-                                                    <button title="增加"><i className="fa fa-plus"></i></button>
-                                                    <button title="信息"><i className="fa fa-info"></i></button>
+                                                    <button title="增加" onClick={this.addWidget.bind(this, widget)}><i className="fa fa-plus"></i></button>
+                                                    <button title="信息" onClick={this.showWidgetInfo.bind(this, widget)}><i className="fa fa-info"></i></button>
                                                 </span>
                                             </li>
                                         )

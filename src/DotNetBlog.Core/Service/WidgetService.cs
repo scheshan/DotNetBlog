@@ -61,10 +61,13 @@ namespace DotNetBlog.Core.Service
             foreach(byte item in arr)
             {
                 WidgetType type = (WidgetType)item;
+                Type configType = DefaultWidgetConfigTypes[type];
                 result.Add(new AvailableWidgetModel
                 {
                     Type = type,
-                    Name = DefaultNames[type]                    
+                    Name = DefaultNames[type],
+                    DefaultConfig = (WidgetConfigModelBase)Activator.CreateInstance(configType),
+                    Icon = type.ToString()
                 });
             }
 
