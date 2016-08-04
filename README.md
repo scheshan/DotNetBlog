@@ -1,6 +1,8 @@
 # DotNetBlog
 A Tiny Blog Written in Asp.Net Core
 
+The blog is hosted on [http://120.24.36.219/](http://example.net/)
+
 How to Build and Run:
 
 *   Clone the repository
