@@ -3,10 +3,11 @@
 
 @{ 
     var groupList = Model.GroupBy(t => t.Month.Year);
+    var config = ViewBag.Config as MonthStatisticeWidgetConfigModel;
 }
 
 <div class="Widget widget monthlist">
-    <h4 class="WidgetHeader widget-header">归档</h4>
+    <h4 class="WidgetHeader widget-header">@config.Title</h4>
     <div class="WidgetContent widget-content">
         <ul>
             @foreach (var year in groupList)

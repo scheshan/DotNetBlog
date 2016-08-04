@@ -1,8 +1,11 @@
 ﻿@using DotNetBlog.Core.Model.Tag
 @model List<TagModel>
+@{ 
+    var config = ViewBag.Config as TagWidgetConfigModel;
+}
 
 <div class="Widget widget tagcloud">
-    <h4 class="WidgetHeader widget-header">TagCloud</h4>
+    <h4 class="WidgetHeader widget-header">@config.Title</h4>
     <div class="WidgetContent widget-content">
         <ul>
             @foreach (var tag in Model)

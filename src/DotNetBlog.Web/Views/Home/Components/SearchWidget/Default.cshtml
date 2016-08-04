@@ -1,4 +1,7 @@
-﻿<div class="Widget widget search">
+﻿@{ 
+    var config = ViewBag.Config as SearchWidgetConfigModel;
+}
+<div class="Widget widget search">
     <div class="WidgetContent widget-content">
         <div id="searchbox">
             <form method="get" asp-action="Search" asp-controller="Home" asp-route-page="">

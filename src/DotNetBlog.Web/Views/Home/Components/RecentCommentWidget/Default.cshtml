@@ -1,8 +1,11 @@
 ﻿@using DotNetBlog.Core.Model.Comment
 @model List<CommentItemModel>
+@{ 
+    var config = ViewBag.Config as RecentCommentWidgetConfigModel;
+}
 
 <div class="Widget widget recentcomments">
-    <h4 class="WidgetHeader widget-header">最新评论</h4>
+    <h4 class="WidgetHeader widget-header">@config.Title</h4>
     <div class="WidgetContent widget-content">
         <ul class="recentcomments">
             @foreach (var comment in Model)
@@ -12,11 +15,11 @@
                 <br>@comment.Name 写道: @comment.Content
             </li>
             }
-            <li>
+            @*<li>
                 <a href="/syndication.axd?comments=true">
                     评论RSS <img alt="" src="/Content/images/blog/rssButton.png">
                 </a>
-            </li>
+            </li>*@
         </ul>
     </div>
 </div>

@@ -1,8 +1,11 @@
 ﻿@using DotNetBlog.Core.Model.Topic
 @model List<TopicModel>
+@{ 
+    var config = ViewBag.Config as RecentTopicWidgetConfigModel;
+}
 
 <div class="Widget widget postlist">
-    <h4 class="WidgetHeader widget-header">最新文章</h4>
+    <h4 class="WidgetHeader widget-header">@config.Title</h4>
     <div class="WidgetContent widget-content">
         <ul>
             @foreach (var topic in Model)

@@ -1,11 +1,12 @@
-﻿using DotNetBlog.Core.Service;
+﻿using DotNetBlog.Core.Model.Widget;
+using DotNetBlog.Core.Service;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace DotNetBlog.Web.ViewComponents.Widget
+namespace DotNetBlog.Web.Widgets
 {
     public class RecentCommentWidget : ViewComponent
     {
@@ -16,9 +17,11 @@ namespace DotNetBlog.Web.ViewComponents.Widget
             this.CommentService = commentService;
         }
 
-        public async Task<IViewComponentResult> InvokeAsync()
+        public async Task<IViewComponentResult> InvokeAsync(RecentCommentWidgetConfigModel config)
         {
-            var commentList = await this.CommentService.QueryLatest(10);
+            ViewBag.Config = config;
+
+            var commentList = await this.CommentService.QueryLatest(config.Number);
             return View(commentList);
         }
     }

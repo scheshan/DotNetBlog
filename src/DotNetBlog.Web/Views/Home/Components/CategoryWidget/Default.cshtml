@@ -2,8 +2,12 @@
 
 @model List<CategoryModel>
 
+@{ 
+    var config = ViewBag.Config as CategoryWidgetConfigModel;
+}
+
 <div class="Widget widget categorylist">
-    <h4 class="WidgetHeader widget-header">分类</h4>
+    <h4 class="WidgetHeader widget-header">@config.Title</h4>
     <div class="WidgetContent widget-content">
         <ul>
             @foreach (var category in Model.OrderByDescending(t => t.Topics.Published))

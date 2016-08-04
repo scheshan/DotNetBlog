@@ -19,9 +19,9 @@ namespace DotNetBlog.Core.Model.Widget
         }
     }
 
-    public class AdministratorWidgetConfigModel : WidgetConfigModelBase
+    public class AdministrationWidgetConfigModel : WidgetConfigModelBase
     {
-        public AdministratorWidgetConfigModel()
+        public AdministrationWidgetConfigModel()
         {
             this.Title = "管理";
         }

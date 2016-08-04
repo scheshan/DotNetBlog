@@ -1,0 +1,20 @@
+﻿@inject ClientManager clientManager
+@{ 
+    var config = ViewBag.Config as AdministrationWidgetConfigModel;
+}
+
+<visible condition="clientManager.IsLogin">
+    <div class="Widget widget administration">
+        <h4 class="WidgetHeader widget-header">@config.Title</h4>
+        <div class="WidgetContent widget-content">
+            <ul class="toprounded" id="uxMenu_ulMenu">
+                <li><a asp-action="Index" asp-controller="Admin" asp-fragment="/dashboard"><span>控制台</span></a></li>
+                <li><a asp-action="Index" asp-controller="Admin" asp-fragment="/content/topics"><span>内容</span></a></li>
+                <li><a asp-action="Index" asp-controller="Admin" asp-fragment="/custom/widgets"><span>内容</span></a></li>
+                <li><a asp-action="Index" asp-controller="Admin" asp-fragment="/config/basic"><span>设置</span></a></li>
+                <li><a asp-action="Index" asp-controller="Admin" asp-fragment="/profile"><span>个人资料</span></a></li>
+                <li><a asp-action="ChangePassword" asp-controller="Account"><span>修改密码</span></a></li>
+            </ul>
+        </div>
+    </div>
+</visible>

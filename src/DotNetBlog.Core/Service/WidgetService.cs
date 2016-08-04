@@ -33,7 +33,7 @@ namespace DotNetBlog.Core.Service
 
         private static readonly Dictionary<WidgetType, Type> DefaultWidgetConfigTypes = new Dictionary<WidgetType, Type>
         {
-            { WidgetType.Administration, typeof(AdministratorWidgetConfigModel) },
+            { WidgetType.Administration, typeof(AdministrationWidgetConfigModel) },
             { WidgetType.Category, typeof(CategoryWidgetConfigModel) },
             { WidgetType.RecentComment, typeof(RecentCommentWidgetConfigModel) },
             { WidgetType.MonthStatistics, typeof(MonthStatisticeWidgetConfigModel) },
@@ -111,6 +111,8 @@ namespace DotNetBlog.Core.Service
                 }).ToList();
                 this.BlogContext.AddRange(entityList);
                 await this.BlogContext.SaveChangesAsync();
+
+                this.Cache.Remove(CacheKey);
 
                 tran.Commit();
                 return new OperationResult();

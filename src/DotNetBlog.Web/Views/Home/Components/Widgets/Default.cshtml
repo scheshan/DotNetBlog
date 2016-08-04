@@ -1,0 +1,10 @@
+﻿@inject ClientManager clientManager
+@using DotNetBlog.Core.Model.Widget
+@model List<WidgetModel>
+
+<div class="widgetzone">
+    @foreach(var widget in Model)
+    {
+        @await Component.InvokeAsync($"{widget.Type}Widget", new { config = widget.Config })
+    }
+</div>

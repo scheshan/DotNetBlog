@@ -1,7 +1,10 @@
 ﻿@model List<DotNetBlog.Core.Model.Page.PageBasicModel>
+@{ 
+    var config = ViewBag.Config as PageWidgetConfigModel;
+}
 
 <div class="Widget widget pagelist">
-    <h4 class="WidgetHeader widget-header">页面</h4>
+    <h4 class="WidgetHeader widget-header">@config.Title</h4>
     <div class="WidgetContent widget-content">
         <ul>
             @foreach (var page in Model)

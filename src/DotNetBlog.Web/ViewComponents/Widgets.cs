@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace DotNetBlog.Web.ViewComponents.Widget
+namespace DotNetBlog.Web.ViewComponents
 {
     public class Widgets : ViewComponent
     {

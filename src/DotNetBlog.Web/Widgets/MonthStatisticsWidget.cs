@@ -1,11 +1,12 @@
-﻿using DotNetBlog.Core.Service;
+﻿using DotNetBlog.Core.Model.Widget;
+using DotNetBlog.Core.Service;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace DotNetBlog.Web.ViewComponents.Widget
+namespace DotNetBlog.Web.Widgets
 {
     public class MonthStatisticsWidget : ViewComponent
     {
@@ -16,8 +17,10 @@ namespace DotNetBlog.Web.ViewComponents.Widget
             TopicService = topicService;
         }
 
-        public async Task<IViewComponentResult> InvokeAsync()
+        public async Task<IViewComponentResult> InvokeAsync(MonthStatisticeWidgetConfigModel config)
         {
+            ViewBag.Config = config;
+
             var list = await TopicService.QueryMonthStatistics();
 
             return View(list);

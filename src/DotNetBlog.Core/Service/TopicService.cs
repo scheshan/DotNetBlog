@@ -304,11 +304,18 @@ namespace DotNetBlog.Core.Service
         /// </summary>
         /// <param name="count"></param>
         /// <returns></returns>
-        public async Task<List<TopicModel>> QueryRecent(int count)
+        public async Task<List<TopicModel>> QueryRecent(int count, int? categoryID)
         {
-            var query = BlogContext.Topics.AsNoTracking().Where(t => t.Status == Enums.TopicStatus.Published)
-                .OrderByDescending(t => t.EditDate)
-                .Take(count);
+            var query = BlogContext.Topics.AsNoTracking().Where(t => t.Status == Enums.TopicStatus.Published);
+
+            if (categoryID.HasValue)
+            {
+                var topicIDQuery = BlogContext.CategoryTopics.AsNoTracking().Where(t => t.CategoryID == categoryID.Value)
+                    .Select(t => t.TopicID);
+                query = query.Where(t => topicIDQuery.Contains(t.ID));
+            }
+
+            query = query.OrderByDescending(t => t.EditDate).Take(count);
 
             Topic[] entityList = await query.ToArrayAsync();
 

@@ -39,7 +39,7 @@ namespace DotNetBlog.Web.Controllers
                 widgetList.Add(new WidgetModel
                 {
                     Type = WidgetType.Administration,
-                    Config = new AdministratorWidgetConfigModel()
+                    Config = new AdministrationWidgetConfigModel()
                 });
                 widgetList.Add(new WidgetModel
                 {

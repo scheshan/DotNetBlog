@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace DotNetBlog.Web.ViewComponents.Widget
+namespace DotNetBlog.Web.Widgets
 {
     public class RecentTopicWidget : ViewComponent
     {
@@ -16,9 +16,11 @@ namespace DotNetBlog.Web.ViewComponents.Widget
             TopicService = topicService;
         }
 
-        public async Task<IViewComponentResult> InvokeAsync()
+        public async Task<IViewComponentResult> InvokeAsync(Core.Model.Widget.RecentTopicWidgetConfigModel config)
         {
-            var topicList = await TopicService.QueryRecent(10);
+            ViewBag.Config = config;
+
+            var topicList = await TopicService.QueryRecent(config.Number, config.Category);
 
             return View(topicList);
         }
