@@ -67,7 +67,10 @@ namespace DotNetBlog.Web
         {
             app.UseStaticFiles();
 
-            app.UseDeveloperExceptionPage();
+            if (enviroment.IsDevelopment())
+            {
+                app.UseDeveloperExceptionPage();
+            }
 
             app.UseClientManager();
 

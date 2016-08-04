@@ -216,12 +216,12 @@ namespace DotNetBlog.Core.Service
         /// <returns></returns>
         public async Task<PagedResult<TopicModel>> QueryByCategory(int pageIndex, int pageSize, int categoryID)
         {
-            var topicIDQuery = BlogContext.CategoryTopics.AsNoTracking().Where(t => t.CategoryID == categoryID).Select(t => t.TopicID);
+            var topicIDQuery = BlogContext.CategoryTopics.Where(t => t.CategoryID == categoryID).Select(t => t.TopicID);
             var query = BlogContext.Topics.Where(t => t.Status == Enums.TopicStatus.Published && topicIDQuery.Contains(t.ID));
 
             int total = await query.CountAsync();
 
-            Topic[] entityList = await query.OrderByDescending(t => t.EditDate).Skip((pageIndex - 1) * pageSize).Take(pageSize).ToArrayAsync();
+            Topic[] entityList = await query.AsNoTracking().OrderByDescending(t => t.EditDate).Skip((pageIndex - 1) * pageSize).Take(pageSize).ToArrayAsync();
 
             List<TopicModel> modelList = await Transform(entityList);
 
@@ -237,16 +237,16 @@ namespace DotNetBlog.Core.Service
         /// <returns></returns>
         public async Task<PagedResult<TopicModel>> QueryByTag(int pageIndex, int pageSize, string keyword)
         {
-            var topicIDQuery = from tag in BlogContext.Tags.AsNoTracking()
+            var topicIDQuery = from tag in BlogContext.Tags
                                where tag.Keyword == keyword
                                join tagTopic in BlogContext.TagTopics.AsNoTracking() on tag.ID equals tagTopic.TagID
                                select tagTopic.TopicID;
 
-            var query = BlogContext.Topics.AsNoTracking().Where(t => t.Status == Enums.TopicStatus.Published && topicIDQuery.Contains(t.ID));
+            var query = BlogContext.Topics.Where(t => t.Status == Enums.TopicStatus.Published && topicIDQuery.Contains(t.ID));
 
             int total = await query.CountAsync();
 
-            Topic[] entityList = await query.OrderByDescending(t => t.EditDate).Skip((pageIndex - 1) * pageSize).Take(pageSize).ToArrayAsync();
+            Topic[] entityList = await query.AsNoTracking().OrderByDescending(t => t.EditDate).Skip((pageIndex - 1) * pageSize).Take(pageSize).ToArrayAsync();
 
             List<TopicModel> modelList = await Transform(entityList);
 
@@ -266,12 +266,12 @@ namespace DotNetBlog.Core.Service
             var startDate = new DateTime(year, month, 1, 0, 0, 0);
             var endDate = startDate.AddMonths(1);
 
-            var query = BlogContext.Topics.AsNoTracking().Where(t => t.Status == Enums.TopicStatus.Published)
+            var query = BlogContext.Topics.Where(t => t.Status == Enums.TopicStatus.Published)
                 .Where(t => t.EditDate >= startDate && t.EditDate < endDate);
 
             int total = await query.CountAsync();
 
-            Topic[] entityList = await query.OrderByDescending(t => t.EditDate).Skip((pageIndex - 1) * pageSize).Take(pageSize).ToArrayAsync();
+            Topic[] entityList = await query.AsNoTracking().OrderByDescending(t => t.EditDate).Skip((pageIndex - 1) * pageSize).Take(pageSize).ToArrayAsync();
 
             List<TopicModel> modelList = await Transform(entityList);
 
@@ -287,12 +287,12 @@ namespace DotNetBlog.Core.Service
         /// <returns></returns>
         public async Task<PagedResult<TopicModel>> QueryByKeywords(int pageIndex, int pageSize, string keywords)
         {
-            var query = BlogContext.Topics.AsNoTracking().Where(t => t.Status == Enums.TopicStatus.Published)
+            var query = BlogContext.Topics.Where(t => t.Status == Enums.TopicStatus.Published)
                 .Where(t => t.Title.Contains(keywords) || t.Summary.Contains(keywords) || t.Content.Contains(keywords));
 
             int total = await query.CountAsync();
 
-            Topic[] entityList = await query.OrderByDescending(t => t.EditDate).Skip((pageIndex - 1) * pageSize).Take(pageSize).ToArrayAsync();
+            Topic[] entityList = await query.AsNoTracking().OrderByDescending(t => t.EditDate).Skip((pageIndex - 1) * pageSize).Take(pageSize).ToArrayAsync();
 
             List<TopicModel> modelList = await Transform(entityList);
 
