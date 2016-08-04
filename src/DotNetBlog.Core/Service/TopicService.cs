@@ -239,7 +239,7 @@ namespace DotNetBlog.Core.Service
         {
             var topicIDQuery = from tag in BlogContext.Tags
                                where tag.Keyword == keyword
-                               join tagTopic in BlogContext.TagTopics.AsNoTracking() on tag.ID equals tagTopic.TagID
+                               join tagTopic in BlogContext.TagTopics on tag.ID equals tagTopic.TagID
                                select tagTopic.TopicID;
 
             var query = BlogContext.Topics.Where(t => t.Status == Enums.TopicStatus.Published && topicIDQuery.Contains(t.ID));
