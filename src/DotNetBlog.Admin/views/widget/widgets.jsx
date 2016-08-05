@@ -5,6 +5,7 @@ var Api = require("../../services/api")
 var Dialog = require("../../services/dialog")
 var Async = require("async")
 var {Spinner, LoadingButton} = require("../../components")
+var EditBasic = require("./editbasic")
 
 class Widgets extends React.Component{
     constructor(){
@@ -89,6 +90,10 @@ class Widgets extends React.Component{
         });
     }
 
+    onSaveConfig(widget, index){
+        this.forceUpdate()
+    }
+
     showWidgetInfo(widget){
         this.refs.widgetInfo.show(widget);
     }
@@ -101,6 +106,24 @@ class Widgets extends React.Component{
                 items: items
             }
         });
+    }
+
+    editWidget(widget, index){
+        let viewMapping = {
+            1: this.refs.editBasic,
+            2: this.refs.editBasic,
+            3: this.refs.editBasic,
+            4: this.refs.editBasic,
+            5: this.refs.editBasic,
+            6: this.refs.editBasic,
+            7: this.refs.editBasic,
+            8: this.refs.editBasic,
+        }
+
+        let view = viewMapping[widget.type];
+        if(view){
+            view.show(widget, index)
+        }
     }
 
     save(){
@@ -129,7 +152,7 @@ class Widgets extends React.Component{
         let listItems = this.state.data.items.map(function (item, i) {
             let data = {
                 widget: item,
-                onEdit: null,
+                onEdit: this.editWidget.bind(this, item, i),
                 onRemove: this.removeWidget.bind(this, i)
             }
             return (
@@ -149,11 +172,18 @@ class Widgets extends React.Component{
             <div className="content">
                 <Spinner loading={this.state.loading}></Spinner>
                 <WidgetInfo ref="widgetInfo"></WidgetInfo>
+                <EditBasic ref="editBasic" onSave={this.onSaveConfig.bind(this)}></EditBasic>
 
                 <div className="mailbox-controls">
-                    <LoadingButton className="btn btn-primary" loading={this.state.loading} title="保存" onClick={this.save.bind(this)}>
+                    <button className="btn btn-primary" title="保存" onClick={this.save.bind(this)}>
                         保存
-                    </LoadingButton>
+                    </button>
+                    <span className="text-danger">
+                        {' '}
+                        <i className="fa fa-info-circle"></i>
+                        {' '}
+                        所有操作完毕后，点保存按钮才会生效
+                    </span>
                 </div>
                 
                 <div className="row">

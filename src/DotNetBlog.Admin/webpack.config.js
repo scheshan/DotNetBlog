@@ -2,13 +2,48 @@
 var webpack = require('webpack')
 var commonsPlugin = new webpack.optimize.CommonsChunkPlugin('common.js');
 
-module.exports = {
-    entry: [
-        // 写在入口文件之前
+var args = process.argv;
+var release = args.indexOf("--release") > -1;
+
+var entry = []
+var plugins = []
+if(release){
+	entry = [
+        './index.jsx'
+    ];
+	plugins = [
+        new webpack.ProvidePlugin({
+            $: 'jquery',
+            jQuery: "jquery"
+        }),
+		new webpack.optimize.UglifyJsPlugin({
+            compressor: {
+                warnings: false,
+            },
+        }),
+        new webpack.optimize.OccurenceOrderPlugin(),
+        new webpack.DefinePlugin({
+            'process.env': { NODE_ENV: '"production"' }
+        })
+    ];
+}
+else{
+	entry = [
         "webpack-dev-server/client?http://localhost:3000",
         "webpack/hot/only-dev-server",
         './index.jsx'
-    ],
+    ];
+	plugins = [
+        new webpack.ProvidePlugin({
+            $: 'jquery',
+            jQuery: "jquery"
+        }),
+        new webpack.HotModuleReplacementPlugin()
+    ]
+}
+
+module.exports = {
+    entry: entry,
     output: {
         path: path.normalize(path.join(__dirname, '../DotNetBlog.Web/wwwroot/dist')),
         filename: 'app.js',
@@ -17,22 +52,7 @@ module.exports = {
     resolve: {
         extensions: ['', '.js', '.jsx', '.css', '.scss']
     },
-    plugins: [
-        new webpack.ProvidePlugin({
-            $: 'jquery',
-            jQuery: "jquery"
-        }),
-        new webpack.HotModuleReplacementPlugin()
-        //new webpack.optimize.UglifyJsPlugin({
-        //    compressor: {
-        //        warnings: false,
-        //    },
-        //}),
-        //new webpack.optimize.OccurenceOrderPlugin(),
-        //new webpack.DefinePlugin({
-        //    'process.env': { NODE_ENV: '"production"' }
-        //})
-    ],
+    plugins: plugins,
     module: {
         loaders: [{
             test: /\.scss$/,

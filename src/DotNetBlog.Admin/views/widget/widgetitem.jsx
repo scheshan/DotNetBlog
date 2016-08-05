@@ -4,7 +4,6 @@ var {Sortable} = require("react-sortable")
 var WidgetItem = React.createClass({
     displayName: 'WidgetItem',
     render: function() {
-        console.log(this.props)
         return (
             <li {...this.props}>
                 {this.props.children.widget.config.title}
