@@ -69,12 +69,35 @@ class EmailConfig extends React.Component{
         })
     }
 
+    test(){
+        if(this.state.loading){
+            return;
+        }
+
+        this.setState({
+            loading: true
+        }, ()=>{
+            var model = this.refs.form.getModel();
+            Api.testEmailConfig(model, response=>{
+                this.setState({
+                    loading: false
+                });
+                if(response.success){
+                    Dialog.success("测试成功");
+                }
+                else{
+                    Dialog.error(response.errorMessage)
+                }
+            })
+        })
+    }
+
     render(){
         return (
             <div className="content">
                 <Spinner loading={this.state.loading}/>
 
-                <Form onValidSubmit={this.submit.bind(this)} layout="vertical" className="form-content">
+                <Form ref="form" onValidSubmit={this.submit.bind(this)} layout="vertical" className="form-content">
                     <Input name="smtpEmailAddress" label="Email地址" value={this.state.config.smtpEmailAddress} />
 
                     <Input name="smtpUser" label="用户名" value={this.state.config.smtpUser} />
@@ -89,6 +112,8 @@ class EmailConfig extends React.Component{
 
                     <FormGroup>
                         <button type="submit" formNoValidate className="btn btn-primary">保存</button>
+                        {' '}
+                        <button type="button" className="btn btn-success" onClick={this.test.bind(this)}>测试邮件配置</button>
                     </FormGroup>
                 </Form>
             </div>

@@ -69,6 +69,9 @@ const Api = {
     saveEmailConfig(config, callback) {
         post("/api/config/email", config, callback);
     },
+    testEmailConfig(config, callback){
+        post("/api/config/email/test", config, callback);
+    },
     getCommentConfig(callback){
         get("/api/config/comment", callback);
     },
