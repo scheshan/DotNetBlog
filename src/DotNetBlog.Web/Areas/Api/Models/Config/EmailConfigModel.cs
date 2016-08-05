@@ -17,6 +17,8 @@ namespace DotNetBlog.Web.Areas.Api.Models.Config
 
         public int SmtpPort { get; set; }
 
+        public bool SmtpEnableSSL { get; set; }
+
         public bool SendEmailWhenComment { get; set; }
     }
 }

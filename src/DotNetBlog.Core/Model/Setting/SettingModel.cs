@@ -150,6 +150,21 @@ namespace DotNetBlog.Core.Model.Setting
         }
 
         /// <summary>
+        /// SMTP服务器是否使用SSL
+        /// </summary>
+        public bool SmtpEnableSSL
+        {
+            get
+            {
+                return GetBooleanValue(nameof(SmtpEnableSSL), false);
+            }
+            set
+            {
+                SetValue(nameof(SmtpEnableSSL), value.ToString());
+            }
+        }
+
+        /// <summary>
         /// 发送评论邮件
         /// </summary>
         public bool SendEmailWhenComment

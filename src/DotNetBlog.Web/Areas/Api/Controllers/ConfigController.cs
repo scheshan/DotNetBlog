@@ -90,7 +90,8 @@ namespace DotNetBlog.Web.Areas.Api.Controllers
                 Password = model.SmtpPassword,
                 Port = model.SmtpPort,
                 Server = model.SmtpServer,
-                User = model.SmtpUser
+                User = model.SmtpUser,
+                EnableSSL = model.SmtpEnableSSL
             };
 
             var result = await this.EmailService.TestEmailConfig(testEmailConfigModel);
