@@ -85,5 +85,18 @@ namespace DotNetBlog.Web.Areas.Api.Controllers
                 return this.Error(result.ErrorMessage);
             }
         }
+
+        [HttpGet("pending")]
+        public async Task<IActionResult> QueryPending(int count)
+        {
+            if (count < 1)
+            {
+                return this.InvalidRequest();
+            }
+
+            var result = await this.CommentService.Query(1, count, Core.Enums.CommentStatus.Pending, null);
+
+            return Success(result.Data);
+        }
     }
 }

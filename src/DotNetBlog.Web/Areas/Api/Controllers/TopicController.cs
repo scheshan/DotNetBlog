@@ -128,5 +128,18 @@ namespace DotNetBlog.Web.Areas.Api.Controllers
 
             return Success();
         }
+
+        [HttpGet("draft")]
+        public async Task<IActionResult> QueryDraft(int count)
+        {
+            if (count < 1)
+            {
+                return this.InvalidRequest();
+            }
+
+            var result = await this.TopicService.QueryNotTrash(1, count, Core.Enums.TopicStatus.Draft, null);
+
+            return Success(result.Data);
+        }
     }
 }

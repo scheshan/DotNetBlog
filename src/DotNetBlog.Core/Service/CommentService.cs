@@ -66,7 +66,7 @@ namespace DotNetBlog.Core.Service
             }
 
             Enums.CommentStatus status;
-            if (!this.Settings.VerifyComment)
+            if (this.Settings.VerifyComment)
             {
                 status = Enums.CommentStatus.Pending;
 

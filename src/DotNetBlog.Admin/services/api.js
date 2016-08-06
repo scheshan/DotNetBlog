@@ -181,6 +181,14 @@ const Api = {
     },
     getBlogStatistics(callback){
         get("/api/statistics", callback);
+    },
+    queryDraftTopic(count, callback){
+        let url = prepareUrl("/api/topic/draft", {count: count});
+        get(url, callback);
+    },
+    queryPendingComment(count, callback){
+        let url = prepareUrl("/api/comment/pending", {count: count});
+        get(url, callback)
     }
 };
 
