@@ -38,7 +38,7 @@ namespace DotNetBlog.Core.Extensions
                                         ID = ct.Key,
                                         Total = ct.Count(),
                                         Published = ct.Count(t => t.Topic.Status == Enums.TopicStatus.Published),
-                                        Deleted = ct.Count(t => t.Topic.Status == Enums.TopicStatus.Trash)
+                                        Draft = ct.Count(t => t.Topic.Status == Enums.TopicStatus.Draft)
                                     })
                                     .ToList();
 
@@ -53,7 +53,7 @@ namespace DotNetBlog.Core.Extensions
                                 Topics = new TopicCountModel
                                 {
                                     All = ct != null ? ct.Total : 0,
-                                    Deleted = ct != null ? ct.Deleted : 0,
+                                    Draft = ct != null ? ct.Draft : 0,
                                     Published = ct != null ? ct.Published : 0
                                 }
                             };
@@ -77,7 +77,7 @@ namespace DotNetBlog.Core.Extensions
                                     ID = ct.Key,
                                     Total = ct.Count(),
                                     Published = ct.Count(t => t.Topic.Status == Enums.TopicStatus.Published),
-                                    Deleted = ct.Count(t => t.Topic.Status == Enums.TopicStatus.Trash)
+                                    Draft = ct.Count(t => t.Topic.Status == Enums.TopicStatus.Draft)
                                 })
                                 .ToList();
 
@@ -91,7 +91,7 @@ namespace DotNetBlog.Core.Extensions
                                 Topics = new TopicCountModel
                                 {
                                     All = tt != null ? tt.Total : 0,
-                                    Deleted = tt != null ? tt.Deleted : 0,
+                                    Draft = tt != null ? tt.Draft : 0,
                                     Published = tt != null ? tt.Published : 0
                                 }
                             };
@@ -116,7 +116,7 @@ namespace DotNetBlog.Core.Extensions
                         {
                             All = g.Count(),
                             Published = g.Count(topic => topic.Status == Enums.TopicStatus.Published),
-                            Deleted = g.Count(topic => topic.Status == Enums.TopicStatus.Trash)
+                            Draft = g.Count(topic => topic.Status == Enums.TopicStatus.Draft)
                         }
                     });
 

@@ -111,7 +111,7 @@ namespace DotNetBlog.Web.Areas.Api.Controllers
                 return InvalidRequest();
             }
 
-            await this.TopicService.BatchUpdateStatus(model.TopicList, Core.Enums.TopicStatus.Normal);
+            await this.TopicService.BatchUpdateStatus(model.TopicList, Core.Enums.TopicStatus.Draft);
 
             return Success();
         }

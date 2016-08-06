@@ -178,6 +178,9 @@ const Api = {
     },
     saveWidget(data, callback){
         post("/api/widget", data, callback);
+    },
+    getBlogStatistics(callback){
+        get("/api/statistics", callback);
     }
 };
 

@@ -7,7 +7,7 @@ namespace DotNetBlog.Core.Enums
 {
     public enum PageStatus
     {
-        Normal = 0,
+        Draft = 0,
         Published = 1
     }
 }

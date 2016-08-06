@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace DotNetBlog.Core.Model.Topic
+namespace DotNetBlog.Core.Model.Page
 {
-    public class TopicCountModel
+    public class PageCountModel
     {
         public int Published { get; set; }
 

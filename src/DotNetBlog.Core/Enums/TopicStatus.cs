@@ -7,7 +7,7 @@ namespace DotNetBlog.Core.Enums
 {
     public enum TopicStatus : byte
     {
-        Normal = 0,
+        Draft = 0,
         Published = 1,
         Trash = 255
     }
