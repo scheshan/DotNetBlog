@@ -16,7 +16,7 @@ class BasicConfig extends React.Component{
                 description: "",
                 topicsPerPage: 10
             },
-            loading: false
+            loading: true
         }
     }
 
@@ -48,23 +48,19 @@ class BasicConfig extends React.Component{
     }
 
     loadData(){
-        this.setState({
-            loading: true
-        }, ()=>{
-            Api.getBasicConfig(response => {
-                if (response.success) {
-                    this.setState({
-                        config: response.data,
-                        loading: false
-                    })
-                }
-                else{
-                    Dialog.error("错误");
-                    this.setState({
-                        loading: false
-                    })
-                }
-            })
+        Api.getBasicConfig(response => {
+            if (response.success) {
+                this.setState({
+                    config: response.data,
+                    loading: false
+                })
+            }
+            else{
+                Dialog.error(response.errorMessage);
+                this.setState({
+                    loading: false
+                })
+            }
         })
     }
 

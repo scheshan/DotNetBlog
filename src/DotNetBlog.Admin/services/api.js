@@ -78,6 +78,12 @@ const Api = {
     saveCommentConfig(config, callback){
         post("/api/config/comment", config, callback);
     },
+    getAdvanceConfig(callback){
+        get("/api/config/advance", callback);
+    },
+    saveAdvanceConfig(config, callback){
+        post("/api/config/advance", config, callback);
+    },
     getCategoryList(callback){
         get("/api/category/all", callback);
     },

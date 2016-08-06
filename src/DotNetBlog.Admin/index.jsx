@@ -20,6 +20,7 @@ var Consts = require("./consts")
 import Views_App from "./views/app"
 import Views_Dashboard from "./views/dashboard/dashboard"
 import Views_BasicConfig from "./views/config/basicconfig"
+var Views_AdvanceConfig = require("./views/config/advanceconfig")
 var Views_EmailConfig = require("./views/config/emailconfig")
 var Views_CategoryList = require("./views/content/categorylist")
 var Views_ModifyTopic = require("./views/content/modifytopic")
@@ -51,6 +52,7 @@ class Index extends React.Component{
                         <Route path="config/basic" component={Views_BasicConfig} onEnter={enterRoute.bind(this, Consts.MenuKeys.Config, Consts.MenuKeys.Config_Basic) } />
                         <Route path="config/email" component={Views_EmailConfig} onEnter={enterRoute.bind(this, Consts.MenuKeys.Config, Consts.MenuKeys.Config_Email) } />
                         <Route path="config/comments" component={Views_CommentConfig} onEnter={enterRoute.bind(this, Consts.MenuKeys.Config, Consts.MenuKeys.Config_Comments) } />
+                        <Route path="config/advance" component={Views_AdvanceConfig} onEnter={enterRoute.bind(this, Consts.MenuKeys.Config, Consts.MenuKeys.Config_Advance) } />
                         <Route path="content/categories" component={Views_CategoryList} onEnter={enterRoute.bind(this, Consts.MenuKeys.Content, Consts.MenuKeys.Content_Categories)} />
                         <Route path="content/topics" component={Views_TopicList} onEnter={enterRoute.bind(this, Consts.MenuKeys.Content, Consts.MenuKeys.Content_Topics)}/>
                         <Route path="content/topic(/:id)" component={Views_ModifyTopic} onEnter={enterRoute.bind(this, Consts.MenuKeys.Content, Consts.MenuKeys.Content_Topics)}/>

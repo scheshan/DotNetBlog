@@ -13,6 +13,7 @@
     <link href="~/styles/main.css" rel="stylesheet" />
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
+    @Html.Raw(settingModel.HeaderScript)
 </head>
 <body>
     <header>
@@ -74,3 +75,4 @@
     </footer>
 </body>
 </html>
+@Html.Raw(settingModel.FooterScript)

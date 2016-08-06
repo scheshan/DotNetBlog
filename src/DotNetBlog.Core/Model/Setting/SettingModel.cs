@@ -254,6 +254,66 @@ namespace DotNetBlog.Core.Model.Setting
             }
         }
 
+        /// <summary>
+        /// 错误页面标题
+        /// </summary>
+        public string ErrorPageTitle
+        {
+            get
+            {
+                return GetStringValue(nameof(ErrorPageTitle), "很抱歉,系统发生错误");
+            }
+            set
+            {
+                SetValue(nameof(ErrorPageTitle), value.ToString());
+            }
+        }
+
+        /// <summary>
+        /// 错误页面内容
+        /// </summary>
+        public string ErrorPageContent
+        {
+            get
+            {
+                return GetStringValue(nameof(ErrorPageContent), "当前页面发生异常,导致无法显示.系统管理员正在修复中,请稍后再访问...");
+            }
+            set
+            {
+                SetValue(nameof(ErrorPageContent), value.ToString());
+            }
+        }
+
+        /// <summary>
+        /// 顶部区域脚本
+        /// </summary>
+        public string HeaderScript
+        {
+            get
+            {
+                return GetStringValue(nameof(HeaderScript), string.Empty);
+            }
+            set
+            {
+                SetValue(nameof(HeaderScript), value.ToString());
+            }
+        }
+
+        /// <summary>
+        /// 底部区域脚本
+        /// </summary>
+        public string FooterScript
+        {
+            get
+            {
+                return GetStringValue(nameof(FooterScript), string.Empty);
+            }
+            set
+            {
+                SetValue(nameof(FooterScript), value.ToString());
+            }
+        }
+
         #region Private Methods
 
         private string GetStringValue(string key, string defaultValue)

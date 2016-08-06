@@ -37,7 +37,7 @@ class CommentConfig extends React.Component{
                     })
                 }
                 else{
-                    Dialog.error("错误");
+                    Dialog.error(response.errorMessage);
                     this.setState({
                         loading: false
                     })

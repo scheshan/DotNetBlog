@@ -38,17 +38,7 @@ namespace DotNetBlog.Web.Areas.Api.Controllers
         [HttpPost("basic")]
         public async Task<IActionResult> SaveBasicConfig([FromBody]BasicConfigModel model)
         {
-            if (model == null || !ModelState.IsValid)
-            {
-                return InvalidRequest();
-            }
-
-            var config = SettingService.Get();
-            Mapper.Map(model, config);
-
-            await SettingService.Save(config);
-
-            return Success();
+            return await this.SaveConfig(model);
         }
 
         [HttpGet("email")]
@@ -63,17 +53,7 @@ namespace DotNetBlog.Web.Areas.Api.Controllers
         [HttpPost("email")]
         public async Task<IActionResult> SaveEmailConfig([FromBody]EmailConfigModel model)
         {
-            if (model == null || !ModelState.IsValid)
-            {
-                return InvalidRequest();
-            }
-
-            var config = SettingService.Get();
-            Mapper.Map(model, config);
-
-            await SettingService.Save(config);
-
-            return Success();
+            return await this.SaveConfig(model);
         }
 
         [HttpPost("email/test")]
@@ -117,6 +97,27 @@ namespace DotNetBlog.Web.Areas.Api.Controllers
 
         [HttpPost("comment")]
         public async Task<IActionResult> SaveCommentConfig([FromBody]CommentConfigModel model)
+        {
+            return await this.SaveConfig(model);
+        }
+
+        [HttpGet("advance")]
+        public IActionResult GetAdvanceConfig()
+        {
+            var config = SettingService.Get();
+            var model = Mapper.Map<AdvanceConfigModel>(config);
+
+            return Success(model);
+        }
+
+        [HttpPost("advance")]
+        public async Task<IActionResult> SaveAdvanceConfig([FromBody]AdvanceConfigModel model)
+        {
+            return await this.SaveConfig(model);
+        }
+
+        [NonAction]
+        private async Task<IActionResult> SaveConfig(object model)
         {
             if (model == null || !ModelState.IsValid)
             {
