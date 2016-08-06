@@ -76,8 +76,8 @@ namespace DotNetBlog.Web
 
             app.UseMvc();
 
-            //loggerFactory.AddNLog();
-            //enviroment.ConfigureNLog("~/App_Data/NLog.config");
+            loggerFactory.AddNLog();
+            enviroment.ConfigureNLog("App_Data/NLog.config");
         }
 
         private void InitDatabase()

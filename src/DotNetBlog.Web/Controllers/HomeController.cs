@@ -9,9 +9,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
 
 namespace DotNetBlog.Web.Controllers
 {
+    [Filters.ErrorHandleFilter]
     public class HomeController : Controller
     {
         private TopicService TopicService { get; set; }

@@ -33,3 +33,4 @@ bld/
 /src/DotNetBlog.Web/wwwroot/upload
 /src/DotNetBlog.Web/wwwroot/app/dist
 !/src/DotNetBlog.Web/wwwroot/app/webpack.config.js
+/src/DotNetBlog.Web/log/

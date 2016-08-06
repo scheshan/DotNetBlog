@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 namespace DotNetBlog.Web.Controllers
 {
     [Route("account")]
+    [Filters.ErrorHandleFilter]
     public class AccountController : Controller
     {
         private AuthService AuthService { get; set; }

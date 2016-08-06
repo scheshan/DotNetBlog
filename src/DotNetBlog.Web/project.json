@@ -24,7 +24,7 @@
 
     "DotNetBlog.Core": "1.0.0",
     "AutoMapper": "5.0.0",
-    "NLog.Extensions.Logging": "1.0.0-rtm-alpha2",
+    "NLog.Extensions.Logging": "1.0.0-*",
     "MailKit": "1.4.1"
   },
 

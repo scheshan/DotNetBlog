@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 
 namespace DotNetBlog.Web.Controllers
 {
+    [Filters.ErrorHandleFilter]
     public class QuickActionController : Controller
     {
         private CommentService CommentService { get; set; }

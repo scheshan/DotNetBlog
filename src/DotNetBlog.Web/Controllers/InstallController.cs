@@ -4,6 +4,7 @@ using DotNetBlog.Core.Enums;
 using DotNetBlog.Core.Model.Widget;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using NLog;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,6 +16,8 @@ namespace DotNetBlog.Web.Controllers
     {
         private BlogContext BlogContext { get; set; }
 
+        private static ILogger Logger = LogManager.GetCurrentClassLogger();
+
         public InstallController(BlogContext blogContext)
         {
             this.BlogContext = blogContext;
@@ -23,72 +26,80 @@ namespace DotNetBlog.Web.Controllers
         [HttpGet("install")]
         public async Task<IActionResult> Index()
         {
-            if (await this.BlogContext.Database.EnsureCreatedAsync())
+            try
             {
-                var user = new User
+                if (await this.BlogContext.Database.EnsureCreatedAsync())
                 {
-                    UserName = "admin",
-                    Password = Core.Utilities.EncryptHelper.MD5("admin"),
-                    Nickname = "系统管理员",
-                    Email = "admin@dotnetblog.com"
-                };
+                    var user = new User
+                    {
+                        UserName = "admin",
+                        Password = Core.Utilities.EncryptHelper.MD5("admin"),
+                        Nickname = "系统管理员",
+                        Email = "admin@dotnetblog.com"
+                    };
 
-                this.BlogContext.Users.Add(user);
+                    this.BlogContext.Users.Add(user);
 
-                var widgetList = new List<WidgetModel>();
-                widgetList.Add(new WidgetModel
-                {
-                    Type = WidgetType.Administration,
-                    Config = new AdministrationWidgetConfigModel()
-                });
-                widgetList.Add(new WidgetModel
-                {
-                    Type = WidgetType.Search,
-                    Config = new SearchWidgetConfigModel()
-                });
-                widgetList.Add(new WidgetModel
-                {
-                    Type = WidgetType.Category,
-                    Config = new CategoryWidgetConfigModel()
-                });
-                widgetList.Add(new WidgetModel
-                {
-                    Type = WidgetType.Tag,
-                    Config = new TagWidgetConfigModel()
-                });
-                widgetList.Add(new WidgetModel
-                {
-                    Type = WidgetType.MonthStatistics,
-                    Config = new MonthStatisticeWidgetConfigModel()
-                });
-                widgetList.Add(new WidgetModel
-                {
-                    Type = WidgetType.RecentTopic,
-                    Config = new RecentTopicWidgetConfigModel()
-                });
-                widgetList.Add(new WidgetModel
-                {
-                    Type = WidgetType.RecentComment,
-                    Config = new RecentCommentWidgetConfigModel()
-                });
-                widgetList.Add(new WidgetModel
-                {
-                    Type = WidgetType.Page,
-                    Config = new PageWidgetConfigModel()
-                });
+                    var widgetList = new List<WidgetModel>();
+                    widgetList.Add(new WidgetModel
+                    {
+                        Type = WidgetType.Administration,
+                        Config = new AdministrationWidgetConfigModel()
+                    });
+                    widgetList.Add(new WidgetModel
+                    {
+                        Type = WidgetType.Search,
+                        Config = new SearchWidgetConfigModel()
+                    });
+                    widgetList.Add(new WidgetModel
+                    {
+                        Type = WidgetType.Category,
+                        Config = new CategoryWidgetConfigModel()
+                    });
+                    widgetList.Add(new WidgetModel
+                    {
+                        Type = WidgetType.Tag,
+                        Config = new TagWidgetConfigModel()
+                    });
+                    widgetList.Add(new WidgetModel
+                    {
+                        Type = WidgetType.MonthStatistics,
+                        Config = new MonthStatisticeWidgetConfigModel()
+                    });
+                    widgetList.Add(new WidgetModel
+                    {
+                        Type = WidgetType.RecentTopic,
+                        Config = new RecentTopicWidgetConfigModel()
+                    });
+                    widgetList.Add(new WidgetModel
+                    {
+                        Type = WidgetType.RecentComment,
+                        Config = new RecentCommentWidgetConfigModel()
+                    });
+                    widgetList.Add(new WidgetModel
+                    {
+                        Type = WidgetType.Page,
+                        Config = new PageWidgetConfigModel()
+                    });
 
-                var widgetEntityList = widgetList.Select(t => new Widget
-                {
-                    Config = JsonConvert.SerializeObject(t.Config),
-                    Type = t.Type,
-                    ID = widgetList.IndexOf(t) + 1
-                });
-                this.BlogContext.AddRange(widgetEntityList);
+                    var widgetEntityList = widgetList.Select(t => new Widget
+                    {
+                        Config = JsonConvert.SerializeObject(t.Config),
+                        Type = t.Type,
+                        ID = widgetList.IndexOf(t) + 1
+                    });
+                    this.BlogContext.AddRange(widgetEntityList);
 
-                await this.BlogContext.SaveChangesAsync();
+                    await this.BlogContext.SaveChangesAsync();
+                }
+
+                return RedirectToAction("Index", "Home");
             }
-
-            return RedirectToAction("Index", "Home");
+            catch(Exception ex)
+            {
+                Logger.Error(ex, ex.Message);
+                return this.Content(ex.Message);
+            }
         }
     }
 }
