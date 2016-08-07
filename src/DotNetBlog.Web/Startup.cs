@@ -72,6 +72,9 @@ namespace DotNetBlog.Web
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseExceptionHandler("/exception/500");
+            app.UseStatusCodePagesWithReExecute("/exception/{0}");
+
             app.UseClientManager();
 
             app.UseMvc();

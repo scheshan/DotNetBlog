@@ -9,12 +9,12 @@ using DotNetBlog.Core.Model.Setting;
 
 namespace DotNetBlog.Web.TagHelpers
 {
-    [HtmlTargetElement("title")]
-    public class TitleTagHelper : TagHelper
+    [HtmlTargetElement("blog-title")]
+    public class BlogTitleTagHelper : TagHelper
     {
         private SettingModel Setting { get; set; }
 
-        public TitleTagHelper(SettingModel setting)
+        public BlogTitleTagHelper(SettingModel setting)
         {
             Setting = setting;
         }
@@ -24,6 +24,8 @@ namespace DotNetBlog.Web.TagHelpers
 
         public override void Process(TagHelperContext context, TagHelperOutput output)
         {
+            output.TagName = "title";
+
             string title;
 
             string customTitle = ViewContext.ViewBag.Title as string;
