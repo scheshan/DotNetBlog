@@ -12,16 +12,14 @@ if(release){
         './index.jsx'
     ];
 	plugins = [
-        new webpack.ProvidePlugin({
-            $: 'jquery',
-            jQuery: "jquery"
-        }),
-		new webpack.optimize.UglifyJsPlugin({
-            compressor: {
-                warnings: false,
-            },
-        }),
-        new webpack.optimize.OccurenceOrderPlugin(),
+		//new webpack.optimize.UglifyJsPlugin({
+        //    sourceMap: false,            
+        //    mangle: false,
+        //    compressor: {
+        //        warnings: false
+        //    }
+        //}),
+        //new webpack.optimize.OccurenceOrderPlugin(),
         new webpack.DefinePlugin({
             'process.env': { NODE_ENV: '"production"' }
         })
@@ -34,10 +32,6 @@ else{
         './index.jsx'
     ];
 	plugins = [
-        new webpack.ProvidePlugin({
-            $: 'jquery',
-            jQuery: "jquery"
-        }),
         new webpack.HotModuleReplacementPlugin()
     ]
 }

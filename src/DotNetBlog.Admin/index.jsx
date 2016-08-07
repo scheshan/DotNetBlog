@@ -1,10 +1,4 @@
-﻿require("font-awesome/css/font-awesome.min.css")
-require("bootstrap/dist/css/bootstrap.min.css")
-require('./styles/AdminLTE.css')
-require('./styles/_all-skins.css')
-require("toastr/build/toastr.min.css")
-require("./styles/app.css")
-require('bootstrap-tagsinput/src/bootstrap-tagsinput.css')
+﻿require("./styles/app.css")
 
 import React from "react"
 import ReactDom from "react-dom"
@@ -13,7 +7,7 @@ var {Router, Route, browserHistory, hashHistory, useRouterHistory} = require("re
 
 var {Provider} = require("react-redux")
 import Store from "./store"
-var {createHistory} = require("history")
+var createHistory = require("history/lib/createHistory").default
 var {changeMenu} = require("./actions")
 var Consts = require("./consts")
     
@@ -32,7 +26,6 @@ var Views_CommentList = require("./views/content/commentlist")
 var Views_CommentConfig = require("./views/config/commentconfig")
 var Views_Profile = require("./views/user/profile")
 var Views_Widgets = require("./views/widget/widgets")
-global.jQuery = $ = require("jquery")
 
 const history = useRouterHistory(createHistory)({
     basename: "/admin"

@@ -1,7 +1,5 @@
-var Toastr = require("toastr")
-
-Toastr.options.timeOut = 5000;
-Toastr.options.extendedTimeOut = 2000;
+toastr.options.timeOut = 5000;
+toastr.options.extendedTimeOut = 2000;
 
 function createOption(callback){
     return {
@@ -11,13 +9,13 @@ function createOption(callback){
 
 const Dialog = {
     success(message, title, callback){
-        Toastr.success(message, title, createOption(callback));
+        toastr.success(message, title, createOption(callback));
     },
     error(message, title, callback){
-        Toastr.error(message, title, createOption(callback));
+        toastr.error(message, title, createOption(callback));
     },
     info(message, title, callback){
-        Toastr.info(message, title, createOption(callback))
+        toastr.info(message, title, createOption(callback))
     }
 }
 
