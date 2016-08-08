@@ -67,11 +67,17 @@ namespace DotNetBlog.Web
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment enviroment, ILoggerFactory loggerFactory)
         {
+            string uploadFolder = enviroment.ContentRootPath + "/App_Data/upload";
+            if(!Directory.Exists(uploadFolder))
+            {
+                Directory.CreateDirectory(uploadFolder);
+            }
+
             app.UseStaticFiles();
             app.UseStaticFiles(new StaticFileOptions
             {
                 RequestPath = new PathString("/upload"),
-                FileProvider = new PhysicalFileProvider(enviroment.ContentRootPath + "/App_Data/upload")
+                FileProvider = new PhysicalFileProvider(uploadFolder)
             });
 
             if (enviroment.IsDevelopment())
