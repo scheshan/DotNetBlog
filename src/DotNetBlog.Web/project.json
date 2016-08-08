@@ -61,10 +61,8 @@
     "emitEntryPoint": true,
     "preserveCompilationContext": true,
     "copyToOutput": [
-      "App_Data/",
-      "Areas/Account/Views",
-      "Areas/Web/Views",
-      "Areas/Admin/Views"
+      "config.json",
+      "nlog.config"
     ]
   },
 
@@ -76,11 +74,12 @@
     "include": [
       "wwwroot",
       "web.config",
-      "App_Data",
+      "config.json",
+      "nlog.config",
       "Views"
     ],
     "exclude": [
-      "wwwroot/upload"
+      "App_Data"
     ]
   },
 

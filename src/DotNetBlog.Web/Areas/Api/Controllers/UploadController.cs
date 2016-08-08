@@ -38,7 +38,7 @@ namespace DotNetBlog.Web.Areas.Api.Controllers
 
             string fileName = $"/upload/image/{Guid.NewGuid().ToString()}{extension.ToLower()}";
 
-            string physicalPath = this.Enviroment.WebRootPath + fileName;
+            string physicalPath = this.Enviroment.ContentRootPath + "/AppData" + fileName;
             string directoryName = Path.GetDirectoryName(physicalPath);
 
             if (!Directory.Exists(directoryName))

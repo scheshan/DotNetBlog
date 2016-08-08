@@ -13,6 +13,8 @@ using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.Extensions.Logging;
 using NLog.Extensions.Logging;
 using DotNetBlog.Web.Middlewares;
+using Microsoft.Extensions.FileProviders;
+using System.IO;
 
 namespace DotNetBlog.Web
 {
@@ -23,7 +25,7 @@ namespace DotNetBlog.Web
         public Startup()
         {
             this.Configuration = new ConfigurationBuilder()
-                .AddJsonFile("App_Data/config.json", false, true)
+                .AddJsonFile("config.json", false, true)
                 .Build();
         }
 
@@ -66,6 +68,11 @@ namespace DotNetBlog.Web
         public void Configure(IApplicationBuilder app, IHostingEnvironment enviroment, ILoggerFactory loggerFactory)
         {
             app.UseStaticFiles();
+            app.UseStaticFiles(new StaticFileOptions
+            {
+                RequestPath = new PathString("/upload"),
+                FileProvider = new PhysicalFileProvider(enviroment.ContentRootPath + "/App_Data/upload")
+            });
 
             if (enviroment.IsDevelopment())
             {
@@ -80,7 +87,7 @@ namespace DotNetBlog.Web
             app.UseMvc();
 
             loggerFactory.AddNLog();
-            enviroment.ConfigureNLog("App_Data/NLog.config");
+            enviroment.ConfigureNLog("NLog.config");
         }
 
         private void InitDatabase()
