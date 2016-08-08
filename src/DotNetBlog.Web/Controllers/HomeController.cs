@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
+using DotNetBlog.Core;
 
 namespace DotNetBlog.Web.Controllers
 {
@@ -28,7 +29,16 @@ namespace DotNetBlog.Web.Controllers
 
         private SettingModel SettingModel { get; set; }
 
-        public HomeController(TopicService topicService, CategoryService categoryService, SettingModel settingModel, TagService tagService, CommentService commentService, PageService pageService)
+        private ClientManager ClientManager { get; set; }
+
+        public HomeController(
+            TopicService topicService, 
+            CategoryService categoryService, 
+            SettingModel settingModel, 
+            TagService tagService, 
+            CommentService commentService, 
+            PageService pageService,
+            ClientManager clientManager)
         {
             TopicService = topicService;
             CategoryService = categoryService;
@@ -36,6 +46,7 @@ namespace DotNetBlog.Web.Controllers
             TagService = tagService;
             CommentService = commentService;
             PageService = pageService;
+            ClientManager = clientManager;
         }
 
         [Route("{page:int?}")]
@@ -209,6 +220,10 @@ namespace DotNetBlog.Web.Controllers
             {
                 return NotFound();
             }
+            if (topic.Status != Core.Enums.TopicStatus.Published && !this.ClientManager.IsLogin)
+            {
+                return NotFound();
+            }
 
             ViewBag.Title = topic.Title;
 
@@ -234,6 +249,10 @@ namespace DotNetBlog.Web.Controllers
         private IActionResult PageView(PageModel page)
         {
             if (page == null)
+            {
+                return NotFound();
+            }
+            if (page.Status != Core.Enums.PageStatus.Published && !this.ClientManager.IsLogin)
             {
                 return NotFound();
             }

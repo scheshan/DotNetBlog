@@ -176,6 +176,12 @@ const Api = {
     getPage(id, callback){
         get("/api/page/" + id, callback);
     },
+    batchDraftPage(idList, callback){
+        post("/api/page/batch/draft", {pageList: idList}, callback);
+    },
+    batchPublishPage(idList, callback){
+        post("/api/page/batch/publish", {pageList: idList}, callback);
+    },
     queryAvaiableWidgets(callback){
         get("/api/widget/available", callback)
     },

@@ -107,7 +107,7 @@ class ModifyPage extends React.Component{
     }
 
     cancel(){
-
+        hashHistory.goBack()
     }
 
     draft(){

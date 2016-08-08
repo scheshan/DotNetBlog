@@ -45,15 +45,51 @@ class PageList extends React.Component{
     }
 
     publish(){
+        var idList = this.state.selectedList;
+        if(idList.length == 0){
+            return;
+        }
 
+        if(this.state.loading){
+            return;
+        }
+
+        this.setState({loading: true}, ()=>{
+            Api.batchPublishPage(idList, this.apiCallback.bind(this))
+        })
     }
 
     draft(){
+        var idList = this.state.selectedList;
+        if(idList.length == 0){
+            return;
+        }
 
+        if(this.state.loading){
+            return;
+        }
+
+        this.setState({loading: true}, ()=>{
+            Api.batchDraftPage(idList, this.apiCallback.bind(this))
+        })
     }
 
     remove(){
 
+    }
+
+    apiCallback(response){
+        this.setState({
+            loading: false
+        });
+
+        if(response.success){
+            Dialog.success("操作成功");
+            this.loadData()
+        }
+        else{
+            Dialog.error(response.errorMessage);
+        }
     }
 
     canBatchOperate(){
@@ -79,7 +115,7 @@ class PageList extends React.Component{
         var arr = this.state.selectedList;
         arr = [];
         if(selected){
-            arr = _.map(this.state.topicList, topic=>topic.id);
+            arr = _.map(this.state.pageList, page=>page.id);
         }
 
         this.setState({

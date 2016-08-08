@@ -456,7 +456,7 @@ namespace DotNetBlog.Core.Service
         /// <returns></returns>
         public async Task BatchUpdateStatus(int[] idList, Enums.TopicStatus status)
         {
-            var topicList = await BlogContext.Topics.AsNoTracking().Where(t => idList.Contains(t.ID)).ToListAsync();
+            var topicList = await BlogContext.Topics.Where(t => idList.Contains(t.ID)).ToListAsync();
 
             topicList.ForEach(topic =>
             {

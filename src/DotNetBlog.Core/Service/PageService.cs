@@ -170,6 +170,20 @@ namespace DotNetBlog.Core.Service
 
             return pageModel;
         }
+        
+        public async Task BatchUpdateStatus(int[] idList, Enums.PageStatus status)
+        {
+            var pageList = await BlogContext.Pages.Where(t => idList.Contains(t.ID)).ToListAsync();
+
+            pageList.ForEach(page =>
+            {
+                page.Status = status;
+            });
+
+            await BlogContext.SaveChangesAsync();
+
+            this.Cache.Remove(CACHE_KEY);
+        }
 
         private async Task<string> GenerateAlias(int? id, string alias, string title)
         {

@@ -1,5 +1,7 @@
-﻿using DotNetBlog.Core.Model.Page;
+﻿using DotNetBlog.Core.Enums;
+using DotNetBlog.Core.Model.Page;
 using DotNetBlog.Core.Service;
+using DotNetBlog.Web.Areas.Api.Models.Page;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -75,6 +77,32 @@ namespace DotNetBlog.Web.Areas.Api.Controllers
             {
                 return this.Error(result.ErrorMessage);
             }
+        }
+
+        [HttpPost("batch/publish")]
+        public async Task<IActionResult> BatchPublish([FromBody]BatchModel model)
+        {
+            if (model == null || !ModelState.IsValid)
+            {
+                return this.InvalidRequest();
+            }
+
+            await this.PageService.BatchUpdateStatus(model.PageList, PageStatus.Published);
+            
+            return this.Success();
+        }
+
+        [HttpPost("batch/draft")]
+        public async Task<IActionResult> BatchDraft([FromBody]BatchModel model)
+        {
+            if (model == null || !ModelState.IsValid)
+            {
+                return this.InvalidRequest();
+            }
+
+            await this.PageService.BatchUpdateStatus(model.PageList, PageStatus.Draft);
+
+            return this.Success();
         }
     }
 }
