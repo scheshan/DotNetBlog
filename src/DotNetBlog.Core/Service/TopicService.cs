@@ -41,11 +41,7 @@ namespace DotNetBlog.Core.Service
             List<Tag> tagEntityList = await BlogContext.Tags.Where(t => model.TagList.Contains(t.Keyword)).ToListAsync();
 
             model.Alias = await this.GenerateAlias(null, model.Alias, model.Title);
-            model.Summary = model.Summary.TrimHtml();
-            if (string.IsNullOrWhiteSpace(model.Summary))
-            {
-                model.Summary = model.Content.TrimHtml().ToLength(200);
-            }
+            model.Summary = this.GenerateSummary(model.Summary, model.Content);
 
             foreach (var tag in model.TagList)
             {
@@ -123,11 +119,7 @@ namespace DotNetBlog.Core.Service
                 List<Tag> tagEntityList = await BlogContext.Tags.Where(t => model.TagList.Contains(t.Keyword)).ToListAsync();
 
                 model.Alias = await this.GenerateAlias(model.ID, model.Alias, model.Title);
-                model.Summary = model.Summary.TrimHtml();
-                if (string.IsNullOrWhiteSpace(model.Summary))
-                {
-                    model.Summary = model.Content.TrimHtml().ToLength(200);
-                }
+                model.Summary = this.GenerateSummary(model.Summary, model.Content);
 
                 foreach (var tag in model.TagList)
                 {
@@ -549,6 +541,21 @@ namespace DotNetBlog.Core.Service
             }
 
             return alias;
+        }
+
+        private string GenerateSummary(string summary, string content)
+        {
+            if(string.IsNullOrWhiteSpace(summary))
+            {
+                summary = content;
+            }
+
+            if (string.IsNullOrWhiteSpace(summary))
+            {
+                return string.Empty;
+            }
+
+            return CommonMark.CommonMarkConverter.Convert(summary).TrimHtml().ToLength(200);
         }
 
         public bool CanComment(Topic entity)

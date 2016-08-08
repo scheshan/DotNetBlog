@@ -51,7 +51,7 @@
         </div>
     </header>
     <section class="post-body text">
-        @Html.Raw(Model.Topic.Content)
+        <markdown content="@Model.Topic.Content"></markdown>
     </section>
 
     <footer class="post-footer" condition="Model.Topic.Tags.Any()">

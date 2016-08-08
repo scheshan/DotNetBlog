@@ -13,52 +13,57 @@ class Editor extends React.Component{
         let options = _.assign(
             {},             
             {
-                selector,
-                relative_urls :false,
-                menubar: false,
-                height: 420,
-                plugins: [
-                    "advlist autolink lists link image charmap print preview anchor",
-                    "searchreplace visualblocks code fullscreen textcolor imagetools",
-                    "insertdatetime media table contextmenu paste imageUpload"
-                ],
-                setup: (editor)=>{
-                    this.editor = editor
-                    if(this.props.content){
-                        this.editor.setContent(this.props.content)
-                    }
-                },
-                toolbar: 'code | undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image imageUpload'
+                width   : "100%",
+                height  : 480,
+                markdown: this.props.content,
+                syncScrolling : "single",
+                path    : "/lib/editor.md/lib/",
+                watch: false,
+                imageUpload : true,
+                imageFormats : ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
+                imageUploadURL : "/api/upload/image",
+                toolbarIcons : ()=>{
+                    return [
+                        "undo", "redo", "|", 
+                        "bold", "del", "italic", "quote", "uppercase", "lowercase", "|", 
+                        "h1", "h2", "h3", "h4", "h5", "h6", "|", 
+                        "list-ul", "list-ol", "hr", "|",
+                        "link", "image", "code", "code-block", "|",
+                        "watch", "preview", "|",
+                        "help", "info"
+                    ];
+                }
             }, 
             this.props.options);
-        tinymce.init(options)
+        this.editor = editormd(this.id, options);
     }
 
     getContent(){
-        return this.editor.getContent()
+        return this.editor.markdownTextarea.val();
     }
 
     setContent(content){
-        this.editor.setContent(content)
+        this.editor.markdownTextarea.val(content)
     }
 
     componentDidUpdate(prevProps){
         if(prevProps.content != this.props.content){
             if(this.editor){
-                this.editor.setContent(this.props.content)
+                this.editor.markdownTextarea.val(this.props.content)
             }
         }
     }
 
     render(){
         return (
-            <textarea id={this.id}></textarea>
+            <div id={this.id}>
+                <textarea style={{display:'none'}}></textarea>
+            </div>
         )
     }
 
     getEditor(){
-        let selector = '#' + this.id;
-        return tinymce.get(selector);
+        return this.editor;
     }
 }
 

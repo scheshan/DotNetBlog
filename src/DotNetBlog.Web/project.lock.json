@@ -34,6 +34,15 @@
           "lib/netstandard1.3/AutoMapper.dll": {}
         }
       },
+      "CommonMark.NET/0.13.4": {
+        "type": "package",
+        "compile": {
+          "lib/netstandard1.0/CommonMark.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard1.0/CommonMark.dll": {}
+        }
+      },
       "Libuv/1.9.0": {
         "type": "package",
         "dependencies": {
@@ -4369,13 +4378,14 @@
         "framework": ".NETCoreApp,Version=v1.0",
         "dependencies": {
           "AutoMapper": "5.0.0",
+          "CommonMark.NET": "0.13.4",
           "MailKit": "1.4.1",
           "Microsoft.AspNetCore.Http": "1.0.0",
           "Microsoft.EntityFrameworkCore.SqlServer": "1.0.0",
           "Microsoft.EntityFrameworkCore.Sqlite": "1.0.0",
           "Microsoft.Extensions.Caching.Memory": "1.0.0",
           "Microsoft.NETCore.App": "1.0.0",
-          "Newtonsoft.Json": "9.0.0",
+          "Newtonsoft.Json": "9.0.1",
           "System.Reflection": "4.1.0"
         },
         "compile": {
@@ -4398,6 +4408,42 @@
         "lib/net45/AutoMapper.dll",
         "lib/netstandard1.1/AutoMapper.dll",
         "lib/netstandard1.3/AutoMapper.dll"
+      ]
+    },
+    "CommonMark.NET/0.13.4": {
+      "sha512": "0vk3RiBl6uHdWSvbT1HWQndLa1sbforlEaq/w6OPepCk8s/fUbHI8KooPml1XqZBvQYzkcU/Gxx4dkoOUmy/AA==",
+      "type": "package",
+      "path": "CommonMark.NET/0.13.4",
+      "files": [
+        "CommonMark.NET.0.13.4.nupkg.sha512",
+        "CommonMark.NET.nuspec",
+        "LICENSE.md",
+        "lib/dnxcore50/CommonMark.dll",
+        "lib/dnxcore50/CommonMark.pdb",
+        "lib/dnxcore50/CommonMark.xml",
+        "lib/net20/CommonMark.dll",
+        "lib/net20/CommonMark.pdb",
+        "lib/net20/CommonMark.xml",
+        "lib/net35-client/CommonMark.dll",
+        "lib/net35-client/CommonMark.pdb",
+        "lib/net35-client/CommonMark.xml",
+        "lib/net40-client/CommonMark.dll",
+        "lib/net40-client/CommonMark.pdb",
+        "lib/net40-client/CommonMark.xml",
+        "lib/net45/CommonMark.dll",
+        "lib/net45/CommonMark.pdb",
+        "lib/net45/CommonMark.xml",
+        "lib/netstandard1.0/CommonMark.dll",
+        "lib/netstandard1.0/CommonMark.pdb",
+        "lib/netstandard1.0/CommonMark.xml",
+        "lib/portable-net40+sl50+wp80+win+wpa81+MonoAndroid10+MonoTouch10/CommonMark.dll",
+        "lib/portable-net40+sl50+wp80+win+wpa81+MonoAndroid10+MonoTouch10/CommonMark.pdb",
+        "lib/portable-net40+sl50+wp80+win+wpa81+MonoAndroid10+MonoTouch10/CommonMark.xml",
+        "lib/portable-net45+wp80+win+wpa81+MonoAndroid10+xamarinios10+MonoTouch10/CommonMark.dll",
+        "lib/portable-net45+wp80+win+wpa81+MonoAndroid10+xamarinios10+MonoTouch10/CommonMark.pdb",
+        "lib/portable-net45+wp80+win+wpa81+MonoAndroid10+xamarinios10+MonoTouch10/CommonMark.xml",
+        "tools/cmark.exe",
+        "tools/cmark.exe.config"
       ]
     },
     "Libuv/1.9.0": {
@@ -11014,6 +11060,7 @@
   "projectFileDependencyGroups": {
     "": [
       "AutoMapper >= 5.0.0",
+      "CommonMark.NET >= 0.13.4",
       "DotNetBlog.Core >= 1.0.0",
       "MailKit >= 1.4.1",
       "Microsoft.AspNetCore.Diagnostics >= 1.0.0",
