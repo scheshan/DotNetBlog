@@ -32,6 +32,7 @@
     <DnxInvisibleContent Include=".npmrc" />
   </ItemGroup>
   <ItemGroup>
+    <DnxInvisibleFolder Include="App_Data\" />
     <DnxInvisibleFolder Include="log\" />
     <DnxInvisibleFolder Include="wwwroot\app\" />
     <DnxInvisibleFolder Include="wwwroot\dist\" />
