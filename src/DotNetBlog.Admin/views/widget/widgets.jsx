@@ -6,6 +6,8 @@ var Dialog = require("../../services/dialog")
 var Async = require("async")
 var {Spinner, LoadingButton} = require("../../components")
 var EditBasic = require("./editbasic")
+var EditCategory = require("./editcategory")
+var EditRecentComment = require("./editrecentcomment")
 
 class Widgets extends React.Component{
     constructor(){
@@ -111,10 +113,10 @@ class Widgets extends React.Component{
     editWidget(widget, index){
         let viewMapping = {
             1: this.refs.editBasic,
-            2: this.refs.editBasic,
+            2: this.refs.editCategory,
             3: this.refs.editBasic,
             4: this.refs.editBasic,
-            5: this.refs.editBasic,
+            5: this.refs.editRecentComment,
             6: this.refs.editBasic,
             7: this.refs.editBasic,
             8: this.refs.editBasic,
@@ -173,6 +175,8 @@ class Widgets extends React.Component{
                 <Spinner loading={this.state.loading}></Spinner>
                 <WidgetInfo ref="widgetInfo"></WidgetInfo>
                 <EditBasic ref="editBasic" onSave={this.onSaveConfig.bind(this)}></EditBasic>
+                <EditCategory ref="editCategory" onSave={this.onSaveConfig.bind(this)}></EditCategory>
+                <EditRecentComment ref="editRecentComment" onSave={this.onSaveConfig.bind(this)}></EditRecentComment>
 
                 <div className="mailbox-controls">
                     <button className="btn btn-primary" title="保存" onClick={this.save.bind(this)}>

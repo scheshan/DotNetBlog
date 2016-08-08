@@ -13,12 +13,9 @@
             @foreach (var category in Model.OrderByDescending(t => t.Topics.Published))
             {
                 <li condition="category.Topics.Published > 0">
-                    @*<a rel="nofollow" href="/category/feed/BlogEngineNET">
-                            <img class="rssButton" alt="RSS feed for SubBlog" src="/Content/images/blog/rssButton.png">
-                        </a>*@
                     <a title="分类: @category.Name" asp-action="Category" asp-controller="Home" asp-route-id="@category.ID" asp-route-page="">
                         @category.Name
-                        <span>(@category.Topics.Published)</span>
+                        <span condition="config.ShowNumbersOfTopics">(@category.Topics.Published)</span>
                     </a>
                 </li>
             }
