@@ -33,7 +33,14 @@ namespace DotNetBlog.Core.Service
 
             if (settings == null)
             {
-                settings = BlogContext.Settings.ToList();
+                try
+                {
+                    settings = BlogContext.Settings.ToList();
+                }
+                catch
+                {
+                    settings = new List<Entity.Setting>();
+                }
                 Cache.Set(CacheKey, settings);
             }
 

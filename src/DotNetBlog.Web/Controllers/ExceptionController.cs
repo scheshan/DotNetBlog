@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using DotNetBlog.Core.Service;
+using DotNetBlog.Web.ViewModels.Exception;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -10,6 +12,13 @@ namespace DotNetBlog.Web.Controllers
     [Route("exception")]
     public class ExceptionController : Controller
     {
+        private SettingService SettingService { get; set; }
+
+        public ExceptionController(SettingService settingService)
+        {
+            SettingService = settingService;
+        }
+
         [HttpGet("{code:int}")]
         public IActionResult Error(int code)
         {
@@ -36,7 +45,13 @@ namespace DotNetBlog.Web.Controllers
         [NonAction]
         private IActionResult RenderErrorPage()
         {
-            return this.View("Error");
+            ErrorViewModel vm = new ErrorViewModel();
+
+            var config = SettingService.Get();
+            vm.Title = config.ErrorPageTitle;
+            vm.Content = config.ErrorPageContent;
+
+            return this.View("Error", vm);
         }
     }
 }

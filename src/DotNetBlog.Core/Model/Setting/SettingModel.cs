@@ -276,7 +276,7 @@ namespace DotNetBlog.Core.Model.Setting
         {
             get
             {
-                return GetStringValue(nameof(ErrorPageContent), "当前页面发生异常,导致无法显示.系统管理员正在修复中,请稍后再访问...");
+                return GetStringValue(nameof(ErrorPageContent), "请求的页面发生错误,请稍后再试...");
             }
             set
             {

@@ -36,7 +36,7 @@
                 <a blog-topic="topic">[更多...]</a>
             </visible>
             <visible condition="!config.OnlyShowSummary">
-                @Html.Raw(topic.Content)
+                <markdown content="@topic.Content"></markdown>
             </visible>
         </section>
 
