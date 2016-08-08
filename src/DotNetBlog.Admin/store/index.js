@@ -4,7 +4,7 @@ var Thunk = require("redux-thunk").default
 var ReduxForm = require("redux-form")
 
 const reducers = combineReducers({
-    Reducer,
+    blog: Reducer,
     form: ReduxForm.reducer 
 })
 

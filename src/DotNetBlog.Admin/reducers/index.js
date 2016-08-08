@@ -4,7 +4,6 @@ var _ = require("lodash")
 const {ActionTypes} = Consts
 
 function Reducer(state = {}, action) {
-    debugger;
     switch (action.type) {
         case ActionTypes.ChangeMenu:
             return _.assign({}, state, { menu: action.menu, subMenu: action.subMenu });
