@@ -2,11 +2,41 @@ var React = require("react")
 var {Modal, ModalHeader, ModalFooter, ModalBody, FormGroup} = require("react-bootstrap")
 var {Input, Checkbox} = require("formsy-react-components")
 var {Form} = require("../../components")
+var {reduxForm} = require('redux-form')
+
+class EditRecentCommentForm extends React.Component{
+    constructor(){
+        super()
+
+        this.state = {
+            show: false,
+            title: "",
+            number: 0
+        }
+    }
+
+    render(){
+        return (
+            <form noValidate onSubmit={this.props.onSubmit}>           
+                <input required {...this.props.fields.title}></input>
+                <ModalFooter>
+                    <button className="btn btn-default" onClick={this.props.hide}>取消</button>
+                    <button type="submit" className="btn btn-primary">保存</button>
+                </ModalFooter>
+            </form>
+        )
+    }
+}
+
+EditRecentCommentForm = reduxForm({
+    form: "editRecentComment",
+    fields: ["title", "count"]
+})(EditRecentCommentForm)
 
 class EditRecentComment extends React.Component{
     constructor(){
         super()
-
+        
         this.state = {
             show: false,
             title: "",
@@ -30,7 +60,12 @@ class EditRecentComment extends React.Component{
         })
     }
 
-    submit(model){
+    submit(model, model2){
+        debugger;
+        console.log(model)
+        console.log(model2)
+        return;
+
         this.widget.config.title = model.title;
         this.widget.config.number = model.number;
         this.props.onSave && this.props.onSave(this.widget, this.index);
@@ -39,19 +74,10 @@ class EditRecentComment extends React.Component{
     
     render(){
         return (
-            <Modal show={this.state.show}>
-                <Form layout="vertical" onValidSubmit={this.submit.bind(this)}>
-                    <ModalHeader>修改配置</ModalHeader>
-                    <ModalBody>
-                        <Input name="title" label="标题" required value={this.state.title}></Input>
-
-                        <Input name="number" label="显示评论数" required value={this.state.number} validations="isInt"></Input>
-                    </ModalBody>
-                    <ModalFooter>
-                        <button className="btn btn-default" onClick={this.hide.bind(this)}>取消</button>
-                        <button formNoValidate type="submit" className="btn btn-primary">保存</button>
-                    </ModalFooter>
-                </Form>
+            <Modal show={this.state.show}>    
+                <EditRecentCommentForm 
+                    hide={this.hide.bind(this)}
+                    onSubmit={this.submit.bind(this)}/>
             </Modal>
         )
     }
