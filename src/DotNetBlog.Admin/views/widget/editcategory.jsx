@@ -1,7 +1,52 @@
 var React = require("react")
 var {Modal, ModalHeader, ModalFooter, ModalBody, FormGroup} = require("react-bootstrap")
-var {Input, Checkbox} = require("formsy-react-components")
-var {Form} = require("../../components")
+var {Bootstrap: {FormGroup}} = require("../../components")
+var {reduxForm} = require("redux-form")
+
+const validate = values=>{
+    const error = {};
+    if(!values.title){
+        error.title = "请输入标题";
+    }
+    return error;
+}
+
+class EditCategoryForm extends React.Component{
+    render(){
+        const {fields: {title, showRSS, showNumbersOfTopics}, handleSubmit} = this.props;
+
+        return (
+            <form noValidate onSubmit={handleSubmit}>
+                <FormGroup label="标题" hasError={title.touched && title.error}>
+                    <input type="text" className="form-control" {...title}/>
+                    {title.touched && title.error && <span className="help-block">{title.error}</span>}
+                </FormGroup>
+                <FormGroup>
+                    <div className="checkbox">
+                        <label>
+                            <input type="checkbox" {...showNumbersOfTopics}/>
+                            显示RSS按钮
+                        </label>
+                    </div>                    
+                </FormGroup>
+                <FormGroup>
+                    <div className="checkbox">
+                        <label>
+                            <input type="checkbox" {...showRSS}/>
+                            显示文章数
+                        </label>
+                    </div>                    
+                </FormGroup>
+            </form>
+        )
+    }
+}
+
+EditCategoryForm = reduxForm({
+    form: "editCategoryForm",
+    fields: ["title", "showRSS", "showNumbersOfTopics"],
+    validate
+})(EditCategoryForm)
 
 class EditCategory extends React.Component{
     constructor(){
@@ -9,9 +54,11 @@ class EditCategory extends React.Component{
 
         this.state = {
             show: false,
-            title: "",
-            showRss: false,
-            showNumbersOfTopics: false
+            config: {
+                title: "",
+                showRSS: false,
+                showNumbersOfTopics: false
+            }
         }
     }
 
@@ -20,9 +67,7 @@ class EditCategory extends React.Component{
         this.index = index;
         this.setState({
             show: true,
-            title: widget.config.title,
-            showRSS: widget.config.showRSS,
-            showNumbersOfTopics: widget.config.showNumbersOfTopics
+            config: widget.config
         });
     }
 
@@ -32,31 +77,29 @@ class EditCategory extends React.Component{
         })
     }
 
-    submit(model){
+    onSubmit(model){
         this.widget.config.title = model.title;
         this.widget.config.showRSS = model.showRSS;
         this.widget.config.showNumbersOfTopics = model.showNumbersOfTopics;
         this.props.onSave && this.props.onSave(this.widget, this.index);
         this.hide()
     }
+
+    submit(){
+        this.refs.form.submit()
+    }
     
     render(){
         return (
             <Modal show={this.state.show}>
-                <Form layout="vertical" onValidSubmit={this.submit.bind(this)}>
-                    <ModalHeader>修改配置</ModalHeader>
-                    <ModalBody>
-                        <Input name="title" label="标题" required value={this.state.title}></Input>
-
-                        <Checkbox layout="elementOnly" name="showRSS" label="显示RSS按钮" value={this.state.showRSS}></Checkbox>
-                        
-                        <Checkbox layout="elementOnly" name="showNumbersOfTopics" label="显示文章数" value={this.state.showNumbersOfTopics}></Checkbox>
-                    </ModalBody>
-                    <ModalFooter>
-                        <button className="btn btn-default" onClick={this.hide.bind(this)}>取消</button>
-                        <button formNoValidate type="submit" className="btn btn-primary">保存</button>
-                    </ModalFooter>
-                </Form>
+                <ModalHeader>修改配置</ModalHeader>
+                <ModalBody>
+                    <EditCategoryForm ref="form" onSubmit={this.onSubmit.bind(this)} initialValues={this.state.config}/>
+                </ModalBody>
+                <ModalFooter>
+                    <button className="btn btn-default" onClick={this.hide.bind(this)}>取消</button>
+                    <button className="btn btn-primary" onClick={this.submit.bind(this)}>保存</button>
+                </ModalFooter>
             </Modal>
         )
     }

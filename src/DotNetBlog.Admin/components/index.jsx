@@ -4,6 +4,7 @@ const ContentHeader = require("./contentheader")
 const Editor = require("./editor")
 const Pager = require("./pager")
 const Spinner = require("./spinner")
+const FormGroup = require("./bootstrap/formgroup")
 
 module.exports = {
     Form,
@@ -11,5 +12,8 @@ module.exports = {
     ContentHeader,
     Editor,
     Pager,
-    Spinner
+    Spinner,
+    Bootstrap: {
+        FormGroup
+    }
 }

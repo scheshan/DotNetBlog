@@ -1,10 +1,64 @@
 ﻿var React = require("react")
-var {Form, Spinner} = require("../../components")
+var {Spinner, Bootstrap: {FormGroup}} = require("../../components")
 var Api = require("../../services/api")
-var FRC = require("formsy-react-components")
-const {Input, Checkbox} = FRC
 var Dialog = require("../../services/dialog")
-var LoadingButton = require("../../components/loadingbutton")
+var {reduxForm} = require("redux-form")
+
+const validate = values=>{
+    const errors = {}
+
+    if(!values.title){
+        errors.title = "请输入标题";
+    }
+
+    let topicsPerPage = parseInt(values.topicsPerPage);
+    if(isNaN(Number(values.topicsPerPage)) || topicsPerPage < 1){
+        errors.number = "请输入正确的文章数量";
+    }
+
+    return errors
+}
+
+class BasicConfigForm extends React.Component{
+    render(){
+        const {fields: {title, description, topicsPerPage, onlyShowSummary}, handleSubmit} = this.props
+
+        return (
+            <form noValidate onSubmit={handleSubmit} className="form-content">
+                <FormGroup label="标题" hasError={title.touched && title.error}>
+                    <input type="text" className="form-control" {...title}/>
+                    {title.touched && title.error && <span className="help-block">{title.error}</span>}
+                </FormGroup>
+                <FormGroup label="摘要">
+                    <input type="text" className="form-control" {...description}/>
+                </FormGroup>
+                <FormGroup label="每页文章数" hasError={topicsPerPage.touched && topicsPerPage.error}>
+                    <input type="text" className="form-control" {...topicsPerPage}/>
+                    {topicsPerPage.touched && topicsPerPage.error && <span className="help-block">{topicsPerPage.error}</span>}
+                </FormGroup>
+                <FormGroup>
+                    <div className="checkbox">
+                        <label>
+                            <input type="checkbox" {...onlyShowSummary}/>
+                            仅显示文章摘要
+                        </label>
+                    </div>
+                </FormGroup>
+                <FormGroup>
+                    <button type="submit" className="btn btn-primary">
+                        保存
+                    </button>
+                </FormGroup>
+            </form>
+        )
+    }
+}
+
+BasicConfigForm = reduxForm({
+    form: "basicConfigForm",
+    fields: ["title", "description", "topicsPerPage", "onlyShowSummary"],
+    validate
+})(BasicConfigForm)
 
 class BasicConfig extends React.Component{
     constructor() {
@@ -20,7 +74,7 @@ class BasicConfig extends React.Component{
         }
     }
 
-    submit(model) {
+    onSubmit(model) {
         if(this.state.loading){
             return false;
         }
@@ -69,32 +123,7 @@ class BasicConfig extends React.Component{
             <div className="content">
                 <Spinner loading={this.state.loading}/>
 
-                <Form layout="vertical" onValidSubmit={this.submit.bind(this)} className="form-content">
-
-                    <Input label="标题" name="title" required value={this.state.config.title}/>
-
-                    <Input label="摘要" name="description" value={this.state.config.description}/>
-
-                    <Input 
-                        label="每页文章数" 
-                        validations="isInt"
-                        validationError="请输入每页文章数"
-                        name="topicsPerPage" 
-                        value={this.state.config.topicsPerPage}/>
-
-                    <Checkbox 
-                        layout="elementOnly"
-                        name="onlyShowSummary" 
-                        label="仅显示文章摘要" 
-                        checked={this.state.config.onlyShowSummary}
-                        value={this.state.config.onlyShowSummary}/>
-
-                    <div className="form-group">
-                        <button formNoValidate type="submit" className="btn btn-primary">
-                            保存
-                        </button>
-                    </div>
-                </Form>
+                <BasicConfigForm onSubmit={this.onSubmit.bind(this)} initialValues={this.state.config}></BasicConfigForm>
             </div>
         )
     }

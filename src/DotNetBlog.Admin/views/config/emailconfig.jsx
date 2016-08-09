@@ -10,6 +10,7 @@ class EmailConfig extends React.Component{
         super()
 
         this.state = {
+            loading: true,
             config:{
                 smtpEmailAddress: "",
                 smtpUser: "",
