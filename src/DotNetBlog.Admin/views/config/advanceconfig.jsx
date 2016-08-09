@@ -1,7 +1,6 @@
 var React = require("react")
-var {Form, Spinner, Bootstrap: {FormGroup}} = require("../../components")
-var Api = require("../../services/api")
-var Dialog = require("../../services/dialog")
+var {Spinner, Bootstrap: {FormGroup}} = require("../../components")
+var {Api, Dialog} = require("../../services")
 var {reduxForm} = require("redux-form")
 
 const validate = values=>{

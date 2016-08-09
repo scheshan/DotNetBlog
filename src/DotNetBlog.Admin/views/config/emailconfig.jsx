@@ -1,9 +1,8 @@
 var React = require("react")
-var Api = require("../../services/api")
+var {Api, Dialog} = require("../../services")
 var {Form, Spinner} = require("../../components")
 var {Input, Checkbox} = require("formsy-react-components")
 var {FormGroup} = require("react-bootstrap")
-var Dialog = require("../../services/dialog")
 
 class EmailConfig extends React.Component{
     constructor(){

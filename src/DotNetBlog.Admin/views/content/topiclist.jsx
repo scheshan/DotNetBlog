@@ -1,9 +1,36 @@
 var React = require("react")
 var {Pager, Spinner} = require("../../components")
 var {hashHistory, Link} = require("react-router")
-var Api = require("../../services/api")
-var Dialog = require("../../services/dialog")
+var {Api, Dialog} = require("../../services")
 var {BootstrapTable, TableHeaderColumn} = require("react-bootstrap-table")
+var {reduxForm} = require("redux-form")
+
+class SearchTopicForm extends React.Component{
+    render(){
+        const {fields: {status, keywords}, handleSubmit} = this.props
+
+        return (
+            <form noValidate onSubmit={handleSubmit}>
+                <select className="form-control input-sm" {...status}>
+                    <option value="">全部</option>
+                    <option value="0">草稿</option>
+                    <option value="1">已发布</option>
+                </select>
+                {' '}
+                <input type="text" className="form-control input-sm" {...keywords}/>   
+                {' '}
+                <button type="submit" className="btn btn-default btn-sm">
+                    <i className="fa fa-search"></i>
+                </button>
+            </form>
+        )
+    }
+}
+
+SearchTopicForm = reduxForm({
+    form: "searchTopicForm",
+    fields: ["status", "keywords"]
+})(SearchTopicForm)
 
 const pageSize = 20;
 
@@ -136,20 +163,8 @@ class TopicList extends React.Component{
         return this.state.selectedList.length > 0;
     }
 
-    search(){
-        this.changePage(1, this.state.status, this.state.keywords)
-    }
-
-    handleKeywordsChange(e){
-        this.setState({
-            keywords: e.target.value
-        })
-    }
-
-    handleStatusChange(e){
-        this.setState({
-            status: e.target.value
-        })
+    search(model){
+        this.changePage(1, model.status, model.keywords)
     }
 
     handlePageChange(page){
@@ -266,17 +281,7 @@ class TopicList extends React.Component{
                     </div>
 
                     <div className="pull-right form-inline">
-                        <select className="form-control input-sm" onChange={this.handleStatusChange.bind(this)} value={this.state.status}>
-                            <option value="">全部</option>
-                            <option value="0">草稿</option>
-                            <option value="1">已发布</option>
-                        </select>
-                        {' '}
-                        <input type="text" className="form-control input-sm" value={this.state.keywords} onChange={this.handleKeywordsChange.bind(this)}/>   
-                        {' '}
-                        <button className="btn btn-default btn-sm" onClick={this.search.bind(this)}>
-                            <i className="fa fa-search"></i>
-                        </button>
+                        <SearchTopicForm onSubmit={this.search.bind(this)} initialValues={this.props.location.query}></SearchTopicForm>
                     </div>
                 </div>
 

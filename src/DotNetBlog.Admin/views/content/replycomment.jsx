@@ -2,8 +2,7 @@ var React = require("react")
 var {Modal, ModalHeader, ModalTitle, ModalBody, ModalFooter} = require("react-bootstrap")
 var {LoadingButton, Form} = require("../../components")
 var {Input, Textarea} = require("formsy-react-components")
-var Dialog = require("../../services/dialog")
-var Api = require("../../services/api")
+var {Dialog, Api} = require("../../services")
 
 class ReplyComment extends React.Component{
     constructor(){

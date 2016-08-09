@@ -1,8 +1,7 @@
 var React = require("react")
 var {Pager, Spinner} = require("../../components")
 var {hashHistory, Link} = require("react-router")
-var Api = require("../../services/api")
-var Dialog = require("../../services/dialog")
+var {Api, Dialog} = require("../../services")
 var {BootstrapTable, TableHeaderColumn} = require("react-bootstrap-table")
 
 const pageSize = 20;

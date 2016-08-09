@@ -2,9 +2,7 @@ var React = require("react")
 var {Modal} = require("react-bootstrap")
 var {Input} = require("formsy-react-components")
 var {LoadingButton, Form} = require("../../components")
-var _ = require("lodash")
-var Dialog = require("../../services/dialog")
-var Api = require("../../services/api")
+var {Dialog, Api} = require("../../services")
 
 const emptyCategory = {
     name: "",

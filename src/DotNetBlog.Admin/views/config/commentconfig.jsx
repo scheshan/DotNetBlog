@@ -1,9 +1,6 @@
 var React = require("react")
 var {Spinner, Bootstrap: {FormGroup}} = require("../../components")
-var Api = require("../../services/api")
-var FRC = require("formsy-react-components")
-const {Input, Checkbox, Select} = FRC
-var Dialog = require("../../services/dialog")
+var {Api, Dialog} = require("../../services")
 var {reduxForm} = require("redux-form")
 
 class CommentConfigForm extends React.Component{
@@ -171,7 +168,9 @@ class CommentConfig extends React.Component{
             <div className="content">
                 <Spinner loading={this.state.loading}/>
 
-                <CommentConfigForm onSubmit={this.onSubmit.bind(this)} initialValues={this.state.config}></CommentConfigForm>
+                <div className="form-content">
+                    <CommentConfigForm onSubmit={this.onSubmit.bind(this)} initialValues={this.state.config}></CommentConfigForm>
+                </div>
             </div>
         )
     }

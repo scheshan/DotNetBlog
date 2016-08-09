@@ -2,8 +2,7 @@ var React = require("react")
 var {Pager, Spinner} = require("../../components")
 var {BootstrapTable, TableHeaderColumn} = require("react-bootstrap-table")
 var {hashHistory} = require("react-router")
-var Api = require("../../services/api")
-var Dialog = require("../../services/dialog")
+var {Api, Dialog} = require("../../services")
 var ReplyComment = require("./replycomment")
 
 const pageSize = 20;

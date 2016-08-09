@@ -1,9 +1,54 @@
 var React = require("react")
-var {Form, Spinner} = require("../../components")
-var Api = require("../../services/api")
-var FRC = require("formsy-react-components")
-const {Input, Checkbox} = FRC
-var Dialog = require("../../services/dialog")
+var {Spinner, Bootstrap:{FormGroup}} = require("../../components")
+var {Api, Dialog} = require("../../services")
+var {reduxForm} = require("redux-form")
+
+const validate = values=>{
+    const errors = {};
+
+    if(!values.email){
+        errors.email = "请输入邮箱"
+    }
+    else if(!(/^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{1,})+$/.test(values.email))){
+        errors.email = "请输入正确的邮箱地址"
+    }
+    if(!values.nickname){
+        errors.nickname = "请输入昵称";
+    }
+
+    return errors;
+}
+
+class ProfileForm extends React.Component{
+    render(){
+        const {fields: {userName, email, nickname}, handleSubmit} = this.props;
+        
+        return (
+            <form noValidate onSubmit={handleSubmit}>
+                <FormGroup label="用户名">
+                    <input type="text" className="form-control" disabled {...userName}/>
+                </FormGroup>
+                <FormGroup label="邮箱" validation={email}>
+                    <input type="text" className="form-control" {...email}/>
+                </FormGroup>
+                <FormGroup label="昵称" validation={nickname}>
+                    <input type="text" className="form-control" {...nickname}/>
+                </FormGroup>
+                <FormGroup>
+                    <button type="submit" className="btn btn-primary">
+                        保存
+                    </button>
+                </FormGroup>
+            </form>
+        )
+    }
+}
+
+ProfileForm = reduxForm({
+    form: "profileForm",
+    fields: ["userName", "email", "nickname"],
+    validate
+})(ProfileForm)
 
 class Profile extends React.Component{
     constructor(){
@@ -67,20 +112,7 @@ class Profile extends React.Component{
             <div className="content">
                 <Spinner loading={this.state.loading}/>
 
-                <Form layout="vertical" onValidSubmit={this.submit.bind(this)} className="form-content">
-
-                    <Input label="用户名" name="userName" disabled="disabled" value={this.state.user.userName}/>
-
-                    <Input label="邮箱" name="email" required validation="isEmail" value={this.state.user.email}/>
-
-                    <Input label="昵称" name="nickname" required value={this.state.user.nickname}/>
-
-                    <div className="form-group">
-                        <button formNoValidate type="submit" className="btn btn-primary">
-                            保存
-                        </button>
-                    </div>
-                </Form>
+                <ProfileForm onSubmit={this.submit.bind(this)} initialValues={this.state.user}></ProfileForm>
             </div>
         )
     }

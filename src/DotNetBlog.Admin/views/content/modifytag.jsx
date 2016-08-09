@@ -1,9 +1,38 @@
 var React = require("react")
 var {Modal, ModalHeader, ModalTitle, ModalBody, ModalFooter} = require("react-bootstrap")
-var {LoadingButton, Form} = require("../../components")
-var {Input} = require("formsy-react-components")
-var Dialog = require("../../services/dialog")
-var Api = require("../../services/api")
+var {LoadingButton, Bootstrap: {FormGroup}} = require("../../components")
+var {Api, Dialog} = require("../../services")
+var {reduxForm} = require("redux-form")
+
+const validate = values=>{
+    const errors = {};
+    if(!values.keyword){
+        errors.keyword = "请输入名称"
+    }
+
+    return errors;
+}
+
+class ModifyTagForm extends React.Component{
+    render(){
+        const {fields: {keyword, id}, handleSubmit} = this.props
+
+        return (
+            <form noValidate onSubmit={handleSubmit}>
+                <FormGroup validation={keyword}>
+                    <input type="text" className="form-control" {...keyword} />
+                </FormGroup>
+                <input type="hidden" {...id}/>
+            </form>
+        )
+    }
+}
+
+ModifyTagForm = reduxForm({
+    form: "modifyTagForm",
+    fields: ["keyword", "id"],
+    validate
+})(ModifyTagForm)
 
 class ModifyTag extends React.Component{
     constructor(){
@@ -31,7 +60,7 @@ class ModifyTag extends React.Component{
         })
     }
 
-    submit(model){
+    onSubmit(model){
         if(this.state.loading){
             return;
         }
@@ -56,24 +85,24 @@ class ModifyTag extends React.Component{
             })
         })
     }
+
+    submit(){
+        this.refs.form.submit()
+    }
     
     render(){
         return (
             <Modal show={this.state.show}>
-                <Form layout="vertical" onValidSubmit={this.submit.bind(this)}>
-                    <ModalHeader>
-                        <ModalTitle>编辑标签</ModalTitle>
-                    </ModalHeader>
-                    <ModalBody>                        
-                        <Input name="keyword" label="名称" value={this.state.tag.keyword} required maxLength="50"/>
-
-                        <Input name="id" type="hidden" value={this.state.tag.id}/>
-                    </ModalBody>
-                    <ModalFooter>
-                        <button type="button" className="btn btn-default pull-left" onClick={this.hide.bind(this)}>取消</button>
-                        <LoadingButton formNoValidate loading={this.state.loading} className="btn btn-primary">保存</LoadingButton>
-                    </ModalFooter>
-                </Form>
+                <ModalHeader>
+                    <ModalTitle>编辑标签</ModalTitle>
+                </ModalHeader>
+                <ModalBody>
+                    <ModifyTagForm ref="form" onSubmit={this.onSubmit.bind(this)} initialValues={this.state.tag}></ModifyTagForm>                        
+                </ModalBody>
+                <ModalFooter>
+                    <button type="button" className="btn btn-default pull-left" onClick={this.hide.bind(this)}>取消</button>
+                    <LoadingButton loading={this.state.loading} className="btn btn-primary" onClick={this.submit.bind(this)}>保存</LoadingButton>
+                </ModalFooter>
             </Modal>
         )
     }

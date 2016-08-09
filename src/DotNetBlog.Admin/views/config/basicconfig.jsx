@@ -1,7 +1,6 @@
 ﻿var React = require("react")
 var {Spinner, Bootstrap: {FormGroup}} = require("../../components")
-var Api = require("../../services/api")
-var Dialog = require("../../services/dialog")
+var {Api, Dialog} = require("../../services")
 var {reduxForm} = require("redux-form")
 
 const validate = values=>{
@@ -22,7 +21,6 @@ const validate = values=>{
 class BasicConfigForm extends React.Component{
     render(){
         const {fields: {title, description, topicsPerPage, onlyShowSummary}, handleSubmit} = this.props
-
         return (
             <form noValidate onSubmit={handleSubmit}>
                 <FormGroup label="标题" validation={title}>

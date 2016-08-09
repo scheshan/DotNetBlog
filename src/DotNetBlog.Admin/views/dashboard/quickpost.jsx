@@ -1,6 +1,5 @@
 var React = require("react")
-var Dialog = require("../../services/dialog")
-var Api = require("../../services/api")
+var {Api, Dialog} = require("../../services")
 var {LoadingButton} = require("../../components")
 
 class QuickPost extends React.Component{

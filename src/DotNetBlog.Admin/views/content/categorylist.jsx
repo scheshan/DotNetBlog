@@ -1,8 +1,6 @@
 var React = require("react")
-var Api = require("../../services/api")
-var _ = require("lodash")
 var ModifyCategory = require("./modifycategory")
-var Dialog = require("../../services/dialog")
+var {Api, Dialog} = require("../../services")
 var {Spinner} = require("../../components")
 var {BootstrapTable, TableHeaderColumn} = require("react-bootstrap-table")
 

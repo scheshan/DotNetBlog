@@ -1,6 +1,5 @@
 var React = require("react")
-var Api = require("../../services/api")
-var Dialog = require("../../services/dialog")
+var {Api, Dialog} = require("../../services")
 var {Pager, Spinner} = require("../../components")
 var {hashHistory} = require("react-router")
 var ModifyTag = require("./modifytag")
