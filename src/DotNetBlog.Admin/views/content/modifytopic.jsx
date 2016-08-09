@@ -162,7 +162,7 @@ class ModifyTopic extends React.Component{
             model.summary = this.state.topic.summary;
 
             if(this.id){
-                Api.editTopic(this.props.params.id, model, this.apiCallback.bind(this))
+                Api.editTopic(this.id, model, this.apiCallback.bind(this))
             }
             else{
                 Api.addTopic(model, this.apiCallback.bind(this))

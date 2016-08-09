@@ -158,7 +158,7 @@ class ModifyPage extends React.Component{
             loading: true
         }, ()=>{
             if(this.id){
-                Api.editPage(this.props.params.id, model, this.apiCallback.bind(this))
+                Api.editPage(this.id, model, this.apiCallback.bind(this))
             }
             else{
                 Api.addPage(model, this.apiCallback.bind(this))
