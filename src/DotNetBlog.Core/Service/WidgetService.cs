@@ -28,7 +28,8 @@ namespace DotNetBlog.Core.Service
             { WidgetType.Page, "页面" },
             { WidgetType.Search, "搜索" },
             { WidgetType.Tag, "标签" },
-            { WidgetType.RecentTopic, "最新文章" }
+            { WidgetType.RecentTopic, "最新文章" },
+            { WidgetType.Link, "友情链接" }
         };
 
         private static readonly Dictionary<WidgetType, Type> DefaultWidgetConfigTypes = new Dictionary<WidgetType, Type>
@@ -40,7 +41,8 @@ namespace DotNetBlog.Core.Service
             { WidgetType.Page, typeof(PageWidgetConfigModel) },
             { WidgetType.Search, typeof(SearchWidgetConfigModel) },
             { WidgetType.Tag, typeof(TagWidgetConfigModel) },
-            { WidgetType.RecentTopic, typeof(RecentTopicWidgetConfigModel) }
+            { WidgetType.RecentTopic, typeof(RecentTopicWidgetConfigModel) },
+            { WidgetType.Link, typeof(LinkWidgetConfigModel) }
         };
 
         private BlogContext BlogContext { get; set; }
@@ -70,6 +72,8 @@ namespace DotNetBlog.Core.Service
                     Icon = type.ToString()
                 });
             }
+
+            result = result.OrderBy(t => t.Type).ToList();
 
             return result;
         }

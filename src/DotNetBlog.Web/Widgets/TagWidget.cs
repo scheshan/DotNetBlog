@@ -22,10 +22,16 @@ namespace DotNetBlog.Web.Widgets
             ViewBag.Config = config;
 
             var query = (await TagService.All()).AsQueryable();
-            var tagList = query.Where(t => t.Topics.Published >= config.MinTopicNumber)
-                .OrderByDescending(t => t.Topics.Published)
-                .Take(config.Number)
-                .ToList();
+
+            query = query.Where(t => t.Topics.Published >= config.MinTopicNumber)
+                .OrderByDescending(t => t.Topics.Published);
+
+            if (config.Number.HasValue)
+            {
+                query = query.Take(config.Number.Value);
+            }
+
+            var tagList = query.ToList();
 
             return View(tagList);
         }

@@ -8,6 +8,8 @@ var {Spinner, LoadingButton} = require("../../components")
 var EditBasic = require("./editbasic")
 var EditCategory = require("./editcategory")
 var EditRecentComment = require("./editrecentcomment")
+var EditRecentTopic = require("./editrecenttopic")
+var EditTag = require("./edittag")
 
 class Widgets extends React.Component{
     constructor(){
@@ -114,12 +116,12 @@ class Widgets extends React.Component{
         let viewMapping = {
             1: this.refs.editBasic,
             2: this.refs.editCategory,
-            3: this.refs.editBasic,
-            4: this.refs.editBasic,
+            3: this.refs.editTag,
+            4: this.refs.editRecentTopic,
             5: this.refs.editRecentComment,
             6: this.refs.editBasic,
             7: this.refs.editBasic,
-            8: this.refs.editBasic,
+            8: this.refs.editBasic
         }
 
         let view = viewMapping[widget.type];
@@ -177,6 +179,8 @@ class Widgets extends React.Component{
                 <EditBasic ref="editBasic" onSave={this.onSaveConfig.bind(this)}></EditBasic>
                 <EditCategory ref="editCategory" onSave={this.onSaveConfig.bind(this)}></EditCategory>
                 <EditRecentComment ref="editRecentComment" onSave={this.onSaveConfig.bind(this)}></EditRecentComment>
+                <EditRecentTopic ref="editRecentTopic" onSave={this.onSaveConfig.bind(this)}></EditRecentTopic>
+                <EditTag ref="editTag" onSave={this.onSaveConfig.bind(this)}></EditTag>
 
                 <div className="mailbox-controls">
                     <button className="btn btn-primary" title="保存" onClick={this.save.bind(this)}>

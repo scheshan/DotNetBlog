@@ -116,7 +116,7 @@ namespace DotNetBlog.Core.Model.Widget
             this.MinTopicNumber = 1;
         }
 
-        public int Number { get; set; }
+        public int? Number { get; set; }
 
         public int MinTopicNumber { get; set; }
 
@@ -124,8 +124,36 @@ namespace DotNetBlog.Core.Model.Widget
         {
             get
             {
-                return base.IsValid && this.Number > 0 && this.MinTopicNumber > 0;
+                return base.IsValid && (!this.Number.HasValue || this.Number > 0) && this.MinTopicNumber > 0;
             }
+        }
+    }
+
+    public class LinkWidgetConfigModel : WidgetConfigModelBase
+    {
+        public LinkWidgetConfigModel()
+        {
+            this.Title = "友情链接";
+            this.LinkList = new List<LinkModel>();
+        }
+
+        public List<LinkModel> LinkList { get; set; }
+
+        public override bool IsValid
+        {
+            get
+            {
+                return base.IsValid && this.LinkList != null;
+            }
+        }
+
+        public class LinkModel
+        {
+            public string Title { get; set; }
+
+            public string Url { get; set; }
+
+            public bool OpenInNewWindow { get; set; }
         }
     }
 }

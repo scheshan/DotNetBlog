@@ -8,41 +8,60 @@ const validate = values=>{
     if(!values.title){
         errors.title = "请输入标题";
     }
-    if(!values.number){
-        errors.number = "请输入评论数目";
-    }
-    
-    let number = parseInt(values.number);
-    if(isNaN(Number(values.number)) || number < 1){
-        errors.number = "请输入正确的评论数量";
-    }
 
     return errors;
 }
 
-class EditRecentCommentForm extends React.Component{
+class EditTagForm extends React.Component{
+    constructor(){
+        super()
+        this.state = {
+            minTopicNumberList: _.range(1, 11),
+            numberList: _.range(10, 51, 10)
+        }
+    }
     render(){
-        const {fields: {title, number}, handleSubmit} = this.props;
+        const {fields: {title, number, minTopicNumber}, handleSubmit} = this.props;
         return (
             <form noValidate onSubmit={handleSubmit}>    
                 <FormGroup label="标题" validation={title}>
                     <input className="form-control" {...title}></input>
                 </FormGroup>    
-                <FormGroup label="显示评论数目" validation={number}>
-                    <input className="form-control" {...number}></input>
+                <FormGroup label="每个标签的最小文章数量">
+                    <select className="form-control" {...minTopicNumber}>
+                        {
+                            this.state.minTopicNumberList.map(item=>{
+                                return (
+                                    <option key={item} value={item}>{item}</option>
+                                )
+                            })
+                        }
+                    </select>
                 </FormGroup>    
+                <FormGroup label="标签云的最大数量">
+                    <select className="form-control" {...number}>
+                        <option value={null}>不限制</option>
+                        {
+                            this.state.numberList.map(item=>{
+                                return (
+                                    <option key={item} value={item}>{item}</option>
+                                )
+                            })
+                        }
+                    </select>
+                </FormGroup>
             </form>
         )
     }
 }
 
-EditRecentCommentForm = reduxForm({
-    form: "editRecentComment",
-    fields: ["title", "number"],
+EditTagForm = reduxForm({
+    form: "editTagForm",
+    fields: ["title", "number", "minTopicNumber"],
     validate
-})(EditRecentCommentForm)
+})(EditTagForm)
 
-class EditRecentComment extends React.Component{
+class EditTag extends React.Component{
     constructor(){
         super()
         
@@ -50,7 +69,8 @@ class EditRecentComment extends React.Component{
             show: false,
             config: {
                 title: "",
-                number: 0
+                number: null,
+                minTopicNumber: 1
             }
         }
     }
@@ -73,12 +93,12 @@ class EditRecentComment extends React.Component{
     onSubmit(model){
         this.widget.config.title = model.title;
         this.widget.config.number = model.number;
+        this.widget.config.minTopicNumber = model.minTopicNumber;
         this.props.onSave && this.props.onSave(this.widget, this.index);
         this.hide()
     }
 
-    submit(){
-        
+    submit(){        
         this.refs.form.submit()
     }
     
@@ -87,7 +107,7 @@ class EditRecentComment extends React.Component{
             <Modal show={this.state.show}>    
                 <ModalHeader>修改配置</ModalHeader>
                 <ModalBody>
-                    <EditRecentCommentForm 
+                    <EditTagForm 
                         ref="form"
                         initialValues={this.state.config}
                         onSubmit={this.onSubmit.bind(this)}/>
@@ -101,4 +121,4 @@ class EditRecentComment extends React.Component{
     }
 }
 
-module.exports = EditRecentComment
+module.exports = EditTag

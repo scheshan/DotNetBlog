@@ -23,6 +23,6 @@ namespace DotNetBlog.Core.Enums
 
         Search = 8,
 
-        //Link = 9
+        Link = 9
     }
 }
