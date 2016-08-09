@@ -31,6 +31,7 @@ class ModifyPage extends React.Component{
     }
 
     componentDidMount(){
+        this.id = this.props.params.id;
         this.loadData()
     }
 
@@ -73,7 +74,7 @@ class ModifyPage extends React.Component{
     }
 
     loadPage(callback){
-        let id = this.props.params.id;
+        let id = this.d;
         if(id){
             Api.getPage(id, response=>{
                 if(response.success){
@@ -123,6 +124,8 @@ class ModifyPage extends React.Component{
                 page.parent = page.parent.id;
             }
 
+            this.id = response.data.id;
+
             this.setState({
                 page,
                 loading: false
@@ -154,7 +157,7 @@ class ModifyPage extends React.Component{
         this.setState({
             loading: true
         }, ()=>{
-            if(this.props.params.id){
+            if(this.id){
                 Api.editPage(this.props.params.id, model, this.apiCallback.bind(this))
             }
             else{

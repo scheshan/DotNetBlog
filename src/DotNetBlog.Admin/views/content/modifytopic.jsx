@@ -31,6 +31,7 @@ class ModifyTopic extends React.Component{
     }
 
     componentDidMount(){
+        this.id = this.props.params.id;
         this.loadData();
     }
 
@@ -71,7 +72,7 @@ class ModifyTopic extends React.Component{
     }
 
     loadTopic(callback){
-        let id = this.props.params.id;
+        let id = this.id;
         if(id){
             Api.getTopic(id, response=>{
                 if(response.success){
@@ -120,6 +121,8 @@ class ModifyTopic extends React.Component{
         if(response.success){
             Dialog.success("保存成功");
 
+            this.id = response.data.id;
+
             this.setState({
                 topic: response.data,
                 loading: false
@@ -158,7 +161,7 @@ class ModifyTopic extends React.Component{
             model.alias = this.state.topic.alias;
             model.summary = this.state.topic.summary;
 
-            if(this.props.params.id){
+            if(this.id){
                 Api.editTopic(this.props.params.id, model, this.apiCallback.bind(this))
             }
             else{

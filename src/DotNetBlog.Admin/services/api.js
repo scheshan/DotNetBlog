@@ -119,8 +119,8 @@ const Api = {
     batchDraftTopic(idList, callback){
         post("/api/topic/batch/draft", {topicList: idList}, callback);
     },
-    batchDeleteTopic(idList, callback){
-        post("/api/topic/batch/delete", {topicList: idList}, callback);
+    batchTrashTopic(idList, callback){
+        post("/api/topic/batch/trash", {topicList: idList}, callback);
     },
     queryTag(page, pageSize, keywords, callback){
         var param = {

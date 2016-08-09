@@ -60,7 +60,7 @@ class TopicList extends React.Component{
         }
 
         this.setState({loading: true}, ()=>{
-            Api.batchDeleteTopic(idList, this.apiCallback.bind(this))
+            Api.batchTrashTopic(idList, this.apiCallback.bind(this))
         })
     }
 
