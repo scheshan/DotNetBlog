@@ -2,7 +2,7 @@ var React = require("react");
 var {Input, Textarea, Checkbox} = require("formsy-react-components");
 var {Form, Editor, Spinner} = require("../../components");
 var {FormGroup} = require("react-bootstrap");
-var Async = require("async");
+var Parallel = require("async/parallel");
 var TagsInput = require("react-tagsinput")
 var {hashHistory} = require("react-router")
 var {Api, Dialog} = require("../../services")
@@ -38,7 +38,7 @@ class ModifyPage extends React.Component{
         this.setState({
             loading: true
         }, ()=>{
-            Async.parallel([this.loadParent.bind(this), this.loadPage.bind(this)], (err, args)=>{
+            Parallel([this.loadParent.bind(this), this.loadPage.bind(this)], (err, args)=>{
                 let pageList = args[0];
                 let page = args[1];
 
@@ -353,7 +353,7 @@ class ModifyPage extends React.Component{
                     {
                         this.state.pageList.map(page=>{
                             return (
-                                <option value={page.id}>{page.title}</option>
+                                <option key={page.id} value={page.id}>{page.title}</option>
                             )
                         })
                     }

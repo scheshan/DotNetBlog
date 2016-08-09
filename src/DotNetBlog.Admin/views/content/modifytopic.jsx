@@ -2,7 +2,7 @@ var React = require("react");
 var {Input, Textarea, Checkbox} = require("formsy-react-components");
 var {Form, Editor, Spinner} = require("../../components");
 var {FormGroup} = require("react-bootstrap");
-var Async = require("async");
+var Parallel = require("async/parallel");
 var TagsInput = require("react-tagsinput")
 var {hashHistory} = require("react-router")
 var {Api,Dialog} = require("../../services")
@@ -38,7 +38,7 @@ class ModifyTopic extends React.Component{
         this.setState({
             loading: true
         }, ()=>{
-            Async.parallel([this.loadCategory.bind(this), this.loadTopic.bind(this)], (err, args)=>{
+            Parallel([this.loadCategory.bind(this), this.loadTopic.bind(this)], (err, args)=>{
                 let categoryList = args[0];
                 let topic = args[1];
 

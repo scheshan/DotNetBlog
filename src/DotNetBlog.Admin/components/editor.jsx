@@ -1,5 +1,4 @@
 var React = require("react")
-var _ = require("lodash")
 
 class Editor extends React.Component{
     constructor(){

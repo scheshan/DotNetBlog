@@ -1,5 +1,4 @@
 const React = require('react')
-const _ = require('lodash')
 
 class Pager extends React.Component {
     handlePageItemClick(page, e) {

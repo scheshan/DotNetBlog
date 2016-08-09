@@ -1,5 +1,4 @@
 ﻿require("whatwg-fetch");
-const _ = require("lodash");
 
 const errorResponse = {
     success: false,

@@ -3,7 +3,7 @@ var WidgetItem = require("./widgetitem")
 var WidgetInfo = require("./widgetinfo")
 var Api = require("../../services/api")
 var Dialog = require("../../services/dialog")
-var Async = require("async")
+var Parallel = require("async/parallel")
 var {Spinner, LoadingButton} = require("../../components")
 var EditBasic = require("./editbasic")
 var EditCategory = require("./editcategory")
@@ -59,7 +59,7 @@ class Widgets extends React.Component{
         this.setState({
             loading: true
         }, ()=>{
-            Async.parallel([this.queryAllWidgets, this.queryAvailableWidgets], (err, args)=>{
+            Parallel([this.queryAllWidgets, this.queryAvailableWidgets], (err, args)=>{
                 if(err){
                     this.setState({
                         loading: false

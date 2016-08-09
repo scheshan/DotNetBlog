@@ -1,5 +1,4 @@
 ﻿var Consts = require("../consts")
-var _ = require("lodash")
 
 const {ActionTypes} = Consts
 
