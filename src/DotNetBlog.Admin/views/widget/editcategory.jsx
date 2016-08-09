@@ -17,9 +17,8 @@ class EditCategoryForm extends React.Component{
 
         return (
             <form noValidate onSubmit={handleSubmit}>
-                <FormGroup label="标题" hasError={title.touched && title.error}>
+                <FormGroup label="标题" validation={title}>
                     <input type="text" className="form-control" {...title}/>
-                    {title.touched && title.error && <span className="help-block">{title.error}</span>}
                 </FormGroup>
                 <FormGroup>
                     <div className="checkbox">

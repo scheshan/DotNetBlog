@@ -25,11 +25,11 @@ class EditRecentCommentForm extends React.Component{
         const {fields: {title, number}, handleSubmit} = this.props;
         return (
             <form noValidate onSubmit={handleSubmit}>    
-                <FormGroup label="标题" hasError={title.touched && title.error}>
+                <FormGroup label="标题" validation={title}>
                     <input className="form-control" {...title}></input>
                     {title.touched && title.error && <span className="help-block">{title.error}</span>}
                 </FormGroup>    
-                <FormGroup label="显示评论数目" hasError={number.touched && number.error}>
+                <FormGroup label="显示评论数目" validation={number}>
                     <input className="form-control" {...number}></input>
                     {number.touched && number.error && <span className="help-block">{number.error}</span>}
                 </FormGroup>    

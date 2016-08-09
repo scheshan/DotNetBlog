@@ -92,8 +92,8 @@ class ContentHeader extends React.Component{
 
 function mapStateToProps(state) {
     return {
-        menu: state.menu,
-        subMenu: state.subMenu
+        menu: state.blog.menu,
+        subMenu: state.blog.subMenu
     }
 }
 

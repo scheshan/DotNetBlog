@@ -13,7 +13,7 @@ const validate = values=>{
 
     let topicsPerPage = parseInt(values.topicsPerPage);
     if(isNaN(Number(values.topicsPerPage)) || topicsPerPage < 1){
-        errors.number = "请输入正确的文章数量";
+        errors.topicsPerPage = "请输入正确的文章数量";
     }
 
     return errors
@@ -24,17 +24,15 @@ class BasicConfigForm extends React.Component{
         const {fields: {title, description, topicsPerPage, onlyShowSummary}, handleSubmit} = this.props
 
         return (
-            <form noValidate onSubmit={handleSubmit} className="form-content">
-                <FormGroup label="标题" hasError={title.touched && title.error}>
+            <form noValidate onSubmit={handleSubmit}>
+                <FormGroup label="标题" validation={title}>
                     <input type="text" className="form-control" {...title}/>
-                    {title.touched && title.error && <span className="help-block">{title.error}</span>}
                 </FormGroup>
                 <FormGroup label="摘要">
                     <input type="text" className="form-control" {...description}/>
                 </FormGroup>
-                <FormGroup label="每页文章数" hasError={topicsPerPage.touched && topicsPerPage.error}>
+                <FormGroup label="每页文章数" validation={topicsPerPage}>
                     <input type="text" className="form-control" {...topicsPerPage}/>
-                    {topicsPerPage.touched && topicsPerPage.error && <span className="help-block">{topicsPerPage.error}</span>}
                 </FormGroup>
                 <FormGroup>
                     <div className="checkbox">
@@ -122,8 +120,9 @@ class BasicConfig extends React.Component{
         return (                
             <div className="content">
                 <Spinner loading={this.state.loading}/>
-
-                <BasicConfigForm onSubmit={this.onSubmit.bind(this)} initialValues={this.state.config}></BasicConfigForm>
+                <div className="form-content">
+                    <BasicConfigForm onSubmit={this.onSubmit.bind(this)} initialValues={this.state.config}></BasicConfigForm>
+                </div>
             </div>
         )
     }

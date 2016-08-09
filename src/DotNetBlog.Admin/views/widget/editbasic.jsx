@@ -17,9 +17,8 @@ class EditBasicForm extends React.Component{
         const {fields: {title}, handleSubmit} = this.props;
         return (
             <form onSubmit={handleSubmit}>
-                <FormGroup label="标题" hasError={title.touched && title.error}>
+                <FormGroup label="标题" validation={title}>
                     <input className="form-control" type="text" {...title}/>
-                    {title.touched && title.error && <span className="help-block">{title.error}</span>}
                 </FormGroup>
             </form>
         )

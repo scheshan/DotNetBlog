@@ -3,7 +3,7 @@ var React = require("react")
 class FormGroup extends React.Component{
     render(){
         let className = "form-group";
-        if(this.props.hasError){
+        if(this.props.validation && this.props.validation.touched && this.props.validation.error){
             className += " has-error"
         }
 
@@ -11,6 +11,7 @@ class FormGroup extends React.Component{
             <div className={className}>
                 {this.renderLabel()}
                 {this.props.children}
+                {this.renderError()}
             </div>
         )
     }
@@ -24,6 +25,13 @@ class FormGroup extends React.Component{
         else{
             return null;
         }
+    }
+
+    renderError(){
+        if(this.props.validation && this.props.validation.touched && this.props.validation.error){
+            return <span className="help-block">{this.props.validation.error}</span>
+        }
+        return null;
     }
 }
 
