@@ -494,7 +494,6 @@ namespace DotNetBlog.Core.Service
             List<TopicModel> result = entityList.Select(entity =>
             {
                 var model = AutoMapper.Mapper.Map<TopicModel>(entity);
-                model.AllowComment = this.CanComment(entity);
                 model.Categories = categoryTopicList.Where(category => category.TopicID == entity.ID)
                     .Select(category => new CategoryBasicModel
                     {
@@ -571,6 +570,27 @@ namespace DotNetBlog.Core.Service
             if (this.Settings.CloseCommentDays > 0)
             {
                 if (entity.EditDate.AddDays(this.Settings.CloseCommentDays) < DateTime.Now)
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        public bool CanComment(TopicModel topic)
+        {
+            if (topic == null || topic.Status != Enums.TopicStatus.Published || !topic.AllowComment)
+            {
+                return false;
+            }
+            if (!this.Settings.AllowComment)
+            {
+                return false;
+            }
+            if (this.Settings.CloseCommentDays > 0)
+            {
+                if (topic.Date.AddDays(this.Settings.CloseCommentDays) < DateTime.Now)
                 {
                     return false;
                 }

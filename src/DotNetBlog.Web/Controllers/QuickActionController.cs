@@ -21,28 +21,6 @@ namespace DotNetBlog.Web.Controllers
             this.TopicService = topicService;
         }
 
-        [HttpPost("comment/add")]
-        public async Task<IActionResult> AddComment([FromForm]AddCommentModel model)
-        {
-            if (model == null || !ModelState.IsValid)
-            {
-                return this.BadRequest();
-            }
-
-            var result = await this.CommentService.Add(model);
-
-            if (result.Success)
-            {
-
-            }
-            else
-            {
-                return this.Content(result.ErrorMessage);
-            }
-
-            return this.RedirectToAction("Topic", "Home", new { id = result.Data.TopicID });
-        }
-
         [HttpGet("comment/delete")]
         [Filters.RequireLoginFilter]
         public async Task<IActionResult> DeleteComment(int id, bool deleteChild)

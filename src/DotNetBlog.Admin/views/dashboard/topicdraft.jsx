@@ -68,7 +68,7 @@ class TopicDraft extends React.Component{
                         {
                             this.state.topicList.map(topic=>{
                                 return (
-                                    <li className="list-group-item clearfix">
+                                    <li key={topic.id} className="list-group-item clearfix">
                                         <Link to={"/content/topic/" + topic.id}>{topic.title}</Link>
                                     </li>
                                 )

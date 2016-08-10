@@ -43,7 +43,8 @@ class QuickPost extends React.Component{
         }, ()=>{
             Api.addTopic({
                 title: this.state.title,
-                content: this.state.content
+                content: this.state.content,
+                allowComment: true
             }, response=>{
                 if(response.success){
                     this.setState({

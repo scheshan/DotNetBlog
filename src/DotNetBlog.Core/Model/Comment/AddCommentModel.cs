@@ -14,6 +14,7 @@ namespace DotNetBlog.Core.Model.Comment
         public int? ReplyTo { get; set; }
 
         [Required]
+        [EmailAddress]
         public string Email { get; set; }
 
         [Required]

@@ -99,9 +99,9 @@
     </div>
 </div>
 
-<div id="comment-form-container" condition="Model.Topic.AllowComment">
+<div id="comment-form-container" condition="Model.AllowComment">
     <div id="comment-form">
-        <form method="post" asp-action="AddComment" asp-controller="QuickAction">
+        <form method="post" asp-action="AddComment" asp-controller="Home">
             <input type="hidden" name="TopicID" value="@Model.Topic.ID" />
             <input type="hidden" name="ReplyTo" id="hdnReplyTo" value="" />
             <div class="comment-form well-global">
@@ -112,13 +112,13 @@
                     <div class="form-group">
                         <label for="txtName" class="col-md-2 control-label">名字 *</label>
                         <div class="col-md-10">
-                            <input type="text" class="form-control" name="Name" id="txtName">
+                            <input type="text" class="form-control" name="Name" id="txtName" value="@Model.CommentForm.Name"/>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="txtEmail" class="col-md-2 control-label">E-mail *</label>
                         <div class="col-md-10">
-                            <input type="text" class="form-control" name="Email" id="txtEmail">
+                            <input type="email" class="form-control" name="Email" id="txtEmail" value="@Model.CommentForm.Email"/>
                             <span id="gravatarmsg"></span>
                         </div>
                     </div>

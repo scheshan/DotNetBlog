@@ -11,6 +11,8 @@ namespace DotNetBlog.Web.ViewModels.Home
     {
         public bool AllowComment { get; set; }
 
+        public CommentFormModel CommentForm { get; set; }
+
         public TopicModel Topic { get; set; }
 
         public TopicModel PrevTopic { get; set; }

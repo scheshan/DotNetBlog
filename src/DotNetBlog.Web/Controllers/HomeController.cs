@@ -17,6 +17,10 @@ namespace DotNetBlog.Web.Controllers
     [Filters.ErrorHandleFilter]
     public class HomeController : Controller
     {
+        private static readonly string Cookie_CommentName = "DotNetBlog_CommentName";
+
+        private static readonly string Cookie_CommentEmail = "DotNetBlog_CommentEmail";
+
         private TopicService TopicService { get; set; }
 
         private CategoryService CategoryService { get; set; }
@@ -234,13 +238,17 @@ namespace DotNetBlog.Web.Controllers
 
             var vm = new TopicPageViewModel
             {
-                AllowComment = topic.AllowComment,
+                AllowComment = this.TopicService.CanComment(topic),
                 Topic = topic,
                 PrevTopic = prevTopic,
                 NextTopic = nextTopic,
                 RelatedTopicList = relatedTopicList,
-                CommentList = commentList
+                CommentList = commentList,
+                CommentForm = new CommentFormModel()
             };
+
+            vm.CommentForm.Name = Request.Cookies[Cookie_CommentName];
+            vm.CommentForm.Email = Request.Cookies[Cookie_CommentEmail];
 
             return View("Topic", vm);
         }
@@ -260,6 +268,55 @@ namespace DotNetBlog.Web.Controllers
             ViewBag.Title = page.Title;
 
             return View("Page", page);
+        }
+
+        [HttpPost("comment/add")]
+        public async Task<IActionResult> AddComment([FromForm]AddCommentModel model)
+        {
+            if (model == null || !ModelState.IsValid)
+            {
+                return this.Notice(new NoticePageViewModel
+                {
+                    Message = "错误的请求,请稍后再试",
+                    RedirectUrl = Url.Action("Topic", "Home", new { id = model.TopicID }),
+                    MessageType = NoticePageViewModel.NoticeMessageType.Error
+                });
+            }
+
+            var result = await this.CommentService.Add(model);
+
+            this.Response.Cookies.Append(Cookie_CommentName, model.Name);
+            this.Response.Cookies.Append(Cookie_CommentEmail, model.Email);
+
+            if (result.Success)
+            {
+                if (result.Data.Status != Core.Enums.CommentStatus.Approved)
+                {
+                    return this.Notice(new NoticePageViewModel
+                    {
+                        Message = "您的评论已经添加成功,需要管理员审核通过后才能显示",
+                        RedirectUrl = Url.Action("Topic", "Home", new { id = model.TopicID }),
+                        MessageType = NoticePageViewModel.NoticeMessageType.Success
+                    });
+                }
+            }
+            else
+            {
+                return this.Notice(new NoticePageViewModel
+                {
+                    Message = result.ErrorMessage,
+                    RedirectUrl = Url.Action("Topic", "Home", new { id = model.TopicID }),
+                    MessageType = NoticePageViewModel.NoticeMessageType.Error
+                });
+            }
+
+            return this.RedirectToAction("Topic", "Home", new { id = result.Data.TopicID });
+        }
+
+        [NonAction]
+        private IActionResult Notice(NoticePageViewModel vm)
+        {
+            return this.View("Notice", vm);
         }
     }
 }
