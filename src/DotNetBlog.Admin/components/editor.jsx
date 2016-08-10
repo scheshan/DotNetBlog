@@ -14,6 +14,7 @@ class Editor extends React.Component{
             {
                 width   : "100%",
                 height  : 480,
+                placeholder: "在此输入内容...",
                 markdown: this.props.content,
                 syncScrolling : "single",
                 path    : "/lib/editor.md/lib/",
