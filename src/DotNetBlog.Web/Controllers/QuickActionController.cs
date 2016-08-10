@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 namespace DotNetBlog.Web.Controllers
 {
     [Filters.ErrorHandleFilter]
+    [Filters.RequireLoginFilter]
     public class QuickActionController : Controller
     {
         private CommentService CommentService { get; set; }
@@ -22,7 +23,6 @@ namespace DotNetBlog.Web.Controllers
         }
 
         [HttpGet("comment/delete")]
-        [Filters.RequireLoginFilter]
         public async Task<IActionResult> DeleteComment(int id, bool deleteChild)
         {
             var commentModel = await this.CommentService.Delete(id, deleteChild);
@@ -35,7 +35,6 @@ namespace DotNetBlog.Web.Controllers
         }
 
         [HttpGet("topic/{topicID:int}/approvecomments")]
-        [Filters.RequireLoginFilter]
         public async Task<IActionResult> ApproveComments(int topicID)
         {
             await this.CommentService.ApprovePendingComments(topicID);
@@ -44,7 +43,6 @@ namespace DotNetBlog.Web.Controllers
         }
 
         [HttpGet("comment/{commentID:int}/approve")]
-        [Filters.RequireLoginFilter]
         public async Task<IActionResult> ApproveComment(int commentID)
         {
             var comment = await this.CommentService.ApproveComment(commentID);
@@ -58,7 +56,6 @@ namespace DotNetBlog.Web.Controllers
         }
 
         [HttpGet("topic/{topicID:int}/delete")]
-        [Filters.RequireLoginFilter]
         public async Task<IActionResult> DeleteTopic(int topicID)
         {
             await this.TopicService.BatchUpdateStatus(new int[] { topicID }, Core.Enums.TopicStatus.Trash);
