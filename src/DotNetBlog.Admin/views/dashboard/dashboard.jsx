@@ -5,6 +5,10 @@ var QuickPost = require("./quickpost")
 var TopicDraft = require("./topicdraft")
 
 class Dashboard extends React.Component{
+    onSaveDraft(){
+        this.refs.topicDraft.loadData()
+    }
+
     render() {
         return (
             <div className="content">
@@ -14,10 +18,12 @@ class Dashboard extends React.Component{
                     <RecentComment></RecentComment>
                 </div>
                 <div className="col-md-7">
-                    <QuickPost></QuickPost>
+                    <QuickPost onSave={this.onSaveDraft.bind(this)}></QuickPost>
 
-                    <TopicDraft></TopicDraft>
+                    <TopicDraft ref="topicDraft"></TopicDraft>
                 </div>
+
+                <div className="clearfix"></div>
             </div>
         )
     }

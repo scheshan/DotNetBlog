@@ -53,7 +53,7 @@ class ModifyPage extends React.Component{
     }
 
     loadParent(callback){
-        let id = this.props.params.id;
+        let id = this.id;
         Api.queryPage(response=>{
             if(response.success){
                 var pageList = _.filter(response.data, page=>{
@@ -74,7 +74,7 @@ class ModifyPage extends React.Component{
     }
 
     loadPage(callback){
-        let id = this.d;
+        let id = this.id;
         if(id){
             Api.getPage(id, response=>{
                 if(response.success){
@@ -223,17 +223,11 @@ class ModifyPage extends React.Component{
     }
 
     renderContent(){
-        function handleContentChange(e) {
-            let content = e.target.getContent()
-            this.state.page.content = content;
-        }
-
         return (
             <FormGroup>
                 <Editor 
                     ref="editor"
-                    content={this.state.page.content} 
-                    onChange={handleContentChange.bind(this)}
+                    content={this.state.page.content}
                 />
             </FormGroup>
 

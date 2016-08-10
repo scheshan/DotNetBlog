@@ -17,20 +17,24 @@ class TopicDraft extends React.Component{
     }
 
     loadData(){
-        Api.queryDraftTopic(10, response=>{
-            if(response.success){
-                this.setState({
-                    loading: false,
-                    topicList: response.data
-                });
-            }
-            else{
-                this.setState({
-                    loading: false
-                });
-                Dialog.error(response.errorMessage);
-            }
-        })
+        this.setState({
+            loading: true
+        }, ()=>{
+            Api.queryDraftTopic(10, response=>{
+                if(response.success){
+                    this.setState({
+                        loading: false,
+                        topicList: response.data
+                    });
+                }
+                else{
+                    this.setState({
+                        loading: false
+                    });
+                    Dialog.error(response.errorMessage);
+                }
+            })
+        })        
     }
 
     render(){

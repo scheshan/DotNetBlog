@@ -1,6 +1,6 @@
 var React = require("react")
 var {Api, Dialog} = require("../../services")
-var {LoadingButton} = require("../../components")
+var {LoadingButton, Editor} = require("../../components")
 
 class QuickPost extends React.Component{
     constructor(){
@@ -8,8 +8,7 @@ class QuickPost extends React.Component{
 
         this.state = {
             loading: false,
-            title: "",
-            content: ""
+            title: ""
         }
     }
 
@@ -30,7 +29,8 @@ class QuickPost extends React.Component{
             Dialog.error("请输入标题");
             return;
         }
-        if(this.state.content == ""){
+        let content = this.refs.editor.getContent();
+        if(content == ""){
             Dialog.error("请输入内容");
             return;
         }
@@ -43,7 +43,7 @@ class QuickPost extends React.Component{
         }, ()=>{
             Api.addTopic({
                 title: this.state.title,
-                content: this.state.content,
+                content: content,
                 allowComment: true
             }, response=>{
                 if(response.success){
@@ -53,6 +53,7 @@ class QuickPost extends React.Component{
                         content: ""
                     })
                     Dialog.success("保存草稿成功")
+                    this.props.onSave && this.props.onSave()
                 }
                 else{
                     this.setState({loading: false})
@@ -66,14 +67,25 @@ class QuickPost extends React.Component{
         return (
             <div className="panel">
                 <div className="panel-heading">
-                    <div className="panel-title">快捷提交</div>
+                    <div className="panel-title">快捷保存草稿</div>
                 </div>
                 <div className="panel-body">
                     <div className="form-group">
                         <input type="text" placeholder="标题" className="form-control" value={this.state.title} onChange={this.handleTitleChange.bind(this)}/>
                     </div>
                     <div className="form-group">
-                        <textarea placeholder="在这里输入" className="form-control ltr-dir" value={this.state.content} onChange={this.handleContentChange.bind(this)} rows="4"></textarea>
+                        <Editor ref="editor" options={{
+                            width   : "100%",
+                            height  : 200,
+                            toolbarIcons : ()=>{
+                                return [
+                                    "bold", "italic", "quote", "|", 
+                                    "h1", "h2", "h3", "h4", "h5", "h6", "|", 
+                                    "list-ul", "list-ol", "|",
+                                    "link", "image", "code", "code-block", "|"
+                                ];
+                            }
+                        }}/>
                     </div>
                     <LoadingButton loading={this.state.loading} type="button" className="btn btn-block btn-default" title="保存" onClick={this.submit.bind(this)}>保存</LoadingButton>
                 </div>

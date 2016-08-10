@@ -522,24 +522,31 @@ namespace DotNetBlog.Core.Service
 
         private async Task<string> GenerateAlias(int? id, string alias, string title)
         {
-            alias = alias.TrimNotCharater();
-            if (string.IsNullOrWhiteSpace(alias))
+            string r_alias = alias.TrimNotCharater();
+            if (string.IsNullOrWhiteSpace(r_alias))
             {
-                alias = title.TrimNotCharater();
+                r_alias = title.TrimNotCharater();
             }
 
-            var query = this.BlogContext.Topics.Where(t => t.Alias == alias);
-            if (id.HasValue)
+            if (!string.IsNullOrWhiteSpace(r_alias))
             {
-                query = query.Where(t => t.ID != id.Value);
-            }
+                var query = this.BlogContext.Topics.Where(t => t.Alias == r_alias);
+                if (id.HasValue)
+                {
+                    query = query.Where(t => t.ID != id.Value);
+                }
 
-            if (await query.AnyAsync())
+                if (await query.AnyAsync())
+                {
+                    r_alias = null;
+                }
+            }
+            else
             {
-                alias = string.Empty;
-            }
+                r_alias = null;
+            }            
 
-            return alias;
+            return r_alias;
         }
 
         private string GenerateSummary(string summary, string content)
