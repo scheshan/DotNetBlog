@@ -7,7 +7,7 @@ class Statistics extends React.Component{
         super()
 
         this.state = {
-            loading: false,
+            loading: true,
             statistics: {
                 topics:{
 
@@ -23,20 +23,20 @@ class Statistics extends React.Component{
     }
 
     componentDidMount(){
-        this.setState({
-            loading: true
-        }, ()=>{
-            Api.getBlogStatistics(response=>{
-                if(response.success){
-                    this.setState({
-                        loading: false,
-                        statistics: response.data
-                    });
-                }
-                else{
-                    Dialog.error(response.errorMessage)
-                }
-            })
+        this.loadData()
+    }
+
+    loadData(){
+        Api.getBlogStatistics(response=>{
+            if(response.success){
+                this.setState({
+                    loading: false,
+                    statistics: response.data
+                });
+            }
+            else{
+                Dialog.error(response.errorMessage)
+            }
         })
     }
 

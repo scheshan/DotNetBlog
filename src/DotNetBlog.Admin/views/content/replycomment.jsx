@@ -3,6 +3,21 @@ var {Modal, ModalHeader, ModalTitle, ModalBody, ModalFooter} = require("react-bo
 var {LoadingButton, Form} = require("../../components")
 var {Input, Textarea} = require("formsy-react-components")
 var {Dialog, Api} = require("../../services")
+var Validation = require("../../utilities/validation")
+
+var validation = new Validation();
+validation.addRequired("content", "")
+console.log(validation);
+
+class ReplyCommentForm extends React.Component{
+    render(){
+        const {fields: {}} = this.props;
+
+        return (
+            <div></div>
+        )
+    }
+}
 
 class ReplyComment extends React.Component{
     constructor(){

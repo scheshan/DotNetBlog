@@ -66,7 +66,7 @@ class RecentComment extends React.Component{
                         {
                             this.state.commentList.map(comment=>{
                                 return (
-                                    <li className="list-group-item clearfix">
+                                    <li key={comment.id} className="list-group-item clearfix">
                                         <a href={"/topic/" + comment.topicID + "#comment_" + comment.id}>{comment.content}</a>
                                     </li>
                                 )

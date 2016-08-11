@@ -1,8 +1,42 @@
 var React = require("react")
-var {Modal} = require("react-bootstrap")
-var {Input} = require("formsy-react-components")
-var {LoadingButton, Form} = require("../../components")
+var {LoadingButton, Bootstrap: {FormGroup}} = require("../../components")
+var {Modal, ModalHeader, ModalTitle, ModalBody, ModalFooter} = require("react-bootstrap")
 var {Dialog, Api} = require("../../services")
+var {reduxForm} = require("redux-form")
+
+const validate = values=>{
+    const errors = {};
+    if(!values.name){
+        errors.name = "请输入分类名称"
+    }
+
+    return errors;
+}
+
+class ModifyCategoryForm extends React.Component{
+    render(){
+        const {fields: {id, name, description}, handleSubmit} = this.props
+        return (
+            <form noValidate onSubmit={handleSubmit}>
+                <FormGroup label="名称" validation={name}>
+                    <input type="text" className="form-control" {...name} maxLength="50"/>
+                </FormGroup>
+
+                <FormGroup label="描述" validation={description}>
+                    <input type="text" className="form-control" {...description} maxLength="200"/>
+                </FormGroup>
+
+                <input type="hidden" {...id}/>
+            </form>
+        )
+    }
+}
+
+ModifyCategoryForm = reduxForm({
+    form: "modifyCategoryForm",
+    fields: ["id", "name", "description"],
+    validate
+})(ModifyCategoryForm)
 
 const emptyCategory = {
     name: "",
@@ -50,7 +84,12 @@ class ModifyCategory extends React.Component{
             Dialog.error(response.errorMessage)
         }
     }
-    submit(model){
+
+    submit(){
+        this.refs.form.submit()
+    }
+
+    onSubmit(model){
         if(this.state.loading){
             return;
         }
@@ -70,22 +109,16 @@ class ModifyCategory extends React.Component{
     render(){
         return (            
             <Modal show={this.state.show} onHide={this.hide.bind(this)}>
-                <Form layout="vertical" onValidSubmit={this.submit.bind(this)}>
-                    <Modal.Header closeButton>
-                        <Modal.Title>{this.state.category.id ? "编辑分类" : "添加分类"}</Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body>                        
-                        <Input name="name" label="名称" value={this.state.category.name} required maxLength="50"/>
-
-                        <Input name="description" label="描述" value={this.state.category.description} maxLength="200"/>
-
-                        <Input name="id" type="hidden" value={this.state.category.id}/>                        
-                    </Modal.Body>
-                    <Modal.Footer>
-                        <button type="button" className="btn btn-default pull-left" onClick={this.hide.bind(this)}>取消</button>
-                        <LoadingButton formNoValidate loading={this.state.loading} className="btn btn-primary">保存</LoadingButton>
-                    </Modal.Footer>
-                </Form>
+                <Modal.Header closeButton>
+                    <Modal.Title>{this.state.category.id ? "编辑分类" : "添加分类"}</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>                        
+                    <ModifyCategoryForm ref="form" onSubmit={this.onSubmit.bind(this)} initialValues={this.state.category}></ModifyCategoryForm>                      
+                </Modal.Body>
+                <Modal.Footer>
+                    <button type="button" className="btn btn-default pull-left" onClick={this.hide.bind(this)}>取消</button>
+                    <LoadingButton onClick={this.submit.bind(this)} loading={this.state.loading} className="btn btn-primary">保存</LoadingButton>
+                </Modal.Footer>
             </Modal>            
         )
     }
