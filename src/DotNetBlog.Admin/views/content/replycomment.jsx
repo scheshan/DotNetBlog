@@ -1,23 +1,39 @@
 var React = require("react")
 var {Modal, ModalHeader, ModalTitle, ModalBody, ModalFooter} = require("react-bootstrap")
-var {LoadingButton, Form} = require("../../components")
-var {Input, Textarea} = require("formsy-react-components")
+var {LoadingButton, Form, Bootstrap: {FormGroup}} = require("../../components")
 var {Dialog, Api} = require("../../services")
-var Validation = require("../../utilities/validation")
+var {reduxForm} = require("redux-form")
 
-var validation = new Validation();
-validation.addRequired("content", "")
-console.log(validation);
+const validate = values=>{
+    const errors = {};
+    if(!values.content){
+        errors.content = "请填写回复内容";
+    }
+    return errors;
+}
 
 class ReplyCommentForm extends React.Component{
     render(){
-        const {fields: {}} = this.props;
+        const {fields: {content}, handleSubmit} = this.props;
 
         return (
-            <div></div>
+            <FormGroup>
+                <form noValidate onSubmit={handleSubmit}>
+                    <label className="col-md-2 control-label">回复</label>
+                    <div className="col-md-10">
+                        <textarea className="form-control" rows="4" {...content}></textarea>
+                    </div>
+                </form>
+            </FormGroup>
         )
     }
 }
+
+ReplyCommentForm = reduxForm({
+    form: "replyCommentForm",
+    fields: ["content"],
+    validate
+})(ReplyCommentForm)
 
 class ReplyComment extends React.Component{
     constructor(){
@@ -44,10 +60,12 @@ class ReplyComment extends React.Component{
         })
     }
 
-    submit(model){
+    onSubmit(model){
         if(this.state.loading){
             return;
         }
+
+        model.replyTo = this.state.comment.id;
 
         this.setState({
             loading: true
@@ -68,47 +86,45 @@ class ReplyComment extends React.Component{
         })
     }
 
+    submit(){
+        this.refs.form.submit()
+    }
+
     render(){
         return (
-            <Modal show={this.state.show}>
-                <Form onValidSubmit={this.submit.bind(this)}>
-                    <Input type="hidden" name="replyTo" value={this.state.comment.id}/>
-                    <ModalHeader>回复评论</ModalHeader>
-                    <ModalBody>
-                        <div className="form-group">
-                            <label className="col-md-2 control-label">作者</label>
-                            <div className="col-md-10">
-                                <span className="help-block">{this.state.comment.name}</span>
-                            </div>
+            <Modal show={this.state.show}>                    
+                <ModalHeader>回复评论</ModalHeader>
+                <ModalBody className="form-horizontal">
+                    <FormGroup>
+                        <label className="col-md-2 control-label">作者</label>
+                        <div className="col-md-10">
+                            <span className="help-block">{this.state.comment.name}</span>
                         </div>
-                        <div className="form-group">
-                            <label className="col-md-2 control-label">邮箱</label>
-                            <div className="col-md-10">
-                                <span className="help-block">{this.state.comment.email}</span>
-                            </div>
+                    </FormGroup>
+                    <FormGroup>
+                        <label className="col-md-2 control-label">邮箱</label>
+                        <div className="col-md-10">
+                            <span className="help-block">{this.state.comment.email}</span>
                         </div>
-                        <div className="form-group">
-                            <label className="col-md-2 control-label">时间</label>
-                            <div className="col-md-10">
-                                <span className="help-block">{this.state.comment.createDate}</span>
-                            </div>
+                    </FormGroup>
+                    <FormGroup>
+                        <label className="col-md-2 control-label">时间</label>
+                        <div className="col-md-10">
+                            <span className="help-block">{this.state.comment.createDate}</span>
                         </div>
-                        <div className="form-group">
-                            <div className="col-md-10 col-md-offset-2">
-                                <Textarea layout="elementOnly" name="comment_content" disabled="disabled" value={this.state.comment.content}></Textarea>
-                            </div>
+                    </FormGroup>
+                    <FormGroup>
+                        <label className="col-md-2 control-label">内容</label>
+                        <div className="col-md-10">
+                            <textarea className="form-control" readOnly value={this.state.comment.content} rows="4"></textarea>
                         </div>
-                        <div className="form-group">
-                            <div className="col-md-10 col-md-offset-2">
-                                <Textarea layout="elementOnly" name="content" required></Textarea>
-                            </div>
-                        </div>
-                    </ModalBody>
-                    <ModalFooter>
-                        <button type="button" className="btn btn-default pull-left" onClick={this.hide.bind(this)}>取消</button>
-                        <LoadingButton formNoValidate loading={this.state.loading} className="btn btn-primary">保存</LoadingButton>
-                    </ModalFooter>
-                </Form>
+                    </FormGroup>
+                    <ReplyCommentForm ref="form" onSubmit={this.onSubmit.bind(this)}></ReplyCommentForm>
+                </ModalBody>
+                <ModalFooter>
+                    <button type="button" className="btn btn-default pull-left" onClick={this.hide.bind(this)}>取消</button>
+                    <LoadingButton loading={this.state.loading} className="btn btn-primary" onClick={this.submit.bind(this)}>保存</LoadingButton>
+                </ModalFooter>
             </Modal>
         )
     }
