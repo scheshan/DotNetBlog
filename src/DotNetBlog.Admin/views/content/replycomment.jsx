@@ -92,8 +92,8 @@ class ReplyComment extends React.Component{
 
     render(){
         return (
-            <Modal show={this.state.show}>                    
-                <ModalHeader>回复评论</ModalHeader>
+            <Modal show={this.state.show} onHide={this.hide.bind(this)}>                    
+                <ModalHeader closeButton>回复评论</ModalHeader>
                 <ModalBody className="form-horizontal">
                     <FormGroup>
                         <label className="col-md-2 control-label">作者</label>

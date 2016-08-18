@@ -1,5 +1,7 @@
 ﻿const ActionTypes = {
-    ChangeMenu: "ActionType_ChangeMenu"
+    ChangeMenu: "ActionType_ChangeMenu",
+    ChangeArticleSetting: "ActionType_ChangeArticleSetting",
+    ChangePageSetting: "ActionType_ChangePageSetting"
 }
 
 const MenuKeys = {

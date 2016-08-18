@@ -90,13 +90,12 @@ class EditCategory extends React.Component{
     
     render(){
         return (
-            <Modal show={this.state.show}>
-                <ModalHeader>修改配置</ModalHeader>
+            <Modal show={this.state.show} onHide={this.hide.bind(this)}>
+                <ModalHeader closeButton>修改配置</ModalHeader>
                 <ModalBody>
                     <EditCategoryForm ref="form" onSubmit={this.onSubmit.bind(this)} initialValues={this.state.config}/>
                 </ModalBody>
                 <ModalFooter>
-                    <button className="btn btn-default" onClick={this.hide.bind(this)}>取消</button>
                     <button className="btn btn-primary" onClick={this.submit.bind(this)}>保存</button>
                 </ModalFooter>
             </Modal>
