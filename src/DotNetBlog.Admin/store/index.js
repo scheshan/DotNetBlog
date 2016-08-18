@@ -9,7 +9,11 @@ const reducers = combineReducers({
 })
 
 const initialState = {
+    blog: {
+        topicSetting: {
 
+        }
+    }
 }
 
 const store = createStore(reducers, initialState, applyMiddleware(Thunk))

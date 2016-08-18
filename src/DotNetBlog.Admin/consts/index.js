@@ -1,6 +1,6 @@
 ﻿const ActionTypes = {
     ChangeMenu: "ActionType_ChangeMenu",
-    ChangeArticleSetting: "ActionType_ChangeArticleSetting",
+    ChangeTopicSetting: "ActionType_ChangeTopicSetting",
     ChangePageSetting: "ActionType_ChangePageSetting"
 }
 

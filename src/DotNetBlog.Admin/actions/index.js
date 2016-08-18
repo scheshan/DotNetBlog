@@ -9,4 +9,15 @@ function changeMenu(menu, subMenu) {
     return action;
 }
 
-exports.changeMenu = changeMenu
+function changeTopicSetting(setting){
+    var action = {
+        type: Consts.ActionTypes.ChangeTopicSetting,
+        setting: setting
+    };
+    return action;
+}
+
+module.exports = {
+    changeMenu,
+    changeTopicSetting
+}
