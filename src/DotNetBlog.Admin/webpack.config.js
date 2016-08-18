@@ -49,23 +49,8 @@ module.exports = {
     plugins: plugins,
     module: {
         loaders: [{
-            test: /\.scss$/,
-            loaders: ['style', 'css', 'sass']
-        }, {
             test: /\.css$/,
             loaders: ['style', 'css']
-        }, {
-            test: /\.less$/,
-            loaders: ['style', 'css', 'less']
-        }, {
-            test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
-            loader: "url-loader"
-        }, {
-            test: /\.(ttf|eot|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
-            loader: "url-loader"
-        }, { 
-            test: require.resolve('jquery'), 
-            loader: 'expose?jQuery!expose?$' 
         }, {
             test: /\.jsx$/,
             loaders: ["react-hot-loader", "babel-loader"]
