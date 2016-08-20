@@ -203,7 +203,7 @@ class ModifyTopic extends React.Component{
                                 <TagsInput className="bootstrap-tagsinput" value={this.state.tags} onChange={this.onTagsChanged.bind(this)}></TagsInput>
                             </FormGroup>    
 
-                            <Input type="text" label="日期" name="date" value={this.state.topic.date || ''}/>
+                            {this.renderDate()}
 
                             <FormGroup>
                                 <div className="checkbox">
@@ -313,6 +313,16 @@ class ModifyTopic extends React.Component{
                     }
                 </ul>
             </FormGroup>
+        )
+    }
+
+    renderDate(){
+        if(!this.props.topicSetting.showDate){
+            return null;
+        }
+
+        return (
+            <Input type="text" label="日期" name="date" value={this.state.topic.date || ''}/>
         )
     }
 

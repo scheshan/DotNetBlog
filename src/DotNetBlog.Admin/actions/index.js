@@ -17,7 +17,15 @@ function changeTopicSetting(setting){
     return action;
 }
 
+function changePageSetting(setting){
+    var action = {
+        type: Consts.ActionTypes.changePageSetting,
+        setting: setting
+    }
+}
+
 module.exports = {
     changeMenu,
-    changeTopicSetting
+    changeTopicSetting,
+    changePageSetting
 }

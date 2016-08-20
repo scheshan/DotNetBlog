@@ -4,6 +4,11 @@
     ChangePageSetting: "ActionType_ChangePageSetting"
 }
 
+const LocalStorage = {
+    TopicSetting: "TopicSetting",
+    PageSetting: "PageSetting"
+}
+
 const MenuKeys = {
     Dashboard: "Menu_Dashboard",
     Content: "Menu_Content",
@@ -129,5 +134,6 @@ const Menus = [
 module.exports = {
     ActionTypes,
     MenuKeys,
-    Menus
+    Menus,
+    LocalStorage
 }
