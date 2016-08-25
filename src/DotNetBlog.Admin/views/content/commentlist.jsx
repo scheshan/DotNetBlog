@@ -278,7 +278,7 @@ class CommentList extends React.Component{
 
                 <div className="box box-solid">
                     <div className="box-body table-responsive no-padding">
-                        <BootstrapTable keyField="id" data={this.state.commentList} selectRow={selectRowProp}>
+                        <BootstrapTable keyField="id" data={this.state.commentList} selectRow={selectRowProp} options={{noDataText:"无"}}>
                            <TableHeaderColumn dataField="content" dataFormat={this.formatContent.bind(this)}>内容</TableHeaderColumn>
                            <TableHeaderColumn width="180" dataAlign="center" dataField="createDate">日期</TableHeaderColumn>
                            <TableHeaderColumn width="180" dataAlign="center" dataField="name">作者</TableHeaderColumn>

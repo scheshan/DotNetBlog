@@ -197,7 +197,7 @@ class PageList extends React.Component{
 
                 <div className="box box-solid">
                     <div className="box-body table-responsive no-padding">
-                        <BootstrapTable keyField="id" data={this.state.pageList} selectRow={selectRowProp}>
+                        <BootstrapTable keyField="id" data={this.state.pageList} selectRow={selectRowProp} options={{noDataText:"无"}}>
                             <TableHeaderColumn dataField="title" dataFormat={this.formatTitle.bind(this)}>标题</TableHeaderColumn>
                             <TableHeaderColumn width="100" dataAlign="center" dataField="parent" dataFormat={this.formatParent.bind(this)}>上级</TableHeaderColumn>
                             <TableHeaderColumn width="180" dataAlign="center" dataField="order">排序</TableHeaderColumn>

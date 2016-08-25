@@ -193,7 +193,7 @@ class TagList extends React.Component{
 
                 <div className="box box-solid">
                     <div className="box-body table-responsive no-padding">
-                        <BootstrapTable keyField="id" data={this.state.tagList} selectRow={selectRowProp}>
+                        <BootstrapTable keyField="id" data={this.state.tagList} selectRow={selectRowProp} options={{noDataText:"无"}}>
                            <TableHeaderColumn dataField="keyword" dataFormat={this.formatName.bind(this)}>名称</TableHeaderColumn>
                            <TableHeaderColumn width="100" dataAlign="center" dataField="topics" dataFormat={function(cell){return cell.all}}>文章</TableHeaderColumn>
                         </BootstrapTable>

@@ -148,7 +148,7 @@ class CategoryList extends React.Component{
 
                 <div className="box box-solid">
                     <div className="box-body table-responsive no-padding">
-                        <BootstrapTable keyField="id" hover={true} striped={true} data={this.state.categoryList} selectRow={selectRowProp}>
+                        <BootstrapTable keyField="id" hover={true} striped={true} data={this.state.categoryList} selectRow={selectRowProp} options={{noDataText:"无"}}>
                             <TableHeaderColumn dataField='name' dataFormat={this.formatName.bind(this)}>名称</TableHeaderColumn>
                             <TableHeaderColumn width="100" dataAlign="center" dataField='topics' dataFormat={formatTopics.bind(this)}>文章</TableHeaderColumn>
                         </BootstrapTable>

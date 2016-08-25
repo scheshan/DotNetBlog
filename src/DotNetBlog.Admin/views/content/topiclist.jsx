@@ -287,7 +287,7 @@ class TopicList extends React.Component{
 
                 <div className="box box-solid">
                     <div className="box-body table-responsive no-padding">
-                        <BootstrapTable keyField="id" data={this.state.topicList} selectRow={selectRowProp}>
+                        <BootstrapTable keyField="id" data={this.state.topicList} selectRow={selectRowProp} options={{noDataText:"无"}}>
                             <TableHeaderColumn dataField="title" dataFormat={this.formatTitle.bind(this)}>文章</TableHeaderColumn>
                             <TableHeaderColumn width="100" dataAlign="center" dataField="comments" dataFormat={this.formatComments.bind(this)}>评论</TableHeaderColumn>
                             <TableHeaderColumn width="180" dataAlign="center" dataField="date">日期</TableHeaderColumn>
