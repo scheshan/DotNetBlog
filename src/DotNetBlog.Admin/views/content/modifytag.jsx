@@ -92,15 +92,14 @@ class ModifyTag extends React.Component{
     
     render(){
         return (
-            <Modal show={this.state.show}>
-                <ModalHeader>
+            <Modal show={this.state.show} onHide={this.hide.bind(this)}>
+                <ModalHeader closeButton>
                     <ModalTitle>编辑标签</ModalTitle>
                 </ModalHeader>
                 <ModalBody>
                     <ModifyTagForm ref="form" onSubmit={this.onSubmit.bind(this)} initialValues={this.state.tag}></ModifyTagForm>                        
                 </ModalBody>
                 <ModalFooter>
-                    <button type="button" className="btn btn-default pull-left" onClick={this.hide.bind(this)}>取消</button>
                     <LoadingButton loading={this.state.loading} className="btn btn-primary" onClick={this.submit.bind(this)}>保存</LoadingButton>
                 </ModalFooter>
             </Modal>

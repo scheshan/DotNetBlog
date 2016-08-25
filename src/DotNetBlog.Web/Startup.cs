@@ -68,9 +68,11 @@ namespace DotNetBlog.Web
         public void Configure(IApplicationBuilder app, IHostingEnvironment enviroment, ILoggerFactory loggerFactory)
         {
             string uploadFolder = enviroment.ContentRootPath + "/App_Data/upload";
-            if(!Directory.Exists(uploadFolder))
+            Directory.CreateDirectory(uploadFolder);
+            if (enviroment.IsDevelopment())
             {
-                Directory.CreateDirectory(uploadFolder);
+                string databaseFolder = enviroment.ContentRootPath + "/bin/Debug/netcoreapp1.0/App_Data";
+                Directory.CreateDirectory(databaseFolder);
             }
 
             app.UseStaticFiles();

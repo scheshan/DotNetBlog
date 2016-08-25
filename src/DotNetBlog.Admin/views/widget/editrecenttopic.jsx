@@ -114,8 +114,8 @@ class EditRecentTopic extends React.Component{
     
     render(){
         return (
-            <Modal show={this.state.show}>    
-                <ModalHeader>修改配置</ModalHeader>
+            <Modal show={this.state.show} onHide={this.hide.bind(this)}>    
+                <ModalHeader closeButton>修改配置</ModalHeader>
                 <ModalBody>
                     <EditRecentTopicForm 
                         ref="form"
@@ -123,7 +123,6 @@ class EditRecentTopic extends React.Component{
                         onSubmit={this.onSubmit.bind(this)}/>
                 </ModalBody>
                 <ModalFooter>
-                    <button type="button" className="btn btn-default" onClick={this.hide.bind(this)}>取消</button>
                     <button type="submit" className="btn btn-primary" onClick={this.submit.bind(this)}>保存</button>
                 </ModalFooter>
             </Modal>

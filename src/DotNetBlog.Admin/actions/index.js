@@ -9,4 +9,23 @@ function changeMenu(menu, subMenu) {
     return action;
 }
 
-exports.changeMenu = changeMenu
+function changeTopicSetting(setting){
+    var action = {
+        type: Consts.ActionTypes.ChangeTopicSetting,
+        setting: setting
+    };
+    return action;
+}
+
+function changePageSetting(setting){
+    var action = {
+        type: Consts.ActionTypes.changePageSetting,
+        setting: setting
+    }
+}
+
+module.exports = {
+    changeMenu,
+    changeTopicSetting,
+    changePageSetting
+}

@@ -6,6 +6,8 @@ var Parallel = require("async/parallel");
 var TagsInput = require("react-tagsinput")
 var {hashHistory} = require("react-router")
 var {Api,Dialog} = require("../../services")
+var {connect} = require("react-redux")
+var ModifyTopicSetting = require("./modifytopicsetting")
 
 const emptyTopic = {
     title: "",
@@ -170,10 +172,15 @@ class ModifyTopic extends React.Component{
         });
     }
 
+    showSetting(){
+        this.refs.modifyTopicSetting.getWrappedInstance().show();
+    }
+
     render(){
         return (
             <div className="content">
                 <Spinner loading={this.state.loading} />
+                <ModifyTopicSetting ref="modifyTopicSetting"></ModifyTopicSetting>
                 <div className="row">
                     <Form onSubmit={this.onSubmit.bind(this)} ref="form" layout="vertical">
                         <div className="col-md-10">
@@ -196,7 +203,7 @@ class ModifyTopic extends React.Component{
                                 <TagsInput className="bootstrap-tagsinput" value={this.state.tags} onChange={this.onTagsChanged.bind(this)}></TagsInput>
                             </FormGroup>    
 
-                            <Input type="text" label="日期" name="date" value={this.state.topic.date || ''}/>
+                            {this.renderDate()}
 
                             <FormGroup>
                                 <div className="checkbox">
@@ -205,7 +212,7 @@ class ModifyTopic extends React.Component{
                             </FormGroup>         
 
                             <FormGroup>
-                                <button className="btn btn-default btn-block">自定义</button>
+                                <button type="button" className="btn btn-default btn-block" onClick={this.showSetting.bind(this)}>自定义</button>
                             </FormGroup>   
                         </div>
                     </Form>
@@ -236,6 +243,10 @@ class ModifyTopic extends React.Component{
     }
 
     renderAlias(){
+        if(!this.props.topicSetting.showAlias){
+            return null;
+        }
+
         function handleAliasChange(e){
             var topic = this.state.topic;
             topic.alias = e.target.value;
@@ -253,6 +264,10 @@ class ModifyTopic extends React.Component{
     }
 
     renderSummary(){
+        if(!this.props.topicSetting.showSummary){
+            return null;
+        }
+
         function handleSummaryChange(e){
             var topic = this.state.topic;
             topic.summary = e.target.value;
@@ -298,6 +313,16 @@ class ModifyTopic extends React.Component{
                     }
                 </ul>
             </FormGroup>
+        )
+    }
+
+    renderDate(){
+        if(!this.props.topicSetting.showDate){
+            return null;
+        }
+
+        return (
+            <Input type="text" label="日期" name="date" value={this.state.topic.date || ''}/>
         )
     }
 
@@ -350,4 +375,11 @@ class ModifyTopic extends React.Component{
     }
 }
 
-module.exports = ModifyTopic;
+function mapStateToProps(state){
+    const {blog:{topicSetting}} = state;
+    return {
+        topicSetting: topicSetting
+    };
+}
+
+module.exports = connect(mapStateToProps)(ModifyTopic);

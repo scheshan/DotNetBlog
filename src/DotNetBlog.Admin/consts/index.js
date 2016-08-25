@@ -1,5 +1,12 @@
 ﻿const ActionTypes = {
-    ChangeMenu: "ActionType_ChangeMenu"
+    ChangeMenu: "ActionType_ChangeMenu",
+    ChangeTopicSetting: "ActionType_ChangeTopicSetting",
+    ChangePageSetting: "ActionType_ChangePageSetting"
+}
+
+const LocalStorage = {
+    TopicSetting: "TopicSetting",
+    PageSetting: "PageSetting"
 }
 
 const MenuKeys = {
@@ -127,5 +134,6 @@ const Menus = [
 module.exports = {
     ActionTypes,
     MenuKeys,
-    Menus
+    Menus,
+    LocalStorage
 }

@@ -116,7 +116,6 @@ class ModifyCategory extends React.Component{
                     <ModifyCategoryForm ref="form" onSubmit={this.onSubmit.bind(this)} initialValues={this.state.category}></ModifyCategoryForm>                      
                 </Modal.Body>
                 <Modal.Footer>
-                    <button type="button" className="btn btn-default pull-left" onClick={this.hide.bind(this)}>取消</button>
                     <LoadingButton onClick={this.submit.bind(this)} loading={this.state.loading} className="btn btn-primary">保存</LoadingButton>
                 </Modal.Footer>
             </Modal>            
