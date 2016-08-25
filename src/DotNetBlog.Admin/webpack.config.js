@@ -11,18 +11,12 @@ if(release){
 	entry = [
         './index.jsx'
     ];
-	plugins = [
-		//new webpack.optimize.UglifyJsPlugin({
-        //    sourceMap: false,            
-        //    mangle: false,
-        //    compressor: {
-        //        warnings: false
-        //    }
-        //}),
+	plugins = [		
         //new webpack.optimize.OccurenceOrderPlugin(),
         new webpack.DefinePlugin({
             'process.env': { NODE_ENV: '"production"' }
-        })
+        }),
+        new webpack.optimize.UglifyJsPlugin({minimize: true})
     ];
 }
 else{
@@ -54,6 +48,9 @@ module.exports = {
         }, {
             test: /\.jsx$/,
             loaders: ["react-hot-loader", "babel-loader"]
+        }, {
+            test: /\.js$/,
+            loaders: ["babel-loader"]
         },{
             test: /\.(jpg|gif)$/,
             loader: "url-loader"
