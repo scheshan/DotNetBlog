@@ -59,7 +59,7 @@ namespace DotNetBlog.Web.Areas.Api.Controllers
         [HttpPost("email/test")]
         public async Task<IActionResult> TestEmailConfig([FromBody]EmailConfigModel model)
         {
-            if (model == null || !ModelState.IsValid)
+            if (model == null)
             {
                 return InvalidRequest();
             }
@@ -119,7 +119,7 @@ namespace DotNetBlog.Web.Areas.Api.Controllers
         [NonAction]
         private async Task<IActionResult> SaveConfig(object model)
         {
-            if (model == null || !ModelState.IsValid)
+            if (model == null)
             {
                 return InvalidRequest();
             }

@@ -24,7 +24,7 @@ namespace DotNetBlog.Web.Areas.Api.Controllers
         [HttpPost("image")]
         public async Task<IActionResult> UploadImage([FromForm]UploadImageModel model)
         {
-            if (model == null || !ModelState.IsValid)
+            if (model == null)
             {
                 return this.InvalidRequest();
             }

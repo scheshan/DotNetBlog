@@ -40,7 +40,7 @@ namespace DotNetBlog.Web.Areas.Api.Controllers
         [HttpPost("")]
         public async Task<IActionResult> Save([FromBody]List<SaveWidgetModel> model)
         {
-            if (model == null || !ModelState.IsValid)
+            if (model == null)
             {
                 return this.InvalidRequest();
             }

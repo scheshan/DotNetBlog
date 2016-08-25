@@ -32,7 +32,7 @@ namespace DotNetBlog.Web.Areas.Api.Controllers
         [HttpPost("")]
         public async Task<IActionResult> Add([FromBody] SaveCategoryModel model)
         {
-            if (model == null || !ModelState.IsValid)
+            if (model == null)
             {
                 return InvalidRequest();
             }
@@ -52,7 +52,7 @@ namespace DotNetBlog.Web.Areas.Api.Controllers
         [HttpPost("{id:int}")]
         public async Task<IActionResult> Edit([FromRoute]int id, [FromBody] SaveCategoryModel model)
         {
-            if (model == null || !ModelState.IsValid)
+            if (model == null)
             {
                 return InvalidRequest();
             }
@@ -72,7 +72,7 @@ namespace DotNetBlog.Web.Areas.Api.Controllers
         [HttpPost("remove")]
         public async Task<IActionResult> Remove([FromBody] RemoveCategoryModel model)
         {
-            if(model == null || !ModelState.IsValid)
+            if(model == null)
             {
                 return InvalidRequest();
             }

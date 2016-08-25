@@ -23,7 +23,7 @@ namespace DotNetBlog.Web.Areas.Api.Controllers
         [HttpPost("")]
         public async Task<IActionResult> Add([FromBody]AddTopicModel model)
         {
-            if (model == null || !ModelState.IsValid)
+            if (model == null)
             {
                 return InvalidRequest();
             }
@@ -42,7 +42,7 @@ namespace DotNetBlog.Web.Areas.Api.Controllers
         [HttpPost("{id:int}")]
         public async Task<IActionResult> Edit([FromRoute]int id, [FromBody]EditTopicModel model)
         {
-            if (model == null || !ModelState.IsValid)
+            if (model == null)
             {
                 return InvalidRequest();
             }
@@ -63,7 +63,7 @@ namespace DotNetBlog.Web.Areas.Api.Controllers
         [HttpGet("query")]
         public async Task<IActionResult> Query([FromQuery]QueryTopicModel model)
         {
-            if (model == null || !ModelState.IsValid)
+            if (model == null)
             {
                 return InvalidRequest();
             }
@@ -93,7 +93,7 @@ namespace DotNetBlog.Web.Areas.Api.Controllers
         [HttpPost("batch/publish")]
         public async Task<IActionResult> BatchPublish([FromBody]BatchModel model)
         {
-            if (model == null || !ModelState.IsValid)
+            if (model == null)
             {
                 return InvalidRequest();
             }
@@ -106,7 +106,7 @@ namespace DotNetBlog.Web.Areas.Api.Controllers
         [HttpPost("batch/draft")]
         public async Task<IActionResult> BatchDraft([FromBody]BatchModel model)
         {
-            if (model == null || !ModelState.IsValid)
+            if (model == null)
             {
                 return InvalidRequest();
             }
@@ -119,7 +119,7 @@ namespace DotNetBlog.Web.Areas.Api.Controllers
         [HttpPost("batch/trash")]
         public async Task<IActionResult> BatchTrash([FromBody]BatchModel model)
         {
-            if (model == null || !ModelState.IsValid)
+            if (model == null)
             {
                 return InvalidRequest();
             }

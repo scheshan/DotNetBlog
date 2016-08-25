@@ -32,7 +32,7 @@ namespace DotNetBlog.Web.Areas.Api.Controllers
         [HttpPost]
         public async Task<IActionResult> Add([FromBody]AddPageModel model)
         {
-            if (model == null || !ModelState.IsValid)
+            if (model == null)
             {
                 return this.InvalidRequest();
             }
@@ -60,7 +60,7 @@ namespace DotNetBlog.Web.Areas.Api.Controllers
         [HttpPost("{id:int}")]
         public async Task<IActionResult> Edit([FromRoute]int id, [FromBody]EditPageModel model)
         {
-            if (model == null || !ModelState.IsValid)
+            if (model == null)
             {
                 return this.InvalidRequest();
             }
@@ -82,7 +82,7 @@ namespace DotNetBlog.Web.Areas.Api.Controllers
         [HttpPost("batch/publish")]
         public async Task<IActionResult> BatchPublish([FromBody]BatchModel model)
         {
-            if (model == null || !ModelState.IsValid)
+            if (model == null)
             {
                 return this.InvalidRequest();
             }
@@ -95,7 +95,7 @@ namespace DotNetBlog.Web.Areas.Api.Controllers
         [HttpPost("batch/draft")]
         public async Task<IActionResult> BatchDraft([FromBody]BatchModel model)
         {
-            if (model == null || !ModelState.IsValid)
+            if (model == null)
             {
                 return this.InvalidRequest();
             }

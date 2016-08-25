@@ -22,7 +22,7 @@ namespace DotNetBlog.Web.Areas.Api.Controllers
         [HttpGet("query")]
         public async Task<IActionResult> Query([FromQuery]QueryTagModel model)
         {
-            if (model == null || !ModelState.IsValid)
+            if (model == null)
             {
                 return InvalidRequest();
             }
@@ -35,7 +35,7 @@ namespace DotNetBlog.Web.Areas.Api.Controllers
         [HttpPost("delete")]
         public async Task<IActionResult> Delete([FromBody]DeleteTagModel model)
         {
-            if (model == null || !ModelState.IsValid)
+            if (model == null)
             {
                 return InvalidRequest();
             }
@@ -48,7 +48,7 @@ namespace DotNetBlog.Web.Areas.Api.Controllers
         [HttpPost("{id:int}")]
         public async Task<IActionResult> Edit([FromRoute]int id, [FromBody]SaveTagModel model)
         {
-            if (model == null || !ModelState.IsValid)
+            if (model == null)
             {
                 return InvalidRequest();
             }

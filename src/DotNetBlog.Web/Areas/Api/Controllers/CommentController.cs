@@ -30,7 +30,7 @@ namespace DotNetBlog.Web.Areas.Api.Controllers
         [HttpPost("batch/approve")]
         public async Task<IActionResult> BatchApprove([FromBody]BatchModel model)
         {
-            if (model == null || !ModelState.IsValid)
+            if (model == null)
             {
                 return this.InvalidRequest();
             }
@@ -43,7 +43,7 @@ namespace DotNetBlog.Web.Areas.Api.Controllers
         [HttpPost("batch/reject")]
         public async Task<IActionResult> BatchReject([FromBody]BatchModel model)
         {
-            if (model == null || !ModelState.IsValid)
+            if (model == null)
             {
                 return this.InvalidRequest();
             }
@@ -56,7 +56,7 @@ namespace DotNetBlog.Web.Areas.Api.Controllers
         [HttpPost("delete")]
         public async Task<IActionResult> Delete([FromBody]BatchModel model)
         {
-            if (model == null || !ModelState.IsValid)
+            if (model == null)
             {
                 return this.InvalidRequest();
             }
@@ -69,7 +69,7 @@ namespace DotNetBlog.Web.Areas.Api.Controllers
         [HttpPost("reply")]
         public async Task<IActionResult> Reply([FromBody]ReplyCommentModel model)
         {
-            if (model == null || !ModelState.IsValid)
+            if (model == null)
             {
                 return this.InvalidRequest();
             }

@@ -13,6 +13,7 @@ namespace DotNetBlog.Web.Areas.Api.Controllers
 {
     [ErrorHandlerFilter]
     [RequireLoginApiFilter]
+    [ValidateRequestApiFilter]
     public class ControllerBase : Controller
     {
         private static readonly JsonSerializerSettings _DefaultJsonSerializerSettings;

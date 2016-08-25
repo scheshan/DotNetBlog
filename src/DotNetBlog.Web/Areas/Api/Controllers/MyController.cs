@@ -32,7 +32,7 @@ namespace DotNetBlog.Web.Areas.Api.Controllers
         [HttpPost("")]
         public async Task<IActionResult> EditMyInfo([FromBody]EditMyInfoModel model)
         {
-            if (model == null || !ModelState.IsValid)
+            if (model == null)
             {
                 return this.InvalidRequest();
             }
