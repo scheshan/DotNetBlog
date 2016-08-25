@@ -30,6 +30,8 @@ namespace DotNetBlog.Core.Service
                 return OperationResult<string>.Failure("用户名或密码错误");
             }
 
+            userEntity.LoginDate = DateTime.Now;
+
             string token = Utilities.EncryptHelper.MD5(Guid.NewGuid().ToString());
             var userTokenEntity = new UserToken
             {

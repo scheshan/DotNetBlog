@@ -54,7 +54,7 @@ namespace DotNetBlog.Web.Controllers
 
             if (result.Success)
             {
-                ClientManager.WriteTokenIntoCookies(this.HttpContext, result.Data);
+                ClientManager.WriteTokenIntoCookies(this.HttpContext, result.Data, model.RememberMe);
 
                 if (model.Redirect != null)
                 {

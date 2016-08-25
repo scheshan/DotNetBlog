@@ -95,9 +95,16 @@ namespace DotNetBlog.Core
             }
         }
 
-        public static void WriteTokenIntoCookies(HttpContext context, string token)
+        public static void WriteTokenIntoCookies(HttpContext context, string token, bool remember)
         {
-            context.Response.Cookies.Append(CookieName, token);
+            if (remember)
+            {
+                context.Response.Cookies.Append(CookieName, token, new CookieOptions { Expires = DateTime.Now.AddDays(60) });
+            }
+            else
+            {
+                context.Response.Cookies.Append(CookieName, token);
+            }
         }
 
         public static void ClearTokenFromCookies(HttpContext context)

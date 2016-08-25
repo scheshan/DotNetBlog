@@ -109,7 +109,7 @@ class EmailConfig extends React.Component{
 
                     <Input name="smtpPort" validations="isInt" validationError="请输入正确的端口号" label="端口号" value={this.state.config.smtpPort} />
 
-                    <Checkbox layout="elementOnly" name="smtpEnableSSL" label="发送评论邮件" value={this.state.config.smtpEnableSSL} />
+                    <Checkbox layout="elementOnly" name="smtpEnableSSL" label="启用SSL" value={this.state.config.smtpEnableSSL} />
 
                     <Checkbox layout="elementOnly" name="sendEmailWhenComment" label="发送评论邮件" value={this.state.config.sendEmailWhenComment} />
 

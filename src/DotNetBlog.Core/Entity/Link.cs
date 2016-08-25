@@ -13,6 +13,8 @@ namespace DotNetBlog.Core.Entity
 
         public string Url { get; set; }
 
+        public int Sort { get; set; }
+
         public string OpenInNewWindow { get; set; }
     }
 }

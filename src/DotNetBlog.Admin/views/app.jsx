@@ -105,7 +105,7 @@ class App extends React.Component{
                                 <span>
                                     <i className="fa fa-circle text-success"></i> 
                                     {' '}
-                                    2016-1-1 10:00:01
+                                    已登录
                                 </span>
                             </div>
                         </div>
