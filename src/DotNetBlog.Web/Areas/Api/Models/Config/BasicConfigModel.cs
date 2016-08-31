@@ -9,6 +9,9 @@ namespace DotNetBlog.Web.Areas.Api.Models.Config
     public class BasicConfigModel
     {
         [Required]
+        public string Host { get; set; }
+
+        [Required]
         public string Title { get; set; }
 
         public string Description { get; set; }

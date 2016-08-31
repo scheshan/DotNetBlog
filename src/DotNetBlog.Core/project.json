@@ -14,7 +14,8 @@
     "Microsoft.AspNetCore.Http": "1.0.0",
     "MailKit": "1.4.1",
     "Newtonsoft.Json": "9.0.1",
-    "CommonMark.NET": "0.13.4"
+    "CommonMark.NET": "0.13.4",
+    "NLog.Extensions.Logging": "1.0.0-*"
   },
 
   "frameworks": {

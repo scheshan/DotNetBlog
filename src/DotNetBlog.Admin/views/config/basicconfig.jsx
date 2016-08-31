@@ -6,6 +6,10 @@ var {reduxForm} = require("redux-form")
 const validate = values=>{
     const errors = {}
 
+    if(!values.host){
+        errors.host = "请输入博客地址";
+    }
+
     if(!values.title){
         errors.title = "请输入标题";
     }
@@ -20,9 +24,12 @@ const validate = values=>{
 
 class BasicConfigForm extends React.Component{
     render(){
-        const {fields: {title, description, topicsPerPage, onlyShowSummary}, handleSubmit} = this.props
+        const {fields: {host, title, description, topicsPerPage, onlyShowSummary}, handleSubmit} = this.props
         return (
             <form noValidate onSubmit={handleSubmit}>
+                <FormGroup label="博客地址" validation={host}>
+                    <input type="text" className="form-control" {...host}/>
+                </FormGroup>
                 <FormGroup label="标题" validation={title}>
                     <input type="text" className="form-control" {...title}/>
                 </FormGroup>
@@ -52,7 +59,7 @@ class BasicConfigForm extends React.Component{
 
 BasicConfigForm = reduxForm({
     form: "basicConfigForm",
-    fields: ["title", "description", "topicsPerPage", "onlyShowSummary"],
+    fields: ["host", "title", "description", "topicsPerPage", "onlyShowSummary"],
     validate
 })(BasicConfigForm)
 

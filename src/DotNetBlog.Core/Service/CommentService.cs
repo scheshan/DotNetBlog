@@ -99,7 +99,7 @@ namespace DotNetBlog.Core.Service
             };
 
             BlogContext.Comments.Add(entity);
-            await BlogContext.SaveChangesAsync();
+            await BlogContext.SaveChangesAsync();                       
 
             var commentModel = Transform(entity).First();
 

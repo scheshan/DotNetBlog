@@ -15,6 +15,21 @@ namespace DotNetBlog.Core.Model.Setting
         }
 
         /// <summary>
+        /// 博客的URL地址
+        /// </summary>
+        public string Host
+        {
+            get
+            {
+                return GetStringValue(nameof(Host), "http://dotnetblog.com");
+            }
+            set
+            {
+                SetValue(nameof(Host), value);
+            }
+        }
+
+        /// <summary>
         /// 站点名称
         /// </summary>
         public string Title
