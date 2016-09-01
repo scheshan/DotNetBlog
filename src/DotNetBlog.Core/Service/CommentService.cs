@@ -27,13 +27,16 @@ namespace DotNetBlog.Core.Service
 
         private SettingModel Settings { get; set; }
 
-        public CommentService(BlogContext blogContext, ClientManager clientManager, IMemoryCache cache, IServiceProvider serviceProvider, SettingModel settings)
+        private EmailService EmailService { get; set; }
+
+        public CommentService(BlogContext blogContext, ClientManager clientManager, IMemoryCache cache, IServiceProvider serviceProvider, SettingModel settings, EmailService emailService)
         {
             this.BlogContext = blogContext;
             this.ClientManager = clientManager;
             this.Cache = cache;
             this.ServiceProvider = serviceProvider;
             this.Settings = settings;
+            this.EmailService = emailService;
         }
 
         public async Task<OperationResult<CommentModel>> Add(AddCommentModel model)
@@ -50,9 +53,10 @@ namespace DotNetBlog.Core.Service
                 return OperationResult<CommentModel>.Failure("文章不允许评论");
             }
 
+            Comment replyEntity = null;
             if (model.ReplyTo.HasValue)
             {
-                var replyEntity = await BlogContext.Comments.SingleOrDefaultAsync(t => t.ID == model.ReplyTo.Value);
+                replyEntity = await BlogContext.Comments.SingleOrDefaultAsync(t => t.ID == model.ReplyTo.Value);
 
                 if (replyEntity == null || replyEntity.Status != Enums.CommentStatus.Approved)
                 {
@@ -99,7 +103,13 @@ namespace DotNetBlog.Core.Service
             };
 
             BlogContext.Comments.Add(entity);
-            await BlogContext.SaveChangesAsync();                       
+            await BlogContext.SaveChangesAsync();
+
+            this.EmailService.SendCommentEmail(topic, entity);
+            if (entity.Status == Enums.CommentStatus.Approved && entity.ReplyToID.HasValue)
+            {
+                this.EmailService.SendReplyEmail(topic, entity, replyEntity);
+            }
 
             var commentModel = Transform(entity).First();
 
