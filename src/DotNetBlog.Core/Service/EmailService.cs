@@ -18,14 +18,13 @@ namespace DotNetBlog.Core.Service
     {
         private SettingModel Settings { get; set; }
 
-        private ILogger Logger { get; set; }
+        private static readonly ILogger Logger = LogManager.GetCurrentClassLogger();
 
         private BlogContext BlogContext { get; set; }
 
-        public EmailService(SettingModel settings, ILogger logger, BlogContext blogContext)
+        public EmailService(SettingModel settings, BlogContext blogContext)
         {
             this.Settings = settings;
-            this.Logger = logger;
             this.BlogContext = blogContext;
         }
 
@@ -86,7 +85,7 @@ namespace DotNetBlog.Core.Service
 <hr/>
 评论者: <a href=""mailto://{2}"" target=""_blank"">{3}</a>
 <br/>
-URL: <a href=""{4}"" target=""_blank"">{4}</a>", comment.Content, comment.Email, comment.Name, $"{this.Settings.Host}/topic/{topic.ID}#comment_{comment.ID}")
+URL: <a href=""{4}"" target=""_blank"">{4}</a>", topic.Title, comment.Content, comment.Email, comment.Name, $"{this.Settings.Host}/topic/{topic.ID}#comment_{comment.ID}")
             };
 
             return await this.SendEmail(message);
@@ -119,7 +118,7 @@ URL: <a href=""{4}"" target=""_blank"">{4}</a>", comment.Content, comment.Email,
             }
             catch(Exception ex)
             {
-                this.Logger.Error(ex);
+                Logger.Error(ex);
                 return OperationResult.Failure(ex.Message);
             }
         }
