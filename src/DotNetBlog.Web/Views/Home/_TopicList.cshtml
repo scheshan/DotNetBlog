@@ -24,7 +24,7 @@
                         <a asp-action="Category" asp-controller="Home" asp-route-id="@category.ID">@category.Name</a>
                     }
                 </span>
-                <a rel="nofollow" class="pull-right post-comment-link" href="/post/test2#comment">
+                <a rel="nofollow" class="pull-right post-comment-link" blog-topic="topic" blog-topic-fragment="comments">
                     <i class="fa fa-comment"></i>
                     (@topic.Comments.Approved)
                 </a>
