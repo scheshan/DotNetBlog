@@ -106,7 +106,7 @@ namespace DotNetBlog.Core.Service
             await BlogContext.SaveChangesAsync();
 
             this.EmailService.SendCommentEmail(topic, entity);
-            if (entity.Status == Enums.CommentStatus.Approved && entity.ReplyToID.HasValue)
+            if (entity.Status == Enums.CommentStatus.Approved && entity.ReplyToID.HasValue && replyEntity.NotifyOnComment)
             {
                 this.EmailService.SendReplyEmail(topic, entity, replyEntity);
             }
