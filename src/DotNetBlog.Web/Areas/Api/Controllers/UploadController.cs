@@ -1,6 +1,7 @@
 ﻿using DotNetBlog.Web.Areas.Api.Models.Upload;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Localization;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -14,11 +15,14 @@ namespace DotNetBlog.Web.Areas.Api.Controllers
     {
         private IHostingEnvironment Enviroment { get; set; }
 
+        private IHtmlLocalizer<UploadController> L { get; set; }
+
         private static readonly string[] AvailableImageExtensionList = new string[] { ".jpg", ".png", ".gif", ".bmp", "" };
 
-        public UploadController(IHostingEnvironment enviroment)
+        public UploadController(IHostingEnvironment enviroment, IHtmlLocalizer<UploadController> localizer)
         {
             this.Enviroment = enviroment;
+            this.L = localizer;
         }
 
         [HttpPost("image")]
@@ -33,7 +37,7 @@ namespace DotNetBlog.Web.Areas.Api.Controllers
 
             if (!AvailableImageExtensionList.Contains(extension, StringComparer.CurrentCultureIgnoreCase))
             {
-                return this.Error("请上传正确格式的图片文件");
+                return this.Error(L["Please upload the correct format image file"].Value);
             }
 
             string fileName = $"/upload/image/{Guid.NewGuid().ToString()}{extension.ToLower()}";

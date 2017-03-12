@@ -1,5 +1,6 @@
 ﻿@using DotNetBlog.Web.ViewModels.Home
 @model NoticePageViewModel
+@inject IViewLocalizer L
 @{ 
     string className;
     switch(Model.MessageType)
@@ -23,7 +24,7 @@
         </div>
 
         <p>
-            <a href="@Model.RedirectUrl">返回上一页</a>
+            <a href="@Model.RedirectUrl">@L["Go back to the last page"]</a>
         </p>
     </div>
 </div>

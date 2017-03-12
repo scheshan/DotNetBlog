@@ -1,4 +1,5 @@
 ﻿@using DotNetBlog.Core.Model.Category
+@inject IViewLocalizer L
 
 @model List<CategoryModel>
 
@@ -13,7 +14,7 @@
             @foreach (var category in Model.OrderByDescending(t => t.Topics.Published))
             {
                 <li condition="category.Topics.Published > 0">
-                    <a title="分类: @category.Name" asp-action="Category" asp-controller="Home" asp-route-id="@category.ID" asp-route-page="">
+                    <a title="@L["Category"]: @category.Name" asp-action="Category" asp-controller="Home" asp-route-id="@category.ID" asp-route-page="">
                         @category.Name
                         <span condition="config.ShowNumbersOfTopics">(@category.Topics.Published)</span>
                     </a>

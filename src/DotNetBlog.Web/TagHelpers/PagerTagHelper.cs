@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Localization;
 
 namespace DotNetBlog.Web.TagHelpers
 {
@@ -63,6 +64,7 @@ namespace DotNetBlog.Web.TagHelpers
                 return;
             }
 
+            var L = GetViewLocalizer();
             if (PageIndex <= 0 || PageSize <= 0)
             {
                 this.SetErrorMessage(output, "错误的分页参数");
@@ -172,6 +174,13 @@ namespace DotNetBlog.Web.TagHelpers
             string url = urlHelper.Action(action, controller, routes);
 
             return $"<a href=\"{url}\">{text}</a>";
+        }
+
+        private IHtmlLocalizer GetViewLocalizer() 
+        {
+            var localizer = ViewContext.HttpContext.RequestServices.GetService(typeof(IViewLocalizer)) as IViewLocalizer;
+            (localizer as IViewContextAware)?.Contextualize(ViewContext);
+            return localizer;
         }
     }
 }

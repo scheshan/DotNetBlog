@@ -2,6 +2,7 @@
 using DotNetBlog.Core.Service;
 using DotNetBlog.Web.ViewModels.Account;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Localization;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,11 +20,14 @@ namespace DotNetBlog.Web.Controllers
 
         private ClientManager ClientManager { get; set; }
 
-        public AccountController(AuthService authService, ClientManager clientManager, UserService userService)
+        private IHtmlLocalizer<AccountController> L { get; set; }
+
+        public AccountController(AuthService authService, ClientManager clientManager, UserService userService, IHtmlLocalizer<AccountController> localizer)
         {
             this.AuthService = authService;
             this.ClientManager = clientManager;
             this.UserService = userService;
+            this.L = localizer;
         }
 
         [HttpGet("login")]
@@ -112,7 +116,7 @@ namespace DotNetBlog.Web.Controllers
 
             if (result.Success)
             {
-                vm.SuccessMessage = "操作成功";
+                vm.SuccessMessage = L["Successful operation"].Value;
             }
             else
             {

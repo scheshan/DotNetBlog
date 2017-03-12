@@ -3,6 +3,7 @@ using DotNetBlog.Core.Entity;
 using DotNetBlog.Core.Enums;
 using DotNetBlog.Core.Model.Widget;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Localization;
 using Newtonsoft.Json;
 using NLog;
 using System;
@@ -18,9 +19,12 @@ namespace DotNetBlog.Web.Controllers
 
         private static ILogger Logger = LogManager.GetCurrentClassLogger();
 
-        public InstallController(BlogContext blogContext)
+        private IHtmlLocalizer<InstallController> L { get; set; }
+
+        public InstallController(BlogContext blogContext, IHtmlLocalizer<InstallController> localizer)
         {
             this.BlogContext = blogContext;
+            this.L = localizer;
         }
 
         [HttpGet("install")]
@@ -34,7 +38,7 @@ namespace DotNetBlog.Web.Controllers
                     {
                         UserName = "admin",
                         Password = Core.Utilities.EncryptHelper.MD5("admin"),
-                        Nickname = "系统管理员",
+                        Nickname = L["System Administrator"].Value,
                         Email = "admin@dotnetblog.com"
                     };
 

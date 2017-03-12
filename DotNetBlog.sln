@@ -1,18 +1,15 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25123.0
+# Visual Studio 15
+VisualStudioVersion = 15.0.26228.4
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{9728357A-237B-4337-A648-6F56FE479A6F}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{61946056-1D5C-4774-B0D8-8FABADBDBE81}"
-	ProjectSection(SolutionItems) = preProject
-		global.json = global.json
-	EndProjectSection
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "DotNetBlog.Web", "src\DotNetBlog.Web\DotNetBlog.Web.xproj", "{89F9B8C8-2F34-41CF-B39E-C23935AFADC8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DotNetBlog.Web", "src\DotNetBlog.Web\DotNetBlog.Web.csproj", "{89F9B8C8-2F34-41CF-B39E-C23935AFADC8}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "DotNetBlog.Core", "src\DotNetBlog.Core\DotNetBlog.Core.xproj", "{89065586-C5EF-4EF4-BCD5-63D47E6E3816}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DotNetBlog.Core", "src\DotNetBlog.Core\DotNetBlog.Core.csproj", "{89065586-C5EF-4EF4-BCD5-63D47E6E3816}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

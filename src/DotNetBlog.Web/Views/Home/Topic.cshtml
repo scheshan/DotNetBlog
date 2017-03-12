@@ -1,5 +1,6 @@
 ﻿@model TopicPageViewModel
 @inject ClientManager clientManager
+@inject IViewLocalizer L
 
 @{ 
     var commentListViewModel = new CommentListViewModel
@@ -56,7 +57,7 @@
 
     <footer class="post-footer" condition="Model.Topic.Tags.Any()">
         <div class="post-tags">
-            标签 :
+            @L["Tag"] :
             @foreach(var tag in Model.Topic.Tags)
             {
                 <a asp-action="Tag" asp-controller="Home" asp-route-keyword="@tag">@tag</a>
@@ -66,16 +67,16 @@
 
     <visible condition="clientManager.IsLogin">
         <visible condition="Model.Topic.Comments.Pending > 0">
-            <a asp-action="Topic" asp-controller="Home" asp-route-id="@Model.Topic.ID" asp-fragment="comments">未审核的评论(@Model.Topic.Comments.Pending)</a> |
-            <a asp-action="ApproveComments" asp-controller="QuickAction" asp-route-topicID="@Model.Topic.ID">通过所有评论</a> |
+            <a asp-action="Topic" asp-controller="Home" asp-route-id="@Model.Topic.ID" asp-fragment="comments">@L["Unaudited comments ({0})", Model.Topic.Comments.Pending]</a> |
+            <a asp-action="ApproveComments" asp-controller="QuickAction" asp-route-topicID="@Model.Topic.ID">@L["Approve comments"]</a> |
         </visible>
-        <a asp-action="Index" asp-controller="Admin" asp-fragment="@("/content/topic/" + Model.Topic.ID.ToString())">编辑</a> |
-        <a asp-action="DeleteTopic" asp-controller="QuickAction" asp-route-topicID="@Model.Topic.ID" onclick="if (!confirm('您确定要 删除 文章?')) return false">删除</a>
+        <a asp-action="Index" asp-controller="Admin" asp-fragment="@("/content/topic/" + Model.Topic.ID.ToString())">@L["Edit"]</a> |
+        <a asp-action="DeleteTopic" asp-controller="QuickAction" asp-route-topicID="@Model.Topic.ID" onclick="if (!confirm('@L["Are you sure you want to delete the article?"]')) return false">@L["Delete"]</a>
     </visible>
 </article>
 
 <div id="relatedPosts" class="related-posts well-global" condition="Model.RelatedTopicList.Any()">
-    <h3 class="well-global-title">相关文章</h3>
+    <h3 class="well-global-title">@L["related articles"]</h3>
     <ul class="list-unstyled">
         @foreach (var topic in Model.RelatedTopicList)
         {
@@ -89,7 +90,7 @@
 
 <div class="well-global" condition="commentListViewModel.CommentList.Any()">
     <h3 id="comments" class="well-global-title">
-        评论 (@Model.Topic.Comments.Approved)
+        @L["comments ({0})", Model.Topic.Comments.Approved]
     </h3>
 
     <div id="commentlist">
@@ -106,17 +107,17 @@
             <input type="hidden" name="ReplyTo" id="hdnReplyTo" value="" />
             <div class="comment-form well-global">
                 <div class="well-global-title clearfix">
-                    <h3 class="pull-left" id="addcomment">添加评论</h3>
+                    <h3 class="pull-left" id="addcomment">@L["add comment"]</h3>
                 </div>
                 <div class="form-horizontal">
                     <div class="form-group">
-                        <label for="txtName" class="col-md-2 control-label">名字 *</label>
+                        <label for="txtName" class="col-md-2 control-label">@L["First name"] *</label>
                         <div class="col-md-10">
                             <input type="text" class="form-control" name="Name" id="txtName" value="@Model.CommentForm.Name"/>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="txtEmail" class="col-md-2 control-label">E-mail *</label>
+                        <label for="txtEmail" class="col-md-2 control-label">@L["E-mail"] *</label>
                         <div class="col-md-10">
                             <input type="email" class="form-control" name="Email" id="txtEmail" value="@Model.CommentForm.Email"/>
                             <span id="gravatarmsg"></span>
@@ -124,7 +125,7 @@
                     </div>
 
                     <div class="form-group" id="commentCompose">
-                        <label for="txtContent" class="col-md-2 control-label">评论 *</label>
+                        <label for="txtContent" class="col-md-2 control-label">@L["Comment"] *</label>
                         <div class="col-md-10">
                             <textarea class="form-control" id="txtContent" cols="50" rows="6" name="Content"></textarea>
                         </div>
@@ -133,17 +134,17 @@
                     <div class="form-group">
                         <label class="col-md-7 control-label">
                             <input type="checkbox" id="cbNotify" class="cmnt-frm-notify">
-                            有评论的时候通知我
+                            @L["Notify me when there is a comment"]
                         </label>
                         <div class="col-md-5 text-right">
-                            <input type="submit" id="btnSave" value="保存评论" class="btn btn-primary">
+                            <input type="submit" id="btnSave" value="@L["Save comment"]" class="btn btn-primary">
                         </div>
                     </div>
                 </div>
 
             </div>
             <p id="cancelReply" style="display: none;">
-                <a href="javascript:void(0);" onclick="cancelReply();">取消对该留言的回复</a>
+                <a href="javascript:void(0);" onclick="cancelReply();">@L["Cancel the reply to the message"]</a>
             </p>
         </form>
     </div>
