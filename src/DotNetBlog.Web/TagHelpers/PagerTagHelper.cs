@@ -67,7 +67,7 @@ namespace DotNetBlog.Web.TagHelpers
             var L = GetViewLocalizer();
             if (PageIndex <= 0 || PageSize <= 0)
             {
-                this.SetErrorMessage(output, "错误的分页参数");
+                this.SetErrorMessage(output, L["Wrong paging parameters"].Value);
                 return;
             }
 
@@ -102,11 +102,11 @@ namespace DotNetBlog.Web.TagHelpers
 
             if (this.PageIndex > 1)
             {
-                sb.Append($"<li>{this.GetPageLink(this.PageIndex - 1, "之后的文章")}</li>");
+                sb.Append($"<li>{this.GetPageLink(this.PageIndex - 1, L["After the article"].Value)}</li>");
             }
             else
             {
-                sb.Append($"<li class='PagerLinkDisabled'>之后的文章</li>");
+                sb.Append($"<li class='PagerLinkDisabled'>{L["After the article"].Value}</li>");
             }
             for (var i = start; i <= end; i++)
             {
@@ -121,11 +121,11 @@ namespace DotNetBlog.Web.TagHelpers
             }
             if (this.PageIndex < totalPage)
             {
-                sb.Append($"<li>{this.GetPageLink(this.PageIndex + 1, "之前的文章")}</li>");
+                sb.Append($"<li>{this.GetPageLink(this.PageIndex + 1, L["Before the article"].Value)}</li>");
             }
             else
             {
-                sb.Append($"<li class='PagerLinkDisabled'>之前的文章</li>");
+                sb.Append($"<li class='PagerLinkDisabled'>{L["Before the article"].Value }</li>");
             }
 
             output.Content.SetHtmlContent(sb.ToString());
@@ -178,9 +178,13 @@ namespace DotNetBlog.Web.TagHelpers
 
         private IHtmlLocalizer GetViewLocalizer() 
         {
-            var localizer = ViewContext.HttpContext.RequestServices.GetService(typeof(IViewLocalizer)) as IViewLocalizer;
-            (localizer as IViewContextAware)?.Contextualize(ViewContext);
-            return localizer;
+            /* In this way we can connect localization to loaded view */
+
+            //var localizer = ViewContext.HttpContext.RequestServices.GetService(typeof(IViewLocalizer)) as IViewLocalizer;
+            //(localizer as IViewContextAware)?.Contextualize(ViewContext);
+            //return localizer;
+
+            return ViewContext.HttpContext.RequestServices.GetService(typeof(IHtmlLocalizer<PagerTagHelper>)) as IHtmlLocalizer<PagerTagHelper>;
         }
     }
 }

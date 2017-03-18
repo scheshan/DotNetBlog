@@ -1,7 +1,10 @@
 ﻿require("./styles/app.css")
 
+import Localization from "./resources"
+
 import React from "react"
 import ReactDom from "react-dom"
+
 var Formsy, {Form, Mixin} = require('formsy-react')
 var {Router, Route, browserHistory, hashHistory, useRouterHistory} = require("react-router")
 
@@ -37,6 +40,7 @@ function enterRoute(menu, subMenu) {
 
 class Index extends React.Component{
     render() {
+        
         return (
             <Provider store={Store}>
                 <Router history={hashHistory}>

@@ -1,5 +1,5 @@
 var React = require("react")
-var {Sortable} = require("react-sortable")
+var {sortable} = require("react-sortable")
 
 var WidgetItem = React.createClass({
     displayName: 'WidgetItem',
@@ -16,4 +16,4 @@ var WidgetItem = React.createClass({
     }
 })
 
-module.exports = Sortable(WidgetItem)
+module.exports = sortable(WidgetItem)

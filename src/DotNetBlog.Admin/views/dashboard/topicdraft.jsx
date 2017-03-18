@@ -37,7 +37,7 @@ class TopicDraft extends React.Component{
         return (
             <div className="panel">
                 <div className="panel-heading">
-                    <div className="panel-title">文章稿件</div>
+                    <div className="panel-title">{"recentDrafts".L()}</div>
                 </div>
                 {this.renderTopicList()}
             </div>
@@ -58,7 +58,7 @@ class TopicDraft extends React.Component{
             if(this.state.topicList.length == 0){
                 return (
                     <div className="panel-body">
-                        无
+                        {"empty".L()}
                     </div>
                 )
             }

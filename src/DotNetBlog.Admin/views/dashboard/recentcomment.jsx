@@ -36,7 +36,7 @@ class RecentComment extends React.Component{
         return (
             <div className="panel">
                 <div className="panel-heading">
-                    <div className="panel-title">最新评论</div>
+                    <div className="panel-title">{"latestComments".L()}</div>
                 </div>
                 {this.renderCommentList()}
             </div>
@@ -56,7 +56,7 @@ class RecentComment extends React.Component{
             if(this.state.commentList.length == 0){
                 return (
                     <div className="panel-body">
-                        无
+                        {"empty".L()}
                     </div>
                 )
             }

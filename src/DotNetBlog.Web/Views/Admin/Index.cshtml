@@ -1,6 +1,14 @@
-﻿@inject ClientManager clientManager
+﻿@using Microsoft.AspNetCore.Builder
+@using Microsoft.AspNetCore.Http.Features
+@using Microsoft.AspNetCore.Localization
+@using Microsoft.AspNetCore.Mvc.Localization
+@using Microsoft.Extensions.Options
+
+@inject ClientManager clientManager
+
 @{
     Layout = null;
+    var requestCulture = Context.Features.Get<IRequestCultureFeature>();
 }
 
 <!DOCTYPE html>
@@ -27,7 +35,8 @@
 <script type="text/javascript">
     var user = {
         nickname: "@Html.Raw(clientManager.CurrentUser.Nickname)",
-        icon: "http://gravatar.duoshuo.com/"
+        icon: "http://gravatar.duoshuo.com/",
+        lang: "@requestCulture.RequestCulture.UICulture.Name"
     }
 </script>
 
@@ -39,7 +48,8 @@
 
 <environment names="Development">
     <!--please use webpack-dev-server to serve the development js file-->
-    <script src="http://localhost:3000/app.js"></script>
+    @*<script src="~/dist/app.js"></script>*@
+    <script src="http://localhost:8080/app.js"></script>
 </environment>
 <environment names="Production">
     <script src="~/dist/app.js"></script>

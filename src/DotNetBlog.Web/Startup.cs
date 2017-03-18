@@ -97,7 +97,7 @@ namespace DotNetBlog.Web
             Directory.CreateDirectory(uploadFolder);
             if (enviroment.IsDevelopment())
             {
-                string databaseFolder = enviroment.ContentRootPath + "/bin/Debug/netcoreapp1.0/App_Data";
+                string databaseFolder = enviroment.ContentRootPath + "/bin/Debug/netcoreapp1.1/App_Data";
                 Directory.CreateDirectory(databaseFolder);
             }
 

@@ -26,12 +26,12 @@ class QuickPost extends React.Component{
 
     submit(){
         if(this.state.title == ""){
-            Dialog.error("请输入标题");
+            Dialog.error("pleaseEnterTitle".L());
             return;
         }
         let content = this.refs.editor.getContent();
         if(content == ""){
-            Dialog.error("请输入内容");
+            Dialog.error("pleaseEnterContent".L());
             return;
         }
         if(this.state.loading){
@@ -52,7 +52,7 @@ class QuickPost extends React.Component{
                         title: "",
                         content: ""
                     })
-                    Dialog.success("保存草稿成功")
+                    Dialog.success("draftWasSavedSuccessfully".L())
                     this.props.onSave && this.props.onSave()
                 }
                 else{
@@ -67,11 +67,11 @@ class QuickPost extends React.Component{
         return (
             <div className="panel">
                 <div className="panel-heading">
-                    <div className="panel-title">快捷保存草稿</div>
+                    <div className="panel-title">{"saveDraftQuickly".L}</div>
                 </div>
                 <div className="panel-body">
                     <div className="form-group">
-                        <input type="text" placeholder="标题" className="form-control" value={this.state.title} onChange={this.handleTitleChange.bind(this)}/>
+                        <input type="text" placeholder={"title".L()} className="form-control" value={this.state.title} onChange={this.handleTitleChange.bind(this)}/>
                     </div>
                     <div className="form-group">
                         <Editor ref="editor" options={{
@@ -87,7 +87,7 @@ class QuickPost extends React.Component{
                             }
                         }}/>
                     </div>
-                    <LoadingButton loading={this.state.loading} type="button" className="btn btn-block btn-default" title="保存" onClick={this.submit.bind(this)}>保存</LoadingButton>
+                    <LoadingButton loading={this.state.loading} type="button" className="btn btn-block btn-default" title={"save".L()} onClick={this.submit.bind(this)}>{"save".L()}</LoadingButton>
                 </div>
             </div>
         )
