@@ -121,7 +121,7 @@ class ModifyTopic extends React.Component{
 
     apiCallback(response){        
         if(response.success){
-            Dialog.success("保存成功");
+            Dialog.success("operationSuccessful".L());
 
             this.id = response.data.id;
 
@@ -140,12 +140,12 @@ class ModifyTopic extends React.Component{
 
     onSubmit(model){
         if(model.title == ""){
-            Dialog.error("请输入文章标题");
+            Dialog.error("enterTheTitleOfArticle".L());
             return;
         }
         let content = this.refs.editor.getContent();
         if(content == ""){
-            Dialog.error("请输入文章内容");
+            Dialog.error("enterTheContentOfArticle".L());
             return;
         }
 
@@ -198,7 +198,7 @@ class ModifyTopic extends React.Component{
                             {this.renderCategory()}
 
                             <FormGroup>
-                                <label className="control-label">标签</label>
+                                <label className="control-label">{"tag".L()}</label>
 
                                 <TagsInput className="bootstrap-tagsinput" value={this.state.tags} onChange={this.onTagsChanged.bind(this)}></TagsInput>
                             </FormGroup>    
@@ -207,12 +207,12 @@ class ModifyTopic extends React.Component{
 
                             <FormGroup>
                                 <div className="checkbox">
-                                    <Checkbox layout="elementOnly" name="allowComment" label="允许评论" value={this.state.topic.allowComment}></Checkbox>
+                                    <Checkbox layout="elementOnly" name="allowComment" label={"allowComment".L()} value={this.state.topic.allowComment}></Checkbox>
                                 </div>
                             </FormGroup>         
 
                             <FormGroup>
-                                <button type="button" className="btn btn-default btn-block" onClick={this.showSetting.bind(this)}>自定义</button>
+                                <button type="button" className="btn btn-default btn-block" onClick={this.showSetting.bind(this)}>{"customize".L()}</button>
                             </FormGroup>   
                         </div>
                     </Form>
@@ -224,7 +224,7 @@ class ModifyTopic extends React.Component{
     renderTitle(){
         return (
             <FormGroup>
-                <Input type="text" layout="elementOnly" name="title" value={this.state.topic.title} placeholder="文章的标题" required/>
+                <Input type="text" layout="elementOnly" name="title" value={this.state.topic.title} placeholder={"theTitleOfArticle".L()} required/>
             </FormGroup>
         )
     }
@@ -257,7 +257,7 @@ class ModifyTopic extends React.Component{
 
         return (
             <FormGroup>
-                <label className="control-label">别名(可选)</label>
+                <label className="control-label">{"alias_optional".L()}</label>
                 <input name="alias" type="text" className="form-control" value={this.state.topic.alias} onChange={handleAliasChange.bind(this)}/>
             </FormGroup>
         )
@@ -278,7 +278,7 @@ class ModifyTopic extends React.Component{
 
         return (
             <FormGroup>
-                <label className="control-label">摘要</label>
+                <label className="control-label">{"summary".L()}</label>
                 <textarea rows="4" name="summary" className="form-control" value={this.state.topic.summary} onChange={handleSummaryChange.bind(this)}></textarea>
             </FormGroup>
         )
@@ -292,7 +292,7 @@ class ModifyTopic extends React.Component{
     renderCategory(){
         return (
             <FormGroup>
-                <label className="control-label">分类</label>
+                <label className="control-label">{"category".L()}</label>
 
                 <ul className="list-group category-list">
                     {
@@ -322,25 +322,25 @@ class ModifyTopic extends React.Component{
         }
 
         return (
-            <Input type="text" label="日期" name="date" value={this.state.topic.date || ''}/>
+            <Input type="text" label={"date".L()} name="date" value={this.state.topic.date || ''}/>
         )
     }
 
     renderButton(){
         let publishBtn = (
-            <button type="button" className="btn btn-success btn-block" onClick={this.publish.bind(this)}>发布</button>
+            <button type="button" className="btn btn-success btn-block" onClick={this.publish.bind(this)}>{"publish".L()}</button>
         )
         let saveBtn = (
-            <button type="button" className="btn btn-primary btn-block" onClick={this.save.bind(this)}>保存</button>
+            <button type="button" className="btn btn-primary btn-block" onClick={this.save.bind(this)}>{"save".L()}</button>
         )
         let cancelBtn = (
-            <button type="button" className="btn btn-default btn-block" onClick={this.cancel.bind(this)}>取消</button>
+            <button type="button" className="btn btn-default btn-block" onClick={this.cancel.bind(this)}>{"cancel".L()}</button>
         )
         let draftBtn = (
-            <button type="button" className="btn btn-warning btn-block" onClick={this.draft.bind(this)}>取消发布</button>
+            <button type="button" className="btn btn-warning btn-block" onClick={this.draft.bind(this)}>{"cancelThePublish".L()}</button>
         )
         let viewBtn = (
-            <a target="_blank" href={"/topic/" + this.state.topic.id} type="button" className="btn btn-success btn-block">转到文章</a>
+            <a target="_blank" href={"/topic/" + this.state.topic.id} type="button" className="btn btn-success btn-block">{"goToArticle".L()}</a>
         )
 
         if(!this.state.topic.id){

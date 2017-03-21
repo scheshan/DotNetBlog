@@ -24,6 +24,13 @@ const Localization = new LocalizedStrings({
         /* components/bootstrap/* */
         home: "Home",
         enterContentHere: "Enter the content here",
+        /* views */
+        DotNetBlog: "DotNetBlog",
+        changePassword: "Change password",
+        logoff: "Logoff",
+        userImage: "User Image",
+        greetingUser: "Welcome {0}",
+        siteNavigation: "Site navigation",
         /* views/dashboard */
         pleaseEnterTitle: "Please enter the title",
         pleaseEnterContent: "Please enter the content",
@@ -42,8 +49,66 @@ const Localization = new LocalizedStrings({
         approvedComments: "Approved comments",
         pendingComments: "Pending comments",
         junkComments: "Junk comments",
-        
-        /* views/config/advanceconfig */
+        /* views/content */
+        operationSuccessful: "Operation successful",
+        toView: "To View",
+        add: "Add",
+        name: "Name",
+        pendingReview: "Pending for review",
+        accepted: "Accepted",
+        rejected: "Rejected",
+        accept: "Accept",
+        reject: "Reject",
+        all: "All",
+        pendings: "Pendings",
+        date: "Date",
+        author: "author",
+        status: "Status",
+        pleaseEnterCategoryName: "Please enter a category name",
+        description: "Description",
+        editCategory: "Edit category",
+        addCategory: "Add category",
+        pleaseEnterPageTitle: "Please enter the page title",
+        pleaseEnterPageContent: "Please enter the page content",
+        theTitleOfArticle: "The title of the article",
+        alias_optional: "Alias(optional)",
+        keywords: "Keywords",
+        pageDescription: "Page description",
+        publish: "Publish",
+        cancel: "Cancel",
+        cancelThePublish: "Cancel the publish",
+        goToThePage: "Go to the page",
+        parent: "Parent",
+        setAsHomePage: "Set as homepage",
+        isDisplayedInTheList: "Is displayed in the list",
+        pleaseEnterTheName: "Please enter the name",
+        editTheTag: "Edit the tag",
+        enterTheTitleOfArticle: "Please enter the title of the article",
+        enterTheContentOfArticle: "Please enter the content of the article",
+        allowComment: "Allow comment",
+        summary: "Summary",
+        goToArticle: "Go to article",
+        category: "Category",
+        showAlias: "Show alias",
+        showSummary: "Show summary",
+        showDate: "Show date",
+        draft: "Draft",
+        sorting: "Sorting",
+        published: "Published",
+        pleaseFillInTheReply: "Please fill in the reply",
+        reply: "Reply",
+        replyToComment: "Reply to comment",
+        time: "Time",
+        /* view/user */
+        pleaseTypeYourEmail: "Please type your email",
+        pleaseTypeCorrectEmailAddress: "Please type correct email address",
+        pleaseEnterNickname: "Please enter a nickname",
+        username: "Username",
+        nickname: "Nickname",
+
+        /* views/config */
+        invalidPageTitle: "Invalid page title",
+        invalidPageContent: "Invalid page content, please enter valid content",
     },
     "zh-GB": {
         /* Menu */
@@ -68,6 +133,13 @@ const Localization = new LocalizedStrings({
         /*components/*/
         home: "首页",
         enterContentHere: "在此输入内容",
+        /* views */
+        DotNetBlog: "DotNetBlog",
+        changePassword: "修改密码",
+        logoff: "注销",
+        userImage: "用户图像",
+        greetingUser: "{0} 已登录",
+        siteNavigation: "站点导航",
         /* views/dashboard */
         pleaseEnterTitle: "请输入标题",
         pleaseEnterContent: "请输入内容",
@@ -86,13 +158,73 @@ const Localization = new LocalizedStrings({
         approvedComments: "已通过的评论",
         pendingComments: "未经审核的评论",
         junkComments: "垃圾评论",
-        /* views/config/advanceconfig */
+        /* views/content */
+        operationSuccessful: "操作成功",
+        toView: "查看",
+        add: "新增",
+        delete: "删除",
+        name: "名称",
+        pendingReview: "待审核",
+        accepted: "已通过",
+        rejected: "已拒绝",
+        accept: "通过",
+        reject: "拒绝",
+        all: "全部",
+        pendings: "待审核",
+        date: "日期",
+        author: "作者",
+        status: "状态",
+        pleaseEnterCategoryName: "请输入分类名称",
+        description: "描述",
+        editCategory: "编辑分类",
+        addCategory: "添加分类",
+        pleaseEnterPageTitle: "请输入页面标题",
+        pleaseEnterPageContent: "请输入页面内容",
+        theTitleOfArticle: "文章的标题",
+        alias_optional: "别名(可选)",
+        keywords: "关键词",
+        pageDescription: "页面描述",
+        publish: "发布",
+        cancel: "取消",
+        cancelThePublish: "取消发布",
+        goToThePage: "转到页面",
+        parent: "上级",
+        setAsHomePage: "是否为首页",
+        isDisplayedInTheList: "在列表中显示",
+        pleaseEnterTheName: "请输入名称",
+        editTheTag: "编辑标签",
+        enterTheTitleOfArticle: "请输入文章标题",
+        enterTheContentOfArticle: "请输入文章标题",
+        allowComment: "允许评论",
+        summary: "摘要",
+        goToArticle: "转到文章",
+        category: "分类",
+        showAlias: "显示别名",
+        showSummary: "显示摘要",
+        showDate: "显示日期",
+        draft: "草稿",
+        sorting: "排序",
+        published: "已发布",
+        pleaseFillInTheReply: "请填写回复内容",
+        reply: "回复",
+        replyToComment: "回复评论",
+        time: "时间",
+        /* view/user */
+        pleaseTypeYourEmail: "请输入邮箱",
+        pleaseTypeCorrectEmailAddress: "请输入正确的邮箱地址",
+        pleaseEnterNickname: "请输入昵称",
+        username: "用户名",
+        nickname: "昵称",
+
+        /* views/config */
+        invalidPageTitle: "请输入错误页面标题",
+        invalidPageContent: "",
     }
 });
 Localization.setLanguage(user.lang);
 
-String.prototype.L = function () {
-    return Localization.formatString(Localization[this] || this, arguments);
+String.prototype.L = function (...values) {
+    return Localization.formatString(Localization[this] || this, values);
 }
 
 module.exports = Localization;

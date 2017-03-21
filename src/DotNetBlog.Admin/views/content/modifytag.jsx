@@ -7,7 +7,7 @@ var {reduxForm} = require("redux-form")
 const validate = values=>{
     const errors = {};
     if(!values.keyword){
-        errors.keyword = "请输入名称"
+        errors.keyword = "pleaseEnterTheName".L()
     }
 
     return errors;
@@ -73,7 +73,7 @@ class ModifyTag extends React.Component{
                     loading: false
                 })
                 if(response.success){
-                    Dialog.success("操作成功")
+                    Dialog.success("operationSuccessful".L())
                     if(this.props.onSuccess){
                         this.props.onSuccess()
                     }
@@ -94,13 +94,13 @@ class ModifyTag extends React.Component{
         return (
             <Modal show={this.state.show} onHide={this.hide.bind(this)}>
                 <ModalHeader closeButton>
-                    <ModalTitle>编辑标签</ModalTitle>
+                    <ModalTitle>{"editTheTag".L()}</ModalTitle>
                 </ModalHeader>
                 <ModalBody>
                     <ModifyTagForm ref="form" onSubmit={this.onSubmit.bind(this)} initialValues={this.state.tag}></ModifyTagForm>                        
                 </ModalBody>
                 <ModalFooter>
-                    <LoadingButton loading={this.state.loading} className="btn btn-primary" onClick={this.submit.bind(this)}>保存</LoadingButton>
+                    <LoadingButton loading={this.state.loading} className="btn btn-primary" onClick={this.submit.bind(this)}>{"save".L()}</LoadingButton>
                 </ModalFooter>
             </Modal>
         )

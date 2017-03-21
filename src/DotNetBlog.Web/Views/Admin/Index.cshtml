@@ -34,6 +34,7 @@
 
 <script type="text/javascript">
     var user = {
+        username: "@Html.Raw(clientManager.CurrentUser.UserName)",
         nickname: "@Html.Raw(clientManager.CurrentUser.Nickname)",
         icon: "http://gravatar.duoshuo.com/",
         lang: "@requestCulture.RequestCulture.UICulture.Name"

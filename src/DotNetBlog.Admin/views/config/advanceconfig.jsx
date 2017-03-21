@@ -7,10 +7,10 @@ const validate = values=>{
     const errors = {};
 
     if(!values.errorPageTitle){
-        errors.errorPageTitle = "请输入错误页面标题";
+        errors.errorPageTitle = "invalidPageTitle".L();
     }
     if(!values.errorPageContent){
-        errors.errorPageContent = "请输入错误页面内容";
+        errors.errorPageContent = "invalidPageContent".L();
     }
 
     return errors;

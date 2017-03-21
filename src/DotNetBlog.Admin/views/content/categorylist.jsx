@@ -60,7 +60,7 @@ class CategoryList extends React.Component{
         }, ()=>{
             Api.removeCategory(idList, response=>{
                 if(response.success){       
-                    Dialog.success("操作成功");     
+                    Dialog.success("operationSuccessful".L());     
                     this.loadData();
                 }
                 else{
@@ -115,7 +115,7 @@ class CategoryList extends React.Component{
         return (
             <div>
                 <a href="javascript:void(0)" onClick={this.editCategory.bind(this, row)}>{row.name}</a>
-                <a title="查看" className="pull-right text-muted" target="_blank" href={'/category/' + row.id}><i className="fa fa-external-link"></i></a>
+                <a title={"toView".L()} className="pull-right text-muted" target="_blank" href={'/category/' + row.id}><i className="fa fa-external-link"></i></a>
             </div>
         )
     }
@@ -137,20 +137,20 @@ class CategoryList extends React.Component{
                 <ModifyCategory onSuccess={this.onModifyCategorySuccess.bind(this)} ref="modifyCategoryView"></ModifyCategory>
                 <Spinner loading={this.state.loading}/>
                 <div className="mailbox-controls">
-                    <button className="btn btn-success btn-sm" title="新增" onClick={this.addNew.bind(this)}>
+                    <button className="btn btn-success btn-sm" title={"add".L()} onClick={this.addNew.bind(this)}>
                         <i className="fa fa-plus"></i>
                     </button>
                     {' '}
-                    <button className="btn btn-danger btn-sm" title="删除" disabled={!this.canDelete()} onClick={this.remove.bind(this)}>
+                    <button className="btn btn-danger btn-sm" title={"delete".L()} disabled={!this.canDelete()} onClick={this.remove.bind(this)}>
                         <i className="fa fa-trash"></i>
                     </button>   
                 </div>
 
                 <div className="box box-solid">
                     <div className="box-body table-responsive no-padding">
-                        <BootstrapTable keyField="id" hover={true} striped={true} data={this.state.categoryList} selectRow={selectRowProp} options={{noDataText:"无"}}>
-                            <TableHeaderColumn dataField='name' dataFormat={this.formatName.bind(this)}>名称</TableHeaderColumn>
-                            <TableHeaderColumn width="100" dataAlign="center" dataField='topics' dataFormat={formatTopics.bind(this)}>文章</TableHeaderColumn>
+                        <BootstrapTable keyField="id" hover={true} striped={true} data={this.state.categoryList} selectRow={selectRowProp} options={{noDataText:"empty".L()}}>
+                            <TableHeaderColumn dataField='name' dataFormat={this.formatName.bind(this)}>{"name".L()}</TableHeaderColumn>
+                            <TableHeaderColumn width="100" dataAlign="center" dataField='topics' dataFormat={formatTopics.bind(this)}>{"article".L()}</TableHeaderColumn>
                         </BootstrapTable>
                     </div>
                 </div>                

@@ -83,7 +83,7 @@ class PageList extends React.Component{
         });
 
         if(response.success){
-            Dialog.success("操作成功");
+            Dialog.success("operationSuccessful".L());
             this.loadData()
         }
         else{
@@ -129,11 +129,11 @@ class PageList extends React.Component{
         switch(cell){
             case 0:
                 className = "warning";
-                text = "草稿";
+                text = "draft".L();
             break;
             case 1:
                 className = "success";
-                text = "已发布";
+                text = "published".L();
             break;
         }
 
@@ -150,7 +150,7 @@ class PageList extends React.Component{
         return (
             <div>
                 <Link to={'/content/page/' + row.id}>{cell}</Link>
-                <a title="查看" className="pull-right text-muted" target="_blank" href={'/page/' + (row.alias || row.id) }><i className="fa fa-external-link"></i></a>
+                <a title={"toView".L()} className="pull-right text-muted" target="_blank" href={'/page/' + (row.alias || row.id) }><i className="fa fa-external-link"></i></a>
             </div>
         )
     }
@@ -177,19 +177,19 @@ class PageList extends React.Component{
                 <Spinner loading={this.state.loading}/>
 
                 <div className="mailbox-controls">
-                    <Link to="/content/page" className="btn btn-success btn-sm" title="新增">
+                    <Link to="/content/page" className="btn btn-success btn-sm" title={"add".L()}>
                         <i className="fa fa-plus"></i>
                     </Link>
                     {' '}
 
                     <div className="btn-group">
-                        <button className="btn btn-success btn-sm" title="发布" disabled={!this.canBatchOperate()} onClick={this.publish.bind(this)}>
+                        <button className="btn btn-success btn-sm" title={"publish".L()} disabled={!this.canBatchOperate()} onClick={this.publish.bind(this)}>
                             <i className="fa fa-check"></i>
                         </button>   
-                        <button className="btn btn-warning btn-sm" title="取消发布" disabled={!this.canBatchOperate()} onClick={this.draft.bind(this)}>
+                        <button className="btn btn-warning btn-sm" title={"cancelThePublish".L()} disabled={!this.canBatchOperate()} onClick={this.draft.bind(this)}>
                             <i className="fa fa-archive"></i>
                         </button>   
-                        <button className="btn btn-danger btn-sm" title="删除" disabled={!this.canBatchOperate()} onClick={this.remove.bind(this)}>
+                        <button className="btn btn-danger btn-sm" title={"delete".L()} disabled={!this.canBatchOperate()} onClick={this.remove.bind(this)}>
                             <i className="fa fa-trash"></i>
                         </button>   
                     </div>
@@ -197,11 +197,11 @@ class PageList extends React.Component{
 
                 <div className="box box-solid">
                     <div className="box-body table-responsive no-padding">
-                        <BootstrapTable keyField="id" data={this.state.pageList} selectRow={selectRowProp} options={{noDataText:"无"}}>
-                            <TableHeaderColumn dataField="title" dataFormat={this.formatTitle.bind(this)}>标题</TableHeaderColumn>
-                            <TableHeaderColumn width="100" dataAlign="center" dataField="parent" dataFormat={this.formatParent.bind(this)}>上级</TableHeaderColumn>
-                            <TableHeaderColumn width="180" dataAlign="center" dataField="order">排序</TableHeaderColumn>
-                            <TableHeaderColumn width="100" dataAlign="center" dataField="status" dataFormat={this.formatStatus.bind(this)}>状态</TableHeaderColumn>
+                        <BootstrapTable keyField="id" data={this.state.pageList} selectRow={selectRowProp} options={{noDataText:"empty".L()}}>
+                            <TableHeaderColumn dataField="title" dataFormat={this.formatTitle.bind(this)}>{"title".L()}</TableHeaderColumn>
+                            <TableHeaderColumn width="100" dataAlign="center" dataField="parent" dataFormat={this.formatParent.bind(this)}>{"parent".L()}</TableHeaderColumn>
+                            <TableHeaderColumn width="180" dataAlign="center" dataField="order">{"sorting".L()}</TableHeaderColumn>
+                            <TableHeaderColumn width="100" dataAlign="center" dataField="status" dataFormat={this.formatStatus.bind(this)}>{"status".L()}</TableHeaderColumn>
                         </BootstrapTable>
                     </div>
                 </div>

@@ -7,13 +7,13 @@ const validate = values=>{
     const errors = {};
 
     if(!values.email){
-        errors.email = "请输入邮箱"
+        errors.email = "pleaseTypeYourEmail".L()
     }
     else if(!(/^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{1,})+$/.test(values.email))){
-        errors.email = "请输入正确的邮箱地址"
+        errors.email = "pleaseTypeCorrectEmailAddress".L()
     }
     if(!values.nickname){
-        errors.nickname = "请输入昵称";
+        errors.nickname = "pleaseEnterNickname".L();
     }
 
     return errors;
@@ -25,18 +25,18 @@ class ProfileForm extends React.Component{
         
         return (
             <form noValidate onSubmit={handleSubmit}>
-                <FormGroup label="用户名">
+                <FormGroup label={"username".L()}>
                     <input type="text" className="form-control" disabled {...userName}/>
                 </FormGroup>
-                <FormGroup label="邮箱" validation={email}>
+                <FormGroup label={"email".L()} validation={email}>
                     <input type="text" className="form-control" {...email}/>
                 </FormGroup>
-                <FormGroup label="昵称" validation={nickname}>
+                <FormGroup label={"nickname".L()} validation={nickname}>
                     <input type="text" className="form-control" {...nickname}/>
                 </FormGroup>
                 <FormGroup>
                     <button type="submit" className="btn btn-primary">
-                        保存
+                        {"save".L()}
                     </button>
                 </FormGroup>
             </form>
@@ -98,7 +98,7 @@ class Profile extends React.Component{
                     loading: false
                 });
                 if(response.success){                    
-                    Dialog.success("操作成功");
+                    Dialog.success("operationSuccessful"());
                 }
                 else{
                     Dialog.error(response.errorMessage);
