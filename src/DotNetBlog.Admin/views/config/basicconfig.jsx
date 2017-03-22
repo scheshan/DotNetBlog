@@ -7,16 +7,16 @@ const validate = values=>{
     const errors = {}
 
     if(!values.host){
-        errors.host = "请输入博客地址";
+        errors.host = "enterBlogAddress".L();
     }
 
     if(!values.title){
-        errors.title = "请输入标题";
+        errors.title = "pleaseEnterTitle".L();
     }
 
     let topicsPerPage = parseInt(values.topicsPerPage);
     if(isNaN(Number(values.topicsPerPage)) || topicsPerPage < 1){
-        errors.topicsPerPage = "请输入正确的文章数量";
+        errors.topicsPerPage = "enterCorrectNumberOfArticles".L();
     }
 
     return errors
@@ -27,32 +27,33 @@ class BasicConfigForm extends React.Component{
         const {fields: {host, title, description, topicsPerPage, onlyShowSummary}, handleSubmit} = this.props
         return (
             <form noValidate onSubmit={handleSubmit}>
-                <FormGroup label="博客地址" validation={host}>
+                <FormGroup label={"blogAddress".L()} validation={host}>
                     <input type="text" className="form-control" {...host}/>
                 </FormGroup>
-                <FormGroup label="标题" validation={title}>
+                <FormGroup label={"title".L()} validation={title}>
                     <input type="text" className="form-control" {...title}/>
                 </FormGroup>
-                <FormGroup label="摘要">
+                <FormGroup label={"description".L()}>
                     <input type="text" className="form-control" {...description}/>
                 </FormGroup>
-                <FormGroup label="每页文章数" validation={topicsPerPage}>
+                <FormGroup label={"numberOfArticlesPerPage".L()} validation={topicsPerPage}>
                     <input type="text" className="form-control" {...topicsPerPage}/>
                 </FormGroup>
                 <FormGroup>
                     <div className="checkbox">
                         <label>
                             <input type="checkbox" {...onlyShowSummary}/>
-                            仅显示文章摘要
+                            {"showOnlyArticleSummary".L()}
                         </label>
                     </div>
                 </FormGroup>
                 <FormGroup>
                     <button type="submit" className="btn btn-primary">
-                        保存
+                        {"save".L()}
                     </button>
                 </FormGroup>
             </form>
+
         )
     }
 }
@@ -91,7 +92,7 @@ class BasicConfig extends React.Component{
                 });
 
                 if(response.success){
-                    Dialog.success("保存成功")
+                    Dialog.success("operationSuccessful".L())
                 }
                 else{
                     Dialog.error(response.errorMessage);

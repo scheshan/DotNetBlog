@@ -109,6 +109,35 @@ const Localization = new LocalizedStrings({
         /* views/config */
         invalidPageTitle: "Invalid page title",
         invalidPageContent: "Invalid page content, please enter valid content",
+        errorPage: "Error page",
+        errorPageTitle: "Error page title",
+        errorPageContent: "Content of the error page",
+        customCode: "Custom code",
+        headerScript: "Header script",
+        footerScript: "footer script",
+        enterBlogAddress: "Enter the blog address(URL)",
+        enterCorrectNumberOfArticles: "Please enter the correct number of articles",
+        blogAddress: "Blog address",
+        numberOfArticlesPerPage: "Number of articles per page",
+        showOnlyArticleSummary: "Show only article summary",
+        never: "Never",
+        numericDay: {
+            1: "a day",
+            default: "{0} days"
+        },
+        verifyComment: "Verfiy comment",
+        trustAuthenticatedCommentsUsers: "Trust authenticated comment's users",
+        enableWebsiteComment: "Enable website comment",
+        closeCommentAfter: "Close comment after",
+        savedSuccessfully: "Saved successfully",
+        testSuccessfully: "Test successfully",
+        emailAddress: "Email address",
+        smtpAddress: "SMTP服务器",
+        enterCorrectPortNumber: "Please enter correct port number",
+        portNumber: "Port number",
+        enableSSL: "Enable SSL",
+        sendEmailWhenComment: "Send notification via email when received a comment",
+        testEmailSettings: "Test email settings",
     },
     "zh-GB": {
         /* Menu */
@@ -218,13 +247,47 @@ const Localization = new LocalizedStrings({
 
         /* views/config */
         invalidPageTitle: "请输入错误页面标题",
-        invalidPageContent: "",
+        invalidPageContent: "请输入错误页面内容",
+        errorPage: "错误页面",
+        errorPageTitle: "错误页面的标题",
+        errorPageContent: "错误页面的内容",
+        customCode: "自定义代码",
+        headerScript: "头部区域",
+        footerScript: "底部区域",
+        enterBlogAddress: "请输入博客地址",
+        enterCorrectNumberOfArticles: "请输入正确的文章数量",
+        blogAddress: "博客地址",
+        numberOfArticlesPerPage: "每页文章数",
+        showOnlyArticleSummary: "仅显示文章摘要",
+        never: "从不",
+        numericDay: {
+            default: "{0}天"
+        },
+        verifyComment: "审核评论",
+        trustAuthenticatedCommentsUsers: "信任已通过验证的评论作者",
+        enableWebsiteComment: "在评论中启用网站",
+        closeCommentAfter: "之后关闭评论",
+        savedSuccessfully: "保存成功",
+        testSuccessfully: "测试成功",
+        emailAddress: "Email地址",
+        smtpAddress: "SMTP address",
+        enterCorrectPortNumber: "请输入正确的端口号",
+        portNumber: "端口号",
+        enableSSL: "启用SSL",
+        sendEmailWhenComment: "发送评论邮件",
+        testEmailSettins: "测试邮件配置",
     }
 });
 Localization.setLanguage(user.lang);
 
 String.prototype.L = function (...values) {
-    return Localization.formatString(Localization[this] || this, values);
+    var l = Localization[this] || this;
+    if (l instanceof Object) {
+        var num = values[0] || "default";
+        return Localization.formatString(l[num] || l["default"], values);
+    }
+    else 
+        return Localization.formatString(l, values);
 }
 
 module.exports = Localization;
