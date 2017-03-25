@@ -6,7 +6,7 @@ var {reduxForm} = require('redux-form')
 const validate = values=>{
     const errors = {};
     if(!values.title){
-        errors.title = "请输入标题";
+        errors.title = "pleaseEnterTitle".L();
     }
 
     return errors;
@@ -17,7 +17,7 @@ class EditBasicForm extends React.Component{
         const {fields: {title}, handleSubmit} = this.props;
         return (
             <form onSubmit={handleSubmit}>
-                <FormGroup label="标题" validation={title}>
+                <FormGroup label={"title".L()} validation={title}>
                     <input className="form-control" type="text" {...title}/>
                 </FormGroup>
             </form>
@@ -71,7 +71,7 @@ class EditBasic extends React.Component{
     render(){
         return (
             <Modal show={this.state.show} onHide={this.hide.bind(this)}>
-                <ModalHeader closeButton>修改配置</ModalHeader>
+                <ModalHeader closeButton>{"modifyConfiguration".L()}</ModalHeader>
                 <ModalBody>
                     <EditBasicForm 
                         ref="form"
@@ -79,7 +79,7 @@ class EditBasic extends React.Component{
                         initialValues={this.state.config}/>
                 </ModalBody>
                 <ModalFooter>
-                    <button type="button" className="btn btn-primary" onClick={this.submit.bind(this)}>保存</button>
+                    <button type="button" className="btn btn-primary" onClick={this.submit.bind(this)}>{"save".L()}</button>
                 </ModalFooter>
             </Modal>
         )

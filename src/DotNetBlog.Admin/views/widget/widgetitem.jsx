@@ -8,8 +8,8 @@ var WidgetItem = React.createClass({
             <li {...this.props}>
                 {this.props.children.widget.config.title}
                 <span className="item-buttons">
-                    <button title="编辑" onClick={this.props.children.onEdit}><i className="fa fa-pencil"></i></button>
-                    <button title="移除" onClick={this.props.children.onRemove}><i className="fa fa-trash"></i></button>
+                    <button title={"edit".L()} onClick={this.props.children.onEdit}><i className="fa fa-pencil"></i></button>
+                    <button title={"remove".L()} onClick={this.props.children.onRemove}><i className="fa fa-trash"></i></button>
                 </span>
             </li>
         )

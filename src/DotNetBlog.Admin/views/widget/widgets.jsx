@@ -143,7 +143,7 @@ class Widgets extends React.Component{
                     loading: false
                 })
                 if(response.success){
-                    Dialog.success("操作成功")
+                    Dialog.success("operationSuccessful".L())
                 }
                 else{
                     Dialog.error(response.errorMessage)
@@ -183,21 +183,21 @@ class Widgets extends React.Component{
                 <EditTag ref="editTag" onSave={this.onSaveConfig.bind(this)}></EditTag>
 
                 <div className="mailbox-controls">
-                    <button className="btn btn-primary" title="保存" onClick={this.save.bind(this)}>
-                        保存
+                    <button className="btn btn-primary" title={"save".L()} onClick={this.save.bind(this)}>
+                        {"save".L()}
                     </button>
                     <span className="text-danger">
                         {' '}
                         <i className="fa fa-info-circle"></i>
                         {' '}
-                        所有操作完毕后，点保存按钮才会生效
+                        {"afterAllOperationCompleted".L()}
                     </span>
                 </div>
                 
                 <div className="row">
                     <div className="col-md-6">
                         <div className="box">
-                            <div className="box-header">可用组件</div>
+                            <div className="box-header">{"availableWidgets".L()}</div>
                             <div className="box-body">
                                 <ul className="widgets-list">
                                     {this.state.availableWidgetList.map((widget, i)=>{
@@ -205,8 +205,8 @@ class Widgets extends React.Component{
                                             <li key={i}>
                                                 {widget.name}
                                                 <span className="item-buttons">
-                                                    <button title="增加" onClick={this.addWidget.bind(this, widget)}><i className="fa fa-plus"></i></button>
-                                                    <button title="信息" onClick={this.showWidgetInfo.bind(this, widget)}><i className="fa fa-info"></i></button>
+                                                    <button title={"addTo".L()} onClick={this.addWidget.bind(this, widget)}><i className="fa fa-plus"></i></button>
+                                                    <button title={"info".L()} onClick={this.showWidgetInfo.bind(this, widget)}><i className="fa fa-info"></i></button>
                                                 </span>
                                             </li>
                                         )
@@ -218,7 +218,7 @@ class Widgets extends React.Component{
 
                     <div className="col-md-6">
                         <div className="box">
-                            <div className="box-header">正在使用</div>
+                            <div className="box-header">{"inUse".L()}</div>
                             <div className="box-body">
                                 <ul className="widgets-list">
                                     {listItems}
