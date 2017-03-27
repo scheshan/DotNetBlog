@@ -63,6 +63,20 @@ namespace DotNetBlog.Core.Model.Setting
         }
 
         /// <summary>
+        /// Selected language
+        /// </summary>
+        public string Language
+        {
+            get
+            {
+                return GetStringValue(nameof(Language), "en-GB");
+            }
+            set
+            {
+                SetValue(nameof(Language), value);
+            }
+        }
+        /// <summary>
         /// 每页文章数
         /// </summary>
         public int TopicsPerPage

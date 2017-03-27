@@ -1,7 +1,10 @@
-﻿var React = require("react")
+﻿
+var React = require("react")
 var {Spinner, Bootstrap: {FormGroup}} = require("../../components")
 var {Api, Dialog} = require("../../services")
 var {reduxForm} = require("redux-form")
+
+import Localization from "../../resources"
 
 const validate = values=>{
     const errors = {}
@@ -23,8 +26,16 @@ const validate = values=>{
 }
 
 class BasicConfigForm extends React.Component{
+
+    constructor() {
+        super()
+
+        this.languageOptions = Localization.getAvailableLanguages();
+        console.dir(this.languageOptions);
+    }
+
     render(){
-        const {fields: {host, title, description, topicsPerPage, onlyShowSummary}, handleSubmit} = this.props
+        const {fields: {host, title, description, language, topicsPerPage, onlyShowSummary}, handleSubmit} = this.props
         return (
             <form noValidate onSubmit={handleSubmit}>
                 <FormGroup label={"blogAddress".L()} validation={host}>
@@ -38,6 +49,15 @@ class BasicConfigForm extends React.Component{
                 </FormGroup>
                 <FormGroup label={"numberOfArticlesPerPage".L()} validation={topicsPerPage}>
                     <input type="text" className="form-control" {...topicsPerPage}/>
+                </FormGroup>
+                <FormGroup label={"selectedLanguage".L()} validation={topicsPerPage}>
+                    <select className="form-control" {...language}>
+                        {this.languageOptions.map(item => {
+                            return (
+                                <option value={item}>{item}</option>
+                            )
+                        })}
+                    </select>
                 </FormGroup>
                 <FormGroup>
                     <div className="checkbox">
@@ -60,7 +80,7 @@ class BasicConfigForm extends React.Component{
 
 BasicConfigForm = reduxForm({
     form: "basicConfigForm",
-    fields: ["host", "title", "description", "topicsPerPage", "onlyShowSummary"],
+    fields: ["host", "title", "description", "language", "topicsPerPage", "onlyShowSummary"],
     validate
 })(BasicConfigForm)
 
@@ -72,6 +92,7 @@ class BasicConfig extends React.Component{
             config: {
                 title: "",
                 description: "",
+                language: "en-GB",
                 topicsPerPage: 10
             },
             loading: true
@@ -92,7 +113,8 @@ class BasicConfig extends React.Component{
                 });
 
                 if(response.success){
-                    Dialog.success("operationSuccessful".L())
+                    Dialog.success("operationSuccessful".L());
+                    window.location.reload();
                 }
                 else{
                     Dialog.error(response.errorMessage);

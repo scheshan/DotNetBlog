@@ -73,7 +73,7 @@ namespace DotNetBlog.Web
             services.AddBlogService();
 
             AutoMapperConfig.Configure();
-
+            
             services.Configure<RequestLocalizationOptions>(
                 opts => {
                     var supportedCultures = new List<CultureInfo>
@@ -87,6 +87,17 @@ namespace DotNetBlog.Web
                     opts.SupportedCultures = supportedCultures;
                     // UI strings that we have localized.
                     opts.SupportedUICultures = supportedCultures;
+
+                    //Uncomment for change language by user
+                    //opts.RequestCultureProviders.Add(new CookieRequestCultureProvider());
+                    //opts.RequestCultureProviders.Add(new AcceptLanguageHeaderRequestCultureProvider());
+
+                    opts.RequestCultureProviders.Insert(0, new CustomRequestCultureProvider(async context =>
+                    {
+                        var settingService = context.RequestServices.GetService<Core.Service.SettingService>();
+                        // My custom request culture logic
+                        return new ProviderCultureResult(settingService.Get().Language);
+                    }));
                 });
         }
 
