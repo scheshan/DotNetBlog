@@ -24,6 +24,7 @@ namespace DotNetBlog.Web.Areas.Api.Controllers
         [HttpGet("all")]
         public async Task<IActionResult> All()
         {
+            throw new Exception("ALO");
             var list = await CategoryService.All();
 
             return Success(list);

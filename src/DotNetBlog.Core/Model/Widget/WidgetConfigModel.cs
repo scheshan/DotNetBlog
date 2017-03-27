@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using DotNetBlog.Core.Enums;
 using Newtonsoft.Json;
+using Microsoft.AspNetCore.Mvc.Localization;
 
 namespace DotNetBlog.Core.Model.Widget
 {
@@ -23,17 +24,17 @@ namespace DotNetBlog.Core.Model.Widget
 
     public class AdministrationWidgetConfigModel : WidgetConfigModelBase
     {
-        public AdministrationWidgetConfigModel()
+        public AdministrationWidgetConfigModel(IHtmlLocalizer<WidgetConfigModelBase> L)
         {
-            this.Title = "管理";
+            this.Title = L?["Administration"].Value;
         }
     }
 
     public class CategoryWidgetConfigModel : WidgetConfigModelBase
     {
-        public CategoryWidgetConfigModel()
+        public CategoryWidgetConfigModel(IHtmlLocalizer<WidgetConfigModelBase> L)
         {
-            this.Title = "分类";
+            this.Title = L?["Categories"].Value;
             this.ShowRSS = true;
             this.ShowNumbersOfTopics = true;
         }
@@ -45,9 +46,9 @@ namespace DotNetBlog.Core.Model.Widget
 
     public class RecentCommentWidgetConfigModel : WidgetConfigModelBase
     {
-        public RecentCommentWidgetConfigModel()
+        public RecentCommentWidgetConfigModel(IHtmlLocalizer<WidgetConfigModelBase> L)
         {
-            this.Title = "最新评论";
+            this.Title = L?["Recent comments"].Value;
             this.Number = 10;
         }
 
@@ -64,25 +65,25 @@ namespace DotNetBlog.Core.Model.Widget
     
     public class MonthStatisticeWidgetConfigModel : WidgetConfigModelBase
     {
-        public MonthStatisticeWidgetConfigModel()
+        public MonthStatisticeWidgetConfigModel(IHtmlLocalizer<WidgetConfigModelBase> L)
         {
-            this.Title = "归档";
+            this.Title = L?["Archive"].Value;
         }
     }
 
     public class PageWidgetConfigModel : WidgetConfigModelBase
     {
-        public PageWidgetConfigModel()
+        public PageWidgetConfigModel(IHtmlLocalizer<WidgetConfigModelBase> L)
         {
-            this.Title = "页面";
+            this.Title = L?["Pages"].Value;
         }
     }
 
     public class RecentTopicWidgetConfigModel : WidgetConfigModelBase
     {
-        public RecentTopicWidgetConfigModel()
+        public RecentTopicWidgetConfigModel(IHtmlLocalizer<WidgetConfigModelBase> L)
         {
-            this.Title = "最新文章";
+            this.Title = L?["Recent articles"].Value;
             this.Number = 10;
         }
 
@@ -101,17 +102,17 @@ namespace DotNetBlog.Core.Model.Widget
 
     public class SearchWidgetConfigModel : WidgetConfigModelBase
     {
-        public SearchWidgetConfigModel()
+        public SearchWidgetConfigModel(IHtmlLocalizer<WidgetConfigModelBase> L)
         {
-            this.Title = "搜索";
+            this.Title = L?["Search for"].Value;
         }
     }
 
     public class TagWidgetConfigModel : WidgetConfigModelBase
     {
-        public TagWidgetConfigModel()
+        public TagWidgetConfigModel(IHtmlLocalizer<WidgetConfigModelBase> L)
         {
-            this.Title = "标签";
+            this.Title = L?["Tags"].Value;
             this.Number = 100;
             this.MinTopicNumber = 1;
         }
@@ -131,9 +132,9 @@ namespace DotNetBlog.Core.Model.Widget
 
     public class LinkWidgetConfigModel : WidgetConfigModelBase
     {
-        public LinkWidgetConfigModel()
+        public LinkWidgetConfigModel(IHtmlLocalizer<WidgetConfigModelBase> L)
         {
-            this.Title = "友情链接";
+            this.Title = L?["Links"].Value;
             this.LinkList = new List<LinkModel>();
         }
 

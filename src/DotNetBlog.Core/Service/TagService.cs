@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using DotNetBlog.Core.Extensions;
 using DotNetBlog.Core.Model;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Mvc.Localization;
 
 namespace DotNetBlog.Core.Service
 {
@@ -14,9 +15,12 @@ namespace DotNetBlog.Core.Service
     {
         private BlogContext BlogContext { get; set; }
 
-        public TagService(BlogContext blogContext)
+        private IHtmlLocalizer<TagService> L { get; set; }
+
+        public TagService(BlogContext blogContext, IHtmlLocalizer<TagService> localizer)
         {
             BlogContext = blogContext;
+            L = localizer;
         }
 
         public async Task<List<TagModel>> All()
@@ -60,14 +64,14 @@ namespace DotNetBlog.Core.Service
             var all = await this.All();
             if (all.Any(t => t.Keyword == keyword && t.ID != id))
             {
-                return OperationResult.Failure("标签名称重复");
+                return OperationResult.Failure(L["The label name is duplicated"].Value);
             }
 
             var entity = await this.BlogContext.Tags.SingleOrDefaultAsync(t => t.ID == id);
 
             if(entity == null)
             {
-                return OperationResult.Failure("标签不存在");
+                return OperationResult.Failure(L["The label does not exists"].Value);
             }
 
             entity.Keyword = keyword;

@@ -13,6 +13,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Localization" Version="1.1.2" />
     <PackageReference Include="System.Reflection" Version="4.3.0" />
     <PackageReference Include="AutoMapper" Version="5.2.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="1.1.1" />
@@ -23,6 +24,33 @@
     <PackageReference Include="Newtonsoft.Json" Version="9.0.1" />
     <PackageReference Include="CommonMark.NET" Version="0.15.1" />
     <PackageReference Include="NLog.Extensions.Logging" Version="1.0.0-rtm-beta3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Resources\Model\Setting\SettingModel.en-GB.resx">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Model\Setting\SettingModel.zh-CN.resx">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Service\CommentService.en-GB.resx">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Service\CommentService.zh-CN.resx">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Service\CategoryService.en-GB.resx">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Service\CategoryService.zh-CN.resx">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Service\AuthService.en-GB.resx">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Service\AuthService.zh-CN.resx">
+      <Generator></Generator>
+    </EmbeddedResource>
   </ItemGroup>
 
 </Project>

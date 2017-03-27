@@ -7,16 +7,19 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using DotNetBlog.Core.Extensions;
+using Microsoft.AspNetCore.Mvc.Localization;
 
 namespace DotNetBlog.Core.Service
 {
     public class AuthService
     {
         private BlogContext BlogContext { get; set; }
+        private IHtmlLocalizer<AuthService> L { get; set; }
 
-        public AuthService(BlogContext blogContext)
+        public AuthService(BlogContext blogContext, IHtmlLocalizer<AuthService> localizer)
         {
             BlogContext = blogContext;
+            L = localizer;
         }
 
         public async Task<OperationResult<string>> Login(string userName, string password)
@@ -27,7 +30,7 @@ namespace DotNetBlog.Core.Service
 
             if(userEntity == null)
             {
-                return OperationResult<string>.Failure("用户名或密码错误");
+                return OperationResult<string>.Failure(L["Wrong username or password"].Value);
             }
 
             userEntity.LoginDate = DateTime.Now;

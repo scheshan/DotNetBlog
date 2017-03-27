@@ -43,7 +43,7 @@ namespace DotNetBlog.Core.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-
+            
             modelBuilder.Entity<Setting>(SettingMapping.Map);
             modelBuilder.Entity<Category>(CategoryMapping.Map);
             modelBuilder.Entity<CategoryTopic>(CategoryTopicMapping.Map);

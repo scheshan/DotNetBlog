@@ -12,6 +12,7 @@ using DotNetBlog.Core.Model.Topic;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.DependencyInjection;
 using DotNetBlog.Core.Model.Setting;
+using Microsoft.AspNetCore.Mvc.Localization;
 
 namespace DotNetBlog.Core.Service
 {
@@ -29,7 +30,15 @@ namespace DotNetBlog.Core.Service
 
         private EmailService EmailService { get; set; }
 
-        public CommentService(BlogContext blogContext, ClientManager clientManager, IMemoryCache cache, IServiceProvider serviceProvider, SettingModel settings, EmailService emailService)
+        private IHtmlLocalizer<CommentService> L { get; set; }
+
+        public CommentService(BlogContext blogContext, 
+            ClientManager clientManager, 
+            IMemoryCache cache,
+            IServiceProvider serviceProvider, 
+            SettingModel settings, 
+            EmailService emailService, 
+            IHtmlLocalizer<CommentService> localizer)
         {
             this.BlogContext = blogContext;
             this.ClientManager = clientManager;
@@ -37,6 +46,7 @@ namespace DotNetBlog.Core.Service
             this.ServiceProvider = serviceProvider;
             this.Settings = settings;
             this.EmailService = emailService;
+            this.L = localizer;
         }
 
         public async Task<OperationResult<CommentModel>> Add(AddCommentModel model)
@@ -44,13 +54,13 @@ namespace DotNetBlog.Core.Service
             var topic = await BlogContext.Topics.SingleOrDefaultAsync(t => t.ID == model.TopicID);
             if (topic == null || topic.Status != Enums.TopicStatus.Published)
             {
-                return OperationResult<CommentModel>.Failure("文章不存在");
+                return OperationResult<CommentModel>.Failure(L["Article does not exists"].Value);
             }
 
             var topicService = this.ServiceProvider.GetService<TopicService>();
             if (!topicService.CanComment(topic))
             {
-                return OperationResult<CommentModel>.Failure("文章不允许评论");
+                return OperationResult<CommentModel>.Failure(L["Comments not allow for this articles"].Value);
             }
 
             Comment replyEntity = null;
@@ -60,12 +70,12 @@ namespace DotNetBlog.Core.Service
 
                 if (replyEntity == null || replyEntity.Status != Enums.CommentStatus.Approved)
                 {
-                    return OperationResult<CommentModel>.Failure("回复的评论不存在");
+                    return OperationResult<CommentModel>.Failure(L["Reply to comment not available"].Value);
                 }
 
                 if (replyEntity.TopicID != model.TopicID)
                 {
-                    return OperationResult<CommentModel>.Failure("错误的回复对象");
+                    return OperationResult<CommentModel>.Failure(L["Wrong reply object"].Value);
                 }
             }
 
@@ -85,7 +95,7 @@ namespace DotNetBlog.Core.Service
             else
             {
                 status = Enums.CommentStatus.Approved;
-            }            
+            }
 
             var entity = new Comment
             {
@@ -104,16 +114,20 @@ namespace DotNetBlog.Core.Service
 
             BlogContext.Comments.Add(entity);
             await BlogContext.SaveChangesAsync();
-
-            this.EmailService.SendCommentEmail(topic, entity);
-            if (entity.Status == Enums.CommentStatus.Approved && entity.ReplyToID.HasValue && replyEntity.NotifyOnComment)
-            {
-                this.EmailService.SendReplyEmail(topic, entity, replyEntity);
-            }
+            SendEmail(topic, replyEntity, entity);
 
             var commentModel = Transform(entity).First();
 
             return new OperationResult<CommentModel>(commentModel);
+        }
+
+        private async void SendEmail(Topic topic, Comment replyEntity, Comment entity)
+        {
+            await this.EmailService.SendCommentEmail(topic, entity);
+            if (entity.Status == Enums.CommentStatus.Approved && entity.ReplyToID.HasValue && replyEntity.NotifyOnComment)
+            {
+                await this.EmailService.SendReplyEmail(topic, entity, replyEntity);
+            }
         }
 
         public async Task<OperationResult<CommentModel>> DirectlyReply(int replyTo, string content)
@@ -122,7 +136,7 @@ namespace DotNetBlog.Core.Service
 
             if (comment == null)
             {
-                return OperationResult<CommentModel>.Failure("评论不存在");
+                return OperationResult<CommentModel>.Failure(L["Comment not exists"].Value);
             }
 
             var entity = new Comment

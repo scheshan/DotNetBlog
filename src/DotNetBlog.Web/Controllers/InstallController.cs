@@ -21,10 +21,15 @@ namespace DotNetBlog.Web.Controllers
 
         private IHtmlLocalizer<InstallController> L { get; set; }
 
-        public InstallController(BlogContext blogContext, IHtmlLocalizer<InstallController> localizer)
+        private IHtmlLocalizer<WidgetConfigModelBase> WidgetLocalizer { get; set; }
+
+        public InstallController(BlogContext blogContext, 
+            IHtmlLocalizer<InstallController> localizer,
+            IHtmlLocalizer<WidgetConfigModelBase> widgetLocalizer)
         {
             this.BlogContext = blogContext;
             this.L = localizer;
+            this.WidgetLocalizer = WidgetLocalizer;
         }
 
         [HttpGet("install")]
@@ -48,42 +53,42 @@ namespace DotNetBlog.Web.Controllers
                     widgetList.Add(new WidgetModel
                     {
                         Type = WidgetType.Administration,
-                        Config = new AdministrationWidgetConfigModel()
+                        Config = new AdministrationWidgetConfigModel(WidgetLocalizer)
                     });
                     widgetList.Add(new WidgetModel
                     {
                         Type = WidgetType.Search,
-                        Config = new SearchWidgetConfigModel()
+                        Config = new SearchWidgetConfigModel(WidgetLocalizer)
                     });
                     widgetList.Add(new WidgetModel
                     {
                         Type = WidgetType.Category,
-                        Config = new CategoryWidgetConfigModel()
+                        Config = new CategoryWidgetConfigModel(WidgetLocalizer)
                     });
                     widgetList.Add(new WidgetModel
                     {
                         Type = WidgetType.Tag,
-                        Config = new TagWidgetConfigModel()
+                        Config = new TagWidgetConfigModel(WidgetLocalizer)
                     });
                     widgetList.Add(new WidgetModel
                     {
                         Type = WidgetType.MonthStatistics,
-                        Config = new MonthStatisticeWidgetConfigModel()
+                        Config = new MonthStatisticeWidgetConfigModel(WidgetLocalizer)
                     });
                     widgetList.Add(new WidgetModel
                     {
                         Type = WidgetType.RecentTopic,
-                        Config = new RecentTopicWidgetConfigModel()
+                        Config = new RecentTopicWidgetConfigModel(WidgetLocalizer)
                     });
                     widgetList.Add(new WidgetModel
                     {
                         Type = WidgetType.RecentComment,
-                        Config = new RecentCommentWidgetConfigModel()
+                        Config = new RecentCommentWidgetConfigModel(WidgetLocalizer)
                     });
                     widgetList.Add(new WidgetModel
                     {
                         Type = WidgetType.Page,
-                        Config = new PageWidgetConfigModel()
+                        Config = new PageWidgetConfigModel(WidgetLocalizer)
                     });
 
                     var widgetEntityList = widgetList.Select(t => new Widget

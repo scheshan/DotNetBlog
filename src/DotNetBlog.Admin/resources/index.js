@@ -161,7 +161,7 @@ const Localization = new LocalizedStrings({
         info: "Info",
         inUse: "In use",
     },
-    "zh-GB": {
+    "zh-CN": {
         /* Menu */
         dashboard: "控制台",
         content: "内容",
