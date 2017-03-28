@@ -2,8 +2,13 @@
 using DotNetBlog.Core.Entity;
 using DotNetBlog.Core.Enums;
 using DotNetBlog.Core.Model.Widget;
+using DotNetBlog.Core.Service;
+using DotNetBlog.Web.ViewModels.Install;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Localization;
+using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using NLog;
 using System;
@@ -21,90 +26,54 @@ namespace DotNetBlog.Web.Controllers
 
         private IHtmlLocalizer<InstallController> L { get; set; }
 
-        private IHtmlLocalizer<WidgetConfigModelBase> WidgetLocalizer { get; set; }
+        private InstallService InstallService { get; set; }
 
-        public InstallController(BlogContext blogContext, 
+        private SettingService SettingService { get; set; }
+
+        private IOptions<RequestLocalizationOptions> LocOptions { get; set; }
+
+        public InstallController(BlogContext blogContext,
             IHtmlLocalizer<InstallController> localizer,
-            IHtmlLocalizer<WidgetConfigModelBase> widgetLocalizer)
+            IOptions<RequestLocalizationOptions> LocOptions,
+            InstallService installService,
+            SettingService settingService)
         {
             this.BlogContext = blogContext;
             this.L = localizer;
-            this.WidgetLocalizer = WidgetLocalizer;
+            this.InstallService = installService;
+            this.SettingService = settingService;
         }
 
         [HttpGet("install")]
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index([FromForm] InstallConfig model)
         {
             try
             {
-                if (await this.BlogContext.Database.EnsureCreatedAsync())
+                await InstallService.Install(model.AdminUsername ?? "admin",
+                    model.AdminPassword ?? "admin",
+                    model.Nickname ?? L["System Administrator"].Value,
+                    model.Email ?? "admin@dotnetblog.com");
+
+                var lang = model.Language ?? "en-GB";
+
+                //TODO: fox this problem
+                /**
+                 * I should find a solution to validate this language it's exitst or not
+                 * the code at below should work but we should check why LocOptions become null
+                 * https://docs.microsoft.com/en-us/aspnet/core/fundamentals/localization
+                 */
+                //var langExists = LocOptions.Value.SupportedUICultures.Any(a => a.Name.Equals(lang, StringComparison.OrdinalIgnoreCase));
+
+                //if (langExists)
                 {
-                    var user = new User
-                    {
-                        UserName = "admin",
-                        Password = Core.Utilities.EncryptHelper.MD5("admin"),
-                        Nickname = L["System Administrator"].Value,
-                        Email = "admin@dotnetblog.com"
-                    };
-
-                    this.BlogContext.Users.Add(user);
-
-                    var widgetList = new List<WidgetModel>();
-                    widgetList.Add(new WidgetModel
-                    {
-                        Type = WidgetType.Administration,
-                        Config = new AdministrationWidgetConfigModel(WidgetLocalizer)
-                    });
-                    widgetList.Add(new WidgetModel
-                    {
-                        Type = WidgetType.Search,
-                        Config = new SearchWidgetConfigModel(WidgetLocalizer)
-                    });
-                    widgetList.Add(new WidgetModel
-                    {
-                        Type = WidgetType.Category,
-                        Config = new CategoryWidgetConfigModel(WidgetLocalizer)
-                    });
-                    widgetList.Add(new WidgetModel
-                    {
-                        Type = WidgetType.Tag,
-                        Config = new TagWidgetConfigModel(WidgetLocalizer)
-                    });
-                    widgetList.Add(new WidgetModel
-                    {
-                        Type = WidgetType.MonthStatistics,
-                        Config = new MonthStatisticeWidgetConfigModel(WidgetLocalizer)
-                    });
-                    widgetList.Add(new WidgetModel
-                    {
-                        Type = WidgetType.RecentTopic,
-                        Config = new RecentTopicWidgetConfigModel(WidgetLocalizer)
-                    });
-                    widgetList.Add(new WidgetModel
-                    {
-                        Type = WidgetType.RecentComment,
-                        Config = new RecentCommentWidgetConfigModel(WidgetLocalizer)
-                    });
-                    widgetList.Add(new WidgetModel
-                    {
-                        Type = WidgetType.Page,
-                        Config = new PageWidgetConfigModel(WidgetLocalizer)
-                    });
-
-                    var widgetEntityList = widgetList.Select(t => new Widget
-                    {
-                        Config = JsonConvert.SerializeObject(t.Config),
-                        Type = t.Type,
-                        ID = widgetList.IndexOf(t) + 1
-                    });
-                    this.BlogContext.AddRange(widgetEntityList);
-
-                    await this.BlogContext.SaveChangesAsync();
+                    var settings = SettingService.Get();
+                    settings.Language = lang;
+                    await SettingService.Save(settings);
                 }
 
                 return RedirectToAction("Index", "Home");
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Logger.Error(ex, ex.Message);
                 return this.Content(ex.Message);
