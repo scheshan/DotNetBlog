@@ -7,7 +7,7 @@ var {reduxForm} = require("redux-form")
 const validate = values=>{
     const errors = {};
     if(!values.content){
-        errors.content = "请填写回复内容";
+        errors.content = "pleaseFillInTheReply".L();
     }
     return errors;
 }
@@ -19,7 +19,7 @@ class ReplyCommentForm extends React.Component{
         return (
             <FormGroup>
                 <form noValidate onSubmit={handleSubmit}>
-                    <label className="col-md-2 control-label">回复</label>
+                    <label className="col-md-2 control-label">{"reply".L()}</label>
                     <div className="col-md-10">
                         <textarea className="form-control" rows="4" {...content}></textarea>
                     </div>
@@ -75,7 +75,7 @@ class ReplyComment extends React.Component{
                     loading: false
                 })
                 if(response.success){
-                    Dialog.success("操作成功")
+                    Dialog.success("operationSuccessful".L())
                     this.hide();
                     this.props.successCallback && this.props.successCallback();
                 }
@@ -93,28 +93,28 @@ class ReplyComment extends React.Component{
     render(){
         return (
             <Modal show={this.state.show} onHide={this.hide.bind(this)}>                    
-                <ModalHeader closeButton>回复评论</ModalHeader>
+                <ModalHeader closeButton>{"replyToComment".L()}</ModalHeader>
                 <ModalBody className="form-horizontal">
                     <FormGroup>
-                        <label className="col-md-2 control-label">作者</label>
+                        <label className="col-md-2 control-label">{"author".L()}</label>
                         <div className="col-md-10">
                             <span className="help-block">{this.state.comment.name}</span>
                         </div>
                     </FormGroup>
                     <FormGroup>
-                        <label className="col-md-2 control-label">邮箱</label>
+                        <label className="col-md-2 control-label">{"email".L()}</label>
                         <div className="col-md-10">
                             <span className="help-block">{this.state.comment.email}</span>
                         </div>
                     </FormGroup>
                     <FormGroup>
-                        <label className="col-md-2 control-label">时间</label>
+                        <label className="col-md-2 control-label">{"time".L()}</label>
                         <div className="col-md-10">
                             <span className="help-block">{this.state.comment.createDate}</span>
                         </div>
                     </FormGroup>
                     <FormGroup>
-                        <label className="col-md-2 control-label">内容</label>
+                        <label className="col-md-2 control-label">{"content".L()}</label>
                         <div className="col-md-10">
                             <textarea className="form-control" readOnly value={this.state.comment.content} rows="4"></textarea>
                         </div>
@@ -122,8 +122,8 @@ class ReplyComment extends React.Component{
                     <ReplyCommentForm ref="form" onSubmit={this.onSubmit.bind(this)}></ReplyCommentForm>
                 </ModalBody>
                 <ModalFooter>
-                    <button type="button" className="btn btn-default pull-left" onClick={this.hide.bind(this)}>取消</button>
-                    <LoadingButton loading={this.state.loading} className="btn btn-primary" onClick={this.submit.bind(this)}>保存</LoadingButton>
+                    <button type="button" className="btn btn-default pull-left" onClick={this.hide.bind(this)}>{"cancel".L()}</button>
+                    <LoadingButton loading={this.state.loading} className="btn btn-primary" onClick={this.submit.bind(this)}>{"save".L()}</LoadingButton>
                 </ModalFooter>
             </Modal>
         )

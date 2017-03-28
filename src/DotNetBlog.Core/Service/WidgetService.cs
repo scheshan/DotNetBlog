@@ -12,6 +12,7 @@ using Microsoft.EntityFrameworkCore;
 using DotNetBlog.Core.Model;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using Microsoft.AspNetCore.Mvc.Localization;
 
 namespace DotNetBlog.Core.Service
 {
@@ -19,18 +20,18 @@ namespace DotNetBlog.Core.Service
     {
         private static readonly string CacheKey = "Cache_Widget";
 
-        private static readonly Dictionary<WidgetType, string> DefaultNames = new Dictionary<WidgetType, string>
-        {
-            { WidgetType.Administration, "管理" },
-            { WidgetType.Category, "分类" },
-            { WidgetType.RecentComment, "最新评论" },
-            { WidgetType.MonthStatistics, "归档" },
-            { WidgetType.Page, "页面" },
-            { WidgetType.Search, "搜索" },
-            { WidgetType.Tag, "标签" },
-            { WidgetType.RecentTopic, "最新文章" },
-            { WidgetType.Link, "友情链接" }
-        };
+        //private static readonly Dictionary<WidgetType, string> DefaultNames = new Dictionary<WidgetType, string>
+        //{
+        //    { WidgetType.Administration, "管理" },
+        //    { WidgetType.Category, "分类" },
+        //    { WidgetType.RecentComment, "最新评论" },
+        //    { WidgetType.MonthStatistics, "归档" },
+        //    { WidgetType.Page, "页面" },
+        //    { WidgetType.Search, "搜索" },
+        //    { WidgetType.Tag, "标签" },
+        //    { WidgetType.RecentTopic, "最新文章" },
+        //    { WidgetType.Link, "友情链接" }
+        //};
 
         private static readonly Dictionary<WidgetType, Type> DefaultWidgetConfigTypes = new Dictionary<WidgetType, Type>
         {
@@ -49,10 +50,13 @@ namespace DotNetBlog.Core.Service
 
         private IMemoryCache Cache { get; set; }
 
-        public WidgetService(BlogContext blogContext, IMemoryCache cache)
+        private IHtmlLocalizer<WidgetConfigModelBase> L { get; set; }
+
+        public WidgetService(BlogContext blogContext, IMemoryCache cache, IHtmlLocalizer<WidgetConfigModelBase> localizer)
         {
             this.BlogContext = blogContext;
             this.Cache = cache;
+            this.L = localizer;
         }
 
         public List<AvailableWidgetModel> QueryAvailable()
@@ -62,13 +66,14 @@ namespace DotNetBlog.Core.Service
             var arr = Enum.GetValues(typeof(WidgetType));
             foreach(byte item in arr)
             {
-                WidgetType type = (WidgetType)item;
-                Type configType = DefaultWidgetConfigTypes[type];
+                var type = (WidgetType)item;
+                var configType = DefaultWidgetConfigTypes[type];
+                var instance = (WidgetConfigModelBase)Activator.CreateInstance(configType, L);
                 result.Add(new AvailableWidgetModel
                 {
                     Type = type,
-                    Name = DefaultNames[type],
-                    DefaultConfig = (WidgetConfigModelBase)Activator.CreateInstance(configType),
+                    Name = instance.Title,
+                    DefaultConfig = instance,
                     Icon = type.ToString()
                 });
             }

@@ -32,99 +32,99 @@ const MenuKeys = {
 const Menus = [
     {
         key: MenuKeys.Dashboard,
-        text: "控制台",
+        text: "dashboard".L(),
         url: "dashboard",
         icon: "fa fa-th-large"
     },
     {
         key: MenuKeys.Content,
-        text: "内容",
+        text: "content".L(),
         url: "content/topics",
         icon: "fa fa-align-justify",
         children: [
             {
                 key: MenuKeys.Content_Topics,
-                text: "文章",
+                text: "article".L(),
                 url: "content/topics"     
             },
             {
                 key: MenuKeys.Content_Comments,
-                text: "评论",
+                text: "comment".L(),
                 url: "content/comments"     
             },
             {
                 key: MenuKeys.Content_Pages,
-                text: "页面",
+                text: "page".L(),
                 url: "content/pages"     
             },
             {
                 key: MenuKeys.Content_Categories,
-                text: "管理分类",
+                text: "managmentCategories".L(),
                 url: "content/categories"     
             },
             {
                 key: MenuKeys.Content_Tags,
-                text: "标签",
+                text: "tag".L(),
                 url: "content/tags"
             }
         ]
     },
     {
         key: MenuKeys.Custom,
-        text: "自定义",
+        text: "customize".L(),
         url: "custom/widgets",
         icon: "fa fa-cog",
         children: [
             {
                 key: MenuKeys.Custom_Widgets,
-                text: "组件",
+                text: "component".L(),
                 url: "custom/widgets"                        
             }
         ]
     },
     {
         key: MenuKeys.Config,
-        text: "设置",
+        text: "setup".L(),
         url: "config/basic",
         icon: "fa fa-cog",
         children: [
             {
                 key: MenuKeys.Config_Basic,
-                text: "基础",
+                text: "basic".L(),
                 url: "config/basic"                        
             },
             {
                 key: MenuKeys.Config_Email,
-                text: "Email",
+                text: "email".L(),
                 url: "config/email"
             },
             {
                 key: MenuKeys.Config_Feed,
-                text: "推送",
+                text: "push".L(),
                 url: "config/feed"
             },
             {
                 key: MenuKeys.Config_Comments,
-                text: "评论",
+                text: "comment".L(),
                 url: "config/comments"
             },
             {
                 key: MenuKeys.Config_Advance,
-                text: "高级",
+                text: "advanced".L(),
                 url: "config/advance"
             }
         ]
     },
     {
         key: MenuKeys.User,
-        text: "用户",
+        text: "user".L(),
         url: "user/profile",
         icon: "fa fa-user",
         hide: true,
         children: [
             {
                 key: MenuKeys.User_Profile,
-                text: "个人资料",
+                text: "personalInformation".L(),
                 url: "user/profile"                        
             }
         ]

@@ -7,6 +7,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using DotNetBlog.Core.Extensions;
+using Microsoft.AspNetCore.Mvc.Localization;
 
 namespace DotNetBlog.Core.Service
 {
@@ -14,9 +15,12 @@ namespace DotNetBlog.Core.Service
     {
         private BlogContext BlogContext { get; set; }
 
-        public UserService(BlogContext blogContext)
+        private IHtmlLocalizer<UserService> L { get; set; }
+
+        public UserService(BlogContext blogContext, IHtmlLocalizer<UserService> localizer)
         {
             BlogContext = blogContext;
+            L = localizer;
         }
 
         public async Task<OperationResult> ChangePassword(int id, string oldPassword, string newPassword)
@@ -28,11 +32,11 @@ namespace DotNetBlog.Core.Service
 
             if (entity == null)
             {
-                return OperationResult.Failure("用户不存在");
+                return OperationResult.Failure(L["User does not exists"].Value);
             }
             if (entity.Password != oldPassword)
             {
-                return OperationResult.Failure("密码错误");
+                return OperationResult.Failure(L["Wrong password"].Value);
             }
 
             entity.Password = newPassword;
@@ -47,14 +51,14 @@ namespace DotNetBlog.Core.Service
         {
             if (await BlogContext.Users.AnyAsync(t => t.Email == email && t.ID != id))
             {
-                return OperationResult.Failure("邮箱地址重复");
+                return OperationResult.Failure(L["Duplicated email address"].Value);
             }
 
             var user = await BlogContext.Users.SingleOrDefaultAsync(t => t.ID == id);
 
             if (user == null)
             {
-                return OperationResult.Failure("用户不存在");
+                return OperationResult.Failure(L["User does not exists"].Value);
             }
 
             user.Email = email;

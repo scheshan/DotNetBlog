@@ -1,5 +1,6 @@
 ﻿@model CommentListViewModel
 @inject ClientManager clientManager
+@inject IViewLocalizer L
 
 @foreach (var comment in Model.CommentList)
 {
@@ -22,7 +23,7 @@
                         
                         <visible condition="Model.AllowComment && comment.Status == DotNetBlog.Core.Enums.CommentStatus.Approved">
                             |  
-                            <a href="javascript:void(0);" class="reply-to-comment" onclick="replyTo('@comment.ID');">回复</a> 
+                            <a href="javascript:void(0);" class="reply-to-comment" onclick="replyTo('@comment.ID');">@L["Reply"]</a> 
                         </visible>
                     </small>
                 </div>
@@ -31,11 +32,11 @@
                     <a class="email" href="mailto:@(comment.Email)">@comment.Email</a> | 
                     <a href="http://www.domaintools.com/go/?service=whois&q=@(comment.CreateIP)" target="_blank">@comment.CreateIP</a>
                     <visible condition="commentListViewModel.CommentList.Any()">
-                        | <a asp-action="DeleteComment" asp-controller="QuickAction" asp-route-id="@comment.ID" asp-route-deleleChild="False" onclick="if (!confirm('您确定要 删除 评论?')) return false">删除该留言，但保留回复</a>
-                        | <a asp-action="DeleteComment" asp-controller="QuickAction" asp-route-id="@comment.ID" asp-route-deleleChild="True" onclick="if (!confirm('您确定要 删除 评论?')) return false">删除该留言和回复</a> 
+                        | <a asp-action="DeleteComment" asp-controller="QuickAction" asp-route-id="@comment.ID" asp-route-deleleChild="False" onclick="if (!confirm('@L["You are sure you want to delete comments?"]')) return false">@L["Delete the message, but leave the reply"]</a>
+                        | <a asp-action="DeleteComment" asp-controller="QuickAction" asp-route-id="@comment.ID" asp-route-deleleChild="True" onclick="if (!confirm('@L["Are you sure you want to delete comments?"]')) return false">@L["Delete the message and reply"]</a> 
                     </visible>
                     <visible condition="!commentListViewModel.CommentList.Any()">
-                        | <a asp-action="DeleteComment" asp-controller="QuickAction" asp-route-id="@comment.ID" asp-route-deleleChild="True" onclick="if (!confirm('您确定要 删除 评论?')) return false">删除</a>
+                        | <a asp-action="DeleteComment" asp-controller="QuickAction" asp-route-id="@comment.ID" asp-route-deleleChild="True" onclick="if (!confirm('@L["Are you sure you want to delete comments?"]')) return false">@L["Delete"]</a>
                     </visible>
                     <visible condition="comment.Status == DotNetBlog.Core.Enums.CommentStatus.Pending">
                         | <a asp-action="ApproveComment" asp-controller="QuickAction" asp-route-commentID="@comment.ID">通过</a>

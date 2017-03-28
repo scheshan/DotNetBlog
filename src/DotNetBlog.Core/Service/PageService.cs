@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using DotNetBlog.Core.Extensions;
 using Microsoft.EntityFrameworkCore;
 using AutoMapper;
+using Microsoft.AspNetCore.Mvc.Localization;
 
 namespace DotNetBlog.Core.Service
 {
@@ -21,10 +22,13 @@ namespace DotNetBlog.Core.Service
 
         private IMemoryCache Cache { get; set; }
 
-        public PageService(BlogContext blogContext, IMemoryCache cache)
+        private IHtmlLocalizer<PageService> L { get; set; }
+
+        public PageService(BlogContext blogContext, IMemoryCache cache, IHtmlLocalizer<PageService> localizer)
         {
             this.BlogContext = blogContext;
             this.Cache = cache;
+            this.L = localizer;
         }
 
         public async Task<List<Page>> All()
@@ -45,7 +49,7 @@ namespace DotNetBlog.Core.Service
 
                 if (parent == null || parent.ParentID.HasValue)
                 {
-                    return OperationResult<PageModel>.Failure("不存在的上级页面");
+                    return OperationResult<PageModel>.Failure(L["Selected parent does not exists"].Value);
                 }
             }
 
@@ -72,21 +76,21 @@ namespace DotNetBlog.Core.Service
 
             if (entity == null)
             {
-                return OperationResult<PageModel>.Failure("页面不存在");
+                return OperationResult<PageModel>.Failure(L["The page does not exists anymore"].Value);
             }
 
             if (model.Parent.HasValue)
             {
                 if (model.Parent.Value == entity.ID)
                 {
-                    return OperationResult<PageModel>.Failure("不存在的上级页面");
+                    return OperationResult<PageModel>.Failure(L["You cannot set as parent"].Value);
                 }
 
                 var parent = await this.BlogContext.Pages.SingleOrDefaultAsync(t => t.ID == model.Parent.Value);
 
                 if (parent == null || parent.ParentID.HasValue)
                 {
-                    return OperationResult<PageModel>.Failure("不存在的上级页面");
+                    return OperationResult<PageModel>.Failure(L["Parent does not exists"].Value);
                 }
             }
 

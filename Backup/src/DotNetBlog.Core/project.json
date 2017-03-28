@@ -1,0 +1,30 @@
+﻿{
+  "version": "1.1.0",
+
+  "dependencies": {
+    "Microsoft.NETCore.App": {
+      "version": "1.1.0",
+      "type": "platform"
+    },
+    "System.Reflection": "4.3.0",
+    "AutoMapper": "5.2.0",
+    "Microsoft.EntityFrameworkCore.Sqlite": "1.1.0",
+    "Microsoft.EntityFrameworkCore.SqlServer": "1.1.0",
+    "Microsoft.Extensions.Caching.Memory": "1.1.0",
+    "Microsoft.AspNetCore.Http": "1.1.0",
+    "MailKit": "1.10.2",
+    "Newtonsoft.Json": "9.0.1",
+    "CommonMark.NET": "0.15.1",
+    "NLog.Extensions.Logging": "1.0.0-rtm-beta3"
+  },
+
+  "frameworks": {
+    "netcoreapp1.1": {
+      "imports": [
+        "dotnet5.6",
+        "dnxcore50",
+        "portable-net45+win8"
+      ]
+    }
+  }
+}

@@ -20,5 +20,7 @@ namespace DotNetBlog.Web.Areas.Api.Models.Config
         public int TopicsPerPage { get; set; }
 
         public bool OnlyShowSummary { get; set; }
+
+        public string Language { get; set; }
     }
 }

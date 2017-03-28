@@ -1,65 +1,86 @@
-﻿var React = require("react")
+﻿
+var React = require("react")
 var {Spinner, Bootstrap: {FormGroup}} = require("../../components")
 var {Api, Dialog} = require("../../services")
 var {reduxForm} = require("redux-form")
+
+import Localization from "../../resources"
 
 const validate = values=>{
     const errors = {}
 
     if(!values.host){
-        errors.host = "请输入博客地址";
+        errors.host = "enterBlogAddress".L();
     }
 
     if(!values.title){
-        errors.title = "请输入标题";
+        errors.title = "pleaseEnterTitle".L();
     }
 
     let topicsPerPage = parseInt(values.topicsPerPage);
     if(isNaN(Number(values.topicsPerPage)) || topicsPerPage < 1){
-        errors.topicsPerPage = "请输入正确的文章数量";
+        errors.topicsPerPage = "enterCorrectNumberOfArticles".L();
     }
 
     return errors
 }
 
 class BasicConfigForm extends React.Component{
+
+    constructor() {
+        super()
+
+        this.languageOptions = Localization.getAvailableLanguages();
+        console.dir(this.languageOptions);
+    }
+
     render(){
-        const {fields: {host, title, description, topicsPerPage, onlyShowSummary}, handleSubmit} = this.props
+        const {fields: {host, title, description, language, topicsPerPage, onlyShowSummary}, handleSubmit} = this.props
         return (
             <form noValidate onSubmit={handleSubmit}>
-                <FormGroup label="博客地址" validation={host}>
+                <FormGroup label={"blogAddress".L()} validation={host}>
                     <input type="text" className="form-control" {...host}/>
                 </FormGroup>
-                <FormGroup label="标题" validation={title}>
+                <FormGroup label={"title".L()} validation={title}>
                     <input type="text" className="form-control" {...title}/>
                 </FormGroup>
-                <FormGroup label="摘要">
+                <FormGroup label={"description".L()}>
                     <input type="text" className="form-control" {...description}/>
                 </FormGroup>
-                <FormGroup label="每页文章数" validation={topicsPerPage}>
+                <FormGroup label={"numberOfArticlesPerPage".L()} validation={topicsPerPage}>
                     <input type="text" className="form-control" {...topicsPerPage}/>
+                </FormGroup>
+                <FormGroup label={"selectedLanguage".L()} validation={topicsPerPage}>
+                    <select className="form-control" {...language}>
+                        {this.languageOptions.map(item => {
+                            return (
+                                <option value={item}>{item}</option>
+                            )
+                        })}
+                    </select>
                 </FormGroup>
                 <FormGroup>
                     <div className="checkbox">
                         <label>
                             <input type="checkbox" {...onlyShowSummary}/>
-                            仅显示文章摘要
+                            {"showOnlyArticleSummary".L()}
                         </label>
                     </div>
                 </FormGroup>
                 <FormGroup>
                     <button type="submit" className="btn btn-primary">
-                        保存
+                        {"save".L()}
                     </button>
                 </FormGroup>
             </form>
+
         )
     }
 }
 
 BasicConfigForm = reduxForm({
     form: "basicConfigForm",
-    fields: ["host", "title", "description", "topicsPerPage", "onlyShowSummary"],
+    fields: ["host", "title", "description", "language", "topicsPerPage", "onlyShowSummary"],
     validate
 })(BasicConfigForm)
 
@@ -71,6 +92,7 @@ class BasicConfig extends React.Component{
             config: {
                 title: "",
                 description: "",
+                language: "en-GB",
                 topicsPerPage: 10
             },
             loading: true
@@ -91,7 +113,8 @@ class BasicConfig extends React.Component{
                 });
 
                 if(response.success){
-                    Dialog.success("保存成功")
+                    Dialog.success("operationSuccessful".L());
+                    window.location.reload();
                 }
                 else{
                     Dialog.error(response.errorMessage);

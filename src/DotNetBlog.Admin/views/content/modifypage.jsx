@@ -117,7 +117,7 @@ class ModifyPage extends React.Component{
 
     apiCallback(response){
         if(response.success){
-            Dialog.success("保存成功");
+            Dialog.success("operationSuccessful".L());
 
             let page = response.data;
             if(page.parent){
@@ -141,12 +141,12 @@ class ModifyPage extends React.Component{
 
     submit(model){
         if(model.title == ""){
-            Dialog.error("请输入页面标题");
+            Dialog.error("pleaseEnterPageTitle".L());
             return;
         }
         model.content = this.refs.editor.getContent();
         if(model.content == ""){
-            Dialog.error("请输入页面内容");
+            Dialog.error("pleaseEnterPageContent".L());
             return;
         }
 
@@ -197,7 +197,7 @@ class ModifyPage extends React.Component{
                             </FormGroup>         
 
                             <FormGroup>
-                                <button className="btn btn-default btn-block">自定义</button>
+                                <button className="btn btn-default btn-block">{"customize".L()}</button>
                             </FormGroup>   
                         </div>
                     </Form>
@@ -217,7 +217,7 @@ class ModifyPage extends React.Component{
 
         return (
             <FormGroup>
-                <input className="form-control" type="text" name="title" value={this.state.page.title} placeholder="文章的标题" onChange={handleTitleChange.bind(this)}/>
+                <input className="form-control" type="text" name="title" value={this.state.page.title} placeholder={"theTitleOfArticle".L()} onChange={handleTitleChange.bind(this)}/>
             </FormGroup>
         )
     }
@@ -245,7 +245,7 @@ class ModifyPage extends React.Component{
 
         return (
             <FormGroup>
-                <label className="control-label">别名(可选)</label>
+                <label className="control-label">{"alias_optional".L()}</label>
                 <input name="alias" type="text" className="form-control" value={this.state.page.alias} onChange={handleAliasChange.bind(this)}/>
             </FormGroup>
         )
@@ -262,7 +262,7 @@ class ModifyPage extends React.Component{
 
         return (
             <FormGroup>
-                <label className="control-label">关键词</label>
+                <label className="control-label">{"keywords".L()}</label>
                 <textarea rows="4" name="keywords" type="text" className="form-control" value={this.state.page.keywords} onChange={handleKeywordsChange.bind(this)}></textarea>
             </FormGroup>
         )
@@ -279,7 +279,7 @@ class ModifyPage extends React.Component{
 
         return (
             <FormGroup>
-                <label className="control-label">页面描述</label>
+                <label className="control-label">{"pageDescription".L()}</label>
                 <textarea rows="4" name="description" type="text" className="form-control" value={this.state.page.description} onChange={handleDescriptionChange.bind(this)}></textarea>
             </FormGroup>
         )
@@ -287,19 +287,19 @@ class ModifyPage extends React.Component{
 
     renderButton(){
         let publishBtn = (
-            <button type="button" className="btn btn-success btn-block" onClick={this.publish.bind(this)}>发布</button>
+            <button type="button" className="btn btn-success btn-block" onClick={this.publish.bind(this)}>{"publish".L()}</button>
         )
         let saveBtn = (
-            <button type="button" className="btn btn-primary btn-block" onClick={this.save.bind(this)}>保存</button>
+            <button type="button" className="btn btn-primary btn-block" onClick={this.save.bind(this)}>{"save".L()}</button>
         )
         let cancelBtn = (
-            <button type="button" className="btn btn-default btn-block" onClick={this.cancel.bind(this)}>取消</button>
+            <button type="button" className="btn btn-default btn-block" onClick={this.cancel.bind(this)}>{"cancel".L()}</button>
         )
         let draftBtn = (
-            <button type="button" className="btn btn-warning btn-block" onClick={this.draft.bind(this)}>取消发布</button>
+            <button type="button" className="btn btn-warning btn-block" onClick={this.draft.bind(this)}>{"cancelThePublish".L()}</button>
         )
         let viewBtn = (
-            <a target="_blank" href={"/page/" + this.state.page.id} type="button" className="btn btn-success btn-block">转到页面</a>
+            <a target="_blank" href={"/page/" + this.state.page.id} type="button" className="btn btn-success btn-block">{"goToThePage".L()}</a>
         )
 
         if(!this.state.page.id){
@@ -344,9 +344,9 @@ class ModifyPage extends React.Component{
 
         return (
             <FormGroup>
-                <label className="control-label">上级</label>
+                <label className="control-label">{"parent".L()}</label>
                 <select name="parent" className="form-control" value={this.state.page.parent} onChange={handleParentChange.bind(this)}>
-                    <option>--无--</option>
+                    <option>--{"empty".L()}--</option>
                     {
                         this.state.pageList.map(page=>{
                             return (
@@ -370,7 +370,7 @@ class ModifyPage extends React.Component{
 
         return (
             <FormGroup>
-                <label className="control-label">日期</label>
+                <label className="control-label">{"date".L()}</label>
                 <input type="text" className="form-control" name="date" value={this.state.page.date} onChange={handleDateChange.bind(this)}/>
             </FormGroup>
         )
@@ -389,7 +389,7 @@ class ModifyPage extends React.Component{
             <div className="checkbox">
                 <label>
                     <input type="checkbox" name="isHomePage" checked={this.state.page.isHomePage} onChange={handleIsHomePageChanged.bind(this)}/>
-                    是否为首页
+                    {"setAsHomePage".L()}
                 </label>
             </div>
         )
@@ -408,11 +408,12 @@ class ModifyPage extends React.Component{
             <div className="checkbox">
                 <label>
                     <input type="checkbox" name="showInList" checked={this.state.page.showInList} onChange={handleShowInListChanged.bind(this)}/>
-                    在列表中显示
+                    {"isDisplayedInTheList".L()}
                 </label>
             </div>
         )
     }
 }
+
 
 module.exports = ModifyPage;

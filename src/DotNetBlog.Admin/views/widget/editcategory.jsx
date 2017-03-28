@@ -6,7 +6,7 @@ var {reduxForm} = require("redux-form")
 const validate = values=>{
     const error = {};
     if(!values.title){
-        error.title = "请输入标题";
+        error.title = "pleaseEnterTitle".L();
     }
     return error;
 }
@@ -17,14 +17,14 @@ class EditCategoryForm extends React.Component{
 
         return (
             <form noValidate onSubmit={handleSubmit}>
-                <FormGroup label="标题" validation={title}>
+                <FormGroup label={"title".L()} validation={title}>
                     <input type="text" className="form-control" {...title}/>
                 </FormGroup>
                 <FormGroup>
                     <div className="checkbox">
                         <label>
                             <input type="checkbox" {...showNumbersOfTopics}/>
-                            显示RSS按钮
+                            {"showRssButton".L()}
                         </label>
                     </div>                    
                 </FormGroup>
@@ -32,7 +32,7 @@ class EditCategoryForm extends React.Component{
                     <div className="checkbox">
                         <label>
                             <input type="checkbox" {...showRSS}/>
-                            显示文章数
+                            {"showNumberOfArticle".L()}
                         </label>
                     </div>                    
                 </FormGroup>
@@ -91,12 +91,12 @@ class EditCategory extends React.Component{
     render(){
         return (
             <Modal show={this.state.show} onHide={this.hide.bind(this)}>
-                <ModalHeader closeButton>修改配置</ModalHeader>
+                <ModalHeader closeButton>{"modifyConfiguration".L()}</ModalHeader>
                 <ModalBody>
                     <EditCategoryForm ref="form" onSubmit={this.onSubmit.bind(this)} initialValues={this.state.config}/>
                 </ModalBody>
                 <ModalFooter>
-                    <button className="btn btn-primary" onClick={this.submit.bind(this)}>保存</button>
+                    <button className="btn btn-primary" onClick={this.submit.bind(this)}>{"save".L()}</button>
                 </ModalFooter>
             </Modal>
         )

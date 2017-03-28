@@ -61,7 +61,7 @@ class EmailConfig extends React.Component{
                 });
 
                 if(response.success){
-                    Dialog.success("保存成功")
+                    Dialog.success("savedSuccessfully".L())
                 }
                 else{
                     Dialog.error(response.errorMessage)
@@ -84,7 +84,7 @@ class EmailConfig extends React.Component{
                     loading: false
                 });
                 if(response.success){
-                    Dialog.success("测试成功");
+                    Dialog.success("testSuccessfully".L());
                 }
                 else{
                     Dialog.error(response.errorMessage)
@@ -99,24 +99,24 @@ class EmailConfig extends React.Component{
                 <Spinner loading={this.state.loading}/>
 
                 <Form ref="form" onValidSubmit={this.submit.bind(this)} layout="vertical" className="form-content">
-                    <Input name="smtpEmailAddress" label="Email地址" value={this.state.config.smtpEmailAddress} />
+                    <Input name="smtpEmailAddress" label={"emailAddress".L()} value={this.state.config.smtpEmailAddress} />
 
-                    <Input name="smtpUser" label="用户名" value={this.state.config.smtpUser} />
+                    <Input name="smtpUser" label={"username".L()} value={this.state.config.smtpUser} />
 
-                    <Input name="smtpPassword" type="password" label="密码" value={this.state.config.smtpPassword} />
+                    <Input name="smtpPassword" type="password" label={"password".L()} value={this.state.config.smtpPassword} />
 
-                    <Input name="smtpServer" label="SMTP服务器" value={this.state.config.smtpServer} />
+                    <Input name="smtpServer" label={"smtpAddress".L()} value={this.state.config.smtpServer} />
 
-                    <Input name="smtpPort" validations="isInt" validationError="请输入正确的端口号" label="端口号" value={this.state.config.smtpPort} />
+                    <Input name="smtpPort" validations="isInt" validationError={"enterCorrectPortNumber".L()} label={"portNumber".L()} value={this.state.config.smtpPort} />
 
-                    <Checkbox layout="elementOnly" name="smtpEnableSSL" label="启用SSL" value={this.state.config.smtpEnableSSL} />
+                    <Checkbox layout="elementOnly" name="smtpEnableSSL" label={"enableSSL".L()} value={this.state.config.smtpEnableSSL} />
 
-                    <Checkbox layout="elementOnly" name="sendEmailWhenComment" label="发送评论邮件" value={this.state.config.sendEmailWhenComment} />
+                    <Checkbox layout="elementOnly" name="sendEmailWhenComment" label={"sendEmailWhenComment".L()} value={this.state.config.sendEmailWhenComment} />
 
                     <FormGroup>
-                        <button type="submit" formNoValidate className="btn btn-primary">保存</button>
+                        <button type="submit" formNoValidate className="btn btn-primary">{"save".L()}</button>
                         {' '}
-                        <button type="button" className="btn btn-success" onClick={this.test.bind(this)}>测试邮件配置</button>
+                        <button type="button" className="btn btn-success" onClick={this.test.bind(this)}>{"testEmailSettings".L()}</button>
                     </FormGroup>
                 </Form>
             </div>

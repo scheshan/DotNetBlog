@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Mvc.Localization;
 
 namespace DotNetBlog.Core.Service
 {
@@ -22,10 +23,13 @@ namespace DotNetBlog.Core.Service
 
         private BlogContext BlogContext { get; set; }
 
-        public EmailService(SettingModel settings, BlogContext blogContext)
+        private IHtmlLocalizer<EmailService> L { get; set; }
+
+        public EmailService(SettingModel settings, BlogContext blogContext, IHtmlLocalizer<EmailService> localizer)
         {
             this.Settings = settings;
             this.BlogContext = blogContext;
+            this.L = localizer;
         }
 
         public async Task<OperationResult> TestEmailConfig(TestEmailConfigModel model)
@@ -37,11 +41,11 @@ namespace DotNetBlog.Core.Service
                     var message = new MimeMessage();
                     message.From.Add(new MailboxAddress(model.EmailAddress, model.EmailAddress));
                     message.To.Add(new MailboxAddress(model.EmailAddress, model.EmailAddress));
-                    message.Subject = "Test Email";
+                    message.Subject = L["Test Email"].Value;
 
                     message.Body = new TextPart("plain")
                     {
-                        Text = @"Hello world!"
+                        Text = L["Hello world"].Value
                     };
 
                     await client.ConnectAsync(model.Server, model.Port, model.EnableSSL);
@@ -72,20 +76,15 @@ namespace DotNetBlog.Core.Service
             var user = await this.BlogContext.Users.SingleOrDefaultAsync(t => t.ID == topic.CreateUserID);
             if (user == null || string.IsNullOrWhiteSpace(user.Email))
             {
-                return OperationResult.Failure("No email specified");
+                return OperationResult.Failure(L["No email specified"].Value);
             }
 
+            var topicUrl = $"{this.Settings.Host}/topic/{topic.ID}#comment_{comment.ID}";
             message.To.Add(new MailboxAddress(user.Email, user.Email));
-            message.Subject = $"[博客评论通知]Re:{topic.Title}";
+            message.Subject = L["[Blog comment notification] Re: {0}", topic.Title].Value;
             message.Body = new TextPart("html")
             {
-                Text = string.Format(@"#Re:{0}
-<br/><br/>
-{1}
-<hr/>
-评论者: <a href=""mailto://{2}"" target=""_blank"">{3}</a>
-<br/>
-URL: <a href=""{4}"" target=""_blank"">{4}</a>", topic.Title, comment.Content, comment.Email, comment.Name, $"{this.Settings.Host}/topic/{topic.ID}#comment_{comment.ID}")
+                Text = L["Email_NewComment", topic.Title, comment.Content, comment.Email, comment.Name, topicUrl].Value
             };
 
             return await this.SendEmail(message);

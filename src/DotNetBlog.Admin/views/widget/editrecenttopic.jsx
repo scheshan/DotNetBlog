@@ -7,15 +7,15 @@ var Api = require("../../services/api")
 const validate = values=>{
     const errors = {};
     if(!values.title){
-        errors.title = "请输入标题";
+        errors.title = "pleaseEnterTitle".L();
     }
     if(!values.number){
-        errors.number = "请输入文章数目";
+        errors.number = "pleaseEnterNumberOfArticles".L();
     }
     
     let number = parseInt(values.number);
     if(isNaN(Number(values.number)) || number < 1){
-        errors.number = "请输入正确的文章数量";
+        errors.number = "pleaseEnterCorrectNumberOfArticles".L();
     }
 
     return errors;
@@ -44,15 +44,15 @@ class EditRecentTopicForm extends React.Component{
         const {fields: {title, number, category}, handleSubmit} = this.props;
         return (
             <form noValidate onSubmit={handleSubmit}>    
-                <FormGroup label="标题" validation={title}>
+                <FormGroup label={"title".L()} validation={title}>
                     <input className="form-control" {...title}></input>
                 </FormGroup>    
-                <FormGroup label="显示文章数目" validation={number}>
+                <FormGroup label={"showNumberOfArticles".L()} validation={number}>
                     <input className="form-control" {...number}></input>
                 </FormGroup>    
-                <FormGroup label="选择分类">
+                <FormGroup label={"chooseCategory".L()}>
                     <select className="form-control" {...category}>
-                        <option value="">无</option>
+                        <option value="">{"empty".L()}</option>
                         {this.state.categoryList.map(category=>{
                             return (
                                 <option key={category.id} value={category.id}>{category.name}</option>
@@ -115,7 +115,7 @@ class EditRecentTopic extends React.Component{
     render(){
         return (
             <Modal show={this.state.show} onHide={this.hide.bind(this)}>    
-                <ModalHeader closeButton>修改配置</ModalHeader>
+                <ModalHeader closeButton>{"modifyConfiguration".L()}</ModalHeader>
                 <ModalBody>
                     <EditRecentTopicForm 
                         ref="form"
@@ -123,7 +123,7 @@ class EditRecentTopic extends React.Component{
                         onSubmit={this.onSubmit.bind(this)}/>
                 </ModalBody>
                 <ModalFooter>
-                    <button type="submit" className="btn btn-primary" onClick={this.submit.bind(this)}>保存</button>
+                    <button type="submit" className="btn btn-primary" onClick={this.submit.bind(this)}>{"save".L()}</button>
                 </ModalFooter>
             </Modal>
         )

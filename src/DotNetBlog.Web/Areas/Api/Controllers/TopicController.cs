@@ -2,6 +2,7 @@
 using DotNetBlog.Core.Service;
 using DotNetBlog.Web.Areas.Api.Models.Topic;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Localization;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,9 +16,12 @@ namespace DotNetBlog.Web.Areas.Api.Controllers
     {
         private TopicService TopicService { get; set; }
 
-        public TopicController(TopicService topicService)
+        private IHtmlLocalizer<TopicController> L { get; set; }
+
+        public TopicController(TopicService topicService, IHtmlLocalizer<TopicController> localizer)
         {
-            TopicService = topicService;
+            this.TopicService = topicService;
+            this.L = localizer;
         }
 
         [HttpPost("")]
@@ -85,7 +89,7 @@ namespace DotNetBlog.Web.Areas.Api.Controllers
             var model = await TopicService.Get(id);
             if(model == null)
             {
-                return Error("文章不存在");
+                return Error(L["Article does not exist"].Value);
             }
             return Success(model);
         }

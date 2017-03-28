@@ -8,19 +8,19 @@ class CommentConfigForm extends React.Component{
         super()
 
         this.closeCommentDayOptions = [
-            {value: 0, label: '从不'},
-            {value: 1, label: '1天'},
-            {value: 2, label: '2天'},
-            {value: 3, label: '3天'},
-            {value: 7, label: '7天'},
-            {value: 10, label: '10天'},
-            {value: 14, label: '14天'},
-            {value: 21, label: '21天'},
-            {value: 30, label: '30天'},
-            {value: 60, label: '60天'},
-            {value: 90, label: '90天'},
-            {value: 180, label: '180天'},
-            {value: 365, label: '365天'}
+            {value: 0, label: 'never'.L()},
+            { value: 1, label: 'numericDay'.L(1)},
+            { value: 2, label: 'numericDay'.L(2)},
+            { value: 3, label: 'numericDay'.L(3)},
+            { value: 7, label: 'numericDay'.L(7)},
+            { value: 10, label: 'numericDay'.L(10)},
+            { value: 14, label: 'numericDay'.L(14)},
+            { value: 21, label: 'numericDay'.L(21)},
+            { value: 30, label: 'numericDay'.L(30)},
+            { value: 60, label: 'numericDay'.L(60)},
+            { value: 90, label: 'numericDay'.L(90)},
+            { value: 180, label: 'numericDay'.L(180)},
+            { value: 365, label: 'numericDay'.L(365)}
         ]
     }
 
@@ -42,7 +42,7 @@ class CommentConfigForm extends React.Component{
                     <div className="checkbox">
                         <label>
                             <input type="checkbox" {...allowComment}/>
-                            允许评论
+                            {"allowComment".L()}
                         </label>
                     </div>
                 </FormGroup>
@@ -51,7 +51,7 @@ class CommentConfigForm extends React.Component{
                     <div className="checkbox">
                         <label>
                             <input type="checkbox" {...verifyComment}/>
-                            审核评论
+                            {"verifyComment".L()}
                         </label>
                     </div>
                 </FormGroup>
@@ -60,7 +60,7 @@ class CommentConfigForm extends React.Component{
                     <div className="checkbox">
                         <label>
                             <input type="checkbox" {...trustAuthenticatedCommentUser}/>
-                            信任已通过验证的评论作者
+                            {"trustAuthenticatedCommentsUsers".L()}
                         </label>
                     </div>
                 </FormGroup>
@@ -69,12 +69,12 @@ class CommentConfigForm extends React.Component{
                     <div className="checkbox">
                         <label>
                             <input type="checkbox" {...enableCommentWebSite}/>
-                            在评论中启用网站
+                            {"enableWebsiteComment".L()}
                         </label>
                     </div>
                 </FormGroup>
 
-                <FormGroup label="之后关闭评论">
+                <FormGroup label={"closeCommentAfter".L()}>
                     <select className="form-control" {...closeCommentDays}>
                         {this.closeCommentDayOptions.map(item=>{
                             return (
@@ -86,7 +86,7 @@ class CommentConfigForm extends React.Component{
 
                 <FormGroup>
                     <button type="submit" className="btn btn-primary">
-                        保存
+                        {"save".L()}
                     </button>
                 </FormGroup>
             </form>
@@ -154,7 +154,7 @@ class CommentConfig extends React.Component{
                 });
 
                 if(response.success){
-                    Dialog.success("保存成功")
+                    Dialog.success("operationSuccessful".L())
                 }
                 else{
                     Dialog.error(response.errorMessage);

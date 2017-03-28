@@ -6,7 +6,7 @@ var {reduxForm} = require('redux-form')
 const validate = values=>{
     const errors = {};
     if(!values.title){
-        errors.title = "请输入标题";
+        errors.title = "pleaseEnterTitle".L();
     }
 
     return errors;
@@ -24,10 +24,10 @@ class EditTagForm extends React.Component{
         const {fields: {title, number, minTopicNumber}, handleSubmit} = this.props;
         return (
             <form noValidate onSubmit={handleSubmit}>    
-                <FormGroup label="标题" validation={title}>
+                <FormGroup label={"title".L()} validation={title}>
                     <input className="form-control" {...title}></input>
                 </FormGroup>    
-                <FormGroup label="每个标签的最小文章数量">
+                <FormGroup label={"minimumNumberOfArticlesPerTag".L()}>
                     <select className="form-control" {...minTopicNumber}>
                         {
                             this.state.minTopicNumberList.map(item=>{
@@ -38,9 +38,9 @@ class EditTagForm extends React.Component{
                         }
                     </select>
                 </FormGroup>    
-                <FormGroup label="标签云的最大数量">
+                <FormGroup label={"maximumNumberOfTagClouds".L()}>
                     <select className="form-control" {...number}>
-                        <option value={null}>不限制</option>
+                        <option value={null}>{"noLimitation".L()}</option>
                         {
                             this.state.numberList.map(item=>{
                                 return (
@@ -105,7 +105,7 @@ class EditTag extends React.Component{
     render(){
         return (
             <Modal show={this.state.show}>    
-                <ModalHeader>修改配置</ModalHeader>
+                <ModalHeader>{"modifyConfiguration".L()}</ModalHeader>
                 <ModalBody>
                     <EditTagForm 
                         ref="form"
@@ -113,8 +113,8 @@ class EditTag extends React.Component{
                         onSubmit={this.onSubmit.bind(this)}/>
                 </ModalBody>
                 <ModalFooter>
-                    <button type="button" className="btn btn-default" onClick={this.hide.bind(this)}>取消</button>
-                    <button type="submit" className="btn btn-primary" onClick={this.submit.bind(this)}>保存</button>
+                    <button type="button" className="btn btn-default" onClick={this.hide.bind(this)}>{"cancel".L()}</button>
+                    <button type="submit" className="btn btn-primary" onClick={this.submit.bind(this)}>{"save".L()}</button>
                 </ModalFooter>
             </Modal>
         )

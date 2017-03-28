@@ -107,7 +107,7 @@ class TagList extends React.Component{
                 });
                 
                 if(response.success){
-                    Dialog.success("操作成功");
+                    Dialog.success("operationSuccessful".L());
                     this.loadData()
                 }
                 else{
@@ -178,7 +178,7 @@ class TagList extends React.Component{
                 <ModifyTag ref="modifyTag" onSuccess={this.onModifyTagSuccess.bind(this)}></ModifyTag>
                 <Spinner loading={this.state.loading}/>
                 <div className="mailbox-controls">
-                    <button className="btn btn-danger btn-sm" title="删除" disabled={!this.canBatchOperate()} onClick={this.remove.bind(this)}>
+                    <button className="btn btn-danger btn-sm" title={"delete".L()} disabled={!this.canBatchOperate()} onClick={this.remove.bind(this)}>
                         <i className="fa fa-trash"></i>
                     </button>   
 
@@ -193,9 +193,9 @@ class TagList extends React.Component{
 
                 <div className="box box-solid">
                     <div className="box-body table-responsive no-padding">
-                        <BootstrapTable keyField="id" data={this.state.tagList} selectRow={selectRowProp} options={{noDataText:"无"}}>
-                           <TableHeaderColumn dataField="keyword" dataFormat={this.formatName.bind(this)}>名称</TableHeaderColumn>
-                           <TableHeaderColumn width="100" dataAlign="center" dataField="topics" dataFormat={function(cell){return cell.all}}>文章</TableHeaderColumn>
+                        <BootstrapTable keyField="id" data={this.state.tagList} selectRow={selectRowProp} options={{noDataText:"empty".L()}}>
+                            <TableHeaderColumn dataField="keyword" dataFormat={this.formatName.bind(this)}>{"name".L()}</TableHeaderColumn>
+                            <TableHeaderColumn width="100" dataAlign="center" dataField="topics" dataFormat={function (cell) { return cell.all }}>{"article".L()}</TableHeaderColumn>
                         </BootstrapTable>
                     </div>
                 </div>               

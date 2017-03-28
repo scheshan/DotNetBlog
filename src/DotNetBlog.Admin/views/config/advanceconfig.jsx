@@ -7,10 +7,10 @@ const validate = values=>{
     const errors = {};
 
     if(!values.errorPageTitle){
-        errors.errorPageTitle = "请输入错误页面标题";
+        errors.errorPageTitle = "invalidPageTitle".L();
     }
     if(!values.errorPageContent){
-        errors.errorPageContent = "请输入错误页面内容";
+        errors.errorPageContent = "invalidPageContent".L();
     }
 
     return errors;
@@ -23,31 +23,31 @@ class AdvanceConfigForm extends React.Component{
         return (
             <form noValidate onSubmit={handleSubmit}>
                 <fieldset>
-                    <legend>错误页面</legend>
+                    <legend>{"errorPage".L()}</legend>
 
-                    <FormGroup label="错误页面的标题" validation={errorPageTitle}>
+                    <FormGroup label={"errorPageTitle".L()} validation={errorPageTitle}>
                         <input type="text" className="form-control" {...errorPageTitle}/>
                     </FormGroup>
-                    <FormGroup label="错误页面的内容" validation={errorPageContent}>
+                    <FormGroup label={"errorPageContent".L()} validation={errorPageContent}>
                         <textarea className="form-control" rows="4" {...errorPageContent}></textarea>
                     </FormGroup>
                 </fieldset>
 
                 <fieldset>
-                    <legend>自定义代码</legend>
+                    <legend>{"customCode".L()}</legend>
 
-                    <FormGroup label="头部区域">
+                    <FormGroup label={"headerScript".L()}>
                         <textarea className="form-control" rows="4" {...headerScript}></textarea>
                     </FormGroup>
 
-                    <FormGroup label="底部区域">
+                    <FormGroup label={"footerScript".L()}>
                         <textarea className="form-control" rows="4" {...footerScript}></textarea>
                     </FormGroup>
                 </fieldset>
 
                 <FormGroup>
                     <button type="submit" className="btn btn-primary">
-                        保存
+                        {"save".L()}
                     </button>
                 </FormGroup>
             </form>
@@ -111,7 +111,7 @@ class AdvanceConfig extends React.Component{
                 });
 
                 if(response.success){
-                    Dialog.success("保存成功")
+                    Dialog.success("operationSuccessful".L())
                 }
                 else{
                     Dialog.error(response.errorMessage);

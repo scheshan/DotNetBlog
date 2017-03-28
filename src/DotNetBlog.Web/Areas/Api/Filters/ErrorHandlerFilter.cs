@@ -8,6 +8,7 @@ using NLog;
 using DotNetBlog.Web.Areas.Api.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.Localization;
 
 namespace DotNetBlog.Web.Areas.Api.Filters
 {
@@ -17,12 +18,13 @@ namespace DotNetBlog.Web.Areas.Api.Filters
 
         public override void OnException(ExceptionContext context)
         {
+            var L = context.HttpContext.RequestServices.GetService<IHtmlLocalizer<ErrorHandlerFilter>>();
             Logger.Error(context.Exception, context.Exception.Message);
 
             var apiResponse = new ApiResponse
             {
                 Success = false,
-                ErrorMessage = "服务器发生错误"
+                ErrorMessage = L["The server has encountered an error"].Value
             };
 
             context.HttpContext.Response.StatusCode = StatusCodes.Status500InternalServerError;

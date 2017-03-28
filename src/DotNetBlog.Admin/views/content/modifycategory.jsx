@@ -7,7 +7,7 @@ var {reduxForm} = require("redux-form")
 const validate = values=>{
     const errors = {};
     if(!values.name){
-        errors.name = "请输入分类名称"
+        errors.name = "pleaseEnterCategoryName".L()
     }
 
     return errors;
@@ -18,11 +18,11 @@ class ModifyCategoryForm extends React.Component{
         const {fields: {id, name, description}, handleSubmit} = this.props
         return (
             <form noValidate onSubmit={handleSubmit}>
-                <FormGroup label="名称" validation={name}>
+                <FormGroup label={"name".L()} validation={name}>
                     <input type="text" className="form-control" {...name} maxLength="50"/>
                 </FormGroup>
 
-                <FormGroup label="描述" validation={description}>
+                <FormGroup label={"description".L()} validation={description}>
                     <input type="text" className="form-control" {...description} maxLength="200"/>
                 </FormGroup>
 
@@ -74,7 +74,7 @@ class ModifyCategory extends React.Component{
             loading: false
         })
         if(response.success){
-            Dialog.success("操作成功")
+            Dialog.success("operationSuccessful".L())
             if(this.props.onSuccess){
                 this.props.onSuccess()
             }
@@ -110,13 +110,13 @@ class ModifyCategory extends React.Component{
         return (            
             <Modal show={this.state.show} onHide={this.hide.bind(this)}>
                 <Modal.Header closeButton>
-                    <Modal.Title>{this.state.category.id ? "编辑分类" : "添加分类"}</Modal.Title>
+                    <Modal.Title>{this.state.category.id ? "editCategory".L() : "addCategory".L()}</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>                        
                     <ModifyCategoryForm ref="form" onSubmit={this.onSubmit.bind(this)} initialValues={this.state.category}></ModifyCategoryForm>                      
                 </Modal.Body>
                 <Modal.Footer>
-                    <LoadingButton onClick={this.submit.bind(this)} loading={this.state.loading} className="btn btn-primary">保存</LoadingButton>
+                    <LoadingButton onClick={this.submit.bind(this)} loading={this.state.loading} className="btn btn-primary">{"save".L()}</LoadingButton>
                 </Modal.Footer>
             </Modal>            
         )

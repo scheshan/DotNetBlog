@@ -45,6 +45,7 @@
     "whatwg-fetch": "^1.0.0"
   },
   "dependencies": {
+    "react-localization": "0.0.13",
     "react-sortable": "^1.0.3"
   }
 }

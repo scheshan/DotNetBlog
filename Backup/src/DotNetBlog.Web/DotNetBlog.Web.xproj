@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">14.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(VSToolsPath)\DotNet\Microsoft.DotNet.Props" Condition="'$(VSToolsPath)' != ''" />
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>89f9b8c8-2f34-41cf-b39e-c23935afadc8</ProjectGuid>
+    <RootNamespace>DotNetBlog.Web</RootNamespace>
+    <BaseIntermediateOutputPath Condition="'$(BaseIntermediateOutputPath)'=='' ">.\obj</BaseIntermediateOutputPath>
+    <OutputPath Condition="'$(OutputPath)'=='' ">.\bin\</OutputPath>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SchemaVersion>2.0</SchemaVersion>
+  </PropertyGroup>
+  <ItemGroup>
+    <DnxInvisibleContent Include="app\components\checkbox.js" />
+    <DnxInvisibleContent Include="app\components\form.js" />
+    <DnxInvisibleContent Include="app\components\input.js" />
+    <DnxInvisibleContent Include="app\components\mainheader.js" />
+    <DnxInvisibleContent Include="app\components\myinput.js" />
+    <DnxInvisibleContent Include="app\index.js" />
+    <DnxInvisibleContent Include="app\store\store.js" />
+    <DnxInvisibleContent Include="app\views\app.js" />
+    <DnxInvisibleContent Include="app\views\basicconfig.js" />
+    <DnxInvisibleContent Include="app\views\dashboard.js" />
+    <DnxInvisibleContent Include="bower.json" />
+    <DnxInvisibleContent Include=".bowerrc" />
+    <DnxInvisibleContent Include="package.json" />
+    <DnxInvisibleContent Include=".npmrc" />
+  </ItemGroup>
+  <ItemGroup>
+    <DnxInvisibleFolder Include="App_Data\" />
+    <DnxInvisibleFolder Include="log\" />
+    <DnxInvisibleFolder Include="wwwroot\app\" />
+    <DnxInvisibleFolder Include="wwwroot\dist\" />
+  </ItemGroup>
+  <Import Project="$(VSToolsPath)\DotNet.Web\Microsoft.DotNet.Web.targets" Condition="'$(VSToolsPath)' != ''" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <UserProperties />
+    </VisualStudio>
+  </ProjectExtensions>
+</Project>

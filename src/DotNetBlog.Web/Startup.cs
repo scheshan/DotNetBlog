@@ -15,6 +15,10 @@ using NLog.Extensions.Logging;
 using DotNetBlog.Web.Middlewares;
 using Microsoft.Extensions.FileProviders;
 using System.IO;
+using System.Globalization;
+using Microsoft.AspNetCore.Localization;
+using Microsoft.AspNetCore.Mvc.Razor;
+using Microsoft.Extensions.Options;
 
 namespace DotNetBlog.Web
 {
@@ -33,8 +37,15 @@ namespace DotNetBlog.Web
         // For more information on how to configure your application, visit http://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddLocalization(opts => { opts.ResourcesPath = "Resources"; });
+
             services.AddSingleton(this.Configuration);
-            services.AddMvc();
+            services.AddMvc()
+                .AddViewLocalization(
+                    LanguageViewLocationExpanderFormat.Suffix,
+                    opts => { opts.ResourcesPath = "Resources"; })
+                .AddDataAnnotationsLocalization();
+
             services.AddMemoryCache();
 
             string database = this.Configuration["database"];
@@ -62,6 +73,32 @@ namespace DotNetBlog.Web
             services.AddBlogService();
 
             AutoMapperConfig.Configure();
+            
+            services.Configure<RequestLocalizationOptions>(
+                opts => {
+                    var supportedCultures = new List<CultureInfo>
+                    {
+                        new CultureInfo("en-GB"),
+                        new CultureInfo("zh-CN")
+                    };
+
+                    opts.DefaultRequestCulture = new RequestCulture("en-GB");
+                    // Formatting numbers, dates, etc.
+                    opts.SupportedCultures = supportedCultures;
+                    // UI strings that we have localized.
+                    opts.SupportedUICultures = supportedCultures;
+
+                    //Uncomment for change language by user
+                    //opts.RequestCultureProviders.Add(new CookieRequestCultureProvider());
+                    //opts.RequestCultureProviders.Add(new AcceptLanguageHeaderRequestCultureProvider());
+
+                    opts.RequestCultureProviders.Insert(0, new CustomRequestCultureProvider(async context =>
+                    {
+                        var settingService = context.RequestServices.GetService<Core.Service.SettingService>();
+                        // My custom request culture logic
+                        return new ProviderCultureResult(settingService.Get().Language);
+                    }));
+                });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -71,10 +108,14 @@ namespace DotNetBlog.Web
             Directory.CreateDirectory(uploadFolder);
             if (enviroment.IsDevelopment())
             {
-                string databaseFolder = enviroment.ContentRootPath + "/bin/Debug/netcoreapp1.0/App_Data";
+                string databaseFolder = enviroment.ContentRootPath + "/bin/Debug/netcoreapp1.1/App_Data";
                 Directory.CreateDirectory(databaseFolder);
             }
 
+            var options = app.ApplicationServices.GetService<IOptions<RequestLocalizationOptions>>();
+            app.UseRequestLocalization(options.Value);
+
+            /* Path for static files */
             app.UseStaticFiles();
             app.UseStaticFiles(new StaticFileOptions
             {
@@ -82,6 +123,7 @@ namespace DotNetBlog.Web
                 FileProvider = new PhysicalFileProvider(uploadFolder)
             });
 
+            /* Error page manager */
             if (enviroment.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -95,7 +137,8 @@ namespace DotNetBlog.Web
             app.UseMvc();
 
             loggerFactory.AddNLog();
-            enviroment.ConfigureNLog("NLog.config");
+            loggerFactory.ConfigureNLog("NLog.config");
+
         }
 
         private void InitDatabase()

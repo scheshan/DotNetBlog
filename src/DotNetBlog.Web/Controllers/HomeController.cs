@@ -11,6 +11,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using DotNetBlog.Core;
+using Microsoft.AspNetCore.Mvc.Localization;
 
 namespace DotNetBlog.Web.Controllers
 {
@@ -35,6 +36,8 @@ namespace DotNetBlog.Web.Controllers
 
         private ClientManager ClientManager { get; set; }
 
+        private IHtmlLocalizer<HomeController> L { get; set; }
+
         public HomeController(
             TopicService topicService, 
             CategoryService categoryService, 
@@ -42,7 +45,8 @@ namespace DotNetBlog.Web.Controllers
             TagService tagService, 
             CommentService commentService, 
             PageService pageService,
-            ClientManager clientManager)
+            ClientManager clientManager,
+            IHtmlLocalizer<HomeController> localizer)
         {
             TopicService = topicService;
             CategoryService = categoryService;
@@ -51,6 +55,7 @@ namespace DotNetBlog.Web.Controllers
             CommentService = commentService;
             PageService = pageService;
             ClientManager = clientManager;
+            L = localizer;
         }
 
         [Route("{page:int?}")]
@@ -84,7 +89,7 @@ namespace DotNetBlog.Web.Controllers
                 return this.NotFound();
             }
 
-            ViewBag.Title = $"分类:{category.Name}";
+            ViewBag.Title = L["Category: {0}", category.Name];
 
             int pageSize = SettingModel.TopicsPerPage;
             var topicList = await TopicService.QueryByCategory(page, pageSize, category.ID);
@@ -107,7 +112,7 @@ namespace DotNetBlog.Web.Controllers
         [HttpGet("tag/{keyword}/{page:int?}")]
         public async Task<IActionResult> Tag(string keyword, int page = 1)
         {
-            ViewBag.Title = $"标签:{keyword}";
+            ViewBag.Title = L["Tag: {0}", keyword];
 
             int pageSize = SettingModel.TopicsPerPage;
 
@@ -131,7 +136,7 @@ namespace DotNetBlog.Web.Controllers
         [HttpGet("{year:int}-{month:int}/{page:int?}")]
         public async Task<IActionResult> Month(int year, int month, int page = 1)
         {
-            ViewBag.Title = $"{year}年{month}月";
+            ViewBag.Title = L["{0} year(s) and {1} month(s)", year, month];
 
             int pageSize = SettingModel.TopicsPerPage;
 
@@ -183,7 +188,7 @@ namespace DotNetBlog.Web.Controllers
 
             int pageSize = 10;
 
-            ViewBag.Title = $"搜索结果:{keywords}";
+            ViewBag.Title = L["Search result: {0}", keywords];
 
             if (!string.IsNullOrWhiteSpace(keywords))
             {
@@ -277,7 +282,7 @@ namespace DotNetBlog.Web.Controllers
             {
                 return this.Notice(new NoticePageViewModel
                 {
-                    Message = "错误的请求,请稍后再试",
+                    Message = L["Invalid request, please try again later"].Value,
                     RedirectUrl = Url.Action("Topic", "Home", new { id = model.TopicID }),
                     MessageType = NoticePageViewModel.NoticeMessageType.Error
                 });
@@ -294,7 +299,7 @@ namespace DotNetBlog.Web.Controllers
                 {
                     return this.Notice(new NoticePageViewModel
                     {
-                        Message = "您的评论已经添加成功,需要管理员审核通过后才能显示",
+                        Message = L["Your comment has been added successfully and requires an administrator to approve it before it can be displayed"].Value,
                         RedirectUrl = Url.Action("Topic", "Home", new { id = model.TopicID }),
                         MessageType = NoticePageViewModel.NoticeMessageType.Success
                     });

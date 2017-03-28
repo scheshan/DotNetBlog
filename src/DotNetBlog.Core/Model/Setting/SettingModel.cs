@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc.Localization;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -8,10 +9,12 @@ namespace DotNetBlog.Core.Model.Setting
     public class SettingModel
     {
         internal Dictionary<string, string> Settings { get; set; }
+        internal IHtmlLocalizer<SettingModel> L { get; set; }
 
-        public SettingModel(Dictionary<string, string> settings)
+        public SettingModel(Dictionary<string, string> settings, IHtmlLocalizer<SettingModel> localizer)
         {
             Settings = settings;
+            L = localizer;
         }
 
         /// <summary>
@@ -21,7 +24,7 @@ namespace DotNetBlog.Core.Model.Setting
         {
             get
             {
-                return GetStringValue(nameof(Host), "http://dotnetblog.com");
+                return GetStringValue(nameof(Host), L["http://dotnetblog.com"].Value);
             }
             set
             {
@@ -36,7 +39,7 @@ namespace DotNetBlog.Core.Model.Setting
         {
             get
             {
-                return GetStringValue(nameof(Title), "DotNetBlog");
+                return GetStringValue(nameof(Title), L["DotNetBlog"].Value);
             }
             set
             {
@@ -59,6 +62,20 @@ namespace DotNetBlog.Core.Model.Setting
             }
         }
 
+        /// <summary>
+        /// Selected language
+        /// </summary>
+        public string Language
+        {
+            get
+            {
+                return GetStringValue(nameof(Language), "en-GB");
+            }
+            set
+            {
+                SetValue(nameof(Language), value);
+            }
+        }
         /// <summary>
         /// 每页文章数
         /// </summary>
@@ -96,7 +113,7 @@ namespace DotNetBlog.Core.Model.Setting
         {
             get
             {
-                return GetStringValue(nameof(SmtpEmailAddress), "name@example.com");
+                return GetStringValue(nameof(SmtpEmailAddress), L["name@example.com"].Value);
             }
             set
             {
@@ -111,7 +128,7 @@ namespace DotNetBlog.Core.Model.Setting
         {
             get
             {
-                return GetStringValue(nameof(SmtpServer), "mail.example.com");
+                return GetStringValue(nameof(SmtpServer), L["mail.example.com"].Value);
             }
             set
             {
@@ -126,7 +143,7 @@ namespace DotNetBlog.Core.Model.Setting
         {
             get
             {
-                return GetStringValue(nameof(SmtpUser), "username");
+                return GetStringValue(nameof(SmtpUser), L["username"].Value);
             }
             set
             {
@@ -141,7 +158,7 @@ namespace DotNetBlog.Core.Model.Setting
         {
             get
             {
-                return GetStringValue(nameof(SmtpPassword), "password");
+                return GetStringValue(nameof(SmtpPassword), L["password"].Value);
             }
             set
             {
@@ -276,7 +293,7 @@ namespace DotNetBlog.Core.Model.Setting
         {
             get
             {
-                return GetStringValue(nameof(ErrorPageTitle), "很抱歉,系统发生错误");
+                return GetStringValue(nameof(ErrorPageTitle), L["Sorry the system has made an error"].Value);
             }
             set
             {
@@ -291,7 +308,7 @@ namespace DotNetBlog.Core.Model.Setting
         {
             get
             {
-                return GetStringValue(nameof(ErrorPageContent), "请求的页面发生错误,请稍后再试...");
+                return GetStringValue(nameof(ErrorPageContent), L["Request page is wrong please try again later"].Value);
             }
             set
             {

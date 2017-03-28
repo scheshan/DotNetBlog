@@ -29,7 +29,7 @@ class ContentHeader extends React.Component{
                     <li>
                         <Link to="/">
                             <i className="fa fa-home"></i>
-                            首页
+                            {"home".L()}
                         </Link>
                     </li>
                     {this.renderMenuNav()}

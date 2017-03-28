@@ -11,6 +11,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
 using DotNetBlog.Core.Model.Category;
 using DotNetBlog.Core.Model.Setting;
+using Microsoft.AspNetCore.Mvc.Localization;
 
 namespace DotNetBlog.Core.Service
 {
@@ -24,12 +25,19 @@ namespace DotNetBlog.Core.Service
 
         private ClientManager ClientManager { get; set; }
 
-        public TopicService(BlogContext blogContext, IMemoryCache cache, SettingModel settings, ClientManager clientManager)
+        private IHtmlLocalizer<TopicService> L { get; set; }
+
+        public TopicService(BlogContext blogContext, 
+            IMemoryCache cache, 
+            SettingModel settings, 
+            ClientManager clientManager,
+            IHtmlLocalizer<TopicService> localizer)
         {
             BlogContext = blogContext;
             Cache = cache;
             Settings = settings;
             ClientManager = clientManager;
+            L = localizer;
         }
 
         public async Task<OperationResult<TopicModel>> Add(AddTopicModel model)
@@ -100,7 +108,7 @@ namespace DotNetBlog.Core.Service
             var entity = await BlogContext.Topics.SingleOrDefaultAsync(t => t.ID == model.ID);
             if (entity == null)
             {
-                return OperationResult<TopicModel>.Failure("文章不存在");
+                return OperationResult<TopicModel>.Failure(L["The article does not exists"].Value);
             }
 
             using (var tran = await BlogContext.Database.BeginTransactionAsync())

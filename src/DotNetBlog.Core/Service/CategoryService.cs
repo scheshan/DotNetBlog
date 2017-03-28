@@ -9,16 +9,19 @@ using Microsoft.EntityFrameworkCore;
 using DotNetBlog.Core.Model;
 using DotNetBlog.Core.Model.Category;
 using DotNetBlog.Core.Extensions;
+using Microsoft.AspNetCore.Mvc.Localization;
 
 namespace DotNetBlog.Core.Service
 {
     public class CategoryService
     {
         private BlogContext BlogContext { get; set; }
+        private IHtmlLocalizer<CategoryService> L { get; set; }
 
-        public CategoryService(BlogContext blogContext)
+        public CategoryService(BlogContext blogContext, IHtmlLocalizer<CategoryService> localizer)
         {
             BlogContext = blogContext;
+            L = localizer;
         }
 
         public async Task<List<CategoryModel>> All()
@@ -31,7 +34,7 @@ namespace DotNetBlog.Core.Service
         {
             if (await BlogContext.Categories.AnyAsync(t => t.Name == name))
             {
-                return OperationResult<int>.Failure("重复的分类名称");
+                return OperationResult<int>.Failure(L["Duplicate category name"].Value);
             }
 
             var entity = new Category
@@ -51,13 +54,13 @@ namespace DotNetBlog.Core.Service
         {
             if (await BlogContext.Categories.AnyAsync(t => t.Name == name && t.ID != id))
             {
-                return OperationResult.Failure("重复的分类名称");
+                return OperationResult.Failure(L["Duplicate category name"].Value);
             }
 
             Category entity = await BlogContext.Categories.SingleOrDefaultAsync(t => t.ID == id);
             if(entity == null)
             {
-                return OperationResult.Failure("分类不存在");
+                return OperationResult.Failure(L["Category does not exists"].Value);
             }
 
             entity.Name = name;

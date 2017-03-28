@@ -1,5 +1,6 @@
 ﻿@using DotNetBlog.Core.Model.Comment
 @model List<CommentItemModel>
+@inject IViewLocalizer L
 @{ 
     var config = ViewBag.Config as RecentCommentWidgetConfigModel;
 }
@@ -12,7 +13,7 @@
             {
             <li>
                 <a blog-topic="@comment.Topic" blog-topic-fragment="comments">@comment.Topic.Title</a> (@comment.Topic.Comments.Approved)
-                <br>@comment.Name 写道: @comment.Content
+                <br>@comment.Name @L["Wrote"]: @comment.Content
             </li>
             }
             @*<li>

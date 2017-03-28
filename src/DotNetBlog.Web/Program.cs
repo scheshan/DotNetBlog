@@ -16,7 +16,9 @@ namespace DotNetBlog.Web
                 .UseContentRoot(Directory.GetCurrentDirectory())
                 .UseIISIntegration()
                 .UseStartup<Startup>()
-                //.UseUrls("http://0.0.0.0:10124")
+#if DEBUG
+                .UseUrls("http://0.0.0.0:5000")
+#endif
                 .Build(); 
 
             host.Run();

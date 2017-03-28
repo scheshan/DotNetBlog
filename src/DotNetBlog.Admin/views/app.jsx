@@ -68,7 +68,7 @@ class App extends React.Component{
             <div className="wrapper">
                 <header className="main-header">
                     <a href="/" className="logo">
-                        DotNetBlog
+                        {"DotNetBlog".L()}
                     </a>
 
                     <nav className="navbar navbar-static-top" role="navigation">
@@ -78,11 +78,11 @@ class App extends React.Component{
                         </a>
                         <div className="navbar-custom-menu">
                             <ul className="nav navbar-nav">
-                                <li><a href="/account/changepassword">修改密码</a></li>
+                                <li><a href="/account/changepassword">{"changePassword".L()}</a></li>
                                 <li>
                                     <a href="/account/logoff">
                                         <i className="fa fa-exit"></i>
-                                        注销
+                                        {"logoff".L()}
                                     </a>
                                 </li>
                             </ul>
@@ -95,7 +95,7 @@ class App extends React.Component{
                     <div className="sidebar">
                         <div className="user-panel">
                             <div className="pull-left image">
-                                <img src="https://almsaeedstudio.com/themes/AdminLTE/dist/img/user2-160x160.jpg" className="img-circle" alt="User Image" />
+                                <img src="https://almsaeedstudio.com/themes/AdminLTE/dist/img/user2-160x160.jpg" className="img-circle" alt={"userImage".L()} />
                             </div>
                             <div className="pull-left info">
                                 <p>
@@ -103,15 +103,14 @@ class App extends React.Component{
                                 </p>
 
                                 <span>
-                                    <i className="fa fa-circle text-success"></i> 
-                                    {' '}
-                                    已登录
+                                    <i className="fa fa-circle text-success"></i>
+                                    {"greetingUser".L(user.username)}
                                 </span>
                             </div>
                         </div>
 
                         <ul className="sidebar-menu">
-                            <li className="header">站点导航</li>
+                            <li className="header">{"siteNavigation".L()}</li>
                             {
                                 this.menus.map(menu=>{
                                     return <Menu menu={menu} key={menu.key}/>

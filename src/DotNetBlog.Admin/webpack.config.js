@@ -15,13 +15,13 @@ if(release){
         //new webpack.optimize.OccurenceOrderPlugin(),
         new webpack.DefinePlugin({
             'process.env': { NODE_ENV: '"production"' }
-        }),
-        new webpack.optimize.UglifyJsPlugin({minimize: true})
+        })//,
+        //new webpack.optimize.UglifyJsPlugin({minimize: true})
     ];
 }
 else{
 	entry = [
-        "webpack-dev-server/client?http://localhost:3000",
+        "webpack-dev-server/client?http://localhost:8080",
         "webpack/hot/only-dev-server",
         './index.jsx'
     ];
@@ -35,7 +35,7 @@ module.exports = {
     output: {
         path: path.normalize(path.join(__dirname, '../DotNetBlog.Web/wwwroot/dist')),
         filename: 'app.js',
-        publicPath: "http://localhost:3000/"
+        publicPath: "http://localhost:8080/"
     },
     resolve: {
         extensions: ['', '.js', '.jsx', '.css', '.scss']

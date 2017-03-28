@@ -37,7 +37,7 @@ class WidgetInfo extends React.Component{
                     </p>                    
                 </ModalBody>
                 <ModalFooter>
-                    <button onClick={this.close.bind(this)} className="btn btn-primary">确定</button>
+                    <button onClick={this.close.bind(this)} className="btn btn-primary">{"close".L()}</button>
                 </ModalFooter>
             </Modal>
         )

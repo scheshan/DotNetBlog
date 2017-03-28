@@ -49,47 +49,47 @@ class Statistics extends React.Component{
 
         return (
             <div className="panel">
-                <div className="panel-heading">统计</div>
+                <div className="panel-heading">{"statistics".L()}</div>
                 <ul className="list-group">
                     <li className="list-group-item">
                         <Link to="/content/topics?status=1">
-                            已发表文章数 
+                            {"numberOfArticlesPublished".L()} 
                             <span className="badge pull-right">{topics.published}</span>
                         </Link>
                     </li>
                     <li className="list-group-item">
                         <Link to="/content/pages">
-                            已发表页面数 
+                            {"numberOfPagesPublished".L()} 
                             <span className="badge pull-right">{pages.published}</span>
                         </Link>
                     </li>
                     <li className="list-group-item">
                         <Link to="/content/topics?status=0">
-                            文章稿件 
+                            {"savedDrafts".L()} 
                             <span className="badge pull-right">{topics.draft}</span>
                         </Link>
                     </li>
                     <li className="list-group-item">
                         <Link to="/content/pages">
-                            页面稿件 
+                            {"numberOfPages".L()} 
                             <span className="badge pull-right">{pages.draft}</span>
                         </Link>
                     </li>
                     <li className="list-group-item">
                         <Link to="/content/comments?status=1">
-                            已通过的评论 
+                            {"approvedComments".L()}
                             <span className="badge pull-right">{comments.approved}</span>
                         </Link>
                     </li>
                     <li className="list-group-item">
                         <Link to="/content/comments?status=0">
-                            未经审核的评论 
+                            {"pendingComments".L()} 
                             <span className="badge pull-right">{comments.pending}</span>
                         </Link>
                     </li>
                     <li className="list-group-item">
                         <Link to="/content/comments">
-                            垃圾评论
+                            {"junkComments".L()}
                             <span className="badge pull-right">{junkComments}</span>
                         </Link>
                     </li>

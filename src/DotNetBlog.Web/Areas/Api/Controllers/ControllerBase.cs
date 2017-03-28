@@ -1,6 +1,7 @@
 ﻿using DotNetBlog.Web.Areas.Api.Filters;
 using DotNetBlog.Web.Areas.Api.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Localization;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
@@ -17,6 +18,17 @@ namespace DotNetBlog.Web.Areas.Api.Controllers
     public class ControllerBase : Controller
     {
         private static readonly JsonSerializerSettings _DefaultJsonSerializerSettings;
+
+        IHtmlLocalizer<ControllerBase> localizer;
+        private IHtmlLocalizer<ControllerBase> L
+        {
+            get {
+                if (localizer == null) {
+                    localizer = this.HttpContext.RequestServices.GetService(typeof(IHtmlLocalizer<ControllerBase>)) as IHtmlLocalizer<ControllerBase>;
+                }
+                return localizer;
+            }
+        }
 
         static ControllerBase()
         {
@@ -87,14 +99,14 @@ namespace DotNetBlog.Web.Areas.Api.Controllers
 
             if (ModelState.IsValid)
             {
-                errorMessage = "错误的请求";
+                errorMessage = L["Bad request"].Value;
             }
             else
             {
                 errorMessage = ModelState.Where(t => t.Value.Errors.Any()).Select(t => t.Value).FirstOrDefault()?.Errors.FirstOrDefault()?.ErrorMessage;                
             }
 
-            errorMessage = string.IsNullOrWhiteSpace(errorMessage) ? "错误的请求" : errorMessage;
+            errorMessage = string.IsNullOrWhiteSpace(errorMessage) ? L["Bad request"].Value : errorMessage;
 
             return this.Error(errorMessage);
         }

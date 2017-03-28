@@ -2,7 +2,7 @@
 
 const errorResponse = {
     success: false,
-    errorMessage: "请求发生错误，请稍后再试"
+    errorMessage: "errorInRequeset".L()
 };
 
 function prepareUrl(url, param){

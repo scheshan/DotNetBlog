@@ -54,18 +54,18 @@ class ModifyTopicSetting extends React.Component{
     render(){
         return (
             <Modal show={this.state.show} onHide={this.hide.bind(this)}>
-                <ModalHeader closeButton>自定义</ModalHeader>
+                <ModalHeader closeButton>{"customize".L()}</ModalHeader>
                 <ModalBody>
                     <FormGroup>
-                        <Checkbox checked={this.props.showAlias} onChange={this.handleShowAliasChange.bind(this)}>显示别名</Checkbox>
+                        <Checkbox checked={this.props.showAlias} onChange={this.handleShowAliasChange.bind(this)}>{"showAlias".L()}</Checkbox>
                     </FormGroup>
 
                     <FormGroup>
-                        <Checkbox checked={this.props.showSummary} onChange={this.handleShowSummaryChange.bind(this)}>显示摘要</Checkbox>
+                        <Checkbox checked={this.props.showSummary} onChange={this.handleShowSummaryChange.bind(this)}>{"showSummary".L()}</Checkbox>
                     </FormGroup>
 
                     <FormGroup>
-                        <Checkbox checked={this.props.showDate} onChange={this.handleShowDateChange.bind(this)}>显示日期</Checkbox>
+                        <Checkbox checked={this.props.showDate} onChange={this.handleShowDateChange.bind(this)}>{"showDate".L()}</Checkbox>
                     </FormGroup>
                 </ModalBody>
             </Modal>
