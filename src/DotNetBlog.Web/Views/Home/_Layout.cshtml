@@ -31,8 +31,8 @@
                 <div class="navbar-collapse collapse">
                     <ul class="nav navbar-nav ">
                         <li><a asp-action="Index" asp-controller="Home">@L["Home"]</a></li>
-                        <li><a href="http://localhost:10002/archive">@L["Archive"]</a></li>
-                        <li><a href="http://localhost:10002/contact">@L["Contacts"]</a></li>
+                        @*<li><a href="http://localhost:10002/archive">@L["Archive"]</a></li>
+                        <li><a href="http://localhost:10002/contact">@L["Contacts"]</a></li>*@
 
                         @await Component.InvokeAsync("PageListNav")
                     </ul>
