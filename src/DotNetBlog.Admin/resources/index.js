@@ -160,6 +160,7 @@ const Localization = new LocalizedStrings({
         addTo: "Add to",
         info: "Info",
         inUse: "In use",
+        selectedLanguage: "Select language"
     },
     "zh-CN": {
         /* Menu */
@@ -319,6 +320,7 @@ const Localization = new LocalizedStrings({
         addTo: "增加",
         info: "信息",
         inUse: "正在使用",
+        selectedLanguage: "选择语言"
     }
 });
 Localization.setLanguage(user.lang);
