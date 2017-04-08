@@ -9,13 +9,15 @@ using DotNetBlog.Core.Model.Setting;
 using DotNetBlog.Core.Entity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc.Localization;
+using Microsoft.Extensions.Localization;
 
 namespace DotNetBlog.Core.Service
 {
     public class SettingService
     {
         private BlogContext BlogContext { get; set; }
-        private IHtmlLocalizer<SettingModel> SettingModelLocalizer { get; set; }
+
+        private IStringLocalizer<SettingModel> SettingModelLocalizer { get; set; }
 
         private IMemoryCache Cache { get; set; }
 
@@ -23,7 +25,7 @@ namespace DotNetBlog.Core.Service
 
         private static object _sync = new object();
 
-        public SettingService(BlogContext blogContext, IMemoryCache cache, IHtmlLocalizer<SettingModel> settingModelLocalizer)
+        public SettingService(BlogContext blogContext, IMemoryCache cache, IStringLocalizer<SettingModel> settingModelLocalizer)
         {
             BlogContext = blogContext;
             Cache = cache;
@@ -76,8 +78,13 @@ namespace DotNetBlog.Core.Service
 
                 tran.Commit();
 
-                Cache.Remove(CacheKey);
+                RemoveCache();
             }
+        }
+
+        public void RemoveCache()
+        {
+            Cache.Remove(CacheKey);
         }
     }
 }

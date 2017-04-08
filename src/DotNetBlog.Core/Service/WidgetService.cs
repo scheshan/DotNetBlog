@@ -13,6 +13,7 @@ using DotNetBlog.Core.Model;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Microsoft.AspNetCore.Mvc.Localization;
+using Microsoft.Extensions.Localization;
 
 namespace DotNetBlog.Core.Service
 {
@@ -50,9 +51,9 @@ namespace DotNetBlog.Core.Service
 
         private IMemoryCache Cache { get; set; }
 
-        private IHtmlLocalizer<WidgetConfigModelBase> L { get; set; }
+        private IStringLocalizer<WidgetConfigModelBase> L { get; set; }
 
-        public WidgetService(BlogContext blogContext, IMemoryCache cache, IHtmlLocalizer<WidgetConfigModelBase> localizer)
+        public WidgetService(BlogContext blogContext, IMemoryCache cache, IStringLocalizer<WidgetConfigModelBase> localizer)
         {
             this.BlogContext = blogContext;
             this.Cache = cache;
@@ -122,11 +123,12 @@ namespace DotNetBlog.Core.Service
                     Config = JsonConvert.SerializeObject(t.Config)
                 }).ToList();
                 this.BlogContext.AddRange(entityList);
-                await this.BlogContext.SaveChangesAsync();
-
-                this.Cache.Remove(CacheKey);
+                await this.BlogContext.SaveChangesAsync();                
 
                 tran.Commit();
+
+                RemoveCache();
+
                 return new OperationResult();
             }
         }
@@ -135,6 +137,11 @@ namespace DotNetBlog.Core.Service
         {
             Type targetType = DefaultWidgetConfigTypes[type];
             return config.ToObject(targetType) as WidgetConfigModelBase;
+        }
+
+        public void RemoveCache()
+        {
+            this.Cache.Remove(CacheKey);
         }
     }
 }

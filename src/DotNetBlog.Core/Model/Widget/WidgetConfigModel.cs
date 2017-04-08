@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using DotNetBlog.Core.Enums;
 using Newtonsoft.Json;
 using Microsoft.AspNetCore.Mvc.Localization;
+using Microsoft.Extensions.Localization;
 
 namespace DotNetBlog.Core.Model.Widget
 {
@@ -24,7 +25,7 @@ namespace DotNetBlog.Core.Model.Widget
 
     public class AdministrationWidgetConfigModel : WidgetConfigModelBase
     {
-        public AdministrationWidgetConfigModel(IHtmlLocalizer<WidgetConfigModelBase> L)
+        public AdministrationWidgetConfigModel(IStringLocalizer L)
         {
             this.Title = L?["Administration"].Value;
         }
@@ -32,7 +33,7 @@ namespace DotNetBlog.Core.Model.Widget
 
     public class CategoryWidgetConfigModel : WidgetConfigModelBase
     {
-        public CategoryWidgetConfigModel(IHtmlLocalizer<WidgetConfigModelBase> L)
+        public CategoryWidgetConfigModel(IStringLocalizer L)
         {
             this.Title = L?["Categories"].Value;
             this.ShowRSS = true;
@@ -46,7 +47,7 @@ namespace DotNetBlog.Core.Model.Widget
 
     public class RecentCommentWidgetConfigModel : WidgetConfigModelBase
     {
-        public RecentCommentWidgetConfigModel(IHtmlLocalizer<WidgetConfigModelBase> L)
+        public RecentCommentWidgetConfigModel(IStringLocalizer L)
         {
             this.Title = L?["Recent comments"].Value;
             this.Number = 10;
@@ -65,7 +66,7 @@ namespace DotNetBlog.Core.Model.Widget
     
     public class MonthStatisticeWidgetConfigModel : WidgetConfigModelBase
     {
-        public MonthStatisticeWidgetConfigModel(IHtmlLocalizer<WidgetConfigModelBase> L)
+        public MonthStatisticeWidgetConfigModel(IStringLocalizer L)
         {
             this.Title = L?["Archive"].Value;
         }
@@ -73,7 +74,7 @@ namespace DotNetBlog.Core.Model.Widget
 
     public class PageWidgetConfigModel : WidgetConfigModelBase
     {
-        public PageWidgetConfigModel(IHtmlLocalizer<WidgetConfigModelBase> L)
+        public PageWidgetConfigModel(IStringLocalizer L)
         {
             this.Title = L?["Pages"].Value;
         }
@@ -81,7 +82,7 @@ namespace DotNetBlog.Core.Model.Widget
 
     public class RecentTopicWidgetConfigModel : WidgetConfigModelBase
     {
-        public RecentTopicWidgetConfigModel(IHtmlLocalizer<WidgetConfigModelBase> L)
+        public RecentTopicWidgetConfigModel(IStringLocalizer L)
         {
             this.Title = L?["Recent articles"].Value;
             this.Number = 10;
@@ -102,7 +103,7 @@ namespace DotNetBlog.Core.Model.Widget
 
     public class SearchWidgetConfigModel : WidgetConfigModelBase
     {
-        public SearchWidgetConfigModel(IHtmlLocalizer<WidgetConfigModelBase> L)
+        public SearchWidgetConfigModel(IStringLocalizer L)
         {
             this.Title = L?["Search for"].Value;
         }
@@ -110,7 +111,7 @@ namespace DotNetBlog.Core.Model.Widget
 
     public class TagWidgetConfigModel : WidgetConfigModelBase
     {
-        public TagWidgetConfigModel(IHtmlLocalizer<WidgetConfigModelBase> L)
+        public TagWidgetConfigModel(IStringLocalizer L)
         {
             this.Title = L?["Tags"].Value;
             this.Number = 100;
@@ -132,7 +133,7 @@ namespace DotNetBlog.Core.Model.Widget
 
     public class LinkWidgetConfigModel : WidgetConfigModelBase
     {
-        public LinkWidgetConfigModel(IHtmlLocalizer<WidgetConfigModelBase> L)
+        public LinkWidgetConfigModel(IStringLocalizer L)
         {
             this.Title = L?["Links"].Value;
             this.LinkList = new List<LinkModel>();

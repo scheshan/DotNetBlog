@@ -128,9 +128,11 @@ namespace DotNetBlog.Web
             {
                 app.UseDeveloperExceptionPage();
             }
-
-            app.UseExceptionHandler("/exception/500");
-            app.UseStatusCodePagesWithReExecute("/exception/{0}");
+            else
+            {
+                app.UseExceptionHandler("/exception/500");
+                app.UseStatusCodePagesWithReExecute("/exception/{0}");
+            }
 
             app.UseClientManager();
 
@@ -139,11 +141,7 @@ namespace DotNetBlog.Web
             loggerFactory.AddNLog();
             loggerFactory.ConfigureNLog("NLog.config");
 
-        }
-
-        private void InitDatabase()
-        {
-
+            app.ApplicationServices.GetService<Core.Data.BlogContext>().Database.EnsureCreated();
         }
     }
 }
