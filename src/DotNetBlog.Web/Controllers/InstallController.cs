@@ -15,68 +15,67 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc.Filters;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using DotNetBlog.Core.Model.Install;
 
 namespace DotNetBlog.Web.Controllers
 {
+    [Route("")]
     public class InstallController : Controller
     {
-        private BlogContext BlogContext { get; set; }
-
-        private static ILogger Logger = LogManager.GetCurrentClassLogger();
-
-        private IHtmlLocalizer<InstallController> L { get; set; }
-
         private InstallService InstallService { get; set; }
 
-        private SettingService SettingService { get; set; }
+        private IOptions<RequestLocalizationOptions> RequestLocalizationOptions { get; set; }
 
-        private IOptions<RequestLocalizationOptions> LocOptions { get; set; }
-
-        public InstallController(BlogContext blogContext,
-            IHtmlLocalizer<InstallController> localizer,
-            IOptions<RequestLocalizationOptions> LocOptions,
+        public InstallController(
             InstallService installService,
-            SettingService settingService)
+            IOptions<RequestLocalizationOptions> requestLocalizationOptions)
         {
-            this.BlogContext = blogContext;
-            this.L = localizer;
-            this.InstallService = installService;
-            this.SettingService = settingService;
+            InstallService = installService;
+            RequestLocalizationOptions = requestLocalizationOptions;
         }
 
         [HttpGet("install")]
-        public async Task<IActionResult> Index([FromForm] InstallConfig model)
+        public IActionResult Index()
         {
-            try
+            var vm = CreateViewModel(null);
+
+            return this.View(vm);
+        }
+
+        private IndexViewModel CreateViewModel(InstallModel model)
+        {
+            var vm = new IndexViewModel();
+
+            if (model != null)
             {
-                await InstallService.Install(model.AdminUsername ?? "admin",
-                    model.AdminPassword ?? "admin",
-                    model.Nickname ?? L["System Administrator"].Value,
-                    model.Email ?? "admin@dotnetblog.com");
-
-                var lang = model.Language ?? "en-GB";
-
-                //TODO: fox this problem
-                /**
-                 * I should find a solution to validate this language it's exitst or not
-                 * the code at below should work but we should check why LocOptions become null
-                 * https://docs.microsoft.com/en-us/aspnet/core/fundamentals/localization
-                 */
-                //var langExists = LocOptions.Value.SupportedUICultures.Any(a => a.Name.Equals(lang, StringComparison.OrdinalIgnoreCase));
-
-                //if (langExists)
-                {
-                    var settings = SettingService.Get();
-                    settings.Language = lang;
-                    await SettingService.Save(settings);
-                }
-
-                return RedirectToAction("Index", "Home");
+                vm.LanguageList = new SelectList(RequestLocalizationOptions.Value.SupportedCultures, "Name", "Name", model.Language);
+                vm.Model = model;
             }
-            catch (Exception ex)
+            else
             {
-                Logger.Error(ex, ex.Message);
-                return this.Content(ex.Message);
+                string blogHost = $"{Request.Scheme}://{Request.Host.Host}{(Request.Host.Port == 80 ? "" : ":" + Request.Host.Port)}/";
+
+                vm.LanguageList = new SelectList(RequestLocalizationOptions.Value.SupportedCultures, "Name", "Name");
+                vm.Model = new InstallModel
+                {
+                    BlogHost = blogHost
+                };
+            }
+
+            return vm;
+        }
+        
+        public override void OnActionExecuting(ActionExecutingContext context)
+        {
+            if (!InstallService.NeedToInstall())
+            {
+                context.Result = this.RedirectToAction("Index", "Home");
+            }
+            else
+            {
+                base.OnActionExecuting(context);
             }
         }
     }
