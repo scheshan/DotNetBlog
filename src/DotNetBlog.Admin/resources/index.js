@@ -2,6 +2,7 @@
 
 const Localization = new LocalizedStrings({
     "en-GB": {
+        editorLang: "en",
         /* Menu */
         dashboard: "Dashboard",
         content: "Content",
@@ -162,6 +163,7 @@ const Localization = new LocalizedStrings({
         inUse: "In use",
     },
     "zh-CN": {
+        editorLang: "zh-CN",
         /* Menu */
         dashboard: "控制台",
         content: "内容",
