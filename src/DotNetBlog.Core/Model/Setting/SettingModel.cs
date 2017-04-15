@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc.Localization;
+using Microsoft.Extensions.Localization;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,9 +10,10 @@ namespace DotNetBlog.Core.Model.Setting
     public class SettingModel
     {
         internal Dictionary<string, string> Settings { get; set; }
-        internal IHtmlLocalizer<SettingModel> L { get; set; }
 
-        public SettingModel(Dictionary<string, string> settings, IHtmlLocalizer<SettingModel> localizer)
+        internal IStringLocalizer<SettingModel> L { get; set; }
+
+        public SettingModel(Dictionary<string, string> settings, IStringLocalizer<SettingModel> localizer)
         {
             Settings = settings;
             L = localizer;
