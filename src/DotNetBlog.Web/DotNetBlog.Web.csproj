@@ -67,7 +67,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Resources\Views\Install\" />
+    <EmbeddedResource Update="Resources\Views\Install\Index.en-GB.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Views\Install\Index.zh-CN.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
   </ItemGroup>
 
 </Project>
