@@ -73,9 +73,10 @@ namespace DotNetBlog.Web
             services.AddBlogService();
 
             AutoMapperConfig.Configure();
-            
+
             services.Configure<RequestLocalizationOptions>(
-                opts => {
+                opts =>
+                {
                     var supportedCultures = new List<CultureInfo>
                     {
                         new CultureInfo("en-GB"),
@@ -91,12 +92,12 @@ namespace DotNetBlog.Web
                     //Uncomment for change language by user
                     //opts.RequestCultureProviders.Add(new CookieRequestCultureProvider());
                     //opts.RequestCultureProviders.Add(new AcceptLanguageHeaderRequestCultureProvider());
-
-                    opts.RequestCultureProviders.Insert(0, new CustomRequestCultureProvider(async context =>
+                    //opts.RequestCultureProviders.Add(new QueryStringRequestCultureProvider() { QueryStringKey = "lang", UIQueryStringKey = "ui-lang" });
+                    opts.RequestCultureProviders.Insert(0, new CustomRequestCultureProvider(context =>
                     {
                         var settingService = context.RequestServices.GetService<Core.Service.SettingService>();
                         // My custom request culture logic
-                        return new ProviderCultureResult(settingService.Get().Language);
+                        return Task.Run(() => new ProviderCultureResult(settingService.Get().Language));
                     }));
                 });
         }
