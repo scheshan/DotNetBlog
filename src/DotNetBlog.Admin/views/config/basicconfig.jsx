@@ -1,5 +1,6 @@
 ﻿
 var React = require("react")
+var Parallel = require("async/parallel")
 var {Spinner, Bootstrap: {FormGroup}} = require("../../components")
 var {Api, Dialog} = require("../../services")
 var {reduxForm} = require("redux-form")
@@ -31,11 +32,10 @@ class BasicConfigForm extends React.Component{
         super()
 
         this.languageOptions = Localization.getAvailableLanguages();
-        console.dir(this.languageOptions);
     }
 
     render(){
-        const {fields: {host, title, description, language, topicsPerPage, onlyShowSummary}, handleSubmit} = this.props
+        const {fields: {host, title, description, language, theme, topicsPerPage, onlyShowSummary}, handleSubmit, themes} = this.props
         return (
             <form noValidate onSubmit={handleSubmit}>
                 <FormGroup label={"blogAddress".L()} validation={host}>
@@ -50,11 +50,20 @@ class BasicConfigForm extends React.Component{
                 <FormGroup label={"numberOfArticlesPerPage".L()} validation={topicsPerPage}>
                     <input type="text" className="form-control" {...topicsPerPage}/>
                 </FormGroup>
-                <FormGroup label={"selectedLanguage".L()} validation={topicsPerPage}>
+                <FormGroup label={"selectedLanguage".L()}>
                     <select className="form-control" {...language}>
                         {this.languageOptions.map(item => {
                             return (
                                 <option value={item}>{item}</option>
+                            )
+                        })}
+                    </select>
+                </FormGroup>
+                <FormGroup label={"theme".L()}>
+                    <select className="form-control" {...theme}>
+                        {themes.map(item => {
+                            return (
+                                <option value={item.key}>{item.name}</option>
                             )
                         })}
                     </select>
@@ -93,8 +102,10 @@ class BasicConfig extends React.Component{
                 title: "",
                 description: "",
                 language: "en-GB",
-                topicsPerPage: 10
+                topicsPerPage: 10,
+                theme: "default"
             },
+            themes: [],
             loading: true
         }
     }
@@ -127,17 +138,43 @@ class BasicConfig extends React.Component{
         this.loadData();
     }
 
-    loadData(){
+    queryBasicConfig(callback) {
         Api.getBasicConfig(response => {
             if (response.success) {
+                callback(null, response.data);
+            }
+            else {
+                callback(response.errorMessage);
+            }
+        })
+    }
+
+    queryThemes(callback) {
+        Api.getThemes(response => {
+            if (response.success) {
+                callback(null, response.data);
+            }
+            else {
+                callback(response.errorMessage);
+            }
+        })
+    }
+
+    loadData() {
+        Parallel([this.queryBasicConfig, this.queryThemes], (err, args) => {
+            if (err) {
                 this.setState({
-                    config: response.data,
                     loading: false
                 })
+                Dialog.error(err);
             }
-            else{
-                Dialog.error(response.errorMessage);
+            else {
+                let basicConfig = args[0];
+                let themeList = args[1];
+
                 this.setState({
+                    config: basicConfig,
+                    themes: themeList,
                     loading: false
                 })
             }
@@ -149,7 +186,7 @@ class BasicConfig extends React.Component{
             <div className="content">
                 <Spinner loading={this.state.loading}/>
                 <div className="form-content">
-                    <BasicConfigForm onSubmit={this.onSubmit.bind(this)} initialValues={this.state.config}></BasicConfigForm>
+                    <BasicConfigForm onSubmit={this.onSubmit.bind(this)} initialValues={this.state.config} themes={this.state.themes}></BasicConfigForm>
                 </div>
             </div>
         )

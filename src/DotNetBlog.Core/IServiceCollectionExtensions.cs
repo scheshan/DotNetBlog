@@ -7,6 +7,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Reflection;
+using DotNetBlog.Core.Model.Theme;
+using Microsoft.AspNetCore.Http;
 
 namespace DotNetBlog.Core
 {
@@ -21,12 +23,18 @@ namespace DotNetBlog.Core
                 services.AddScoped(service.AsType());
             }
 
-            services.AddScoped<SettingModel>(provider =>
+            services.AddScoped(provider =>
             {
                 return provider.GetService<SettingService>().Get();
             });
 
+            services.AddScoped(provider =>
+            {
+                return provider.GetService<ThemeService>().Get();
+            });
+
             services.AddScoped<ClientManager>();
+            
         }
     }
 }

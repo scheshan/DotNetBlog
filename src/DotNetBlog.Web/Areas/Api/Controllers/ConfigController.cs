@@ -20,10 +20,20 @@ namespace DotNetBlog.Web.Areas.Api.Controllers
 
         private EmailService EmailService { get; set; }
 
-        public ConfigController(SettingService settingService, EmailService emailService)
+        private ThemeService ThemeService { get; set; }
+
+        public ConfigController(SettingService settingService, EmailService emailService, ThemeService themeService)
         {
             SettingService = settingService;
             EmailService = emailService;
+            ThemeService = themeService;
+        }
+
+        [HttpGet("themes")]
+        public IActionResult GetThemes()
+        {
+            var themes = ThemeService.All();
+            return Success(themes);
         }
 
         [HttpGet("basic")]
@@ -85,7 +95,7 @@ namespace DotNetBlog.Web.Areas.Api.Controllers
                 return this.Error(result.ErrorMessage);
             }
         }
-        
+
         [HttpGet("comment")]
         public IActionResult GetCommentConfig()
         {
