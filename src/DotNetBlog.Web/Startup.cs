@@ -100,6 +100,11 @@ namespace DotNetBlog.Web
                         return Task.Run(() => new ProviderCultureResult(settingService.Get().Language));
                     }));
                 });
+
+            services.Configure<RazorViewEngineOptions>(options =>
+            {
+                options.ViewLocationExpanders.Add(new ViewEngines.ThemeViewEngine());
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

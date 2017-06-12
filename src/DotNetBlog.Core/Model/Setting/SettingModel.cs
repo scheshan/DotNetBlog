@@ -9,6 +9,35 @@ namespace DotNetBlog.Core.Model.Setting
 {
     public class SettingModel
     {
+
+        #region Default(s)
+
+        public const string DefaultHost = "http://dotnetblog.com";
+        public const string DefaultTitle = "DotNetBlog";
+        public const string DefaultTheme = "default";
+        public const int DefaultTopicPerPage = 10;
+        public const bool DefaultOnlyShowSummary = false;
+        public const string DefaultSmtpEmailAddress = "name@example.com";
+        public const string DefaultSmtpServer = "mail.example.com";
+        public const string DefaultSmtpUser = "username";
+        public const string DefaultSmtpPassword = "password";
+        public const int DefaultSmtpPort = 25;
+        public const bool DefaultSmtpEnableSSL = false;
+        public const bool DefaultSendEmailWhenComment = true;
+        public const bool DefaultAllowComment = true;
+        public const bool DefaultVerifyComment = true;
+        public const bool DefaultTrustAuthenticatedCommentUser = true;
+        public const bool DefaultEnableCommentWebSite = true;
+        public const int DefaultCloseCommentDays = 0;
+        public const string DefaultErrorPageTitle = "Sorry the system has made an error";
+        public const string DefaultErrorPageContent = "Request page is wrong please try again later";
+        public const string DefaultHeaderScript = "";
+        public const string DefaultFooterScript = "";
+
+        #endregion
+
+        #region Properties and Constractor
+
         internal Dictionary<string, string> Settings { get; set; }
 
         internal IStringLocalizer<SettingModel> L { get; set; }
@@ -26,7 +55,7 @@ namespace DotNetBlog.Core.Model.Setting
         {
             get
             {
-                return GetStringValue(nameof(Host), L["http://dotnetblog.com"].Value);
+                return GetStringValue(nameof(Host), L[DefaultHost].Value);
             }
             set
             {
@@ -41,7 +70,7 @@ namespace DotNetBlog.Core.Model.Setting
         {
             get
             {
-                return GetStringValue(nameof(Title), L["DotNetBlog"].Value);
+                return GetStringValue(nameof(Title), L[DefaultTitle].Value);
             }
             set
             {
@@ -79,13 +108,27 @@ namespace DotNetBlog.Core.Model.Setting
             }
         }
         /// <summary>
+        /// Selected Theme
+        /// </summary>
+        public string Theme
+        {
+            get
+            {
+                return GetStringValue(nameof(Theme), DefaultTheme);
+            }
+            set
+            {
+                SetValue(nameof(Theme), value);
+            }
+        }
+        /// <summary>
         /// 每页文章数
         /// </summary>
         public int TopicsPerPage
         {
             get
             {
-                return GetIntValue(nameof(TopicsPerPage), 10);
+                return GetIntValue(nameof(TopicsPerPage), DefaultTopicPerPage);
             }
             set
             {
@@ -100,7 +143,7 @@ namespace DotNetBlog.Core.Model.Setting
         {
             get
             {
-                return GetBooleanValue(nameof(OnlyShowSummary), false);
+                return GetBooleanValue(nameof(OnlyShowSummary), DefaultOnlyShowSummary);
             }
             set
             {
@@ -115,7 +158,7 @@ namespace DotNetBlog.Core.Model.Setting
         {
             get
             {
-                return GetStringValue(nameof(SmtpEmailAddress), L["name@example.com"].Value);
+                return GetStringValue(nameof(SmtpEmailAddress), L[DefaultSmtpEmailAddress].Value);
             }
             set
             {
@@ -130,7 +173,7 @@ namespace DotNetBlog.Core.Model.Setting
         {
             get
             {
-                return GetStringValue(nameof(SmtpServer), L["mail.example.com"].Value);
+                return GetStringValue(nameof(SmtpServer), L[DefaultSmtpServer].Value);
             }
             set
             {
@@ -145,7 +188,7 @@ namespace DotNetBlog.Core.Model.Setting
         {
             get
             {
-                return GetStringValue(nameof(SmtpUser), L["username"].Value);
+                return GetStringValue(nameof(SmtpUser), L[DefaultSmtpUser].Value);
             }
             set
             {
@@ -160,7 +203,7 @@ namespace DotNetBlog.Core.Model.Setting
         {
             get
             {
-                return GetStringValue(nameof(SmtpPassword), L["password"].Value);
+                return GetStringValue(nameof(SmtpPassword), L[DefaultSmtpPassword].Value);
             }
             set
             {
@@ -175,7 +218,7 @@ namespace DotNetBlog.Core.Model.Setting
         {
             get
             {
-                return GetIntValue(nameof(SmtpPort), 25);
+                return GetIntValue(nameof(SmtpPort), DefaultSmtpPort);
             }
             set
             {
@@ -190,7 +233,7 @@ namespace DotNetBlog.Core.Model.Setting
         {
             get
             {
-                return GetBooleanValue(nameof(SmtpEnableSSL), false);
+                return GetBooleanValue(nameof(SmtpEnableSSL), DefaultSmtpEnableSSL);
             }
             set
             {
@@ -205,7 +248,7 @@ namespace DotNetBlog.Core.Model.Setting
         {
             get
             {
-                return GetBooleanValue(nameof(SendEmailWhenComment), true);
+                return GetBooleanValue(nameof(SendEmailWhenComment), SendEmailWhenComment);
             }
             set
             {
@@ -220,7 +263,7 @@ namespace DotNetBlog.Core.Model.Setting
         {
             get
             {
-                return GetBooleanValue(nameof(AllowComment), true);
+                return GetBooleanValue(nameof(AllowComment), DefaultAllowComment);
             }
             set
             {
@@ -235,7 +278,7 @@ namespace DotNetBlog.Core.Model.Setting
         {
             get
             {
-                return GetBooleanValue(nameof(VerifyComment), true);
+                return GetBooleanValue(nameof(VerifyComment), DefaultVerifyComment);
             }
             set
             {
@@ -250,7 +293,7 @@ namespace DotNetBlog.Core.Model.Setting
         {
             get
             {
-                return GetBooleanValue(nameof(TrustAuthenticatedCommentUser), true);
+                return GetBooleanValue(nameof(TrustAuthenticatedCommentUser), DefaultTrustAuthenticatedCommentUser);
             }
             set
             {
@@ -295,7 +338,7 @@ namespace DotNetBlog.Core.Model.Setting
         {
             get
             {
-                return GetStringValue(nameof(ErrorPageTitle), L["Sorry the system has made an error"].Value);
+                return GetStringValue(nameof(ErrorPageTitle), L[DefaultErrorPageTitle].Value);
             }
             set
             {
@@ -310,7 +353,7 @@ namespace DotNetBlog.Core.Model.Setting
         {
             get
             {
-                return GetStringValue(nameof(ErrorPageContent), L["Request page is wrong please try again later"].Value);
+                return GetStringValue(nameof(ErrorPageContent), L[DefaultErrorPageContent].Value);
             }
             set
             {
@@ -340,13 +383,15 @@ namespace DotNetBlog.Core.Model.Setting
         {
             get
             {
-                return GetStringValue(nameof(FooterScript), string.Empty);
+                return GetStringValue(nameof(FooterScript), DefaultFooterScript);
             }
             set
             {
                 SetValue(nameof(FooterScript), value.ToString());
             }
         }
+
+        #endregion
 
         #region Private Methods
 
