@@ -1,0 +1,30 @@
+﻿@using DotNetBlog.Web.ViewModels.Home
+@model NoticePageViewModel
+@inject IViewLocalizer L
+@{ 
+    string className;
+    switch(Model.MessageType)
+    {
+        case NoticePageViewModel.NoticeMessageType.Info:
+            className = "info";
+            break;
+        case NoticePageViewModel.NoticeMessageType.Error:
+            className = "danger";
+            break;
+        default:
+            className = "success";
+            break;
+    }
+}
+
+<div class="panel panel-default">
+    <div class="panel-body">
+        <div class="alert alert-@(className)">
+            @Model.Message
+        </div>
+
+        <p>
+            <a href="@Model.RedirectUrl">@L["Go back to the last page"]</a>
+        </p>
+    </div>
+</div>

@@ -1,0 +1,25 @@
+﻿@using DotNetBlog.Core.Model.Category
+@inject IViewLocalizer L
+
+@model List<CategoryModel>
+
+@{ 
+    var config = ViewBag.Config as CategoryWidgetConfigModel;
+}
+
+<div class="Widget widget categorylist">
+    <h4 class="WidgetHeader widget-header">@config.Title</h4>
+    <div class="WidgetContent widget-content">
+        <ul>
+            @foreach (var category in Model.OrderByDescending(t => t.Topics.Published))
+            {
+                <li condition="category.Topics.Published > 0">
+                    <a title="@L["Category"]: @category.Name" asp-action="Category" asp-controller="Home" asp-route-id="@category.ID" asp-route-page="">
+                        @category.Name
+                        <span condition="config.ShowNumbersOfTopics">(@category.Topics.Published)</span>
+                    </a>
+                </li>
+            }
+        </ul>
+    </div>
+</div>

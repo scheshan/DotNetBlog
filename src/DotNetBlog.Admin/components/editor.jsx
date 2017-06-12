@@ -36,6 +36,13 @@ class Editor extends React.Component{
             }, 
             this.props.options);
         this.editor = editormd(this.id, options);
+        var lang = "editorLang".L();
+        if (lang != "zh-cn") {
+            editormd.loadScript("lib/editor.md/languages/" + lang, function () {
+                this.editor.lang = editormd.defaults.lang;
+                this.editor.recreate();
+            });
+        }
     }
 
     getContent(){

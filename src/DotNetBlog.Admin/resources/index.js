@@ -2,6 +2,7 @@
 
 const Localization = new LocalizedStrings({
     "en-GB": {
+        editorLang: "en",
         /* Menu */
         dashboard: "Dashboard",
         content: "Content",
@@ -160,8 +161,10 @@ const Localization = new LocalizedStrings({
         addTo: "Add to",
         info: "Info",
         inUse: "In use",
+        selectedLanguage: "Select language"
     },
     "zh-CN": {
+        editorLang: "zh-CN",
         /* Menu */
         dashboard: "控制台",
         content: "内容",
@@ -319,6 +322,7 @@ const Localization = new LocalizedStrings({
         addTo: "增加",
         info: "信息",
         inUse: "正在使用",
+        selectedLanguage: "选择语言"
     }
 });
 Localization.setLanguage(user.lang);

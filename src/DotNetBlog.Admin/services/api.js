@@ -83,6 +83,9 @@ const Api = {
     saveAdvanceConfig(config, callback){
         post("/api/config/advance", config, callback);
     },
+    getThemes(callback) {
+        get("/api/config/themes", callback);
+    },
     getCategoryList(callback){
         get("/api/category/all", callback);
     },

@@ -1,0 +1,13 @@
+﻿@model DotNetBlog.Core.Model.Page.PageModel
+@inject ClientManager clientManager
+@inject IViewLocalizer L
+
+<div id="page" class="page-global">
+    <h2 class="page-global-title">@Model.Title</h2>
+    <div>
+        <markdown content="@Model.Content"></markdown>
+    </div>
+    <div id="admin" condition="@clientManager.IsLogin">
+        <a asp-action="Index" asp-controller="Admin" asp-fragment="@("/content/page/" + Model.ID.ToString())">@L["Edit"]</a>
+    </div>
+</div>

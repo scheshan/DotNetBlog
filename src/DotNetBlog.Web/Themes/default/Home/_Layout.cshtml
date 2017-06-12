@@ -1,0 +1,79 @@
+﻿@inject SettingModel settingModel
+@inject ClientManager clientManager
+@inject IViewLocalizer L
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <blog-title></blog-title>
+    <meta name="description" content="@Html.Raw(settingModel.Description)"/>
+    <link href="//cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" />
+    <link href="%/styles/main.css" rel="stylesheet" />
+    <script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+    <script src="//cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    @Html.Raw(settingModel.HeaderScript)
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-inverse" role="navigation">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                </div>
+                <div class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav ">
+                        <li><a asp-action="Index" asp-controller="Home">@L["Home"]</a></li>
+                        @*<li><a href="http://localhost:10002/archive">@L["Archive"]</a></li>
+                        <li><a href="http://localhost:10002/contact">@L["Contacts"]</a></li>*@
+
+                        @await Component.InvokeAsync("PageListNav")
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a asp-action="LogOff" asp-controller="Account" condition="clientManager.IsLogin">@L["Logout"]</a></li>
+                        <li><a asp-action="Login" asp-controller="Account" condition="!clientManager.IsLogin">@L["Login"]</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <div class="title-wrapper">
+            <div class="container">
+                <hgroup class="pull-left">
+                    <h1><a asp-action="Index" asp-controller="Home">@settingModel.Title</a></h1>
+                    <h3>@settingModel.Description</h3>
+                </hgroup>
+            </div>
+        </div>
+    </header>
+
+    <section class="container">
+        <div class="row">
+            <section class="col-md-8">
+                @RenderBody()
+            </section>
+
+            <aside class="col-md-4">
+                @await Component.InvokeAsync("Widgets")
+            </aside>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+
+        </div>
+        <div class="end-line text-center">
+            <p class="text-muted credit">Copyright © 2016 <a asp-action="Index" asp-controller="Home">@settingModel.Title</a> - Powered by <a href="http://dotnetblogengine.net" target="_blank">BlogEngine.NET</a> 3.3.0.1 - Design by <a href="http://seyfolahi.net/" title="Farzin Seyfolahi - UI/UX Designer at BlogEngine.NET" target="_blank">FS</a> </p>
+        </div>
+    </footer>
+</body>
+</html>
+@Html.Raw(settingModel.FooterScript)

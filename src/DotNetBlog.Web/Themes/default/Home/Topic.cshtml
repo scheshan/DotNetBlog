@@ -1,0 +1,185 @@
+﻿@model TopicPageViewModel
+@inject ClientManager clientManager
+@inject IViewLocalizer L
+
+@{ 
+    var commentListViewModel = new CommentListViewModel
+    {
+        AllCommentList = Model.CommentList,
+        CommentList = Model.CommentList.Where(t => t.ReplyToID == null).ToList(),
+        AllowComment = Model.AllowComment
+    };
+}
+
+<div id="postnavigation" class="navigation-posts well-global" condition="Model.PrevTopic != null || Model.NextTopic != null">
+    <div class="row">
+
+        <div class="col-sm-6 text-left next-post">
+            <visible condition="Model.NextTopic != null">
+                <a blog-topic="Model.NextTopic" class="nav-next"> &larr; @Model.NextTopic.Title </a>
+            </visible>
+        </div>
+
+        <div class="col-sm-6 text-right prev-post">
+            <visible condition="Model.PrevTopic != null">
+                <a blog-topic="Model.PrevTopic" class="nav-prev">@Model.PrevTopic.Title &rarr;</a>
+            </visible>
+        </div>
+    </div>
+</div>
+
+<article class="post">
+    <header class="post-header">
+        <h2 class="post-title">
+            <a blog-topic="Model.Topic">@Model.Topic.Title</a>
+        </h2>
+        <div class="post-info clearfix">
+            <span class="post-date">
+                <i class="fa fa-calendar"></i>
+                @Model.Topic.Date.ToString("yyyy-MM-dd")
+            </span>
+            <span class="post-category" condition="Model.Topic.Categories.Length > 0">
+                <i class="fa fa-folder"></i>
+                @foreach(var category in Model.Topic.Categories)
+                {
+                    <a asp-action="Category" asp-controller="Home" asp-route-id="@category.ID">@category.Name</a>
+                }
+            </span>
+            <a rel="nofollow" class="pull-right post-comment-link" blog-topic="Model.Topic" blog-topic-fragment="comments">
+                <i class="fa fa-comment"></i>
+                (@Model.Topic.Comments.Approved)
+            </a>
+        </div>
+    </header>
+    <section class="post-body text">
+        <markdown content="@Model.Topic.Content"></markdown>
+    </section>
+
+    <footer class="post-footer" condition="Model.Topic.Tags.Any()">
+        <div class="post-tags">
+            @L["Tag"] :
+            @foreach(var tag in Model.Topic.Tags)
+            {
+                <a asp-action="Tag" asp-controller="Home" asp-route-keyword="@tag">@tag</a>
+            }
+        </div>
+    </footer>
+
+    <visible condition="clientManager.IsLogin">
+        <visible condition="Model.Topic.Comments.Pending > 0">
+            <a asp-action="Topic" asp-controller="Home" asp-route-id="@Model.Topic.ID" asp-fragment="comments">@L["Unaudited comments ({0})", Model.Topic.Comments.Pending]</a> |
+            <a asp-action="ApproveComments" asp-controller="QuickAction" asp-route-topicID="@Model.Topic.ID">@L["Approve comments"]</a> |
+        </visible>
+        <a asp-action="Index" asp-controller="Admin" asp-fragment="@("/content/topic/" + Model.Topic.ID.ToString())">@L["Edit"]</a> |
+        <a asp-action="DeleteTopic" asp-controller="QuickAction" asp-route-topicID="@Model.Topic.ID" onclick="if (!confirm('@L["Are you sure you want to delete the article?"]')) return false">@L["Delete"]</a>
+    </visible>
+</article>
+
+<div id="relatedPosts" class="related-posts well-global" condition="Model.RelatedTopicList.Any()">
+    <h3 class="well-global-title">@L["related articles"]</h3>
+    <ul class="list-unstyled">
+        @foreach (var topic in Model.RelatedTopicList)
+        {
+        <li>
+            <a asp-action="Topic" asp-controller="Home" asp-route-id="@topic.ID">@topic.Title</a>
+            <div><small class="text-muted">This is a post two. The variables searchTerm and selectCommand are initialized at the top. You're go</small></div>
+        </li>
+        }
+    </ul>
+</div>
+
+<div class="well-global" condition="commentListViewModel.CommentList.Any()">
+    <h3 id="comments" class="well-global-title">
+        @L["comments ({0})", Model.Topic.Comments.Approved]
+    </h3>
+
+    <div id="commentlist">
+        <ul class="media-list">
+            @Html.Partial("_CommentList", commentListViewModel)
+        </ul>
+    </div>
+</div>
+
+<div id="comment-form-container" condition="Model.AllowComment">
+    <div id="comment-form">
+        <form method="post" asp-action="AddComment" asp-controller="Home">
+            <input type="hidden" name="TopicID" value="@Model.Topic.ID" />
+            <input type="hidden" name="ReplyTo" id="hdnReplyTo" value="" />
+            <div class="comment-form well-global">
+                <div class="well-global-title clearfix">
+                    <h3 class="pull-left" id="addcomment">@L["add comment"]</h3>
+                </div>
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        <label for="txtName" class="col-md-2 control-label">@L["First name"] *</label>
+                        <div class="col-md-10">
+                            <input type="text" class="form-control" name="Name" id="txtName" value="@Model.CommentForm.Name"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="txtEmail" class="col-md-2 control-label">@L["E-mail"] *</label>
+                        <div class="col-md-10">
+                            <input type="email" class="form-control" name="Email" id="txtEmail" value="@Model.CommentForm.Email"/>
+                            <span id="gravatarmsg"></span>
+                        </div>
+                    </div>
+
+                    <div class="form-group" id="commentCompose">
+                        <label for="txtContent" class="col-md-2 control-label">@L["Comment"] *</label>
+                        <div class="col-md-10">
+                            <textarea class="form-control" id="txtContent" cols="50" rows="6" name="Content"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-md-7 control-label">
+                            <input type="checkbox" id="cbNotify" class="cmnt-frm-notify">
+                            @L["Notify me when there is a comment"]
+                        </label>
+                        <div class="col-md-5 text-right">
+                            <input type="submit" id="btnSave" value="@L["Save comment"]" class="btn btn-primary">
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <p id="cancelReply" style="display: none;">
+                <a href="javascript:void(0);" onclick="cancelReply();">@L["Cancel the reply to the message"]</a>
+            </p>
+        </form>
+    </div>
+
+    <script type="text/javascript">
+        function replyTo(id) {
+            var container = $("#replies_" + id);
+            $("#comment-form").appendTo(container);
+            $("#hdnReplyTo").val(id);
+            $("#cancelReply").show();
+            $("#txtContent").focus();
+        }
+        function cancelReply() {
+            var container = $("#comment-form-container");
+            $("#comment-form").appendTo(container);
+            $("#hdnReplyTo").val("");
+            $("#cancelReply").hide();
+        }
+        $("#btnSave").click(function () {
+            if ($("#txtName").val() == "") {
+                alert("请填写名字");
+                $("#txtName").focus();
+                return false;
+            }
+            if ($("#txtEmail").val() == "") {
+                alert("请填写邮箱");
+                $("#txtEmail").focus();
+                return false;
+            }
+            if ($("#txtContent").val() == "") {
+                alert("请填写评论内容");
+                $("#txtContent").focus();
+                return false;
+            }
+        })
+    </script>
+</div>
+
