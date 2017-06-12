@@ -117,10 +117,61 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Invalid request" xml:space="preserve">
-    <value>错误的请求</value>
+  <data name="Administration" xml:space="preserve">
+    <value>Administration</value>
   </data>
-  <data name="System Administrator" xml:space="preserve">
-    <value>系统管理员</value>
+  <data name="Blog" xml:space="preserve">
+    <value>Blog</value>
+  </data>
+  <data name="Blog Host" xml:space="preserve">
+    <value>Blog Host</value>
+  </data>
+  <data name="Blog Title" xml:space="preserve">
+    <value>Blog Title</value>
+  </data>
+  <data name="Confirm Password" xml:space="preserve">
+    <value>Confirm Password</value>
+  </data>
+  <data name="Email" xml:space="preserve">
+    <value>Email</value>
+  </data>
+  <data name="Language" xml:space="preserve">
+    <value>Language</value>
+  </data>
+  <data name="Nickname" xml:space="preserve">
+    <value>Nickname</value>
+  </data>
+  <data name="Password" xml:space="preserve">
+    <value>Password</value>
+  </data>
+  <data name="Please check your password" xml:space="preserve">
+    <value>Please check your password</value>
+  </data>
+  <data name="Please enter a valid email" xml:space="preserve">
+    <value>Please enter a valid email</value>
+  </data>
+  <data name="Please enter the blog host" xml:space="preserve">
+    <value>Please enter the blog host</value>
+  </data>
+  <data name="Please enter the blog title" xml:space="preserve">
+    <value>Please enter the blog title</value>
+  </data>
+  <data name="Please enter your nickname" xml:space="preserve">
+    <value>Please enter your nickname</value>
+  </data>
+  <data name="Please enter your password" xml:space="preserve">
+    <value>Please enter your password</value>
+  </data>
+  <data name="Please enter your username" xml:space="preserve">
+    <value>Please enter your username</value>
+  </data>
+  <data name="Please select the default language" xml:space="preserve">
+    <value>Please select the default language</value>
+  </data>
+  <data name="Submit" xml:space="preserve">
+    <value>Submit</value>
+  </data>
+  <data name="Username" xml:space="preserve">
+    <value>Username</value>
   </data>
 </root>

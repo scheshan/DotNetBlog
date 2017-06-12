@@ -115,7 +115,7 @@ namespace DotNetBlog.Web
             if (enviroment.IsDevelopment())
             {
                 string databaseFolder = enviroment.ContentRootPath + "/bin/Debug/netcoreapp1.1/App_Data";
-                Directory.CreateDirectory(databaseFolder);
+                Directory.CreateDirectory(databaseFolder);                
             }
 
             var options = app.ApplicationServices.GetService<IOptions<RequestLocalizationOptions>>();
@@ -132,6 +132,7 @@ namespace DotNetBlog.Web
             /* Error page manager */
             if (enviroment.IsDevelopment())
             {
+                loggerFactory.AddConsole();
                 app.UseDeveloperExceptionPage();
             }
             else

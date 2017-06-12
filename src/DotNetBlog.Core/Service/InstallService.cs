@@ -57,7 +57,7 @@ namespace DotNetBlog.Core.Service
         /// <returns></returns>
         public OperationResult TryInstall(InstallModel model)
         {
-            if (RequestLocalizationOptions.Value.SupportedCultures.Any(t => t.Name.Equals(model.Language)))
+            if (!RequestLocalizationOptions.Value.SupportedCultures.Any(t => t.Name.Equals(model.Language)))
             {
                 return OperationResult.Failure(InstallLocalizer["Not supported language"]);
             }

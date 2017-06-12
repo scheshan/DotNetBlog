@@ -18,6 +18,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using DotNetBlog.Core.Model.Install;
+using Microsoft.Extensions.Localization;
 
 namespace DotNetBlog.Web.Controllers
 {
@@ -28,12 +29,16 @@ namespace DotNetBlog.Web.Controllers
 
         private IOptions<RequestLocalizationOptions> RequestLocalizationOptions { get; set; }
 
+        private IStringLocalizer<InstallController> L { get; set; }
+
         public InstallController(
             InstallService installService,
-            IOptions<RequestLocalizationOptions> requestLocalizationOptions)
+            IOptions<RequestLocalizationOptions> requestLocalizationOptions,
+            IStringLocalizer<InstallController> l)
         {
             InstallService = installService;
             RequestLocalizationOptions = requestLocalizationOptions;
+            L = l;
         }
 
         [HttpGet("install")]
@@ -42,6 +47,30 @@ namespace DotNetBlog.Web.Controllers
             var vm = CreateViewModel(null);
 
             return this.View(vm);
+        }
+
+        [HttpPost("install")]
+        [ValidateAntiForgeryToken]
+        public IActionResult Index(InstallModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                var vm = this.CreateViewModel(model);
+                vm.ErrorMessage = L["Invalid request"];
+                return this.View(vm);
+            }
+
+            var result = this.InstallService.TryInstall(model);
+            if (result.Success)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+            else
+            {
+                var vm = this.CreateViewModel(model);
+                vm.ErrorMessage = result.ErrorMessage;
+                return this.View(vm);
+            }
         }
 
         private IndexViewModel CreateViewModel(InstallModel model)

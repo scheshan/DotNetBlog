@@ -117,10 +117,61 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Invalid request" xml:space="preserve">
-    <value>错误的请求</value>
+  <data name="Administration" xml:space="preserve">
+    <value>管理员</value>
   </data>
-  <data name="System Administrator" xml:space="preserve">
-    <value>系统管理员</value>
+  <data name="Blog" xml:space="preserve">
+    <value>博客信息</value>
+  </data>
+  <data name="Blog Host" xml:space="preserve">
+    <value>博客地址</value>
+  </data>
+  <data name="Blog Title" xml:space="preserve">
+    <value>博客标题</value>
+  </data>
+  <data name="Confirm Password" xml:space="preserve">
+    <value>确认密码</value>
+  </data>
+  <data name="Email" xml:space="preserve">
+    <value>邮箱地址</value>
+  </data>
+  <data name="Language" xml:space="preserve">
+    <value>语言</value>
+  </data>
+  <data name="Nickname" xml:space="preserve">
+    <value>昵称</value>
+  </data>
+  <data name="Password" xml:space="preserve">
+    <value>密码</value>
+  </data>
+  <data name="Please check your password" xml:space="preserve">
+    <value>请确认密码</value>
+  </data>
+  <data name="Please enter a valid email" xml:space="preserve">
+    <value>请输入合法的邮箱地址</value>
+  </data>
+  <data name="Please enter the blog host" xml:space="preserve">
+    <value>请输入博客地址</value>
+  </data>
+  <data name="Please enter the blog title" xml:space="preserve">
+    <value>请输入博客标题</value>
+  </data>
+  <data name="Please enter your nickname" xml:space="preserve">
+    <value>请输入昵称</value>
+  </data>
+  <data name="Please enter your password" xml:space="preserve">
+    <value>请输入密码</value>
+  </data>
+  <data name="Please enter your username" xml:space="preserve">
+    <value>请输入用户名</value>
+  </data>
+  <data name="Please select the default language" xml:space="preserve">
+    <value>请选择默认语言</value>
+  </data>
+  <data name="Submit" xml:space="preserve">
+    <value>提交</value>
+  </data>
+  <data name="Username" xml:space="preserve">
+    <value>用户名</value>
   </data>
 </root>
