@@ -248,7 +248,7 @@ namespace DotNetBlog.Core.Model.Setting
         {
             get
             {
-                return GetBooleanValue(nameof(SendEmailWhenComment), SendEmailWhenComment);
+                return GetBooleanValue(nameof(SendEmailWhenComment), DefaultSendEmailWhenComment);
             }
             set
             {
