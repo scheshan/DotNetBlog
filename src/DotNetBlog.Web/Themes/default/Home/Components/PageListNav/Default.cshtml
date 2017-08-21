@@ -9,7 +9,7 @@
 {
     var children = Model.Where(t => t.Parent != null && t.Parent.ID == page.ID);
     <li class="page-menu clearfix">        
-        <a blog-page="page" class="pull-left dropdown-m">@page.Title</a>
+        <a blog-page="page" class="pull-left dropdown-m">@(page.Title)</a>
         <a condition="children.Any()" href="javascript:void(0)" data-toggle="dropdown" class="dropdown-toggle pull-left"><span class="caret"></span></a>
         <ul class="dropdown-menu dropdown-menu-u" condition="children.Any()">
             @foreach (var child in children)
