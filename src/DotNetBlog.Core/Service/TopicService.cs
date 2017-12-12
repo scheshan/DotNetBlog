@@ -569,7 +569,7 @@ namespace DotNetBlog.Core.Service
                 return string.Empty;
             }
 
-            return CommonMark.CommonMarkConverter.Convert(summary).TrimHtml().ToLength(200);
+            return summary.FromMarkdown().TrimHtml().ToLength(200);
         }
 
         public bool CanComment(Topic entity)

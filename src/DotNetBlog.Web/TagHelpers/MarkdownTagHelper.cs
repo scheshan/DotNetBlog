@@ -4,7 +4,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Razor.Runtime.TagHelpers;
 using Microsoft.AspNetCore.Razor.TagHelpers;
-using CommonMark;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 
@@ -32,7 +31,7 @@ namespace DotNetBlog.Web.TagHelpers
 
             output.TagName = "";
 
-            string html = CommonMarkConverter.Convert(content);
+            string html = content.FromMarkdown();
 
             output.Content.SetHtmlContent(html);
         }

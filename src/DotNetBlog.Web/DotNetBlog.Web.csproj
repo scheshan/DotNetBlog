@@ -3,12 +3,13 @@
   <PropertyGroup>
     <VersionPrefix>1.2.0</VersionPrefix>
     <TargetFramework>netcoreapp2.0</TargetFramework>
+	<MvcRazorCompileOnPublish>true</MvcRazorCompileOnPublish>
     <PreserveCompilationContext>true</PreserveCompilationContext>
+	<PublishWithAspNetCoreTargetManifest>false</PublishWithAspNetCoreTargetManifest>
     <AssemblyName>DotNetBlog.Web</AssemblyName>
     <OutputType>Exe</OutputType>
     <PackageId>DotNetBlog.Web</PackageId>
     <RuntimeFrameworkVersion>2.0</RuntimeFrameworkVersion>
-    <PackageTargetFallback>$(PackageTargetFallback);dotnet5.6;dnxcore50;portable-net45+win8</PackageTargetFallback>
   </PropertyGroup>
 
   <ItemGroup>
@@ -39,12 +40,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.0" />
+    <PackageReference Include="Markdig" Version="0.14.8" />
+    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.3">
+    </PackageReference>
     <PackageReference Include="Microsoft.DotNet.Watcher.Tools" Version="2.0.0" />
-    <PackageReference Include="AutoMapper" Version="5.2.0" />
+    <PackageReference Include="AutoMapper" Version="6.2.2" />
     <PackageReference Include="NLog.Extensions.Logging" Version="1.0.0-rtm-beta3" />
-    <PackageReference Include="MailKit" Version="1.10.2" />
-    <PackageReference Include="CommonMark.NET" Version="0.15.1" />
+    <PackageReference Include="MailKit" Version="1.22.0" />
   </ItemGroup>
 
   <ItemGroup>
