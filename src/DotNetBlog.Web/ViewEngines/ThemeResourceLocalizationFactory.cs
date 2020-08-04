@@ -6,8 +6,8 @@ namespace DotNetBlog.Web.ViewEngines
 {
     public class ThemeResourceLocalizationFactory : ResourceManagerStringLocalizerFactory
     {
-        private static string BaseThemeName = nameof(DotNetBlog.Web) + ".Themes.";
-        private static string BaseViewName = nameof(DotNetBlog.Web) + ".Views.";
+        private static string BaseThemeName = $"{nameof(DotNetBlog)}.{nameof(DotNetBlog.Web)}.Themes.";
+        private static string BaseViewName = $"{nameof(DotNetBlog)}.{nameof(DotNetBlog.Web)}.Views.";
 
         public ThemeResourceLocalizationFactory(IOptions<LocalizationOptions> localizationOptions, ILoggerFactory loggerFactory) : base(localizationOptions, loggerFactory)
         {
