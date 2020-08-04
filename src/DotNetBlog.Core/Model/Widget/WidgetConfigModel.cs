@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using DotNetBlog.Core.Enums;
+﻿using Microsoft.Extensions.Localization;
 using Newtonsoft.Json;
-using Microsoft.AspNetCore.Mvc.Localization;
-using Microsoft.Extensions.Localization;
+using System.Collections.Generic;
 
 namespace DotNetBlog.Core.Model.Widget
 {
@@ -63,7 +58,7 @@ namespace DotNetBlog.Core.Model.Widget
             }
         }
     }
-    
+
     public class MonthStatisticeWidgetConfigModel : WidgetConfigModelBase
     {
         public MonthStatisticeWidgetConfigModel(IStringLocalizer L)

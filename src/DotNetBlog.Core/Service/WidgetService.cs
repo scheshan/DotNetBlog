@@ -1,19 +1,18 @@
 ﻿using DotNetBlog.Core.Data;
 using DotNetBlog.Core.Entity;
 using DotNetBlog.Core.Enums;
+using DotNetBlog.Core.Extensions;
+using DotNetBlog.Core.Model;
 using DotNetBlog.Core.Model.Widget;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.Localization;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using DotNetBlog.Core.Extensions;
-using Microsoft.EntityFrameworkCore;
-using DotNetBlog.Core.Model;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using Microsoft.AspNetCore.Mvc.Localization;
-using Microsoft.Extensions.Localization;
 
 namespace DotNetBlog.Core.Service
 {
@@ -65,7 +64,7 @@ namespace DotNetBlog.Core.Service
             List<AvailableWidgetModel> result = new List<AvailableWidgetModel>();
 
             var arr = Enum.GetValues(typeof(WidgetType));
-            foreach(byte item in arr)
+            foreach (byte item in arr)
             {
                 var type = (WidgetType)item;
                 var configType = DefaultWidgetConfigTypes[type];
@@ -123,7 +122,7 @@ namespace DotNetBlog.Core.Service
                     Config = JsonConvert.SerializeObject(t.Config)
                 }).ToList();
                 this.BlogContext.AddRange(entityList);
-                await this.BlogContext.SaveChangesAsync();                
+                await this.BlogContext.SaveChangesAsync();
 
                 tran.Commit();
 

@@ -1,7 +1,4 @@
 ﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace DotNetBlog.Core.Model.Theme
 {
@@ -9,7 +6,7 @@ namespace DotNetBlog.Core.Model.Theme
     {
         [JsonIgnore]
         public string Path { get; set; }
-        
+
         public string Key { get; set; }
 
         public string Name { get; set; }

@@ -1,14 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc.Rendering;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Localization;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.AspNetCore.Razor.TagHelpers;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Localization;
 
 namespace DotNetBlog.Web.TagHelpers
 {
@@ -176,7 +174,7 @@ namespace DotNetBlog.Web.TagHelpers
             return $"<a href=\"{url}\">{text}</a>";
         }
 
-        private IHtmlLocalizer GetViewLocalizer() 
+        private IHtmlLocalizer GetViewLocalizer()
         {
             /* In this way we can connect localization to loaded view */
 

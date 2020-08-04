@@ -35,12 +35,12 @@ class Editor extends React.Component{
                 }
             }, 
             this.props.options);
-        this.editor = editormd(this.id, options);
+        var currentEditor = this.editor = editormd(this.id, options);
         var lang = "editorLang".L();
+
         if (lang != "zh-cn") {
             editormd.loadScript("lib/editor.md/languages/" + lang, function () {
-                this.editor.lang = editormd.defaults.lang;
-                this.editor.recreate();
+                currentEditor.lang = editormd.defaults.lang;
             });
         }
     }
@@ -49,14 +49,15 @@ class Editor extends React.Component{
         return this.editor.markdownTextarea.val();
     }
 
-    setContent(content){
-        this.editor.markdownTextarea.val(content)
+    setContent(content) {
+        this.editor.markdownTextarea.val(content);
+        this.editor.recreate();
     }
 
     componentDidUpdate(prevProps){
         if(prevProps.content != this.props.content){
-            if(this.editor){
-                this.editor.markdownTextarea.val(this.props.content)
+            if (this.editor) {
+                this.setContent(this.props.content)
             }
         }
     }

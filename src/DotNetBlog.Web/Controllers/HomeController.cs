@@ -1,17 +1,15 @@
-﻿using DotNetBlog.Core.Model.Comment;
+﻿using DotNetBlog.Core;
+using DotNetBlog.Core.Model.Comment;
 using DotNetBlog.Core.Model.Page;
 using DotNetBlog.Core.Model.Setting;
 using DotNetBlog.Core.Model.Topic;
 using DotNetBlog.Core.Service;
 using DotNetBlog.Web.ViewModels.Home;
 using Microsoft.AspNetCore.Mvc;
-using System;
+using Microsoft.AspNetCore.Mvc.Localization;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.Extensions.Logging;
-using DotNetBlog.Core;
-using Microsoft.AspNetCore.Mvc.Localization;
 
 namespace DotNetBlog.Web.Controllers
 {
@@ -39,11 +37,11 @@ namespace DotNetBlog.Web.Controllers
         private IHtmlLocalizer<HomeController> L { get; set; }
 
         public HomeController(
-            TopicService topicService, 
-            CategoryService categoryService, 
-            SettingModel settingModel, 
-            TagService tagService, 
-            CommentService commentService, 
+            TopicService topicService,
+            CategoryService categoryService,
+            SettingModel settingModel,
+            TagService tagService,
+            CommentService commentService,
             PageService pageService,
             ClientManager clientManager,
             IHtmlLocalizer<HomeController> localizer)
@@ -276,7 +274,7 @@ namespace DotNetBlog.Web.Controllers
         }
 
         [HttpPost("comment/add")]
-        public async Task<IActionResult> AddComment([FromForm]AddCommentModel model)
+        public async Task<IActionResult> AddComment([FromForm] AddCommentModel model)
         {
             if (model == null || !ModelState.IsValid)
             {

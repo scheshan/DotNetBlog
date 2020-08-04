@@ -1,13 +1,10 @@
 ﻿using DotNetBlog.Core.Data;
 using DotNetBlog.Core.Entity;
-using DotNetBlog.Core.Model;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
 using DotNetBlog.Core.Extensions;
+using DotNetBlog.Core.Model;
 using Microsoft.AspNetCore.Mvc.Localization;
+using Microsoft.EntityFrameworkCore;
+using System.Threading.Tasks;
 
 namespace DotNetBlog.Core.Service
 {

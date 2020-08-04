@@ -2,15 +2,18 @@
 
   <PropertyGroup>
     <VersionPrefix>1.2.0</VersionPrefix>
-    <TargetFramework>netcoreapp2.0</TargetFramework>
-	<MvcRazorCompileOnPublish>true</MvcRazorCompileOnPublish>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <MvcRazorCompileOnPublish>true</MvcRazorCompileOnPublish>
     <PreserveCompilationContext>true</PreserveCompilationContext>
-	<PublishWithAspNetCoreTargetManifest>false</PublishWithAspNetCoreTargetManifest>
+    <PublishWithAspNetCoreTargetManifest>false</PublishWithAspNetCoreTargetManifest>
     <AssemblyName>DotNetBlog.Web</AssemblyName>
     <OutputType>Exe</OutputType>
     <PackageId>DotNetBlog.Web</PackageId>
-    <RuntimeFrameworkVersion>2.0</RuntimeFrameworkVersion>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Content Remove="bundleconfig.json" />
+  </ItemGroup>
 
   <ItemGroup>
     <Content Update="NLog.config">
@@ -23,6 +26,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </None>
+    <None Include="bundleconfig.json" />
     <None Include="config.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
@@ -40,13 +44,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Markdig" Version="0.14.8" />
-    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.3">
-    </PackageReference>
-    <PackageReference Include="Microsoft.DotNet.Watcher.Tools" Version="2.0.0" />
-    <PackageReference Include="AutoMapper" Version="6.2.2" />
-    <PackageReference Include="NLog.Extensions.Logging" Version="1.0.0-rtm-beta3" />
-    <PackageReference Include="MailKit" Version="1.22.0" />
+    <PackageReference Include="Microsoft.AspNetCore.SpaServices.Extensions" Version="3.1.6" />
+    <PackageReference Include="NLog.Extensions.Hosting" Version="1.6.4" />
+    <PackageReference Include="NLog.Extensions.Logging" Version="1.6.4" />
   </ItemGroup>
 
   <ItemGroup>

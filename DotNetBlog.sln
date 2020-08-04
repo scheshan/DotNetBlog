@@ -1,14 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.26403.3
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30309.148
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{9728357A-237B-4337-A648-6F56FE479A6F}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{61946056-1D5C-4774-B0D8-8FABADBDBE81}"
-	ProjectSection(SolutionItems) = preProject
-		global.json = global.json
-	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DotNetBlog.Web", "src\DotNetBlog.Web\DotNetBlog.Web.csproj", "{89F9B8C8-2F34-41CF-B39E-C23935AFADC8}"
 EndProject
@@ -61,5 +56,8 @@ Global
 		{89F9B8C8-2F34-41CF-B39E-C23935AFADC8} = {9728357A-237B-4337-A648-6F56FE479A6F}
 		{89065586-C5EF-4EF4-BCD5-63D47E6E3816} = {9728357A-237B-4337-A648-6F56FE479A6F}
 		{D2657CFC-8E57-49BB-9BE9-4FE37599F0E3} = {9728357A-237B-4337-A648-6F56FE479A6F}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {A8BDBED8-2603-4771-8572-3EBAA91BF2E5}
 	EndGlobalSection
 EndGlobal

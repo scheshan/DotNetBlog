@@ -1,9 +1,6 @@
 ﻿using DotNetBlog.Core.Service;
 using DotNetBlog.Web.Areas.Api.Models.Tag;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace DotNetBlog.Web.Areas.Api.Controllers
@@ -20,7 +17,7 @@ namespace DotNetBlog.Web.Areas.Api.Controllers
         }
 
         [HttpGet("query")]
-        public async Task<IActionResult> Query([FromQuery]QueryTagModel model)
+        public async Task<IActionResult> Query([FromQuery] QueryTagModel model)
         {
             if (model == null)
             {
@@ -33,7 +30,7 @@ namespace DotNetBlog.Web.Areas.Api.Controllers
         }
 
         [HttpPost("delete")]
-        public async Task<IActionResult> Delete([FromBody]DeleteTagModel model)
+        public async Task<IActionResult> Delete([FromBody] DeleteTagModel model)
         {
             if (model == null)
             {
@@ -46,7 +43,7 @@ namespace DotNetBlog.Web.Areas.Api.Controllers
         }
 
         [HttpPost("{id:int}")]
-        public async Task<IActionResult> Edit([FromRoute]int id, [FromBody]SaveTagModel model)
+        public async Task<IActionResult> Edit([FromRoute] int id, [FromBody] SaveTagModel model)
         {
             if (model == null)
             {

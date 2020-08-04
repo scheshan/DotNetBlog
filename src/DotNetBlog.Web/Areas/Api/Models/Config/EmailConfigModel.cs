@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace DotNetBlog.Web.Areas.Api.Models.Config
+﻿namespace DotNetBlog.Web.Areas.Api.Models.Config
 {
     public class EmailConfigModel
     {

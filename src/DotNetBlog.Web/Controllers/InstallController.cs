@@ -1,24 +1,12 @@
-﻿using DotNetBlog.Core.Data;
-using DotNetBlog.Core.Entity;
-using DotNetBlog.Core.Enums;
-using DotNetBlog.Core.Model.Widget;
+﻿using DotNetBlog.Core.Model.Install;
 using DotNetBlog.Core.Service;
 using DotNetBlog.Web.ViewModels.Install;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Localization;
-using Microsoft.Extensions.Options;
-using Newtonsoft.Json;
-using NLog;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using DotNetBlog.Core.Model.Install;
 using Microsoft.Extensions.Localization;
+using Microsoft.Extensions.Options;
 
 namespace DotNetBlog.Web.Controllers
 {
@@ -95,7 +83,7 @@ namespace DotNetBlog.Web.Controllers
 
             return vm;
         }
-        
+
         public override void OnActionExecuting(ActionExecutingContext context)
         {
             if (!InstallService.NeedToInstall())

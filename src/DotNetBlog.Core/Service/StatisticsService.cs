@@ -1,10 +1,7 @@
 ﻿using DotNetBlog.Core.Data;
 using DotNetBlog.Core.Model.Statistics;
-using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
 
 namespace DotNetBlog.Core.Service
 {
@@ -26,14 +23,20 @@ namespace DotNetBlog.Core.Service
                 Topics = new Model.Topic.TopicCountModel()
             };
 
-            var topicQuery = await this.BlogContext.Topics.GroupBy(t => t.Status)
-                .ToDictionaryAsync(t => t.Key, t => t.Count());
+            var topicQuery = this.BlogContext.Topics
+                .ToArray()
+                .GroupBy(t => t.Status)
+                .ToDictionary(t => t.Key, t => t.Count());
 
-            var pageQuery = await this.BlogContext.Pages.GroupBy(t => t.Status)
-                .ToDictionaryAsync(t => t.Key, t => t.Count());
+            var pageQuery = this.BlogContext.Pages
+                .ToArray()
+                .GroupBy(t => t.Status)
+                .ToDictionary(t => t.Key, t => t.Count());
 
-            var commentQuery = await this.BlogContext.Comments.GroupBy(t => t.Status)
-                .ToDictionaryAsync(t => t.Key, t => t.Count());
+            var commentQuery = this.BlogContext.Comments
+                .ToArray()
+                .GroupBy(t => t.Status)
+                .ToDictionary(t => t.Key, t => t.Count());
 
             if (topicQuery.ContainsKey(Enums.TopicStatus.Published))
             {

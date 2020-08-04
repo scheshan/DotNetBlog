@@ -1,9 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc.Localization;
-using Microsoft.Extensions.Localization;
-using System;
+﻿using Microsoft.Extensions.Localization;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace DotNetBlog.Core.Model.Setting
 {

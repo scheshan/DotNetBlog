@@ -13,12 +13,12 @@
         <ul>
             @foreach (var year in groupList)
             {
-            <li onclick="BlogEngine.toggleMonth('year@(year.Key)')" class="year">
+            <li onclick="DotNetBlog.toggleMonth('year@(year.Key)')" class="year">
                 @year.Key                
                 <ul id="year@(year.Key)" class="open">
                     @foreach (var month in year)
                     {
-                    <li><a asp-action="Month" asp-controller="Home" asp-route-year="@(month.Month.Year)" asp-route-month="@(month.Month.Month)" asp-route-page="">@L["MM", month.Month]</a> (@month.Topics.Published)</li>
+                    <li><a asp-action="Month" asp-controller="Home" asp-route-year="@(month.Month.Year)" asp-route-month="@(month.Month.Month)" asp-route-page="">@string.Format(L["MM"].Value, month.Month)</a> (@month.Topics.Published)</li>
                     }
                 </ul>
             </li>

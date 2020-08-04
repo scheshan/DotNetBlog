@@ -1,22 +1,23 @@
-﻿using DotNetBlog.Core.Data;
+﻿using AutoMapper;
+using DotNetBlog.Core.Data;
 using DotNetBlog.Core.Entity;
+using DotNetBlog.Core.Extensions;
 using DotNetBlog.Core.Model;
 using DotNetBlog.Core.Model.Page;
+using Microsoft.AspNetCore.Mvc.Localization;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using DotNetBlog.Core.Extensions;
-using Microsoft.EntityFrameworkCore;
-using AutoMapper;
-using Microsoft.AspNetCore.Mvc.Localization;
 
 namespace DotNetBlog.Core.Service
 {
     public class PageService
     {
         private static readonly string CACHE_KEY = "Cache_Page";
+        private readonly IMapper _mapper;
 
         private BlogContext BlogContext { get; set; }
 
@@ -24,11 +25,16 @@ namespace DotNetBlog.Core.Service
 
         private IHtmlLocalizer<PageService> L { get; set; }
 
-        public PageService(BlogContext blogContext, IMemoryCache cache, IHtmlLocalizer<PageService> localizer)
+
+        public PageService(BlogContext blogContext,
+            IMemoryCache cache,
+            IHtmlLocalizer<PageService> localizer,
+            IMapper mapper)
         {
             this.BlogContext = blogContext;
             this.Cache = cache;
             this.L = localizer;
+            _mapper = mapper;
         }
 
         public async Task<List<Page>> All()
@@ -55,7 +61,7 @@ namespace DotNetBlog.Core.Service
 
             model.Alias = await this.GenerateAlias(null, model.Alias, model.Title);
 
-            var entity = Mapper.Map<Page>(model);
+            var entity = _mapper.Map<Page>(model);
             entity.CreateDate = DateTime.Now;
             entity.EditDate = model.Date ?? DateTime.Now;
 
@@ -96,7 +102,7 @@ namespace DotNetBlog.Core.Service
 
             model.Alias = await this.GenerateAlias(model.ID, model.Alias, model.Title);
 
-            Mapper.Map(model, entity);
+            _mapper.Map(model, entity);
             entity.EditDate = model.Date ?? DateTime.Now;
             entity.ParentID = model.Parent;
 
@@ -115,12 +121,12 @@ namespace DotNetBlog.Core.Service
 
             var result = entityList.Select(entity =>
             {
-                var pageModel = Mapper.Map<PageBasicModel>(entity);
+                var pageModel = _mapper.Map<PageBasicModel>(entity);
 
                 if (entity.ParentID.HasValue)
                 {
                     var parent = entityList.SingleOrDefault(t => t.ID == entity.ParentID.Value);
-                    pageModel.Parent = Mapper.Map<PageBasicModel>(parent);
+                    pageModel.Parent = _mapper.Map<PageBasicModel>(parent);
                 }
 
                 return pageModel;
@@ -131,16 +137,16 @@ namespace DotNetBlog.Core.Service
 
         public async Task<List<PageBasicModel>> QueryPublished()
         {
-            var entityList = (await this.All()).Where(t=>t.Status == Enums.PageStatus.Published);
+            var entityList = (await this.All()).Where(t => t.Status == Enums.PageStatus.Published);
 
             var result = entityList.Select(entity =>
             {
-                var pageModel = Mapper.Map<PageBasicModel>(entity);
+                var pageModel = _mapper.Map<PageBasicModel>(entity);
 
                 if (entity.ParentID.HasValue)
                 {
                     var parent = entityList.SingleOrDefault(t => t.ID == entity.ParentID.Value);
-                    pageModel.Parent = Mapper.Map<PageBasicModel>(parent);
+                    pageModel.Parent = _mapper.Map<PageBasicModel>(parent);
                 }
 
                 return pageModel;
@@ -174,7 +180,7 @@ namespace DotNetBlog.Core.Service
 
             return pageModel;
         }
-        
+
         public async Task BatchUpdateStatus(int[] idList, Enums.PageStatus status)
         {
             var pageList = await BlogContext.Pages.Where(t => idList.Contains(t.ID)).ToListAsync();
@@ -217,11 +223,11 @@ namespace DotNetBlog.Core.Service
 
             var result = entityList.Select(entity =>
             {
-                var pageModel = Mapper.Map<PageModel>(entity);
+                var pageModel = _mapper.Map<PageModel>(entity);
                 if (entity.ParentID.HasValue)
                 {
                     var parent = allEntityList.SingleOrDefault(t => t.ID == entity.ParentID.Value);
-                    pageModel.Parent = Mapper.Map<PageBasicModel>(parent);
+                    pageModel.Parent = _mapper.Map<PageBasicModel>(parent);
                 }
 
                 return pageModel;

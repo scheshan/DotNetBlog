@@ -1,9 +1,6 @@
 ﻿using DotNetBlog.Core.Service;
 using DotNetBlog.Web.Areas.Api.Models.Comment;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace DotNetBlog.Web.Areas.Api.Controllers
@@ -20,7 +17,7 @@ namespace DotNetBlog.Web.Areas.Api.Controllers
         }
 
         [HttpGet("query")]
-        public async Task<IActionResult> Query([FromQuery]QueryCommentModel model)
+        public async Task<IActionResult> Query([FromQuery] QueryCommentModel model)
         {
             var result = await this.CommentService.Query(model.PageIndex, model.PageSize, model.Status, model.Keywords);
 
@@ -28,7 +25,7 @@ namespace DotNetBlog.Web.Areas.Api.Controllers
         }
 
         [HttpPost("batch/approve")]
-        public async Task<IActionResult> BatchApprove([FromBody]BatchModel model)
+        public async Task<IActionResult> BatchApprove([FromBody] BatchModel model)
         {
             if (model == null)
             {
@@ -41,7 +38,7 @@ namespace DotNetBlog.Web.Areas.Api.Controllers
         }
 
         [HttpPost("batch/reject")]
-        public async Task<IActionResult> BatchReject([FromBody]BatchModel model)
+        public async Task<IActionResult> BatchReject([FromBody] BatchModel model)
         {
             if (model == null)
             {
@@ -54,7 +51,7 @@ namespace DotNetBlog.Web.Areas.Api.Controllers
         }
 
         [HttpPost("delete")]
-        public async Task<IActionResult> Delete([FromBody]BatchModel model)
+        public async Task<IActionResult> Delete([FromBody] BatchModel model)
         {
             if (model == null)
             {
@@ -67,7 +64,7 @@ namespace DotNetBlog.Web.Areas.Api.Controllers
         }
 
         [HttpPost("reply")]
-        public async Task<IActionResult> Reply([FromBody]ReplyCommentModel model)
+        public async Task<IActionResult> Reply([FromBody] ReplyCommentModel model)
         {
             if (model == null)
             {

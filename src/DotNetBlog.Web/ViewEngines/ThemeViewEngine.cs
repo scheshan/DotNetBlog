@@ -1,10 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc.Razor;
-using System;
+﻿using DotNetBlog.Core.Model.Setting;
+using Microsoft.AspNetCore.Mvc.Razor;
+using Microsoft.Extensions.DependencyInjection;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.Extensions.DependencyInjection;
-using DotNetBlog.Core.Model.Setting;
 
 namespace DotNetBlog.Web.ViewEngines
 {

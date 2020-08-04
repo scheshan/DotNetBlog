@@ -1,11 +1,8 @@
 ﻿using DotNetBlog.Core.Model.Setting;
 using DotNetBlog.Core.Model.Theme;
 using Microsoft.AspNetCore.Hosting;
-using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DotNetBlog.Core.Service
 {

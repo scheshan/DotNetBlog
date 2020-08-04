@@ -3,9 +3,6 @@ using DotNetBlog.Core.Service;
 using DotNetBlog.Web.ViewModels.Account;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Localization;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace DotNetBlog.Web.Controllers
@@ -47,7 +44,7 @@ namespace DotNetBlog.Web.Controllers
 
         [HttpPost("login")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Login([FromForm]LoginModel model)
+        public async Task<IActionResult> Login([FromForm] LoginModel model)
         {
             if (model == null || !ModelState.IsValid)
             {
@@ -103,7 +100,7 @@ namespace DotNetBlog.Web.Controllers
         [HttpPost("changepassword")]
         [Filters.RequireLoginFilter]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> ChangePassword([FromForm]ChangePasswordModel model)
+        public async Task<IActionResult> ChangePassword([FromForm] ChangePasswordModel model)
         {
             if (model == null || !ModelState.IsValid)
             {

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace DotNetBlog.Core.Model.Email
+﻿namespace DotNetBlog.Core.Model.Email
 {
     public class TestEmailConfigModel
     {

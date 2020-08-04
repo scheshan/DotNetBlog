@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Localization;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -13,20 +12,20 @@ namespace DotNetBlog.Web.Areas.Api.Controllers
     [Route("api/upload")]
     public class UploadController : ControllerBase
     {
-        private IHostingEnvironment Enviroment { get; set; }
+        private IWebHostEnvironment Enviroment { get; set; }
 
         private IHtmlLocalizer<UploadController> L { get; set; }
 
         private static readonly string[] AvailableImageExtensionList = new string[] { ".jpg", ".png", ".gif", ".bmp", "" };
 
-        public UploadController(IHostingEnvironment enviroment, IHtmlLocalizer<UploadController> localizer)
+        public UploadController(IWebHostEnvironment enviroment, IHtmlLocalizer<UploadController> localizer)
         {
             this.Enviroment = enviroment;
             this.L = localizer;
         }
 
         [HttpPost("image")]
-        public async Task<IActionResult> UploadImage([FromForm]UploadImageModel model)
+        public async Task<IActionResult> UploadImage([FromForm] UploadImageModel model)
         {
             if (model == null)
             {

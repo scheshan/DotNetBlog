@@ -2,7 +2,6 @@
 using DotNetBlog.Core.Service;
 using DotNetBlog.Web.Areas.Api.Models.Widget;
 using Microsoft.AspNetCore.Mvc;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -38,7 +37,7 @@ namespace DotNetBlog.Web.Areas.Api.Controllers
         }
 
         [HttpPost("")]
-        public async Task<IActionResult> Save([FromBody]List<SaveWidgetModel> model)
+        public async Task<IActionResult> Save([FromBody] List<SaveWidgetModel> model)
         {
             if (model == null)
             {

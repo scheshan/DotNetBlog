@@ -1,13 +1,11 @@
 ﻿using DotNetBlog.Core.Data;
 using DotNetBlog.Core.Entity;
-using DotNetBlog.Core.Model;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
 using DotNetBlog.Core.Extensions;
+using DotNetBlog.Core.Model;
 using Microsoft.AspNetCore.Mvc.Localization;
+using Microsoft.EntityFrameworkCore;
+using System;
+using System.Threading.Tasks;
 
 namespace DotNetBlog.Core.Service
 {
@@ -28,7 +26,7 @@ namespace DotNetBlog.Core.Service
 
             User userEntity = await BlogContext.Users.SingleOrDefaultAsync(t => t.UserName == userName && t.Password == password);
 
-            if(userEntity == null)
+            if (userEntity == null)
             {
                 return OperationResult<string>.Failure(L["Wrong username or password"].Value);
             }
