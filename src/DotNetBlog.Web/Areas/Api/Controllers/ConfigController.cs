@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using DotNetBlog.Core.Model.Email;
 using DotNetBlog.Core.Service;
 using DotNetBlog.Web.Areas.Api.Models.Config;
-using AutoMapper;
-using DotNetBlog.Core.Model.Email;
+using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 
 // For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -16,17 +13,24 @@ namespace DotNetBlog.Web.Areas.Api.Controllers
     [Route("api/config")]
     public class ConfigController : ControllerBase
     {
+        private readonly IMapper _mapper;
+
         private SettingService SettingService { get; set; }
 
         private EmailService EmailService { get; set; }
 
         private ThemeService ThemeService { get; set; }
 
-        public ConfigController(SettingService settingService, EmailService emailService, ThemeService themeService)
+        public ConfigController(
+            SettingService settingService,
+            EmailService emailService,
+            ThemeService themeService,
+            IMapper mapper)
         {
             SettingService = settingService;
             EmailService = emailService;
             ThemeService = themeService;
+            _mapper = mapper;
         }
 
         [HttpGet("themes")]
@@ -40,13 +44,13 @@ namespace DotNetBlog.Web.Areas.Api.Controllers
         public IActionResult GetBasicConfig()
         {
             var config = SettingService.Get();
-            var model = Mapper.Map<BasicConfigModel>(config);
+            var model = _mapper.Map<BasicConfigModel>(config);
 
             return Success(model);
         }
 
         [HttpPost("basic")]
-        public async Task<IActionResult> SaveBasicConfig([FromBody]BasicConfigModel model)
+        public async Task<IActionResult> SaveBasicConfig([FromBody] BasicConfigModel model)
         {
             return await this.SaveConfig(model);
         }
@@ -55,19 +59,19 @@ namespace DotNetBlog.Web.Areas.Api.Controllers
         public IActionResult GetEmailConfig()
         {
             var config = SettingService.Get();
-            var model = Mapper.Map<EmailConfigModel>(config);
+            var model = _mapper.Map<EmailConfigModel>(config);
 
             return Success(model);
         }
 
         [HttpPost("email")]
-        public async Task<IActionResult> SaveEmailConfig([FromBody]EmailConfigModel model)
+        public async Task<IActionResult> SaveEmailConfig([FromBody] EmailConfigModel model)
         {
             return await this.SaveConfig(model);
         }
 
         [HttpPost("email/test")]
-        public async Task<IActionResult> TestEmailConfig([FromBody]EmailConfigModel model)
+        public async Task<IActionResult> TestEmailConfig([FromBody] EmailConfigModel model)
         {
             if (model == null)
             {
@@ -100,13 +104,13 @@ namespace DotNetBlog.Web.Areas.Api.Controllers
         public IActionResult GetCommentConfig()
         {
             var config = SettingService.Get();
-            var model = Mapper.Map<CommentConfigModel>(config);
+            var model = _mapper.Map<CommentConfigModel>(config);
 
             return Success(model);
         }
 
         [HttpPost("comment")]
-        public async Task<IActionResult> SaveCommentConfig([FromBody]CommentConfigModel model)
+        public async Task<IActionResult> SaveCommentConfig([FromBody] CommentConfigModel model)
         {
             return await this.SaveConfig(model);
         }
@@ -115,13 +119,13 @@ namespace DotNetBlog.Web.Areas.Api.Controllers
         public IActionResult GetAdvanceConfig()
         {
             var config = SettingService.Get();
-            var model = Mapper.Map<AdvanceConfigModel>(config);
+            var model = _mapper.Map<AdvanceConfigModel>(config);
 
             return Success(model);
         }
 
         [HttpPost("advance")]
-        public async Task<IActionResult> SaveAdvanceConfig([FromBody]AdvanceConfigModel model)
+        public async Task<IActionResult> SaveAdvanceConfig([FromBody] AdvanceConfigModel model)
         {
             return await this.SaveConfig(model);
         }
@@ -135,7 +139,7 @@ namespace DotNetBlog.Web.Areas.Api.Controllers
             }
 
             var config = SettingService.Get();
-            Mapper.Map(model, config);
+            _mapper.Map(model, config);
 
             await SettingService.Save(config);
 

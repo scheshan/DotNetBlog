@@ -1,22 +1,25 @@
-﻿using DotNetBlog.Core.Model;
+﻿using AutoMapper;
+using DotNetBlog.Core.Data;
+using DotNetBlog.Core.Entity;
+using DotNetBlog.Core.Extensions;
+using DotNetBlog.Core.Model;
+using DotNetBlog.Core.Model.Category;
+using DotNetBlog.Core.Model.Setting;
 using DotNetBlog.Core.Model.Topic;
+using Microsoft.AspNetCore.Mvc.Localization;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Memory;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using DotNetBlog.Core.Extensions;
-using DotNetBlog.Core.Data;
-using DotNetBlog.Core.Entity;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Caching.Memory;
-using DotNetBlog.Core.Model.Category;
-using DotNetBlog.Core.Model.Setting;
-using Microsoft.AspNetCore.Mvc.Localization;
 
 namespace DotNetBlog.Core.Service
 {
     public class TopicService
     {
+        private readonly IMapper _mapper;
+
         private BlogContext BlogContext { get; set; }
 
         private IMemoryCache Cache { get; set; }
@@ -27,17 +30,19 @@ namespace DotNetBlog.Core.Service
 
         private IHtmlLocalizer<TopicService> L { get; set; }
 
-        public TopicService(BlogContext blogContext, 
-            IMemoryCache cache, 
-            SettingModel settings, 
+        public TopicService(BlogContext blogContext,
+            IMemoryCache cache,
+            SettingModel settings,
             ClientManager clientManager,
-            IHtmlLocalizer<TopicService> localizer)
+            IHtmlLocalizer<TopicService> localizer,
+            IMapper mapper)
         {
             BlogContext = blogContext;
             Cache = cache;
             Settings = settings;
             ClientManager = clientManager;
             L = localizer;
+            _mapper = mapper;
         }
 
         public async Task<OperationResult<TopicModel>> Add(AddTopicModel model)
@@ -486,22 +491,22 @@ namespace DotNetBlog.Core.Service
 
             int[] idList = entityList.Select(t => t.ID).ToArray();
 
-            List<CategoryTopic> categoryTopicList = await BlogContext.CategoryTopics.Include(t => t.Category).Where(t => idList.Contains(t.TopicID)).ToListAsync();
-            List<TagTopic> tagTopicList = await BlogContext.TagTopics.Include(t => t.Tag).Where(t => idList.Contains(t.TopicID)).ToListAsync();
+            var categoryTopicList = await BlogContext.CategoryTopics.Include(t => t.Category).Where(t => idList.Contains(t.TopicID)).ToListAsync();
+            var tagTopicList = await BlogContext.TagTopics.Include(t => t.Tag).Where(t => idList.Contains(t.TopicID)).ToListAsync();
             var topicComments = await BlogContext.Comments.Where(t => idList.Contains(t.TopicID))
                                 .GroupBy(t => t.TopicID)
                                 .Select(t => new
                                 {
                                     TopicID = t.Key,
-                                    Approved = t.Count(c => c.Status == Enums.CommentStatus.Approved),
-                                    Reject = t.Count(c => c.Status == Enums.CommentStatus.Reject),
-                                    Pending = t.Count(c => c.Status == Enums.CommentStatus.Pending),
+                                    Approved = BlogContext.Comments.Where(c => c.Status == Enums.CommentStatus.Approved).Count(),
+                                    Reject = BlogContext.Comments.Where(c => c.Status == Enums.CommentStatus.Reject).Count(),
+                                    Pending = BlogContext.Comments.Where(c => c.Status == Enums.CommentStatus.Pending).Count(),
                                     Total = t.Count()
                                 }).ToListAsync();
 
             List<TopicModel> result = entityList.Select(entity =>
             {
-                var model = AutoMapper.Mapper.Map<TopicModel>(entity);
+                var model = _mapper.Map<TopicModel>(entity);
                 model.Categories = categoryTopicList.Where(category => category.TopicID == entity.ID)
                     .Select(category => new CategoryBasicModel
                     {
@@ -552,14 +557,14 @@ namespace DotNetBlog.Core.Service
             else
             {
                 r_alias = null;
-            }            
+            }
 
             return r_alias;
         }
 
         private string GenerateSummary(string summary, string content)
         {
-            if(string.IsNullOrWhiteSpace(summary))
+            if (string.IsNullOrWhiteSpace(summary))
             {
                 summary = content;
             }
@@ -569,7 +574,7 @@ namespace DotNetBlog.Core.Service
                 return string.Empty;
             }
 
-            return CommonMark.CommonMarkConverter.Convert(summary).TrimHtml().ToLength(200);
+            return summary.FromMarkdown().TrimHtml().ToLength(200);
         }
 
         public bool CanComment(Topic entity)

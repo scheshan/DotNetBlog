@@ -1,11 +1,7 @@
 ﻿using DotNetBlog.Core.Model;
-using DotNetBlog.Core.Model.Category;
 using DotNetBlog.Core.Service;
 using DotNetBlog.Web.Areas.Api.Models.Category;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace DotNetBlog.Web.Areas.Api.Controllers
@@ -39,7 +35,7 @@ namespace DotNetBlog.Web.Areas.Api.Controllers
 
             OperationResult<int> result = await CategoryService.Add(model.Name, model.Description);
 
-            if(result.Success)
+            if (result.Success)
             {
                 return Success(result.Data);
             }
@@ -50,7 +46,7 @@ namespace DotNetBlog.Web.Areas.Api.Controllers
         }
 
         [HttpPost("{id:int}")]
-        public async Task<IActionResult> Edit([FromRoute]int id, [FromBody] SaveCategoryModel model)
+        public async Task<IActionResult> Edit([FromRoute] int id, [FromBody] SaveCategoryModel model)
         {
             if (model == null)
             {
@@ -72,7 +68,7 @@ namespace DotNetBlog.Web.Areas.Api.Controllers
         [HttpPost("remove")]
         public async Task<IActionResult> Remove([FromBody] RemoveCategoryModel model)
         {
-            if(model == null)
+            if (model == null)
             {
                 return InvalidRequest();
             }

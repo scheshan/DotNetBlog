@@ -1,21 +1,18 @@
 ﻿using DotNetBlog.Core.Data;
 using DotNetBlog.Core.Entity;
-using DotNetBlog.Core.Model.Widget;
-using Microsoft.AspNetCore.Mvc.Localization;
-using System;
-using System.Linq;
-using System.Collections.Generic;
-using System.Text;
 using DotNetBlog.Core.Enums;
-using Newtonsoft.Json;
-using System.Threading.Tasks;
 using DotNetBlog.Core.Model;
 using DotNetBlog.Core.Model.Install;
 using DotNetBlog.Core.Model.Setting;
+using DotNetBlog.Core.Model.Widget;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Localization;
-using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Options;
+using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace DotNetBlog.Core.Service
 {

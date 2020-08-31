@@ -2,9 +2,6 @@
 using DotNetBlog.Core.Service;
 using DotNetBlog.Web.Areas.Api.Models.My;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace DotNetBlog.Web.Areas.Api.Controllers
@@ -30,7 +27,7 @@ namespace DotNetBlog.Web.Areas.Api.Controllers
         }
 
         [HttpPost("")]
-        public async Task<IActionResult> EditMyInfo([FromBody]EditMyInfoModel model)
+        public async Task<IActionResult> EditMyInfo([FromBody] EditMyInfoModel model)
         {
             if (model == null)
             {

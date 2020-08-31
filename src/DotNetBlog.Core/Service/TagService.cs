@@ -1,13 +1,13 @@
 ﻿using DotNetBlog.Core.Data;
+using DotNetBlog.Core.Extensions;
+using DotNetBlog.Core.Model;
 using DotNetBlog.Core.Model.Tag;
+using Microsoft.AspNetCore.Mvc.Localization;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using DotNetBlog.Core.Extensions;
-using DotNetBlog.Core.Model;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Mvc.Localization;
 
 namespace DotNetBlog.Core.Service
 {
@@ -69,7 +69,7 @@ namespace DotNetBlog.Core.Service
 
             var entity = await this.BlogContext.Tags.SingleOrDefaultAsync(t => t.ID == id);
 
-            if(entity == null)
+            if (entity == null)
             {
                 return OperationResult.Failure(L["The label does not exists"].Value);
             }

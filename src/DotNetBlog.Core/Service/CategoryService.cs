@@ -1,15 +1,14 @@
 ﻿using DotNetBlog.Core.Data;
 using DotNetBlog.Core.Entity;
-using Microsoft.Extensions.Caching.Memory;
+using DotNetBlog.Core.Extensions;
+using DotNetBlog.Core.Model;
+using DotNetBlog.Core.Model.Category;
+using Microsoft.AspNetCore.Mvc.Localization;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
-using DotNetBlog.Core.Model;
-using DotNetBlog.Core.Model.Category;
-using DotNetBlog.Core.Extensions;
-using Microsoft.AspNetCore.Mvc.Localization;
 
 namespace DotNetBlog.Core.Service
 {
@@ -58,7 +57,7 @@ namespace DotNetBlog.Core.Service
             }
 
             Category entity = await BlogContext.Categories.SingleOrDefaultAsync(t => t.ID == id);
-            if(entity == null)
+            if (entity == null)
             {
                 return OperationResult.Failure(L["Category does not exists"].Value);
             }
@@ -67,7 +66,7 @@ namespace DotNetBlog.Core.Service
             entity.Description = description;
             await BlogContext.SaveChangesAsync();
 
-            BlogContext.RemoveCategoryCache();            
+            BlogContext.RemoveCategoryCache();
 
             return new OperationResult();
         }

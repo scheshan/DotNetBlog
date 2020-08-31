@@ -1433,12 +1433,21 @@
          * @returns {editormd}  返回editormd的实例对象
          */
         
-        recreate : function() {
+        recreate : function(onDone) {
             var _this            = this;
             var editor           = this.editor;
             var settings         = this.settings;
-            
-            this.codeMirror.remove();
+
+            if (!this.codeMirror) {
+                setTimeout(
+                    function () {
+                        console.log("################### Run background ####################");
+                        _this.recreate(onDone);
+                    }
+                    , 200);
+
+                return this;
+            }
             
             this.setCodeMirror();
 
@@ -1456,6 +1465,7 @@
             }
             
             this.loadedDisplay(true);
+            if (onDone) onDone();
 
             return this;
         },

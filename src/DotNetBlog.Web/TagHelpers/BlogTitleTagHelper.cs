@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Razor.TagHelpers;
-using Microsoft.AspNetCore.Mvc.ViewFeatures;
+﻿using DotNetBlog.Core.Model.Setting;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using DotNetBlog.Core.Model.Setting;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
+using Microsoft.AspNetCore.Razor.TagHelpers;
 
 namespace DotNetBlog.Web.TagHelpers
 {

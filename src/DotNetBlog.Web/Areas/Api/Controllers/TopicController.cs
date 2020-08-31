@@ -3,9 +3,6 @@ using DotNetBlog.Core.Service;
 using DotNetBlog.Web.Areas.Api.Models.Topic;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Localization;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace DotNetBlog.Web.Areas.Api.Controllers
@@ -25,7 +22,7 @@ namespace DotNetBlog.Web.Areas.Api.Controllers
         }
 
         [HttpPost("")]
-        public async Task<IActionResult> Add([FromBody]AddTopicModel model)
+        public async Task<IActionResult> Add([FromBody] AddTopicModel model)
         {
             if (model == null)
             {
@@ -44,7 +41,7 @@ namespace DotNetBlog.Web.Areas.Api.Controllers
         }
 
         [HttpPost("{id:int}")]
-        public async Task<IActionResult> Edit([FromRoute]int id, [FromBody]EditTopicModel model)
+        public async Task<IActionResult> Edit([FromRoute] int id, [FromBody] EditTopicModel model)
         {
             if (model == null)
             {
@@ -65,7 +62,7 @@ namespace DotNetBlog.Web.Areas.Api.Controllers
         }
 
         [HttpGet("query")]
-        public async Task<IActionResult> Query([FromQuery]QueryTopicModel model)
+        public async Task<IActionResult> Query([FromQuery] QueryTopicModel model)
         {
             if (model == null)
             {
@@ -87,7 +84,7 @@ namespace DotNetBlog.Web.Areas.Api.Controllers
         public async Task<IActionResult> Get(int id)
         {
             var model = await TopicService.Get(id);
-            if(model == null)
+            if (model == null)
             {
                 return Error(L["Article does not exist"].Value);
             }
@@ -95,7 +92,7 @@ namespace DotNetBlog.Web.Areas.Api.Controllers
         }
 
         [HttpPost("batch/publish")]
-        public async Task<IActionResult> BatchPublish([FromBody]BatchModel model)
+        public async Task<IActionResult> BatchPublish([FromBody] BatchModel model)
         {
             if (model == null)
             {
@@ -108,7 +105,7 @@ namespace DotNetBlog.Web.Areas.Api.Controllers
         }
 
         [HttpPost("batch/draft")]
-        public async Task<IActionResult> BatchDraft([FromBody]BatchModel model)
+        public async Task<IActionResult> BatchDraft([FromBody] BatchModel model)
         {
             if (model == null)
             {
@@ -121,7 +118,7 @@ namespace DotNetBlog.Web.Areas.Api.Controllers
         }
 
         [HttpPost("batch/trash")]
-        public async Task<IActionResult> BatchTrash([FromBody]BatchModel model)
+        public async Task<IActionResult> BatchTrash([FromBody] BatchModel model)
         {
             if (model == null)
             {

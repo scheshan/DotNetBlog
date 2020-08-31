@@ -1,24 +1,26 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using DotNetBlog.Core;
+using DotNetBlog.Core.Data;
+using DotNetBlog.Web.Middlewares;
+using DotNetBlog.Web.ViewEngines;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using DotNetBlog.Core;
-using Microsoft.AspNetCore.Mvc.Formatters;
-using Microsoft.Extensions.Logging;
-using NLog.Extensions.Logging;
-using DotNetBlog.Web.Middlewares;
-using Microsoft.Extensions.FileProviders;
-using System.IO;
-using System.Globalization;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc.Razor;
+using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.FileProviders;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Localization;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.IO;
+using System.Threading.Tasks;
 
 namespace DotNetBlog.Web
 {
@@ -33,8 +35,6 @@ namespace DotNetBlog.Web
                 .Build();
         }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
-        // For more information on how to configure your application, visit http://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddLocalization(opts => { opts.ResourcesPath = "Resources"; });
@@ -65,14 +65,12 @@ namespace DotNetBlog.Web
                         opt.UseSqlServer(this.Configuration["connectionString"], builder =>
                         {
                             builder.MigrationsAssembly("DotNetBlog.Web");
-                            builder.UseRowNumberForPaging();
                         });
                     });
             }
 
             services.AddBlogService();
-
-            AutoMapperConfig.Configure();
+            services.AddAutoMapper();
 
             services.Configure<RequestLocalizationOptions>(
                 opts =>
@@ -90,9 +88,6 @@ namespace DotNetBlog.Web
                     opts.SupportedUICultures = supportedCultures;
 
                     //Uncomment for change language by user
-                    //opts.RequestCultureProviders.Add(new CookieRequestCultureProvider());
-                    //opts.RequestCultureProviders.Add(new AcceptLanguageHeaderRequestCultureProvider());
-                    //opts.RequestCultureProviders.Add(new QueryStringRequestCultureProvider() { QueryStringKey = "lang", UIQueryStringKey = "ui-lang" });
                     opts.RequestCultureProviders.Insert(0, new CustomRequestCultureProvider(context =>
                     {
                         var settingService = context.RequestServices.GetService<Core.Service.SettingService>();
@@ -105,21 +100,33 @@ namespace DotNetBlog.Web
             {
                 options.ViewLocationExpanders.Add(new ViewEngines.ThemeViewEngine());
             });
+
+            services.AddSpaStaticFiles(configuration =>
+            {
+                configuration.RootPath = "ClientApp/build";
+            });
+
+            services.AddSingleton<IStringLocalizerFactory, ThemeResourceLocalizationFactory>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment enviroment, ILoggerFactory loggerFactory)
+        public void Configure(IApplicationBuilder app,
+            IWebHostEnvironment env,
+            ILoggerFactory loggerFactory,
+            BlogContext blogContext)
         {
-            string uploadFolder = enviroment.ContentRootPath + "/App_Data/upload";
+            var uploadFolder = env.ContentRootPath + "/App_Data/upload";
             Directory.CreateDirectory(uploadFolder);
-            if (enviroment.IsDevelopment())
-            {
-                string databaseFolder = enviroment.ContentRootPath + "/bin/Debug/netcoreapp2.0/App_Data";
-                Directory.CreateDirectory(databaseFolder);                
-            }
 
-            var options = app.ApplicationServices.GetService<IOptions<RequestLocalizationOptions>>();
-            app.UseRequestLocalization(options.Value);
+            if (env.IsDevelopment())
+            {
+                app.UseDeveloperExceptionPage();
+            }
+            else
+            {
+                app.UseExceptionHandler("/Home/Error");
+            }
 
             /* Path for static files */
             app.UseStaticFiles();
@@ -129,26 +136,32 @@ namespace DotNetBlog.Web
                 FileProvider = new PhysicalFileProvider(uploadFolder)
             });
 
-            /* Error page manager */
-            if (enviroment.IsDevelopment())
-            {
-                loggerFactory.AddConsole();
-                app.UseDeveloperExceptionPage();
-            }
-            else
-            {
-                app.UseExceptionHandler("/exception/500");
-                app.UseStatusCodePagesWithReExecute("/exception/{0}");
-            }
+            var options = app.ApplicationServices.GetService<IOptions<RequestLocalizationOptions>>();
+            app.UseRequestLocalization(options.Value);
 
+            app.UseRouting();
             app.UseClientManager();
 
-            app.UseMvc();
+            blogContext.Database.EnsureCreated();
+            blogContext.Database.Migrate();
 
-            loggerFactory.AddNLog();
-            loggerFactory.ConfigureNLog("NLog.config");
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllerRoute(
+                    name: "default",
+                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                endpoints.MapRazorPages();
+            });
 
-            app.ApplicationServices.GetService<Core.Data.BlogContext>().Database.EnsureCreated();
+            app.UseSpa(spa =>
+            {
+                spa.Options.SourcePath = "../DotNetBlog.Admin";
+
+                if (env.IsDevelopment())
+                {
+                    spa.UseReactDevelopmentServer(npmScript: "start");
+                }
+            });
         }
     }
 }

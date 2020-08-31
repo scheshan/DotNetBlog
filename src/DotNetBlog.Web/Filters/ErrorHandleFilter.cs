@@ -11,7 +11,7 @@ namespace DotNetBlog.Web.Filters
         {
             Logger.Error(context.Exception, context.Exception.Message);
 
-            base.OnException(context);         
+            base.OnException(context);
         }
     }
 }

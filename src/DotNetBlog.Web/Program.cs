@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Hosting;
+﻿using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Hosting;
+using NLog.Extensions.Hosting;
 
 namespace DotNetBlog.Web
 {
@@ -11,17 +8,16 @@ namespace DotNetBlog.Web
     {
         public static void Main(string[] args)
         {
-            var host = new WebHostBuilder()
-                .UseKestrel()
-                .UseContentRoot(Directory.GetCurrentDirectory())
-                .UseIISIntegration()
-                .UseStartup<Startup>()
-#if DEBUG
-                .UseUrls("http://0.0.0.0:5000")
-#endif
-                .Build(); 
+            var logger = NLog.LogManager.LoadConfiguration("NLog.config").GetCurrentClassLogger();
 
-            host.Run();
+            CreateHostBuilder(args).UseNLog().Build().Run();
         }
+
+        public static IHostBuilder CreateHostBuilder(string[] args) =>
+            Host.CreateDefaultBuilder(args)
+                .ConfigureWebHostDefaults(webBuilder =>
+                {
+                    webBuilder.UseStartup<Startup>();
+                });
     }
 }

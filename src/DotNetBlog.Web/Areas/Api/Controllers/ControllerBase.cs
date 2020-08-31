@@ -2,13 +2,9 @@
 using DotNetBlog.Web.Areas.Api.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Localization;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
+using System.Text.Json;
 
 namespace DotNetBlog.Web.Areas.Api.Controllers
 {
@@ -17,13 +13,15 @@ namespace DotNetBlog.Web.Areas.Api.Controllers
     [ValidateRequestApiFilter]
     public class ControllerBase : Controller
     {
-        private static readonly JsonSerializerSettings _DefaultJsonSerializerSettings;
+        private static readonly JsonSerializerOptions _DefaultJsonSerializerSettings;
 
         IHtmlLocalizer<ControllerBase> localizer;
         private IHtmlLocalizer<ControllerBase> L
         {
-            get {
-                if (localizer == null) {
+            get
+            {
+                if (localizer == null)
+                {
                     localizer = this.HttpContext.RequestServices.GetService(typeof(IHtmlLocalizer<ControllerBase>)) as IHtmlLocalizer<ControllerBase>;
                 }
                 return localizer;
@@ -32,10 +30,12 @@ namespace DotNetBlog.Web.Areas.Api.Controllers
 
         static ControllerBase()
         {
-            _DefaultJsonSerializerSettings = new JsonSerializerSettings
+            _DefaultJsonSerializerSettings = new JsonSerializerOptions
             {
-                DateFormatString = "yyyy-MM-dd HH:mm:ss",
-                ContractResolver = new CamelCasePropertyNamesContractResolver()
+                //DateFormatString = "yyyy-MM-dd HH:mm:ss",
+                //ContractResolver = new CamelCasePropertyNamesContractResolver()
+                PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+
             };
         }
 
@@ -103,7 +103,7 @@ namespace DotNetBlog.Web.Areas.Api.Controllers
             }
             else
             {
-                errorMessage = ModelState.Where(t => t.Value.Errors.Any()).Select(t => t.Value).FirstOrDefault()?.Errors.FirstOrDefault()?.ErrorMessage;                
+                errorMessage = ModelState.Where(t => t.Value.Errors.Any()).Select(t => t.Value).FirstOrDefault()?.Errors.FirstOrDefault()?.ErrorMessage;
             }
 
             errorMessage = string.IsNullOrWhiteSpace(errorMessage) ? L["Bad request"].Value : errorMessage;

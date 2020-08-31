@@ -1,18 +1,18 @@
 ﻿using DotNetBlog.Core.Data;
 using DotNetBlog.Core.Entity;
+using DotNetBlog.Core.Extensions;
 using DotNetBlog.Core.Model;
+using DotNetBlog.Core.Model.Comment;
+using DotNetBlog.Core.Model.Setting;
+using DotNetBlog.Core.Model.Topic;
+using Microsoft.AspNetCore.Mvc.Localization;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
-using DotNetBlog.Core.Model.Comment;
-using DotNetBlog.Core.Extensions;
-using DotNetBlog.Core.Model.Topic;
-using Microsoft.Extensions.Caching.Memory;
-using Microsoft.Extensions.DependencyInjection;
-using DotNetBlog.Core.Model.Setting;
-using Microsoft.AspNetCore.Mvc.Localization;
 
 namespace DotNetBlog.Core.Service
 {
@@ -32,12 +32,12 @@ namespace DotNetBlog.Core.Service
 
         private IHtmlLocalizer<CommentService> L { get; set; }
 
-        public CommentService(BlogContext blogContext, 
-            ClientManager clientManager, 
+        public CommentService(BlogContext blogContext,
+            ClientManager clientManager,
             IMemoryCache cache,
-            IServiceProvider serviceProvider, 
-            SettingModel settings, 
-            EmailService emailService, 
+            IServiceProvider serviceProvider,
+            SettingModel settings,
+            EmailService emailService,
             IHtmlLocalizer<CommentService> localizer)
         {
             this.BlogContext = blogContext;

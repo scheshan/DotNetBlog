@@ -1,21 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using AutoMapper;
-using DotNetBlog.Web.Areas.Api.Models.Config;
-using DotNetBlog.Core.Model.Setting;
-using DotNetBlog.Core.Model.Topic;
+﻿using AutoMapper;
 using DotNetBlog.Core.Entity;
 using DotNetBlog.Core.Model.Page;
+using DotNetBlog.Core.Model.Setting;
+using DotNetBlog.Core.Model.Topic;
+using DotNetBlog.Web.Areas.Api.Models.Config;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace DotNetBlog.Web
 {
-    public sealed class AutoMapperConfig
+    public static class AutoMapperConfig
     {
-        public static void Configure()
+        public static void AddAutoMapper(this IServiceCollection services)
         {
-            Mapper.Initialize(config =>
+            var mapperConfig = new MapperConfiguration(config =>
             {
                 config.CreateMap<BasicConfigModel, SettingModel>();
                 config.CreateMap<SettingModel, BasicConfigModel>();
@@ -32,6 +29,9 @@ namespace DotNetBlog.Web
                 config.CreateMap<AddPageModel, Page>();
                 config.CreateMap<EditPageModel, Page>();
             });
+
+            var mapper = mapperConfig.CreateMapper();
+            services.AddSingleton<IMapper>(mapper);
         }
     }
 }

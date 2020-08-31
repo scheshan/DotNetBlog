@@ -3,12 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
-using Microsoft.AspNetCore.Mvc.TagHelpers;
 using Microsoft.AspNetCore.Razor.TagHelpers;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace DotNetBlog.Web.TagHelpers
 {
@@ -55,7 +50,7 @@ namespace DotNetBlog.Web.TagHelpers
                 }
                 else
                 {
-                    url = urlHelper.Action("Topic", "Home", new { id = this.Topic.ID });                    
+                    url = urlHelper.Action("Topic", "Home", new { id = this.Topic.ID });
                 }
 
                 if (!string.IsNullOrWhiteSpace(this.Fragment))

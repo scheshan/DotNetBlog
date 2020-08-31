@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using DotNetBlog.Core;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.DependencyInjection;
-using DotNetBlog.Core;
-using Microsoft.AspNetCore.Mvc;
 using System.Net;
 
 namespace DotNetBlog.Web.Filters
@@ -26,7 +22,7 @@ namespace DotNetBlog.Web.Filters
         }
 
         protected virtual void HandleUnauthorizedRequest(ActionExecutingContext context)
-        {            
+        {
             string sourceUrl = null;
             if (context.HttpContext.Request.Path.HasValue)
             {
@@ -41,7 +37,7 @@ namespace DotNetBlog.Web.Filters
             context.HttpContext.Response.StatusCode = (int)HttpStatusCode.Unauthorized;
 
             context.Result = new RedirectToActionResult("Login", "Account", new { redirect = sourceUrl });
-            
+
         }
     }
 }

@@ -1,10 +1,6 @@
 ﻿using DotNetBlog.Core.Entity;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace DotNetBlog.Core.Data.Mappings
 {

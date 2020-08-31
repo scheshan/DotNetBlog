@@ -1,15 +1,14 @@
 ﻿using DotNetBlog.Core.Data;
 using DotNetBlog.Core.Entity;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Caching.Memory;
-using Microsoft.EntityFrameworkCore;
 using DotNetBlog.Core.Model.Category;
 using DotNetBlog.Core.Model.Tag;
 using DotNetBlog.Core.Model.Topic;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.DependencyInjection;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace DotNetBlog.Core.Extensions
 {
@@ -37,8 +36,14 @@ namespace DotNetBlog.Core.Extensions
                                     {
                                         ID = ct.Key,
                                         Total = ct.Count(),
-                                        Published = ct.Count(t => t.Topic.Status == Enums.TopicStatus.Published),
-                                        Draft = ct.Count(t => t.Topic.Status == Enums.TopicStatus.Draft)
+                                        Published =
+                                            context.Topics
+                                                .Where(w => w.Status == Enums.TopicStatus.Published)
+                                                .Count(),
+                                        Draft =
+                                            context.Topics
+                                                .Where(w => w.Status == Enums.TopicStatus.Draft)
+                                                .Count()
                                     })
                                     .ToList();
 
@@ -76,8 +81,8 @@ namespace DotNetBlog.Core.Extensions
                                 {
                                     ID = ct.Key,
                                     Total = ct.Count(),
-                                    Published = ct.Count(t => t.Topic.Status == Enums.TopicStatus.Published),
-                                    Draft = ct.Count(t => t.Topic.Status == Enums.TopicStatus.Draft)
+                                    Published = context.TagTopics.Where(t => t.Topic.Status == Enums.TopicStatus.Published).Count(),
+                                    Draft = context.TagTopics.Where(t => t.Topic.Status == Enums.TopicStatus.Draft).Count()
                                 })
                                 .ToList();
 

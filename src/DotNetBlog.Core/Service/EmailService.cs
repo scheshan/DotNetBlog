@@ -4,14 +4,12 @@ using DotNetBlog.Core.Model;
 using DotNetBlog.Core.Model.Email;
 using DotNetBlog.Core.Model.Setting;
 using MailKit.Net.Smtp;
+using Microsoft.AspNetCore.Mvc.Localization;
+using Microsoft.EntityFrameworkCore;
 using MimeKit;
 using NLog;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Mvc.Localization;
 
 namespace DotNetBlog.Core.Service
 {
@@ -56,13 +54,13 @@ namespace DotNetBlog.Core.Service
                     client.Authenticate(model.User, model.Password);
 
                     await client.SendAsync(message);
-                    
+
                     await client.DisconnectAsync(true);
 
                     return new OperationResult();
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return OperationResult.Failure(ex.Message);
             }
@@ -115,7 +113,7 @@ namespace DotNetBlog.Core.Service
                     return new OperationResult();
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Logger.Error(ex);
                 return OperationResult.Failure(ex.Message);

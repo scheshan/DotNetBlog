@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace DotNetBlog.Web.ViewModels.Account
+﻿namespace DotNetBlog.Web.ViewModels.Account
 {
     public class ChangePasswordViewModel
     {

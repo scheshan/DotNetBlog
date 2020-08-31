@@ -1,14 +1,7 @@
-﻿using DotNetBlog.Core.Model.Page;
-using DotNetBlog.Core.Model.Setting;
-using DotNetBlog.Core.Service;
+﻿using DotNetBlog.Core.Service;
 using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using System.Reflection;
-using DotNetBlog.Core.Model.Theme;
-using Microsoft.AspNetCore.Http;
 
 namespace DotNetBlog.Core
 {
@@ -34,7 +27,6 @@ namespace DotNetBlog.Core
             });
 
             services.AddScoped<ClientManager>();
-            
         }
     }
 }

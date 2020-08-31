@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
+﻿using System.Text.RegularExpressions;
 
 namespace DotNetBlog.Core.Extensions
 {
@@ -54,7 +50,7 @@ namespace DotNetBlog.Core.Extensions
 
         public static string ToLength(this string input, int length)
         {
-            if(string.IsNullOrWhiteSpace(input))
+            if (string.IsNullOrWhiteSpace(input))
             {
                 return input;
             }

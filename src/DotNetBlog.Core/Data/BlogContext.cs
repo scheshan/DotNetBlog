@@ -1,10 +1,7 @@
-﻿using DotNetBlog.Core.Entity;
+﻿using DotNetBlog.Core.Data.Mappings;
+using DotNetBlog.Core.Entity;
 using Microsoft.EntityFrameworkCore;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using DotNetBlog.Core.Data.Mappings;
 
 namespace DotNetBlog.Core.Data
 {
@@ -43,7 +40,7 @@ namespace DotNetBlog.Core.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-            
+
             modelBuilder.Entity<Setting>(SettingMapping.Map);
             modelBuilder.Entity<Category>(CategoryMapping.Map);
             modelBuilder.Entity<CategoryTopic>(CategoryTopicMapping.Map);

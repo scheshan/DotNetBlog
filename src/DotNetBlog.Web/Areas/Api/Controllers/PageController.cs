@@ -3,9 +3,6 @@ using DotNetBlog.Core.Model.Page;
 using DotNetBlog.Core.Service;
 using DotNetBlog.Web.Areas.Api.Models.Page;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace DotNetBlog.Web.Areas.Api.Controllers
@@ -30,7 +27,7 @@ namespace DotNetBlog.Web.Areas.Api.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Add([FromBody]AddPageModel model)
+        public async Task<IActionResult> Add([FromBody] AddPageModel model)
         {
             if (model == null)
             {
@@ -58,7 +55,7 @@ namespace DotNetBlog.Web.Areas.Api.Controllers
         }
 
         [HttpPost("{id:int}")]
-        public async Task<IActionResult> Edit([FromRoute]int id, [FromBody]EditPageModel model)
+        public async Task<IActionResult> Edit([FromRoute] int id, [FromBody] EditPageModel model)
         {
             if (model == null)
             {
@@ -80,7 +77,7 @@ namespace DotNetBlog.Web.Areas.Api.Controllers
         }
 
         [HttpPost("batch/publish")]
-        public async Task<IActionResult> BatchPublish([FromBody]BatchModel model)
+        public async Task<IActionResult> BatchPublish([FromBody] BatchModel model)
         {
             if (model == null)
             {
@@ -88,12 +85,12 @@ namespace DotNetBlog.Web.Areas.Api.Controllers
             }
 
             await this.PageService.BatchUpdateStatus(model.PageList, PageStatus.Published);
-            
+
             return this.Success();
         }
 
         [HttpPost("batch/draft")]
-        public async Task<IActionResult> BatchDraft([FromBody]BatchModel model)
+        public async Task<IActionResult> BatchDraft([FromBody] BatchModel model)
         {
             if (model == null)
             {
